@@ -1,0 +1,80 @@
+:root {
+  /* Colors */
+  --bg-0: #07090D;
+  --bg-1: #0C0F15;
+  --surface-1: #12151C;
+  --surface-2: #181C25;
+  --surface-3: #1F2430;
+  
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.14);
+  
+  --tx-1: #F5F7FA;
+  --tx-2: #A9B1BF;
+  --tx-3: #7D8696;
+  
+  --accent: #7C6CFF;
+  --accent-2: #35D0BA;
+  --danger: #FF5A52;
+  --ok: #30D158;
+  --warn: #FFB340;
+  
+  --silver-metal: linear-gradient(135deg, #FFFFFF 0%, #D9DEE6 18%, #9AA3B0 38%, #F3F5F8 52%, #7E8794 70%, #CBD1DA 86%, #FFFFFF 100%);
+  
+  /* Typography scale */
+  --font-family-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  
+  --text-caption: 11px/14px var(--font-family-ui);
+  --text-small: 12px/16px var(--font-family-ui);
+  --text-body: 13px/18px var(--font-family-ui);
+  --text-emphasis: 15px/22px var(--font-family-ui);
+  --text-title: 17px/24px var(--font-family-ui);
+  --text-h3: 22px/28px var(--font-family-ui);
+  --text-h2: 28px/34px var(--font-family-ui);
+  --text-h1: 44px/48px var(--font-family-ui);
+  --text-clock: 88px/88px var(--font-family-ui);
+  
+  /* Spacing Grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  
+  /* Layout Dimensions */
+  --menubar-height: 28px;
+  --titlebar-height: 40px;
+  --finder-toolbar-height: 44px;
+  --sidebar-width: 208px;
+  --dock-icon-size: 40px;
+  
+  /* Radii */
+  --radius-window: 12px;
+  --radius-card: 16px;
+  --radius-input: 10px;
+  --radius-button: 10px;
+  --radius-icon: 10px;
+  --radius-dock: 18px;
+  --radius-pill: 999px;
+  
+  /* Shadows */
+  --shadow-window-active: 0 28px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.10);
+  --shadow-window-inactive: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-dock: 0 18px 40px rgba(0, 0, 0, 0.50);
+  
+  /* Motion Curves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Durations */
+  --dur-fast: 120ms;
+  --dur-normal: 200ms;
+  --dur-spring: 320ms;
+  --dur-slow: 520ms;
+  --dur-glide: 900ms;
+  --dur-ambient: 1600ms;
+}

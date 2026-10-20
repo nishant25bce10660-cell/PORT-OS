@@ -1,0 +1,81 @@
+{
+  "round": 6,
+  "timestamp": "2026-10-20T10:36:03.674Z",
+  "checks": {
+    "SEC1_NO_DEFAULT_CREDS": {
+      "status": "PASS",
+      "details": "data/portfolio.json has empty passwordHash; ADMIN_PASSWORD env var utilized",
+      "screenshot": null
+    },
+    "SEC5_DNS_CSRF_GUARD": {
+      "status": "PASS",
+      "details": "DNS rebinding (Host check: 400) and CSRF (Origin check: 403) verified",
+      "screenshot": null
+    },
+    "D9_WALLPAPER_LUMINANCE": {
+      "status": "PASS",
+      "details": "Silk Wave GLSL fragment shader clamps perceived luminance between 0.08 and 0.22",
+      "screenshot": null
+    },
+    "D11_WIDGET_GALLERY": {
+      "status": "PASS",
+      "details": "Floating pill replaced with macOS Widget Gallery sheet panel",
+      "screenshot": null
+    },
+    "D8_LOCKSCREEN_ZERO_LEAK": {
+      "status": "PASS",
+      "details": "Pre-fetch leaks: 0, Desktop mounted before login: false, Clock: true, Avatars: true",
+      "screenshot": "report_assets/round-6/D8_lockscreen_zero_leak.png"
+    },
+    "D5_WIDGET_NO_COLLISION": {
+      "status": "PASS",
+      "details": "Widgets rendered: 3, AABB Overlap detected: false",
+      "screenshot": "report_assets/round-6/D5_widget_collision_resolution.png"
+    },
+    "D6_CLOCK_TIMEZONE": {
+      "status": "PASS",
+      "details": "Clock widget displays configurable location: \"San Francisco, CA\" (Not hardcoded Cupertino)",
+      "screenshot": null
+    },
+    "D1_ROLE_SEPARATION": {
+      "status": "PASS",
+      "details": "System Settings badge with Edit Mode OFF displays: \"Owner (Viewing Mode)\" (Separated from Viewer)",
+      "screenshot": "report_assets/round-6/D1_role_editmode_separation.png"
+    },
+    "D2_WINDOW_SCROLL_NO_CLIP": {
+      "status": "PASS",
+      "details": "Scroll overflow: auto, 4 Metal finish cards visible: true",
+      "screenshot": "report_assets/round-6/D2_settings_scroll_no_clipping.png"
+    },
+    "D3_ABOUT_FIXED_PANEL": {
+      "status": "PASS",
+      "details": "Minimize button absent: true, Maximize button absent: true, Clipping delta: 0px",
+      "screenshot": "report_assets/round-6/D3_about_dialog_controls.png"
+    },
+    "D4_FORMATTED_MARKDOWN": {
+      "status": "PASS",
+      "details": "Rendered H1: \"Distributed Key-Value Store\", bold element parsed: true, formatted toggle: true",
+      "screenshot": "report_assets/round-6/D4_formatted_markdown.png"
+    },
+    "D7_FINDER_UPGRADES": {
+      "status": "PASS",
+      "details": "Back/Fwd navigation present: true, Status text: \"4 items1 item selectedPortfolio Vault\" (Zero fake 512GB)",
+      "screenshot": "report_assets/round-6/D7_finder_upgrades.png"
+    },
+    "D10_DOCK_TRASH_WIDGETS": {
+      "status": "PASS",
+      "details": "Trash present on right of dock: true, Widget grid tile present: true",
+      "screenshot": "report_assets/round-6/D10_dock_trash_widgets.png"
+    },
+    "D12_TERMINAL_PROMPT": {
+      "status": "PASS",
+      "details": "Terminal prompt renders cleanly without stray space: \"owner@portos~ %\"",
+      "screenshot": "report_assets/round-6/D12_terminal_prompt.png"
+    },
+    "D14_ARCHITECTURE_DIAGRAM": {
+      "status": "PASS",
+      "details": "Updated architecture diagram generated covering Finder, PC bridge, Settings, Terminal, and H1-H5 security controls",
+      "screenshot": "report_assets/round-6/D14_architecture_diagram.png"
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "admin": {
+    "username": "admin",
+    "passwordHash": ""
+  },
+  "owner": {
+    "name": "Nishant Singh",
+    "title": "Senior Full-Stack & Systems Engineer",
+    "bio": "Crafting resilient cloud-native architectures, operating system interfaces, and distributed systems with sub-50ms latency.",
+    "email": "nishant@example.com",
+    "location": "San Francisco, CA / Remote",
+    "github": "https://github.com/example",
+    "linkedin": "https://linkedin.com/in/example"
+  },
+  "widgets": [
+    {
+      "id": "widget-clock",
+      "type": "clock",
+      "x": 64,
+      "y": 96,
+      "text": "San Francisco, CA"
+    },
+    {
+      "id": "widget-note",
+      "type": "note",
+      "x": 192,
+      "y": 800,
+      "text": "Welcome to PORT OS — Personal Portfolio Desktop"
+    },
+    {
+      "id": "widget-counter",
+      "type": "counter",
+      "x": 64,
+      "y": 560,
+      "text": "Total Projects: 4 | Credentials: 4"
+    }
+  ],
+  "root": [
+    {
+      "id": "folder-projects",
+      "name": "Projects",
+      "kind": "folder",
+      "children": [
+        {
+          "id": "file-proj-1",
+          "name": "Distributed-KV-Store.md",
+          "kind": "file",
+          "content": "# Distributed Key-Value Store\n\nA distributed, linearizable key-value store using Multi-Raft consensus.\n\n- **Stack:** Go, gRPC, Protobuf, RocksDB\n- **Features:** Automated leader election, dynamic membership changes, log compaction\n- **Performance:** 140,000 writes/sec with p99 < 1.8ms"
+        },
+        {
+          "id": "file-proj-2",
+          "name": "Portfolio-OS.md",
+          "kind": "file",
+          "content": "# Portfolio OS\n\nA sleek, dark macOS desktop environment running natively in the browser.\n\n- **Stack:** Next.js (App Router), Three.js GPU waves, Plain CSS, Node.js API\n- **Features:** Server-side RBAC, draggable windows, dock magnification, live widgets, persistence"
+        },
+        {
+          "id": "file-proj-3",
+          "name": "Realtime-Voxel-Engine.md",
+          "kind": "file",
+          "content": "# Realtime 3D Voxel Engine\n\nA GPU-instanced voxel sandbox supporting infinite procedural terrain generation in WebGL.\n\n- **Stack:** TypeScript, Three.js, WebGL2, Web Workers\n- **Framerate:** Rock solid 60 FPS across desktop and mobile browsers"
+        },
+        {
+          "id": "file-proj-4",
+          "name": "Micro-SaaS-Billing-Engine.md",
+          "kind": "file",
+          "content": "# Micro-SaaS Billing Engine\n\nIdempotent subscription and invoice orchestration service with webhook replay guarantees.\n\n- **Stack:** Node.js, TypeScript, PostgreSQL, Stripe API, Redis Streams"
+        }
+      ]
+    },
+    {
+      "id": "folder-cert-edu",
+      "name": "Certification & Education",
+      "kind": "folder",
+      "children": [
+        {
+          "id": "folder-education",
+          "name": "Education",
+          "kind": "folder",
+          "children": [
+            {
+              "id": "file-edu-degree",
+              "name": "BS-Computer-Science.md",
+              "kind": "file",
+              "content": "# Bachelor of Science in Computer Science\n\n- **University:** University of California, Berkeley\n- **Graduation:** 2018 - 2022\n- **Focus:** Distributed Computing, Operating Systems, Algorithm Engineering, Interactive 3D Graphics\n- **Honors:** Magna Cum Laude, Outstanding Senior in CS Award"
+            }
+          ]
+        },
+        {
+          "id": "folder-certifications",
+          "name": "Certifications",
+          "kind": "folder",
+          "children": [
+            {
+              "id": "file-cert-aws",
+              "name": "AWS-Solutions-Architect-Pro.md",
+              "kind": "file",
+              "content": "# AWS Certified Solutions Architect - Professional\n\n- **Credential ID:** AWS-SAP-74892\n- **Validation:** Active through 2026\n- **Domains:** Multi-region resilient topologies, hybrid cloud networking, zero-trust IAM architecture"
+            },
+            {
+              "id": "file-cert-cka",
+              "name": "CKA-Kubernetes-Administrator.md",
+              "kind": "file",
+              "content": "# Certified Kubernetes Administrator (CKA)\n\n- **Credential:** Linux Foundation / CNCF\n- **Validation:** Active through 2026\n- **Domains:** Cluster security, custom resource controllers, ingress/CNI networking, disaster recovery"
+            },
+            {
+              "id": "file-cert-gcp",
+              "name": "Google-Cloud-Professional-Data-Engineer.md",
+              "kind": "file",
+              "content": "# Google Cloud Certified Professional Data Engineer\n\n- **Credential:** Google Cloud Platform\n- **Validation:** Active through 2026\n- **Domains:** High-throughput streaming with Dataflow/Beam, BigQuery analytics, Dataproc Spark clusters"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "folder-owners-data",
+      "name": "Owner's Data",
+      "kind": "folder",
+      "children": [
+        {
+          "id": "file-about-me",
+          "name": "About-Me.md",
+          "kind": "file",
+          "content": "# About Me\n\nHello! I am a Senior Full-Stack and Systems Engineer dedicated to crafting robust software systems and intuitive, delightful user interfaces.\n\n### Core Philosophy\n1. **Zero Compromise on Performance:** 60 FPS rendering, sub-100ms API response, zero layout shift.\n2. **Type Safety & Reliability:** Robust data contracts, strictly typed schemas, automated verification.\n3. **Craft & Ergonomics:** macOS aesthetics, smooth spring curves, pixel-perfect hierarchy."
+        },
+        {
+          "id": "file-contact",
+          "name": "Contact.md",
+          "kind": "file",
+          "content": "# Contact\n\nFeel free to reach out for high-impact engineering leadership, consulting, or full-stack opportunities:\n\n- **Email:** nishant@example.com\n- **GitHub:** https://github.com/example\n- **LinkedIn:** https://linkedin.com/in/example\n- **Location:** San Francisco, CA (Open to worldwide remote)"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "general": {
+      "ownerName": "Nishant Singh",
+      "title": "Senior Full-Stack & Systems Engineer",
+      "bio": "Crafting resilient cloud-native architectures, operating system interfaces, and distributed systems with sub-50ms latency.",
+      "email": "nishant@example.com",
+      "location": "San Francisco, CA / Remote",
+      "github": "https://github.com/example",
+      "linkedin": "https://linkedin.com/in/example"
+    },
+    "appearance": {
+      "theme": "dark",
+      "wallpaper": "silk-midnight",
+      "accentColor": "#10b981",
+      "font": "Inter"
+    },
+    "boot": {
+      "bootAnimation": "classic",
+      "metalFinish": "silver",
+      "bootText": "PORT OS"
+    },
+    "security": {
+      "lockTimeoutMinutes": 15,
+      "shareMode": false
+    }
+  },
+  "trash": []
+}
