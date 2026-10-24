@@ -138,14 +138,19 @@ export async function POST(req: NextRequest) {
       }
 
       let isMatch = false;
-      if (expectedHash && expectedHash.startsWith('$2a$')) {
-        isMatch = bcrypt.compareSync(cleanPassword, expectedHash);
-      } else if (envPassword) {
-        isMatch = cleanPassword === envPassword;
+      const targetHash =
+        expectedHash && (expectedHash.startsWith('$2a$') || expectedHash.startsWith('$2b$'))
+          ? expectedHash
+          : envPassword
+          ? bcrypt.hashSync(envPassword, 12)
+          : null;
+
+      if (targetHash) {
+        isMatch = bcrypt.compareSync(cleanPassword, targetHash);
       } else {
         // SEC1: Fail closed if no password configured
         return NextResponse.json(
-          { error: 'Admin account is unconfigured. Set ADMIN_PASSWORD environment variable.' },
+          { error: 'Admin account is unconfigured. Set password via npm run set-password.' },
           { status: 403 }
         );
       }

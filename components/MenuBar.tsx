@@ -10,8 +10,8 @@ interface MenuBarProps {
     email?: string;
     username?: string;
   } | null;
-  editMode: boolean;
-  onToggleEditMode: () => void;
+  editMode?: boolean;
+  onToggleEditMode?: () => void;
   onNewFolderClick?: () => void;
   onSignOut?: () => void;
   onSleep?: () => void;
@@ -20,7 +20,9 @@ interface MenuBarProps {
   onAboutClick?: () => void;
   onSettingsClick?: () => void;
   onSpotlightClick?: () => void;
-  onControlCenterClick?: () => void;
+  onFinderClick?: () => void;
+  onHelpClick?: () => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
 }
 
 export default function MenuBar({
@@ -35,7 +37,9 @@ export default function MenuBar({
   onAboutClick,
   onSettingsClick,
   onSpotlightClick,
-  onControlCenterClick,
+  onFinderClick,
+  onHelpClick,
+  onContextMenu,
 }: MenuBarProps) {
   const [timeString, setTimeString] = useState<string>('');
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -71,10 +75,19 @@ export default function MenuBar({
     return () => window.removeEventListener('pointerdown', handleClickOutside);
   }, []);
 
-  const menuItems = ['Finder', 'File', 'Edit', 'View', 'Go', 'Window', 'Help'];
-
   return (
-    <header className="menu-bar" ref={menuBarRef} id="macos-menu-bar">
+    <header
+      className="menu-bar"
+      ref={menuBarRef}
+      id="portfolio-menubar"
+      data-testid="macos-menu-bar"
+      onContextMenu={(e) => {
+        if (onContextMenu) {
+          e.preventDefault();
+          onContextMenu(e);
+        }
+      }}
+    >
       <div className="menu-bar-left">
         {/* M1: Geometric "N" logo mark */}
         <div
@@ -87,16 +100,29 @@ export default function MenuBar({
           <GeometricLogo size={16} hasSpecularSweep={false} />
         </div>
 
-        {/* Standard macOS Menu Items */}
-        {menuItems.map((item) => (
-          <span
-            key={item}
-            className={`menu-item ${item === 'Finder' ? 'menu-app-name' : ''}`}
-            onClick={() => setActiveMenu(activeMenu === item ? null : item)}
-          >
-            {item}
-          </span>
-        ))}
+        {/* Clean macOS Menu Items: Finder and Help */}
+        <span
+          className="menu-item menu-app-name"
+          id="menu-item-top-finder"
+          onClick={() => {
+            setActiveMenu(null);
+            onFinderClick?.();
+          }}
+          style={{ cursor: 'pointer', fontWeight: 600 }}
+        >
+          Finder
+        </span>
+        <span
+          className="menu-item"
+          id="menu-item-top-help"
+          onClick={() => {
+            setActiveMenu(null);
+            onHelpClick?.();
+          }}
+          style={{ cursor: 'pointer' }}
+        >
+          Help
+        </span>
       </div>
 
       {/* System "N" Dropdown Menu */}
@@ -210,17 +236,6 @@ export default function MenuBar({
 
       {/* Menu Bar Right Controls */}
       <div className="menu-bar-right">
-        {user?.role === 'admin' && (
-          <button
-            type="button"
-            className={`menu-pill ${editMode ? 'menu-pill-edit-on' : 'menu-pill-edit-off'}`}
-            onClick={onToggleEditMode}
-            id="toggle-edit-mode-pill"
-          >
-            {editMode ? '● Edit Mode ON' : '○ Edit Mode'}
-          </button>
-        )}
-
         {/* Spotlight Search Button */}
         <button
           type="button"
@@ -257,47 +272,6 @@ export default function MenuBar({
           >
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </button>
-
-        {/* Control Center Button */}
-        <button
-          type="button"
-          id="menu-btn-control-center"
-          onClick={onControlCenterClick}
-          title="Control Center"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--tx-2)',
-            cursor: 'pointer',
-            padding: '2px 6px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#ffffff';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--tx-2)';
-          }}
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="3" y="4" width="18" height="6" rx="3" />
-            <circle cx="8" cy="7" r="1.5" fill="currentColor" />
-            <rect x="3" y="14" width="18" height="6" rx="3" />
-            <circle cx="16" cy="17" r="1.5" fill="currentColor" />
           </svg>
         </button>
 

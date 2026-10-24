@@ -11,6 +11,7 @@ import FileEditor from '@/components/FileEditor';
 import OwnerProfileView from '@/components/OwnerProfileView';
 import SystemSettings from '@/components/SystemSettings';
 import Widgets from '@/components/Widgets';
+import WidgetGallery from '@/components/WidgetGallery';
 import LoginModal from '@/components/LoginModal';
 import BootScreen from '@/components/BootScreen';
 import PowerOverlay, { PowerState } from '@/components/PowerOverlay';
@@ -18,22 +19,38 @@ import SpotlightModal from '@/components/SpotlightModal';
 import ContextMenu, { ContextMenuItem } from '@/components/ContextMenu';
 import ToastContainer from '@/components/ToastContainer';
 import TerminalView from '@/components/TerminalView';
-import ControlCenter from '@/components/ControlCenter';
 import AboutModal from '@/components/AboutModal';
+import PortOSIcon from '@/components/icons/PortOSIcon';
 import { toastManager } from '@/lib/toast';
 import { sound } from '@/lib/sound';
-import { PortfolioData, FolderItem, FileItem, Item, Widget, OwnerInfo, SystemSettings as ISystemSettings, DEFAULT_SETTINGS } from '@/lib/types';
-import { findItemById, findParentFolder, addItemToTree, updateItemInTree, removeItemFromTree } from '@/lib/tree';
+import {
+  PortfolioData,
+  FolderItem,
+  FileItem,
+  Item,
+  Widget,
+  WidgetType,
+  OwnerInfo,
+  SystemSettings as ISystemSettings,
+  DEFAULT_SETTINGS,
+  DEFAULT_CLOCK_CONFIG,
+  DEFAULT_CUSTOMIZATION,
+  DEFAULT_EFFECTS_CONFIG,
+} from '@/lib/types';
+import { findItemById, findParentFolder } from '@/lib/tree';
 
 interface WindowContentMeta {
   type: 'folder' | 'file' | 'owner' | 'widgets' | 'settings' | 'terminal' | 'about';
   itemId?: string;
   folderNavId?: string; // current active folder within the window
+  initialCommand?: string;
 }
 
 interface FullWindowState extends WindowState {
   meta: WindowContentMeta;
 }
+
+type SystemPowerState = PowerState | 'booting';
 
 const getStorageKey = (role?: string) => `portfolio_os_windows_${role || 'viewer'}_v2`;
 
@@ -46,19 +63,24 @@ export default function DesktopPage() {
   } | null>(null);
 
   const [loadingSession, setLoadingSession] = useState(true);
-  const [editMode, setEditMode] = useState(false);
   const [portfolioData, setPortfolioData] = useState<PortfolioData | null>(null);
   const [windows, setWindows] = useState<FullWindowState[]>([]);
   const [topZ, setTopZ] = useState(100);
   const [snapPreview, setSnapPreview] = useState<{ visible: boolean; x: number; y: number; w: number; h: number } | null>(null);
   const [spotlightOpen, setSpotlightOpen] = useState(false);
-  const [controlCenterOpen, setControlCenterOpen] = useState(false);
   const [brightness, setBrightness] = useState(100);
   const [volume, setVolume] = useState(80);
-  const [contextMenu, setContextMenu] = useState<{ isOpen: boolean; x: number; y: number }>({
+  const [contextMenu, setContextMenu] = useState<{
+    isOpen: boolean;
+    x: number;
+    y: number;
+    title?: string;
+    items: ContextMenuItem[];
+  }>({
     isOpen: false,
     x: 0,
     y: 0,
+    items: [],
   });
 
   const handleVolumeChange = useCallback((val: number) => {
@@ -67,7 +89,7 @@ export default function DesktopPage() {
   }, []);
 
   const hasMaximizedWindow = useMemo(() => {
-    return windows.some((w) => !w.isMinimized && w.snapMode === 'fullscreen');
+    return windows.some((w) => !w.isMinimized && w.snapMode === 'max');
   }, [windows]);
 
   // Global Ctrl+K / Cmd+K listener for Spotlight
@@ -82,24 +104,7 @@ export default function DesktopPage() {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  const handleContextMenu = useCallback((e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (
-      target.closest('.window-shell') ||
-      target.closest('.window-container') ||
-      target.closest('.dock-container') ||
-      target.closest('.menu-bar')
-    ) {
-      return;
-    }
-    e.preventDefault();
-    setContextMenu({
-      isOpen: true,
-      x: e.clientX,
-      y: e.clientY,
-    });
-  }, []);
-  const [powerState, setPowerState] = useState<PowerState>(() => {
+  const [powerState, setPowerState] = useState<SystemPowerState>(() => {
     if (typeof window !== 'undefined') {
       try {
         if (sessionStorage.getItem('portos_booted') === 'true') {
@@ -120,124 +125,178 @@ export default function DesktopPage() {
     } catch {}
   }, []);
 
-  const handlePowerOn = useCallback(() => {
-    try {
-      sessionStorage.removeItem('portos_booted');
-    } catch {}
-    setPowerState('booting');
+  // Fetch initial session & role from server
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const res = await fetch('/api/session');
+        if (res.ok) {
+          const data = await res.json();
+          const session = data?.user || (data?.role ? data : null);
+          if (session && session.role) {
+            setUser({
+              role: session.role,
+              name: session.name,
+              email: session.email,
+              username: session.username,
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Session check failed:', err);
+      } finally {
+        setLoadingSession(false);
+      }
+    };
+    checkSession();
   }, []);
 
-  const handleWakeFromSleep = useCallback(() => {
-    setPowerState('running');
-  }, []);
-
-  const handleSleep = useCallback(() => {
-    setPowerState('sleeping');
-  }, []);
-
-  const handleRestart = useCallback(() => {
-    try {
-      sessionStorage.removeItem('portos_booted');
-    } catch {}
-    setPowerState('restarting');
-    sound.playShutdownSound();
-    setTimeout(() => {
-      setPowerState('booting');
-    }, 700);
-  }, []);
-
-  const handleShutdown = useCallback(() => {
-    try {
-      sessionStorage.removeItem('portos_booted');
-    } catch {}
-    sound.playShutdownSound();
-    setPowerState('shutdown');
-  }, []);
-
+  // Sync portfolioDataRef
   useEffect(() => {
     portfolioDataRef.current = portfolioData;
   }, [portfolioData]);
 
-  // 1. Fetch Session & Portfolio Data (Zero-leak lock screen: only load portfolio data if authenticated)
+  // Load portfolio data
   const loadPortfolioData = useCallback(async () => {
     try {
-      const dataRes = await fetch('/api/portfolio');
-      if (dataRes.ok) {
-        const dataJson = await dataRes.json();
-        setPortfolioData(dataJson);
-        portfolioDataRef.current = dataJson;
+      const res = await fetch('/api/portfolio');
+      if (res.ok) {
+        const data: PortfolioData = await res.json();
+        // Check for viewer local widget layout preferences
+        if (typeof window !== 'undefined') {
+          try {
+            const storedWidgets = localStorage.getItem('portos_widgets_layout');
+            if (storedWidgets) {
+              const parsed = JSON.parse(storedWidgets);
+              if (Array.isArray(parsed)) {
+                data.widgets = parsed;
+              }
+            }
+            const storedCustom = localStorage.getItem('portos_customization');
+            if (storedCustom && data.settings) {
+              const parsedCustom = JSON.parse(storedCustom);
+              data.settings.customization = {
+                ...data.settings.customization,
+                ...parsedCustom,
+              };
+            }
+          } catch {}
+        }
+        setPortfolioData(data);
       }
     } catch (err) {
       console.error('Failed to load portfolio data:', err);
     }
   }, []);
 
-  const loadData = useCallback(async () => {
-    try {
-      const sessionRes = await fetch('/api/session');
-      const sessionJson = await sessionRes.json();
-
-      if (sessionJson.user) {
-        setUser(sessionJson.user);
-        await loadPortfolioData();
-      } else {
-        setUser(null);
-      }
-    } catch (err) {
-      console.error('Failed to initialize session:', err);
-    } finally {
-      setLoadingSession(false);
-    }
-  }, [loadPortfolioData]);
-
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    if (user) {
+      loadPortfolioData();
+    }
+  }, [user, loadPortfolioData]);
 
-  // 2. Restore Windows from localStorage once user is logged in
+  // Restore Window states from localStorage based on role
   useEffect(() => {
     if (!user) return;
     try {
       const key = getStorageKey(user.role);
       const saved = localStorage.getItem(key);
       if (saved) {
-        const parsed: FullWindowState[] = JSON.parse(saved);
+        const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setWindows(parsed);
-          const maxZ = parsed.reduce((max, w) => Math.max(max, w.zIndex || 100), 100);
+          const maxZ = parsed.reduce((acc, curr) => Math.max(acc, curr.zIndex || 100), 100);
           setTopZ(maxZ + 1);
         }
       }
     } catch (e) {
-      console.warn('Failed to restore windows from localStorage:', e);
+      console.error('Failed to restore windows from localStorage:', e);
     }
   }, [user]);
 
-  // 3. Persist Windows to localStorage on change
+  // Save Window states to localStorage debounced
   useEffect(() => {
     if (!user) return;
+    const key = getStorageKey(user.role);
     try {
-      const key = getStorageKey(user.role);
       localStorage.setItem(key, JSON.stringify(windows));
     } catch (e) {
-      console.warn('Failed to persist windows to localStorage:', e);
+      console.error('Failed to save windows to localStorage:', e);
     }
   }, [windows, user]);
 
-  // If user is not admin, turn off editMode
-  useEffect(() => {
-    if (user?.role !== 'admin' && editMode) {
-      setEditMode(false);
-    }
-  }, [user, editMode]);
+  // Open a new or existing window, centered in viewport
+  const openWindow = useCallback(
+    (
+      id: string,
+      title: string,
+      meta: WindowContentMeta,
+      defaultDimensions: { width: number; height: number } = { width: 720, height: 480 }
+    ) => {
+      sound.playWindowOpenSound();
+      setWindows((prev) => {
+        const existing = prev.find((w) => w.id === id);
+        if (existing) {
+          // Restore and bring to front
+          const newZ = topZ + 1;
+          setTopZ(newZ);
+          return prev.map((w) =>
+            w.id === id
+              ? {
+                  ...w,
+                  isMinimized: false,
+                  zIndex: newZ,
+                  meta: { ...w.meta, ...meta },
+                }
+              : w
+          );
+        }
 
-  // Window Focus
+        // Center window in viewport
+        const screenW = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const screenH = typeof window !== 'undefined' ? window.innerHeight : 800;
+        const w = Math.min(defaultDimensions.width, screenW - 40);
+        const h = Math.min(defaultDimensions.height, screenH - 120);
+        // Calculate window position (centered for first, +28px cascade for successive)
+        let x: number;
+        let y: number;
+        if (prev.length > 0) {
+          const lastWin = prev[prev.length - 1];
+          x = lastWin.x + 28;
+          y = lastWin.y + 28;
+        } else {
+          x = Math.max(20, Math.round((screenW - w) / 2));
+          y = Math.max(44, Math.round((screenH - h) / 2) - 10);
+        }
+
+        const newZ = topZ + 1;
+        setTopZ(newZ);
+
+        const newWin: FullWindowState = {
+          id,
+          title,
+          x,
+          y,
+          width: w,
+          height: h,
+          isMinimized: false,
+          snapMode: 'normal',
+          zIndex: newZ,
+          meta,
+        };
+        return [...prev, newWin];
+      });
+    },
+    [topZ]
+  );
+
+  // Focus Window (bring to top)
   const focusWindow = useCallback(
     (id: string) => {
-      setTopZ((prev) => {
-        const nextZ = prev + 1;
-        setWindows((wins) =>
-          wins.map((w) => (w.id === id ? { ...w, zIndex: nextZ, isMinimized: false } : w))
+      setTopZ((prevTop) => {
+        const nextZ = prevTop + 1;
+        setWindows((prev) =>
+          prev.map((w) => (w.id === id ? { ...w, zIndex: nextZ } : w))
         );
         return nextZ;
       });
@@ -247,205 +306,78 @@ export default function DesktopPage() {
 
   // Close Window
   const closeWindow = useCallback((id: string) => {
-    setWindows((wins) => wins.filter((w) => w.id !== id));
+    sound.playWindowCloseSound();
+    setWindows((prev) => prev.filter((w) => w.id !== id));
   }, []);
 
   // Minimize Window
   const minimizeWindow = useCallback((id: string) => {
-    setWindows((wins) =>
-      wins.map((w) => (w.id === id ? { ...w, isMinimized: true } : w))
+    sound.playWindowMinimizeSound();
+    setWindows((prev) =>
+      prev.map((w) => (w.id === id ? { ...w, isMinimized: true } : w))
     );
   }, []);
 
   // Restore Window
   const restoreWindow = useCallback(
     (id: string) => {
-      focusWindow(id);
+      sound.playWindowOpenSound();
+      setTopZ((prevTop) => {
+        const nextZ = prevTop + 1;
+        setWindows((prev) =>
+          prev.map((w) =>
+            w.id === id
+              ? { ...w, isMinimized: false, zIndex: nextZ }
+              : w
+          )
+        );
+        return nextZ;
+      });
     },
-    [focusWindow]
+    []
   );
 
-  // Update bounds / position / snap
-  const updateWindowBounds = useCallback((id: string, bounds: Partial<WindowState>) => {
-    setWindows((wins) =>
-      wins.map((w) => (w.id === id ? { ...w, ...bounds } : w))
+  // Toggle Zoom / Maximize Window
+  const toggleZoomWindow = useCallback((id: string) => {
+    setWindows((prev) =>
+      prev.map((w) => {
+        if (w.id !== id) return w;
+        if (w.snapMode === 'max') {
+          return {
+            ...w,
+            snapMode: 'normal',
+            x: (w as any).prevX || 60,
+            y: (w as any).prevY || 60,
+            width: (w as any).prevW || 720,
+            height: (w as any).prevH || 480,
+          };
+        } else {
+          return {
+            ...w,
+            snapMode: 'max',
+            prevX: w.x,
+            prevY: w.y,
+            prevW: w.width,
+            prevH: w.height,
+          };
+        }
+      })
     );
   }, []);
 
-  // Open or Bring to Front a Window
-  const openWindow = useCallback(
-    (
-      id: string,
-      title: string,
-      meta: WindowContentMeta,
-      customBounds?: { width?: number; height?: number }
-    ) => {
-      setWindows((prevWins) => {
-        const existing = prevWins.find((w) => w.id === id);
-        const nextZ = topZ + 1;
-        setTopZ(nextZ);
+  // Update Window State
+  const updateWindowState = useCallback((id: string, patch: Partial<WindowState>) => {
+    setWindows((prev) =>
+      prev.map((w) => (w.id === id ? { ...w, ...patch } : w))
+    );
+  }, []);
 
-        if (existing) {
-          return prevWins.map((w) =>
-            w.id === id
-              ? {
-                  ...w,
-                  isMinimized: false,
-                  zIndex: nextZ,
-                  meta: { ...w.meta, ...meta },
-                }
-              : w
-          );
-        }
-
-        // Determine cascade coordinates (centered in workspace, +28px cascade, never at x=0)
-        const offsetIndex = prevWins.length % 6;
-        const screenW = typeof window !== 'undefined' ? window.innerWidth : 1200;
-        const screenH = typeof window !== 'undefined' ? window.innerHeight : 800;
-
-        const wWidth = Math.max(360, Math.min(screenW - 60, customBounds?.width || 680));
-        const wHeight = Math.max(240, Math.min(screenH - 28 - 68 - 30, customBounds?.height || 460));
-        const baseX = Math.max(48, Math.round((screenW - wWidth) / 2) + offsetIndex * 28);
-        const baseY = Math.max(36, Math.round((screenH - 28 - 68 - wHeight) / 2) + offsetIndex * 28);
-
-        const newWin: FullWindowState = {
-          id,
-          title,
-          x: baseX,
-          y: baseY,
-          width: wWidth,
-          height: wHeight,
-          zIndex: nextZ,
-          isMinimized: false,
-          snapMode: 'normal',
-          meta,
-        };
-
-        return [...prevWins, newWin];
-      });
+  // Snap Preview update
+  const handleSnapPreview = useCallback(
+    (preview: { visible: boolean; x: number; y: number; w: number; h: number } | null) => {
+      setSnapPreview(preview);
     },
-    [topZ]
-  );
-
-  // Quick Open Handlers
-  const handleOpenProjects = useCallback(() => {
-    openWindow('folder-projects', 'Projects', {
-      type: 'folder',
-      itemId: 'folder-projects',
-      folderNavId: 'folder-projects',
-    });
-  }, [openWindow]);
-
-  const handleOpenCertEducation = useCallback(() => {
-    openWindow('folder-cert-edu', 'Certification & Education', {
-      type: 'folder',
-      itemId: 'folder-cert-edu',
-      folderNavId: 'folder-cert-edu',
-    });
-  }, [openWindow]);
-
-  const handleOpenOwnersData = useCallback(() => {
-    openWindow('window-owners-data', "Owner's Data", {
-      type: 'owner',
-    });
-  }, [openWindow]);
-
-  const handleOpenWidgetsManager = useCallback(() => {
-    openWindow('window-widgets-manager', 'Widgets Manager', {
-      type: 'widgets',
-    }, { width: 500, height: 380 });
-  }, [openWindow]);
-
-  const handleOpenSettings = useCallback(() => {
-    openWindow('system-settings', 'System Settings', {
-      type: 'settings',
-    }, { width: 760, height: 520 });
-  }, [openWindow]);
-
-  const handleOpenTerminal = useCallback(() => {
-    openWindow('terminal', 'Terminal — portsh', {
-      type: 'terminal',
-    }, { width: 680, height: 440 });
-  }, [openWindow]);
-
-  const handleOpenAbout = useCallback(() => {
-    openWindow('about-portos', 'About PORT OS', {
-      type: 'about',
-    }, { width: 440, height: 400 });
-  }, [openWindow]);
-
-  const handleNewFolderOnDesktop = useCallback(async () => {
-    if (user?.role !== 'admin' || !editMode || !portfolioData) return;
-    const folderName = prompt('Enter new folder name:', 'New Folder') || 'New Folder';
-    const newFolder: FolderItem = {
-      id: `folder-${Date.now()}`,
-      name: folderName,
-      kind: 'folder',
-      children: [],
-    };
-
-    try {
-      const res = await fetch('/api/items', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ parentId: null, item: newFolder }),
-      });
-
-      if (res.ok) {
-        const json = await res.json();
-        setPortfolioData((prev) => (prev ? { ...prev, root: json.root } : null));
-        toastManager.notify({
-          type: 'success',
-          title: 'New Folder',
-          message: `Created folder "${newFolder.name}"`,
-        });
-        openWindow(newFolder.id, newFolder.name, {
-          type: 'folder',
-          itemId: newFolder.id,
-          folderNavId: newFolder.id,
-        });
-      }
-    } catch (err) {
-      console.error('Failed to create new folder:', err);
-    }
-  }, [user, editMode, portfolioData, openWindow]);
-
-  // Dock App launcher
-  const handleDockOpenApp = useCallback(
-    (appId: string) => {
-      switch (appId) {
-        case 'finder':
-          handleOpenProjects();
-          break;
-        case 'projects':
-          handleOpenProjects();
-          break;
-        case 'certifications':
-          handleOpenCertEducation();
-          break;
-        case 'owner':
-          handleOpenOwnersData();
-          break;
-        case 'widgets':
-          handleOpenWidgetsManager();
-          break;
-        case 'settings':
-          handleOpenSettings();
-          break;
-        case 'terminal':
-          handleOpenTerminal();
-          break;
-        case 'about':
-          handleOpenAbout();
-          break;
-        case 'trash':
-          handleOpenProjects();
-          break;
-        default:
-          break;
-      }
-    },
-    [handleOpenProjects, handleOpenCertEducation, handleOpenOwnersData, handleOpenWidgetsManager, handleOpenSettings, handleOpenTerminal, handleOpenAbout]
+    []
   );
 
   // Sign out handler
@@ -458,7 +390,6 @@ export default function DesktopPage() {
     }
     const currentRole = user?.role;
     setUser(null);
-    setEditMode(false);
     setWindows([]);
     try {
       const key = getStorageKey(currentRole);
@@ -506,10 +437,10 @@ export default function DesktopPage() {
     [openWindow]
   );
 
-  // Add Item (file or folder)
+  // Add Item (file or folder) - Owner authorized
   const handleAddItem = useCallback(
     async (parentId: string, kind: 'folder' | 'file') => {
-      if (user?.role !== 'admin' || !editMode) return;
+      if (user?.role !== 'admin') return;
       const defaultName = kind === 'folder' ? 'Untitled Folder' : 'Untitled.md';
       const name = prompt(`Enter ${kind} name:`, defaultName);
       if (!name) return;
@@ -534,13 +465,13 @@ export default function DesktopPage() {
         console.error('Failed to add item:', err);
       }
     },
-    [user, editMode]
+    [user]
   );
 
   // Rename Item
   const handleRenameItem = useCallback(
     async (itemId: string, newName: string) => {
-      if (user?.role !== 'admin' || !editMode) return;
+      if (user?.role !== 'admin') return;
       try {
         const res = await fetch(`/api/items/${itemId}`, {
           method: 'PUT',
@@ -561,13 +492,13 @@ export default function DesktopPage() {
         console.error('Failed to rename item:', err);
       }
     },
-    [user, editMode]
+    [user]
   );
 
   // Delete Item
   const handleDeleteItem = useCallback(
     async (itemId: string) => {
-      if (user?.role !== 'admin' || !editMode) return;
+      if (user?.role !== 'admin') return;
       try {
         const res = await fetch(`/api/items/${itemId}`, {
           method: 'DELETE',
@@ -582,13 +513,15 @@ export default function DesktopPage() {
         console.error('Failed to delete item:', err);
       }
     },
-    [user, editMode]
+    [user]
   );
 
-  // F8: Move to Trash
+  const lastTrashedRef = useRef<string | null>(null);
+
+  // Move to Trash
   const handleMoveToTrash = useCallback(
     async (itemId: string) => {
-      if (user?.role !== 'admin' || !editMode) return;
+      if (user?.role !== 'admin') return;
       try {
         const res = await fetch('/api/items/trash', {
           method: 'POST',
@@ -598,25 +531,26 @@ export default function DesktopPage() {
 
         if (res.ok) {
           const json = await res.json();
+          lastTrashedRef.current = itemId;
           setPortfolioData((prev) => (prev ? { ...prev, root: json.root, trash: json.trash } : null));
           setWindows((prev) => prev.filter((w) => w.meta.itemId !== itemId && w.id !== itemId));
           toastManager.notify({
             type: 'warning',
             title: 'Moved to Trash',
-            message: 'Item has been moved to Trash',
+            message: 'Item has been moved to Trash (Ctrl+Z to Undo)',
           });
         }
       } catch (err) {
         console.error('Failed to move item to trash:', err);
       }
     },
-    [user, editMode]
+    [user]
   );
 
-  // F8: Restore from Trash
+  // Restore from Trash
   const handleRestoreTrash = useCallback(
     async (itemId: string) => {
-      if (user?.role !== 'admin' || !editMode) return;
+      if (user?.role !== 'admin') return;
       try {
         const res = await fetch('/api/items/trash/restore', {
           method: 'POST',
@@ -637,13 +571,73 @@ export default function DesktopPage() {
         console.error('Failed to restore trash item:', err);
       }
     },
-    [user, editMode]
+    [user]
   );
 
-  // S1: Save System Settings
+  // Empty Trash
+  const handleEmptyTrash = useCallback(async () => {
+    if (user?.role !== 'admin') return;
+    try {
+      const res = await fetch('/api/items/trash', {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setPortfolioData((prev) => (prev ? { ...prev, trash: [] } : null));
+        toastManager.notify({
+          type: 'info',
+          title: 'Trash Emptied',
+          message: 'All items in Trash have been permanently deleted',
+        });
+      }
+    } catch (err) {
+      console.error('Failed to empty trash:', err);
+    }
+  }, [user]);
+
+  // Global keyboard shortcut for Undo (Ctrl+Z / Cmd+Z)
+  useEffect(() => {
+    const handleGlobalUndo = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        (e.target as HTMLElement)?.isContentEditable
+      ) {
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) {
+        if (lastTrashedRef.current && user?.role === 'admin') {
+          e.preventDefault();
+          const targetId = lastTrashedRef.current;
+          lastTrashedRef.current = null;
+          handleRestoreTrash(targetId);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleGlobalUndo);
+    return () => window.removeEventListener('keydown', handleGlobalUndo);
+  }, [user, handleRestoreTrash]);
+
+  // Save System Settings
   const handleSaveSettings = useCallback(
     async (nextSettings: Partial<ISystemSettings>) => {
-      if (user?.role !== 'admin') return;
+      if (user?.role !== 'admin') {
+        // Viewer: apply to local state so UI updates immediately
+        setPortfolioData((prev) => {
+          if (!prev) return null;
+          return {
+            ...prev,
+            settings: {
+              ...prev.settings,
+              ...nextSettings,
+              customization: {
+                ...prev.settings?.customization,
+                ...nextSettings.customization,
+              },
+            } as ISystemSettings,
+          };
+        });
+        return;
+      }
       try {
         const res = await fetch('/api/settings', {
           method: 'PUT',
@@ -653,66 +647,116 @@ export default function DesktopPage() {
 
         if (res.ok) {
           const json = await res.json();
-          setPortfolioData((prev) =>
-            prev ? { ...prev, settings: json.settings, owner: json.owner || prev.owner } : null
-          );
+          setPortfolioData((prev) => (prev ? { ...prev, settings: json.settings } : null));
         }
       } catch (err) {
         console.error('Failed to save settings:', err);
+        throw err;
       }
     },
     [user]
   );
 
-  // S3: Reset Settings to Defaults
+  // Reset to Defaults
   const handleResetSettings = useCallback(async () => {
     if (user?.role !== 'admin') return;
     try {
-      const res = await fetch('/api/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(DEFAULT_SETTINGS),
-      });
-
+      const res = await fetch('/api/settings/reset', { method: 'POST' });
       if (res.ok) {
         const json = await res.json();
-        setPortfolioData((prev) =>
-          prev ? { ...prev, settings: json.settings, owner: json.owner || prev.owner } : null
-        );
+        setPortfolioData((prev) => (prev ? { ...prev, settings: json.settings } : null));
       }
     } catch (err) {
       console.error('Failed to reset settings:', err);
+      throw err;
     }
   }, [user]);
 
-  // F7: Set as Desktop Picture
+  // Set Wallpaper
   const handleSetWallpaper = useCallback(
-    async (file: FileItem) => {
-      if (user?.role !== 'admin') return;
-      const wpVal = file.content?.startsWith('data:image') ? file.content : 'silk-midnight';
-      await handleSaveSettings({
-        appearance: {
-          wallpaper: wpVal,
-        } as any,
-      });
-      toastManager.notify({
-        type: 'success',
-        title: 'Desktop Picture',
-        message: `Set "${file.name}" as desktop wallpaper`,
-      });
+    async (wallpaperId: string) => {
+      if (user?.role !== 'admin') {
+        // Viewer: override locally
+        try {
+          const custom = {
+            ...DEFAULT_CUSTOMIZATION,
+            desktopWallpaper: { type: 'preset', preset: wallpaperId },
+          };
+          localStorage.setItem('portos_customization', JSON.stringify(custom));
+          toastManager.notify({
+            type: 'success',
+            title: 'Wallpaper Updated',
+            message: `Personal wallpaper changed to ${wallpaperId}`,
+          });
+        } catch {}
+        return;
+      }
+      try {
+        const res = await fetch('/api/settings', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            appearance: { wallpaper: wallpaperId },
+            customization: {
+              ...(portfolioData?.settings?.customization || DEFAULT_CUSTOMIZATION),
+              desktopWallpaper: { type: 'preset', preset: wallpaperId },
+            },
+          }),
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+          setPortfolioData((prev) => (prev ? { ...prev, settings: json.settings } : null));
+          toastManager.notify({
+            type: 'success',
+            title: 'Wallpaper Updated',
+            message: `Wallpaper changed to ${wallpaperId}`,
+          });
+        }
+      } catch (err) {
+        console.error('Failed to set wallpaper:', err);
+      }
     },
-    [user, handleSaveSettings]
+    [user, portfolioData]
   );
 
-  // Import from PC / Drag & Drop refresh
-  const handleImportFromPC = useCallback(() => {
-    loadData();
-  }, [loadData]);
+  // Import file from PC into Folder
+  const handleImportFromPC = useCallback(
+    async (targetFolderId: string, fileData: { name: string; content: string }) => {
+      const newItem: Item = {
+        id: `file-${Date.now()}`,
+        name: fileData.name,
+        kind: 'file',
+        content: fileData.content,
+      };
+
+      try {
+        const res = await fetch('/api/items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ parentId: targetFolderId, item: newItem }),
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+          setPortfolioData((prev) => (prev ? { ...prev, root: json.root } : null));
+          toastManager.notify({
+            type: 'success',
+            title: 'File Imported',
+            message: `Successfully imported "${fileData.name}"`,
+          });
+        }
+      } catch (err) {
+        console.error('Failed to import file:', err);
+      }
+    },
+    []
+  );
 
   // Save File content
   const handleSaveFileContent = useCallback(
     async (fileId: string, newContent: string) => {
-      if (user?.role !== 'admin' || !editMode) {
+      if (user?.role !== 'admin') {
         throw new Error('Unauthorized');
       }
 
@@ -729,13 +773,13 @@ export default function DesktopPage() {
       const json = await res.json();
       setPortfolioData((prev) => (prev ? { ...prev, root: json.root } : null));
     },
-    [user, editMode]
+    [user]
   );
 
   // Save Owner Profile
   const handleSaveOwner = useCallback(
     async (updatedOwner: OwnerInfo) => {
-      if (user?.role !== 'admin' || !editMode) {
+      if (user?.role !== 'admin') {
         throw new Error('Unauthorized');
       }
 
@@ -751,108 +795,212 @@ export default function DesktopPage() {
 
       setPortfolioData((prev) => (prev ? { ...prev, owner: updatedOwner } : null));
     },
-    [user, editMode]
+    [user]
   );
 
-  // Widget updates
+  // Widget updates with personal/shared separation
   const handleUpdateWidgetPosition = useCallback(
     async (id: string, x: number, y: number) => {
-      if (user?.role !== 'admin' || !editMode || !portfolioDataRef.current) return;
+      if (!portfolioDataRef.current) return;
       const currentWidgets = portfolioDataRef.current.widgets;
-      const nextWidgets = currentWidgets.map((w) =>
-        w.id === id ? { ...w, x, y } : w
-      );
+      const nextWidgets = currentWidgets.map((w) => (w.id === id ? { ...w, x, y } : w));
       portfolioDataRef.current = { ...portfolioDataRef.current, widgets: nextWidgets };
       setPortfolioData({ ...portfolioDataRef.current });
 
-      try {
-        await fetch('/api/widgets', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ widgets: nextWidgets }),
-        });
-      } catch (err) {
-        console.error('Failed to save widget position:', err);
+      if (user?.role === 'admin') {
+        try {
+          await fetch('/api/widgets', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ widgets: nextWidgets }),
+          });
+        } catch (err) {
+          console.error('Failed to save widget position:', err);
+        }
+      } else {
+        // Viewer: save to local storage
+        try {
+          localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));
+        } catch {}
       }
     },
-    [user, editMode]
+    [user]
   );
 
   const handleUpdateWidgetText = useCallback(
     async (id: string, text: string) => {
-      if (user?.role !== 'admin' || !editMode || !portfolioDataRef.current) return;
+      if (!portfolioDataRef.current) return;
       const currentWidgets = portfolioDataRef.current.widgets;
-      const nextWidgets = currentWidgets.map((w) =>
-        w.id === id ? { ...w, text } : w
-      );
+      const nextWidgets = currentWidgets.map((w) => (w.id === id ? { ...w, text } : w));
       portfolioDataRef.current = { ...portfolioDataRef.current, widgets: nextWidgets };
       setPortfolioData({ ...portfolioDataRef.current });
 
-      try {
-        await fetch('/api/widgets', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ widgets: nextWidgets }),
-        });
-      } catch (err) {
-        console.error('Failed to save widget text:', err);
+      if (user?.role === 'admin') {
+        try {
+          await fetch('/api/widgets', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ widgets: nextWidgets }),
+          });
+        } catch (err) {
+          console.error('Failed to save widget text:', err);
+        }
+      } else {
+        try {
+          localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));
+        } catch {}
       }
     },
-    [user, editMode]
+    [user]
   );
 
   const handleDeleteWidget = useCallback(
     async (id: string) => {
-      if (user?.role !== 'admin' || !editMode || !portfolioDataRef.current) return;
+      if (!portfolioDataRef.current) return;
       const currentWidgets = portfolioDataRef.current.widgets;
       const nextWidgets = currentWidgets.filter((w) => w.id !== id);
       portfolioDataRef.current = { ...portfolioDataRef.current, widgets: nextWidgets };
       setPortfolioData({ ...portfolioDataRef.current });
 
-      try {
-        await fetch('/api/widgets', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ widgets: nextWidgets }),
-        });
-      } catch (err) {
-        console.error('Failed to delete widget:', err);
+      if (user?.role === 'admin') {
+        try {
+          await fetch('/api/widgets', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ widgets: nextWidgets }),
+          });
+        } catch (err) {
+          console.error('Failed to delete widget:', err);
+        }
+      } else {
+        try {
+          localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));
+        } catch {}
       }
     },
-    [user, editMode]
+    [user]
+  );
+
+  const handleUpdateWidgetConfig = useCallback(
+    async (id: string, patch: Partial<Widget>) => {
+      if (!portfolioDataRef.current) return;
+      const currentWidgets = portfolioDataRef.current.widgets;
+      const nextWidgets = currentWidgets.map((w) => (w.id === id ? { ...w, ...patch } : w));
+      portfolioDataRef.current = { ...portfolioDataRef.current, widgets: nextWidgets };
+      setPortfolioData({ ...portfolioDataRef.current });
+
+      if (user?.role === 'admin') {
+        try {
+          await fetch('/api/widgets', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ widgets: nextWidgets }),
+          });
+        } catch (err) {
+          console.error('Failed to update widget config:', err);
+        }
+      } else {
+        try {
+          localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));
+        } catch {}
+      }
+    },
+    [user]
   );
 
   const handleAddWidget = useCallback(
-    async (type: 'clock' | 'note' | 'counter') => {
-      if (user?.role !== 'admin' || !editMode || !portfolioDataRef.current) return;
+    async (type: WidgetType, customWidget?: Widget) => {
+      if (!portfolioDataRef.current) return;
       const currentWidgets = portfolioDataRef.current.widgets;
-      const newWidget: Widget = {
-        id: `widget-${Date.now()}`,
-        type,
-        x: Math.max(30, Math.min(typeof window !== 'undefined' ? window.innerWidth - 240 : 800, 60 + currentWidgets.length * 30)),
-        y: Math.max(60, Math.min(typeof window !== 'undefined' ? window.innerHeight - 200 : 600, 100 + currentWidgets.length * 40)),
-        text:
-          type === 'clock'
-            ? 'Tokyo, JP'
-            : type === 'note'
-            ? 'New reminder note...'
-            : 'Stats counter',
-      };
+      const widgetId = customWidget?.id || `widget-${Date.now()}`;
+      const defaultX = Math.max(30, Math.min(typeof window !== 'undefined' ? window.innerWidth - 260 : 800, 60 + currentWidgets.length * 30));
+      const defaultY = Math.max(60, Math.min(typeof window !== 'undefined' ? window.innerHeight - 240 : 600, 100 + currentWidgets.length * 40));
+
+      let newWidget: Widget;
+      if (customWidget) {
+        newWidget = {
+          ...customWidget,
+          id: widgetId,
+          x: customWidget.x ?? defaultX,
+          y: customWidget.y ?? defaultY,
+        };
+      } else {
+        let text = 'Widget';
+        let config: Record<string, any> | undefined = undefined;
+
+        switch (type) {
+          case 'clock':
+            text = 'Tokyo, JP';
+            break;
+          case 'analog-clock':
+            text = 'San Francisco, CA';
+            break;
+          case 'calendar':
+            text = 'Monthly View';
+            break;
+          case 'countdown':
+            text = 'Launch Day';
+            config = { targetDate: '2026-12-31T00:00', targetLabel: 'Launch Day' };
+            break;
+          case 'note':
+            text = 'New reminder note...';
+            break;
+          case 'todo':
+            text = 'Sprint Tasks';
+            config = {
+              todos: [
+                { id: '1', text: 'Review pull requests', completed: false },
+                { id: '2', text: 'Deploy to edge', completed: true },
+              ],
+            };
+            break;
+          case 'counter':
+            text = 'Stats counter';
+            break;
+          case 'metric':
+            text = 'System Uptime';
+            config = { metricValue: '99.98%', metricTrend: '+0.04% vs last week', metricStatus: 'success' };
+            break;
+          case 'quote':
+            text = 'Stay hungry, stay foolish.';
+            config = { quoteAuthor: 'Steve Jobs' };
+            break;
+          case 'custom':
+            text = 'Custom Widget';
+            break;
+        }
+
+        newWidget = {
+          id: widgetId,
+          type,
+          x: defaultX,
+          y: defaultY,
+          text,
+          config,
+        };
+      }
+
       const nextWidgets = [...currentWidgets, newWidget];
       portfolioDataRef.current = { ...portfolioDataRef.current, widgets: nextWidgets };
       setPortfolioData({ ...portfolioDataRef.current });
 
-      try {
-        await fetch('/api/widgets', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ widgets: nextWidgets }),
-        });
-      } catch (err) {
-        console.error('Failed to add widget:', err);
+      if (user?.role === 'admin') {
+        try {
+          await fetch('/api/widgets', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ widgets: nextWidgets }),
+          });
+        } catch (err) {
+          console.error('Failed to add widget:', err);
+        }
+      } else {
+        try {
+          localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));
+        } catch {}
       }
     },
-    [user, editMode]
+    [user]
   );
 
   // Compute stats for counter widget
@@ -861,119 +1009,661 @@ export default function DesktopPage() {
     let files = 0;
     let projects = 0;
 
-    const countItems = (items: Item[], inProjects: boolean) => {
-      for (const it of items) {
-        if (it.kind === 'file') {
+    const countItems = (items: Item[]) => {
+      for (const item of items) {
+        if (item.kind === 'file') {
           files++;
-          if (inProjects) projects++;
-        } else if (it.kind === 'folder' && it.children) {
-          countItems(it.children, inProjects || it.name.toLowerCase().includes('project'));
+        } else if (item.kind === 'folder') {
+          if (item.id.includes('project') || item.name.toLowerCase().includes('project')) {
+            projects++;
+          }
+          if (item.children) countItems(item.children);
         }
       }
     };
 
-    countItems(portfolioData.root, false);
-    return { totalFiles: files, totalProjects: projects };
+    countItems(portfolioData.root);
+    return { totalFiles: files, totalProjects: projects || 4 };
   }, [portfolioData]);
 
-  // Minimized windows for the dock
+  // Desktop shortcuts
+  const handleOpenProjects = useCallback(() => {
+    openWindow('folder-projects', 'Projects', {
+      type: 'folder',
+      itemId: 'folder-projects',
+      folderNavId: 'folder-projects',
+    }, { width: 780, height: 490 });
+  }, [openWindow]);
+
+  const handleOpenCertEducation = useCallback(() => {
+    openWindow('folder-cert-edu', 'Certification & Education', {
+      type: 'folder',
+      itemId: 'folder-cert-edu',
+      folderNavId: 'folder-cert-edu',
+    }, { width: 720, height: 460 });
+  }, [openWindow]);
+
+  const handleOpenOwnersData = useCallback(() => {
+    openWindow('owner-profile', "Owner's Data", {
+      type: 'owner',
+    }, { width: 700, height: 480 });
+  }, [openWindow]);
+
+  const handleOpenWidgetsManager = useCallback(() => {
+    openWindow('widgets-manager', 'Widget Gallery & Studio', {
+      type: 'widgets',
+    }, { width: 780, height: 540 });
+  }, [openWindow]);
+
+  const handleOpenSettings = useCallback(() => {
+    openWindow('system-settings', 'System Settings', {
+      type: 'settings',
+    }, { width: 780, height: 520 });
+  }, [openWindow]);
+
+  const handleOpenTerminal = useCallback((initialCommand?: string) => {
+    openWindow('terminal', 'Terminal — portsh', {
+      type: 'terminal',
+      initialCommand,
+    }, { width: 700, height: 440 });
+  }, [openWindow]);
+
+  const handleOpenAbout = useCallback(() => {
+    openWindow('about-portos', 'About PORT OS', {
+      type: 'about',
+    }, { width: 500, height: 420 });
+  }, [openWindow]);
+
+  // New folder directly on desktop (inside root)
+  const handleNewFolderOnDesktop = useCallback(() => {
+    if (user?.role !== 'admin' || !portfolioData) return;
+    const name = prompt('Enter new desktop folder name:', 'New Folder');
+    if (!name) return;
+
+    const newFolder: FolderItem = {
+      id: `folder-${Date.now()}`,
+      name,
+      kind: 'folder',
+      children: [],
+    };
+
+    fetch('/api/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ parentId: 'root', item: newFolder }),
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json) {
+          setPortfolioData((prev) => (prev ? { ...prev, root: json.root } : null));
+          openWindow(`folder-${newFolder.id}`, newFolder.name, {
+            type: 'folder',
+            itemId: newFolder.id,
+            folderNavId: newFolder.id,
+          });
+        }
+      })
+      .catch((err) => console.error('Failed to create desktop folder:', err));
+  }, [user, portfolioData, openWindow]);
+
+  // Dock click handler
+  const handleDockOpenApp = useCallback(
+    (appId: string) => {
+      switch (appId) {
+        case 'finder':
+        case 'projects':
+          handleOpenProjects();
+          break;
+        case 'certifications':
+          handleOpenCertEducation();
+          break;
+        case 'profile':
+        case 'owner':
+          handleOpenOwnersData();
+          break;
+        case 'terminal':
+          handleOpenTerminal();
+          break;
+        case 'widgets':
+          handleOpenWidgetsManager();
+          break;
+        case 'settings':
+          handleOpenSettings();
+          break;
+        case 'about':
+          handleOpenAbout();
+          break;
+        case 'trash':
+          openWindow('folder-trash', 'Trash', {
+            type: 'folder',
+            itemId: 'trash',
+            folderNavId: 'trash',
+          }, { width: 700, height: 440 });
+          break;
+        default:
+          break;
+      }
+    },
+    [
+      handleOpenProjects,
+      handleOpenCertEducation,
+      handleOpenOwnersData,
+      handleOpenTerminal,
+      handleOpenWidgetsManager,
+      handleOpenSettings,
+      handleOpenAbout,
+      openWindow,
+    ]
+  );
+
+  // Power actions
+  const handlePowerOn = useCallback(() => {
+    try {
+      sessionStorage.removeItem('portos_booted');
+    } catch {}
+    sound.playStartupChime();
+    setPowerState('booting');
+  }, []);
+
+  const handleWakeFromSleep = useCallback(() => {
+    sound.playStartupChime();
+    setPowerState('running');
+  }, []);
+
+  const handleSleep = useCallback(() => {
+    sound.playSleepSound();
+    setPowerState('sleeping');
+  }, []);
+
+  const handleRestart = useCallback(() => {
+    try {
+      sessionStorage.removeItem('portos_booted');
+    } catch {}
+    sound.playRestartSound();
+    setPowerState('booting');
+  }, []);
+
+  const handleShutdown = useCallback(() => {
+    sound.playShutdownSound();
+    setPowerState('shutdown');
+  }, []);
+
+  // Active and minimized window lists for the dock
   const minimizedWindows: MinimizedWindowInfo[] = useMemo(() => {
     return windows
       .filter((w) => w.isMinimized)
       .map((w) => ({
         id: w.id,
         title: w.title,
-        iconType: w.meta.type,
+        kind:
+          w.meta.type === 'folder'
+            ? 'folder'
+            : w.meta.type === 'terminal'
+            ? 'terminal'
+            : w.meta.type === 'settings'
+            ? 'settings'
+            : w.meta.type === 'about'
+            ? 'about'
+            : w.meta.type === 'owner'
+            ? 'owners-data'
+            : w.title.toLowerCase().endsWith('.md')
+            ? 'markdown'
+            : 'generic-file',
       }));
   }, [windows]);
 
-  // Active window IDs for the dock
   const activeWindowIds = useMemo(() => {
-    return windows.map((w) => w.id);
+    return windows.filter((w) => !w.isMinimized).map((w) => w.id);
   }, [windows]);
 
-  // Topmost active window ID
-  const topActiveWindowId = useMemo(() => {
-    const visible = windows.filter((w) => !w.isMinimized);
-    if (visible.length === 0) return null;
-    return visible.reduce((highest, current) => (current.zIndex > highest.zIndex ? current : highest)).id;
-  }, [windows]);
+  const isAdmin = user?.role === 'admin';
 
-  const canEdit = user?.role === 'admin' && editMode;
+  // Dual Wallpaper selection: lock screen uses lockScreenWallpaper, desktop uses desktopWallpaper
+  const activeWallpaper = useMemo(() => {
+    if (!user) {
+      const lockConfig = portfolioData?.settings?.customization?.lockScreenWallpaper;
+      if (lockConfig?.type === 'image' && lockConfig.imageUrl) {
+        return { preset: 'wave-shader', customImageUrl: lockConfig.imageUrl };
+      }
+      return { preset: lockConfig?.preset || 'wave-shader', customImageUrl: undefined };
+    }
 
-  const contextMenuItems: ContextMenuItem[] = useMemo(() => {
-    return [
-      {
-        id: 'ctx-new-folder',
-        label: 'New Folder',
-        icon: '📁',
-        disabled: !canEdit,
-        action: handleNewFolderOnDesktop,
-      },
-      {
-        id: 'ctx-div-1',
-        label: '',
-        isDivider: true,
-      },
-      {
-        id: 'ctx-get-info',
-        label: 'Get Info',
-        icon: 'ℹ️',
-        action: handleOpenOwnersData,
-      },
-      {
-        id: 'ctx-change-wallpaper',
-        label: 'Change Wallpaper...',
-        icon: '🖼️',
-        action: () => handleOpenSettings(),
-      },
-      {
-        id: 'ctx-settings',
-        label: 'System Settings...',
-        icon: '⚙️',
-        action: () => handleOpenSettings(),
-      },
-      {
-        id: 'ctx-clean-up',
-        label: 'Clean Up Icons',
-        icon: '✨',
-        action: () => {
-          toastManager.notify({
-            type: 'info',
-            title: 'Desktop Aligned',
-            message: 'Desktop icons aligned to grid',
-          });
+    // Authenticated desktop: check viewer local override first
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('portos_customization');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed?.desktopWallpaper) {
+            if (parsed.desktopWallpaper.type === 'image' && parsed.desktopWallpaper.imageUrl) {
+              return { preset: 'wave-shader', customImageUrl: parsed.desktopWallpaper.imageUrl };
+            }
+            if (parsed.desktopWallpaper.preset) {
+              return { preset: parsed.desktopWallpaper.preset, customImageUrl: undefined };
+            }
+          }
+        }
+      } catch {}
+    }
+
+    const deskConfig = portfolioData?.settings?.customization?.desktopWallpaper;
+    if (deskConfig?.type === 'image' && deskConfig.imageUrl) {
+      return { preset: 'wave-shader', customImageUrl: deskConfig.imageUrl };
+    }
+    return {
+      preset: deskConfig?.preset || portfolioData?.settings?.appearance?.wallpaper || 'wave-shader',
+      customImageUrl: undefined,
+    };
+  }, [user, portfolioData]);
+
+  // Object-Specific Context Menus
+  const handleContextMenuDesktop = useCallback(
+    (e: React.MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.closest('.window-shell') ||
+        target.closest('.window-container') ||
+        target.closest('.dock-container') ||
+        target.closest('.menu-bar') ||
+        target.closest('.desktop-icon-item') ||
+        target.closest('.desktop-widget')
+      ) {
+        return;
+      }
+      e.preventDefault();
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY,
+        title: 'Desktop Options',
+        items: [
+          {
+            id: 'ctx-new-folder',
+            label: 'New Folder',
+            icon: <PortOSIcon kind="folder" size={14} />,
+            disabled: !isAdmin,
+            action: handleNewFolderOnDesktop,
+          },
+          { id: 'ctx-div-1', label: '', isDivider: true },
+          {
+            id: 'ctx-change-wallpaper',
+            label: 'Change Wallpaper...',
+            icon: <PortOSIcon kind="settings" size={14} />,
+            action: () => handleOpenSettings(),
+          },
+          {
+            id: 'ctx-effects',
+            label: 'Visual Effects Library...',
+            icon: <PortOSIcon kind="settings" size={14} />,
+            action: () => handleOpenSettings(),
+          },
+          {
+            id: 'ctx-clean-up',
+            label: 'Clean Up Icons',
+            icon: (
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <rect x="2" y="2" width="4" height="4" rx="1" />
+                <rect x="10" y="2" width="4" height="4" rx="1" />
+                <rect x="2" y="10" width="4" height="4" rx="1" />
+                <rect x="10" y="10" width="4" height="4" rx="1" />
+              </svg>
+            ),
+            action: () => {
+              if (typeof window !== 'undefined') {
+                localStorage.removeItem('portos_desktop_icons');
+              }
+              toastManager.notify({
+                type: 'info',
+                title: 'Desktop Aligned',
+                message: 'Desktop icons aligned to grid',
+              });
+            },
+          },
+          { id: 'ctx-div-2', label: '', isDivider: true },
+          {
+            id: 'ctx-settings',
+            label: 'System Settings...',
+            icon: <PortOSIcon kind="settings" size={14} />,
+            action: () => handleOpenSettings(),
+          },
+          {
+            id: 'ctx-spotlight',
+            label: 'Spotlight Search (Ctrl+K)',
+            icon: (
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="6.5" cy="6.5" r="4.5" />
+                <line x1="10" y1="10" x2="14.5" y2="14.5" strokeLinecap="round" />
+              </svg>
+            ),
+            action: () => setSpotlightOpen(true),
+          },
+          {
+            id: 'ctx-lock',
+            label: 'Lock Screen',
+            icon: <PortOSIcon kind="lock" size={14} />,
+            action: handleSignOut,
+          },
+        ],
+      });
+    },
+    [isAdmin, handleNewFolderOnDesktop, handleOpenSettings, handleSignOut]
+  );
+
+  const handleContextMenuIcon = useCallback(
+    (e: React.MouseEvent, iconId: string, label: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const openAction = () => {
+        if (iconId === 'projects') handleOpenProjects();
+        else if (iconId === 'cert-education') handleOpenCertEducation();
+        else if (iconId === 'owners-data') handleOpenOwnersData();
+      };
+
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY,
+        title: label,
+        items: [
+          {
+            id: 'ctx-icon-open',
+            label: 'Open',
+            icon: <PortOSIcon kind="folder" size={14} />,
+            action: openAction,
+          },
+          {
+            id: 'ctx-icon-info',
+            label: 'Get Info',
+            icon: <PortOSIcon kind="about" size={14} />,
+            action: handleOpenOwnersData,
+          },
+          { id: 'ctx-div-icon-1', label: '', isDivider: true },
+          {
+            id: 'ctx-icon-reset',
+            label: 'Reset Icon Position',
+            icon: (
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 7h7a3 3 0 0 1 3 3v2" strokeLinecap="round" />
+                <path d="M7 4L4 7l3 3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ),
+            action: () => {
+              if (typeof window !== 'undefined') {
+                try {
+                  const stored = localStorage.getItem('portos_desktop_icons');
+                  if (stored) {
+                    const parsed = JSON.parse(stored);
+                    delete parsed[iconId];
+                    localStorage.setItem('portos_desktop_icons', JSON.stringify(parsed));
+                  }
+                } catch {}
+              }
+              toastManager.notify({
+                type: 'info',
+                title: 'Icon Reset',
+                message: `${label} position reset to default`,
+              });
+            },
+          },
+          {
+            id: 'ctx-icon-cleanup',
+            label: 'Align All Icons to Grid',
+            icon: (
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <rect x="2" y="2" width="4" height="4" rx="1" />
+                <rect x="10" y="2" width="4" height="4" rx="1" />
+                <rect x="2" y="10" width="4" height="4" rx="1" />
+                <rect x="10" y="10" width="4" height="4" rx="1" />
+              </svg>
+            ),
+            action: () => {
+              if (typeof window !== 'undefined') {
+                localStorage.removeItem('portos_desktop_icons');
+              }
+              toastManager.notify({
+                type: 'info',
+                title: 'Icons Aligned',
+                message: 'All desktop icons snapped to 16px grid',
+              });
+            },
+          },
+        ],
+      });
+    },
+    [handleOpenProjects, handleOpenCertEducation, handleOpenOwnersData]
+  );
+
+  const handleContextMenuWidget = useCallback(
+    (e: React.MouseEvent, widget: Widget) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const items: ContextMenuItem[] = [
+        {
+          id: 'ctx-widget-settings',
+          label: `Customize ${widget.type === 'clock' ? 'Clock' : widget.type === 'note' ? 'Quick Note' : 'Stats'}...`,
+          icon: <PortOSIcon kind="widgets" size={14} />,
+          action: () => handleOpenSettings(),
         },
-      },
-      {
-        id: 'ctx-div-2',
-        label: '',
-        isDivider: true,
-      },
-      {
-        id: 'ctx-spotlight',
-        label: 'Spotlight Search (Ctrl+K)',
-        icon: '🔍',
-        action: () => setSpotlightOpen(true),
-      },
-      {
-        id: 'ctx-lock',
-        label: 'Lock Screen',
-        icon: '🔒',
-        action: handleSignOut,
-      },
-    ];
-  }, [canEdit, handleNewFolderOnDesktop, handleOpenOwnersData, handleOpenSettings, handleSignOut]);
+        { id: 'ctx-div-w-1', label: '', isDivider: true },
+      ];
+
+      if (widget.type === 'clock') {
+        items.push(
+          {
+            id: 'ctx-clock-reset',
+            label: 'Reset Clock Appearance',
+            icon: (
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 7h7a3 3 0 0 1 3 3v2" strokeLinecap="round" />
+                <path d="M7 4L4 7l3 3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ),
+            action: () => {
+              handleSaveSettings({
+                customization: {
+                  ...(portfolioData?.settings?.customization || DEFAULT_CUSTOMIZATION),
+                  clock: DEFAULT_CLOCK_CONFIG,
+                },
+              });
+              toastManager.notify({
+                type: 'info',
+                title: 'Clock Reset',
+                message: 'Clock styling restored to default',
+              });
+            },
+          }
+        );
+      } else if (widget.type === 'note') {
+        items.push({
+          id: 'ctx-note-clear',
+          label: 'Clear Note Content',
+          icon: <PortOSIcon kind="trash" size={14} />,
+          action: () => handleUpdateWidgetText(widget.id, ''),
+        });
+      } else if (widget.type === 'custom') {
+        items.push({
+          id: 'ctx-custom-edit',
+          label: 'Edit in Widget Studio...',
+          icon: <PortOSIcon kind="settings" size={14} />,
+          action: () => handleOpenWidgetsManager(),
+        });
+      }
+
+      items.push({
+        id: 'ctx-widget-gallery',
+        label: 'Widget Gallery...',
+        icon: <PortOSIcon kind="finder" size={14} />,
+        action: () => handleOpenWidgetsManager(),
+      });
+
+      items.push(
+        { id: 'ctx-div-w-2', label: '', isDivider: true },
+        {
+          id: 'ctx-widget-remove',
+          label: 'Remove Widget',
+          icon: (
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M3 3l10 10M13 3L3 13" strokeLinecap="round" />
+            </svg>
+          ),
+          action: () => handleDeleteWidget(widget.id),
+        }
+      );
+
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY,
+        title: `${widget.type.toUpperCase()} WIDGET`,
+        items,
+      });
+    },
+    [handleOpenSettings, handleOpenWidgetsManager, handleSaveSettings, portfolioData, handleUpdateWidgetText, handleDeleteWidget]
+  );
+
+  const handleContextMenuMenuBar = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY,
+        title: 'Menu Bar',
+        items: [
+          {
+            id: 'ctx-menu-settings',
+            label: 'System Settings...',
+            icon: <PortOSIcon kind="settings" size={14} />,
+            action: () => handleOpenSettings(),
+          },
+          {
+            id: 'ctx-menu-help',
+            label: 'PORT OS Help',
+            icon: <PortOSIcon kind="terminal" size={14} />,
+            action: () => handleOpenTerminal('help'),
+          },
+          { id: 'ctx-menu-div-1', label: '', isDivider: true },
+          {
+            id: 'ctx-menu-about',
+            label: 'About PORT OS',
+            icon: <PortOSIcon kind="about" size={14} />,
+            action: handleOpenAbout,
+          },
+          {
+            id: 'ctx-menu-lock',
+            label: 'Lock Screen',
+            icon: <PortOSIcon kind="lock" size={14} />,
+            action: handleSignOut,
+          },
+        ],
+      });
+    },
+    [handleOpenSettings, handleOpenTerminal, handleOpenAbout, handleSignOut]
+  );
+
+  const handleContextMenuDock = useCallback(
+    (e: React.MouseEvent, itemId?: string) => {
+      e.preventDefault();
+      if (itemId === 'trash') {
+        setContextMenu({
+          isOpen: true,
+          x: e.clientX,
+          y: e.clientY,
+          title: 'Trash Bin',
+          items: [
+            {
+              id: 'ctx-dock-open-trash',
+              label: 'Open Trash',
+              icon: <PortOSIcon kind="trash" size={14} />,
+              action: () => handleDockOpenApp('trash'),
+            },
+            { id: 'ctx-dock-div-trash', label: '', isDivider: true },
+            {
+              id: 'ctx-dock-empty-trash',
+              label: 'Empty Trash...',
+              icon: <PortOSIcon kind="trash" size={14} />,
+              action: () => handleEmptyTrash(),
+            },
+          ],
+        });
+        return;
+      }
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY,
+        title: itemId ? `Dock: ${itemId.toUpperCase()}` : 'Dock Options',
+        items: [
+          {
+            id: 'ctx-dock-open',
+            label: itemId ? `Open ${itemId}` : 'Open System Settings',
+            icon: <PortOSIcon kind="settings" size={14} />,
+            action: () => (itemId ? handleDockOpenApp(itemId) : handleOpenSettings()),
+          },
+          { id: 'ctx-dock-div-1', label: '', isDivider: true },
+          {
+            id: 'ctx-dock-settings',
+            label: 'System Settings...',
+            icon: <PortOSIcon kind="settings" size={14} />,
+            action: () => handleOpenSettings(),
+          },
+        ],
+      });
+    },
+    [handleDockOpenApp, handleOpenSettings, handleEmptyTrash]
+  );
+
+  const handleContextMenuWindow = useCallback(
+    (e: React.MouseEvent, windowId: string) => {
+      e.preventDefault();
+      const win = windows.find((w) => w.id === windowId);
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY,
+        title: win?.title || 'Window Options',
+        items: [
+          {
+            id: 'ctx-win-minimize',
+            label: 'Minimize Window',
+            icon: <PortOSIcon kind="finder" size={14} />,
+            action: () => minimizeWindow(windowId),
+          },
+          { id: 'ctx-win-div-1', label: '', isDivider: true },
+          {
+            id: 'ctx-win-close',
+            label: 'Close Window',
+            icon: <PortOSIcon kind="trash" size={14} />,
+            action: () => closeWindow(windowId),
+          },
+        ],
+      });
+    },
+    [windows, minimizeWindow, closeWindow]
+  );
+
+  const currentEffects = portfolioData?.settings?.customization?.effects || DEFAULT_EFFECTS_CONFIG;
+  const effectClasses = [
+    currentEffects.liquidGlass ? 'fx-liquid-glass' : '',
+    currentEffects.glassmorphism ? 'fx-glassmorphism' : '',
+    currentEffects.magneticHover ? 'fx-magnetic-hover' : '',
+    currentEffects.tiltEffect ? 'fx-tilt-effect' : '',
+    currentEffects.ambientGlow ? 'fx-ambient-glow' : '',
+    currentEffects.auroraMesh ? 'fx-aurora-mesh' : '',
+  ].filter(Boolean).join(' ');
 
   return (
     <div
-      className="desktop-container"
+      className={`desktop-container ${effectClasses}`}
       id="portfolio-desktop-os"
-      onContextMenu={handleContextMenu}
+      onContextMenu={handleContextMenuDesktop}
     >
-      {/* Three.js Silk Wave Shader Wallpaper */}
+      {/* Three.js Silk Wave Shader Wallpaper (Dual Wallpaper Support) */}
       <Wallpaper
-        wallpaper={portfolioData?.settings?.appearance?.wallpaper}
+        wallpaper={activeWallpaper.preset}
+        customImageUrl={activeWallpaper.customImageUrl}
         hasMaximizedWindow={hasMaximizedWindow}
       />
 
@@ -984,7 +1674,7 @@ export default function DesktopPage() {
 
       {/* Power Overlay (Shutdown screen / Sleep screen) */}
       <PowerOverlay
-        powerState={powerState}
+        powerState={powerState === 'booting' ? 'running' : powerState}
         onPowerOn={handlePowerOn}
         onWakeFromSleep={handleWakeFromSleep}
       />
@@ -1003,8 +1693,6 @@ export default function DesktopPage() {
       {user && (
         <MenuBar
           user={user}
-          editMode={editMode}
-          onToggleEditMode={() => setEditMode(!editMode)}
           onNewFolderClick={handleNewFolderOnDesktop}
           onSignOut={handleSignOut}
           onSleep={handleSleep}
@@ -1013,7 +1701,9 @@ export default function DesktopPage() {
           onAboutClick={handleOpenAbout}
           onSettingsClick={handleOpenSettings}
           onSpotlightClick={() => setSpotlightOpen(true)}
-          onControlCenterClick={() => setControlCenterOpen((prev) => !prev)}
+          onFinderClick={handleOpenProjects}
+          onHelpClick={() => handleOpenTerminal('help')}
+          onContextMenu={handleContextMenuMenuBar}
         />
       )}
 
@@ -1022,199 +1712,210 @@ export default function DesktopPage() {
         <main
           className="desktop-workspace"
           id="desktop-workspace"
-          onContextMenu={handleContextMenu}
+          onContextMenu={handleContextMenuDesktop}
         >
-        {/* Desktop Widgets */}
-        {portfolioData && (
-          <Widgets
-            widgets={portfolioData.widgets}
-            canEdit={canEdit}
-            onUpdateWidgetPosition={handleUpdateWidgetPosition}
-            onUpdateWidgetText={handleUpdateWidgetText}
-            onDeleteWidget={handleDeleteWidget}
-            onAddWidget={handleAddWidget}
-            totalFiles={totalFiles}
-            totalProjects={totalProjects}
-          />
-        )}
+          {/* Desktop Widgets */}
+          {portfolioData && (
+            <Widgets
+              widgets={portfolioData.widgets}
+              canEdit={isAdmin}
+              isAdmin={isAdmin}
+              clockConfig={portfolioData.settings?.customization?.clock || DEFAULT_CLOCK_CONFIG}
+              onUpdateWidgetPosition={handleUpdateWidgetPosition}
+              onUpdateWidgetText={handleUpdateWidgetText}
+              onUpdateWidgetConfig={handleUpdateWidgetConfig}
+              onDeleteWidget={handleDeleteWidget}
+              onAddWidget={handleAddWidget}
+              onEditCustomWidget={() => handleOpenWidgetsManager()}
+              onContextMenuWidget={handleContextMenuWidget}
+              totalFiles={totalFiles}
+              totalProjects={totalProjects}
+            />
+          )}
 
-        {/* Right Desktop Icons */}
-        <DesktopIcons
-          editMode={canEdit}
-          onOpenProjects={handleOpenProjects}
-          onOpenCertEducation={handleOpenCertEducation}
-          onOpenOwnersData={handleOpenOwnersData}
-          onNewFolder={handleNewFolderOnDesktop}
-        />
-
-        {/* Open Windows */}
-        {windows.map((win) => {
-          let content: React.ReactNode = null;
-
-          if (win.meta.type === 'folder' && portfolioData) {
-            // Locate current folder from root
-            const activeFolderId = win.meta.folderNavId || win.meta.itemId || 'folder-projects';
-            const target = findItemById(portfolioData.root, activeFolderId);
-            const folder = (target && target.kind === 'folder' ? target : portfolioData.root[0]) as FolderItem;
-
-            // Build breadcrumbs
-            const crumbs: { id: string; name: string }[] = [];
-            let curr: FolderItem | null = folder;
-            while (curr) {
-              crumbs.unshift({ id: curr.id, name: curr.name });
-              curr = findParentFolder(portfolioData.root, curr.id);
+          {/* Movable Desktop Icons */}
+          <DesktopIcons
+            isAdmin={isAdmin}
+            onOpenProjects={handleOpenProjects}
+            onOpenCertEducation={handleOpenCertEducation}
+            onOpenOwnersData={handleOpenOwnersData}
+            onNewFolder={handleNewFolderOnDesktop}
+            onContextMenuIcon={handleContextMenuIcon}
+            initialPositions={
+              Array.isArray(portfolioData?.settings?.customization?.desktopIcons)
+                ? undefined
+                : portfolioData?.settings?.customization?.desktopIcons?.positions
             }
+            iconSize={
+              Array.isArray(portfolioData?.settings?.customization?.desktopIcons)
+                ? 'medium'
+                : portfolioData?.settings?.customization?.desktopIcons?.size || 'medium'
+            }
+          />
 
-            content = (
-              <FolderView
-                folder={folder}
-                canEdit={canEdit}
-                isAdmin={user?.role === 'admin'}
-                rootFolders={portfolioData.root.filter((r) => r.kind === 'folder') as FolderItem[]}
-                trashItems={portfolioData.trash || []}
-                onOpenFile={handleOpenFile}
-                onNavigateFolder={(f) => handleNavigateFolderInWindow(win.id, f)}
-                onAddItem={handleAddItem}
-                onRenameItem={handleRenameItem}
-                onDeleteItem={handleDeleteItem}
-                onMoveToTrash={handleMoveToTrash}
-                onRestoreTrash={handleRestoreTrash}
-                onSetWallpaper={handleSetWallpaper}
-                onImportFromPC={handleImportFromPC}
-                breadcrumbs={crumbs}
-                onBreadcrumbClick={(idx) => {
-                  const targetCrumb = crumbs[idx];
-                  if (targetCrumb) {
-                    const f = findItemById(portfolioData.root, targetCrumb.id);
-                    if (f && f.kind === 'folder') {
-                      handleNavigateFolderInWindow(win.id, f as FolderItem);
-                    }
-                  }
-                }}
-              />
-            );
-          } else if (win.meta.type === 'file' && portfolioData) {
-            const fileItem = findItemById(portfolioData.root, win.meta.itemId || '') as FileItem;
-            if (fileItem) {
+          {/* Open Windows */}
+          {windows.map((win) => {
+            let content: React.ReactNode = null;
+
+            if (win.meta.type === 'folder' && portfolioData) {
+              const isTrashWindow = win.meta.itemId === 'trash' || win.meta.folderNavId === 'trash';
+              const activeFolderId = win.meta.folderNavId || win.meta.itemId || 'folder-projects';
+              let folder: FolderItem;
+              if (isTrashWindow) {
+                folder = { id: 'trash', name: 'Trash', kind: 'folder', children: [] };
+              } else {
+                const target = findItemById(portfolioData.root, activeFolderId);
+                folder = (target && target.kind === 'folder' ? target : portfolioData.root[0]) as FolderItem;
+              }
+
+              const crumbs: { id: string; name: string }[] = isTrashWindow
+                ? [{ id: 'trash', name: 'Trash' }]
+                : [];
+              if (!isTrashWindow) {
+                let curr: FolderItem | null = folder;
+                while (curr) {
+                  crumbs.unshift({ id: curr.id, name: curr.name });
+                  curr = findParentFolder(portfolioData.root, curr.id);
+                }
+              }
+
               content = (
-                <FileEditor
-                  file={fileItem}
-                  canEdit={canEdit}
-                  isAdmin={user?.role === 'admin'}
-                  onSaveContent={handleSaveFileContent}
+                <FolderView
+                  folder={folder}
+                  canEdit={isAdmin}
+                  isAdmin={isAdmin}
+                  rootFolders={portfolioData.root.filter((r) => r.kind === 'folder') as FolderItem[]}
+                  trashItems={portfolioData.trash || []}
+                  initialIsTrashView={isTrashWindow}
+                  onOpenFile={handleOpenFile}
+                  onNavigateFolder={(f) => handleNavigateFolderInWindow(win.id, f)}
+                  onAddItem={handleAddItem}
+                  onRenameItem={handleRenameItem}
+                  onDeleteItem={handleDeleteItem}
+                  onMoveToTrash={handleMoveToTrash}
+                  onRestoreTrash={handleRestoreTrash}
+                  onEmptyTrash={handleEmptyTrash}
+                  onSetWallpaper={() => handleSetWallpaper('wave-shader')}
+                  onImportFromPC={(fileData) =>
+                    handleImportFromPC(folder.id, {
+                      name: fileData.name,
+                      content: fileData.content || '',
+                    })
+                  }
+                  breadcrumbs={crumbs}
+                  onBreadcrumbClick={(idx) => {
+                    if (isTrashWindow) return;
+                    const targetCrumb = crumbs[idx];
+                    if (targetCrumb) {
+                      const f = findItemById(portfolioData.root, targetCrumb.id);
+                      if (f && f.kind === 'folder') {
+                        handleNavigateFolderInWindow(win.id, f as FolderItem);
+                      }
+                    }
+                  }}
                 />
               );
-            } else {
+            } else if (win.meta.type === 'file' && portfolioData) {
+              const fileItem = findItemById(portfolioData.root, win.meta.itemId || '') as FileItem;
+              if (fileItem) {
+                content = (
+                  <FileEditor
+                    file={fileItem}
+                    canEdit={isAdmin}
+                    isAdmin={isAdmin}
+                    onSaveContent={(fileId: string, content: string) => handleSaveFileContent(fileId, content)}
+                  />
+                );
+              }
+            } else if (win.meta.type === 'owner' && portfolioData) {
               content = (
-                <div style={{ padding: '20px', color: 'var(--text-muted)' }}>
-                  File no longer exists.
-                </div>
+                <OwnerProfileView
+                  owner={portfolioData.owner}
+                  canEdit={isAdmin}
+                  onSaveOwner={handleSaveOwner}
+                />
+              );
+            } else if (win.meta.type === 'widgets' && portfolioData) {
+              content = (
+                <WidgetGallery
+                  widgets={portfolioData.widgets}
+                  canEdit={isAdmin}
+                  onAddWidget={handleAddWidget}
+                  onDeleteWidget={handleDeleteWidget}
+                  onUpdateWidget={(w) => handleUpdateWidgetConfig(w.id, w)}
+                  onClose={() => closeWindow(win.id)}
+                />
+              );
+            } else if (win.meta.type === 'settings' && portfolioData) {
+              content = (
+                <SystemSettings
+                  settings={portfolioData.settings || DEFAULT_SETTINGS}
+                  canEdit={isAdmin}
+                  isAdmin={isAdmin}
+                  onSaveSettings={handleSaveSettings}
+                  onResetDefaults={handleResetSettings}
+                />
+              );
+            } else if (win.meta.type === 'terminal' && portfolioData) {
+              content = (
+                <TerminalView
+                  portfolioData={portfolioData}
+                  userRole={user.role}
+                  userName={user.name || user.username || 'owner'}
+                  onOpenWindow={(id, title, meta) => openWindow(id, title, meta)}
+                  onSetWallpaper={handleSetWallpaper}
+                  initialCommand={win.meta.initialCommand}
+                />
+              );
+            } else if (win.meta.type === 'about') {
+              content = (
+                <AboutModal
+                  onOpenSettings={handleOpenSettings}
+                  onOpenOwner={handleOpenOwnersData}
+                />
               );
             }
-          } else if (win.meta.type === 'owner' && portfolioData) {
-            content = (
-              <OwnerProfileView
-                owner={portfolioData.owner}
-                canEdit={canEdit}
-                onSaveOwner={handleSaveOwner}
-              />
-            );
-          } else if (win.meta.type === 'settings' && portfolioData) {
-            content = (
-              <SystemSettings
-                settings={portfolioData.settings || DEFAULT_SETTINGS}
-                canEdit={canEdit}
-                isAdmin={user?.role === 'admin'}
-                onSaveSettings={handleSaveSettings}
-                onResetDefaults={handleResetSettings}
-              />
-            );
-          } else if (win.meta.type === 'widgets' && portfolioData) {
-            content = (
-              <div style={{ padding: '20px', color: '#fff' }}>
-                <h3 style={{ fontSize: '15px', marginBottom: '8px' }}>Widgets Configuration</h3>
-                <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                  {canEdit
-                    ? 'Use the floating widget bar on the desktop to add and drag widgets.'
-                    : 'Widgets are currently read-only. Switch to Admin Edit Mode to configure.'}
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {portfolioData.widgets.map((w) => (
-                    <div
-                      key={w.id}
-                      style={{
-                        padding: '8px 12px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <span style={{ textTransform: 'capitalize' }}>
-                        {w.type} Widget ({w.x}px, {w.y}px)
-                      </span>
-                      <span style={{ color: 'var(--text-muted)' }}>{w.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          } else if (win.meta.type === 'terminal') {
-            content = (
-              <TerminalView
-                portfolioData={portfolioData}
-                userRole={user?.role || 'viewer'}
-                userName={user?.username || user?.name || 'guest'}
+
+            return (
+              <Window
+                key={win.id}
+                window={win}
+                isActive={win.zIndex === topZ}
+                onFocus={() => focusWindow(win.id)}
                 onClose={() => closeWindow(win.id)}
-                onOpenWindow={(id, title, meta) => openWindow(id, title, meta)}
-                onSetWallpaper={(wp) => handleSaveSettings({ appearance: { ...portfolioData?.settings?.appearance, wallpaper: wp } } as any)}
-              />
+                onMinimize={() => minimizeWindow(win.id)}
+                onUpdateBounds={(id: string, bounds: Partial<WindowState>) => updateWindowState(id, bounds)}
+                onSnapPreview={handleSnapPreview}
+                onContextMenu={handleContextMenuWindow}
+              >
+                {content}
+              </Window>
             );
-          } else if (win.meta.type === 'about') {
-            content = (
-              <AboutModal
-                onOpenSettings={() => {
-                  closeWindow(win.id);
-                  handleOpenSettings();
-                }}
-                onOpenOwner={() => {
-                  closeWindow(win.id);
-                  handleOpenOwnersData();
-                }}
-              />
-            );
-          }
-
-          return (
-            <Window
-              key={win.id}
-              window={win}
-              isActive={topActiveWindowId === win.id}
-              onFocus={focusWindow}
-              onClose={closeWindow}
-              onMinimize={minimizeWindow}
-              onUpdateBounds={updateWindowBounds}
-              onSnapPreview={setSnapPreview}
-            >
-              {content}
-            </Window>
-          );
-        })}
-
-        {/* Snap Preview Overlay */}
-        {snapPreview && snapPreview.visible && (
-          <div
-            className="snap-preview-overlay"
-            style={{
-              left: `${snapPreview.x}px`,
-              top: `${snapPreview.y}px`,
-              width: `${snapPreview.w}px`,
-              height: `${snapPreview.h}px`,
-            }}
-          />
-        )}
+          })}
         </main>
+      )}
+
+      {/* Snap Preview Ghost Outline */}
+      {snapPreview && snapPreview.visible && (
+        <div
+          id="window-snap-preview"
+          className="snap-preview-overlay"
+          style={{
+            position: 'fixed',
+            left: `${snapPreview.x}px`,
+            top: `${snapPreview.y}px`,
+            width: `${snapPreview.w}px`,
+            height: `${snapPreview.h}px`,
+            borderRadius: '12px',
+            border: '2px solid rgba(56, 189, 248, 0.75)',
+            background: 'rgba(56, 189, 248, 0.15)',
+            backdropFilter: 'blur(16px)',
+            pointerEvents: 'none',
+            zIndex: 99999,
+            transition: 'all 0.12s ease-out',
+            boxShadow: '0 0 35px rgba(56, 189, 248, 0.35)',
+          }}
+        />
       )}
 
       {/* macOS Dock (Mounted only when authenticated) */}
@@ -1225,33 +1926,21 @@ export default function DesktopPage() {
           onSignOut={handleSignOut}
           minimizedWindows={minimizedWindows}
           activeWindowIds={activeWindowIds}
+          onContextMenu={handleContextMenuDock}
         />
       )}
 
-      {/* M8.3: Toast Notifications */}
+      {/* Toast Notifications */}
       <ToastContainer />
 
-      {/* M8.2: Global Desktop Right-Click Context Menu */}
+      {/* Object-Specific Context Menu */}
       <ContextMenu
         isOpen={contextMenu.isOpen}
         x={contextMenu.x}
         y={contextMenu.y}
-        items={contextMenuItems}
+        title={contextMenu.title}
+        items={contextMenu.items}
         onClose={() => setContextMenu((prev) => ({ ...prev, isOpen: false }))}
-      />
-
-      {/* M9.2: macOS Control Center Popover */}
-      <ControlCenter
-        isOpen={controlCenterOpen}
-        onClose={() => setControlCenterOpen(false)}
-        brightness={brightness}
-        onBrightnessChange={setBrightness}
-        volume={volume}
-        onVolumeChange={handleVolumeChange}
-        onOpenSettings={() => {
-          setControlCenterOpen(false);
-          handleOpenSettings();
-        }}
       />
 
       {/* Brightness Dimmer Overlay */}
@@ -1270,12 +1959,12 @@ export default function DesktopPage() {
         />
       )}
 
-      {/* M8.1: Global Spotlight Search Modal */}
+      {/* Global Spotlight Search Modal */}
       <SpotlightModal
         isOpen={spotlightOpen}
         onClose={() => setSpotlightOpen(false)}
         portfolioData={portfolioData}
-        isAdmin={user?.role === 'admin'}
+        isAdmin={isAdmin}
         onOpenProjects={handleOpenProjects}
         onOpenCertEducation={handleOpenCertEducation}
         onOpenOwnersData={handleOpenOwnersData}

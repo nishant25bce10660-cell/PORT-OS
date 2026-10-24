@@ -13,6 +13,7 @@ type ToastListener = (toasts: ToastMessage[]) => void;
 class ToastManager {
   private toasts: ToastMessage[] = [];
   private listeners: Set<ToastListener> = new Set();
+  private counter: number = 0;
 
   public subscribe(listener: ToastListener) {
     this.listeners.add(listener);
@@ -23,7 +24,7 @@ class ToastManager {
   }
 
   public notify(toast: Omit<ToastMessage, 'id'>) {
-    const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const id = `toast-${Date.now()}-${++this.counter}`;
     const newToast: ToastMessage = { ...toast, id };
     this.toasts = [...this.toasts, newToast];
     this.emit();
@@ -42,9 +43,9 @@ class ToastManager {
   }
 
   private emit() {
-    for (const listener of this.listeners) {
+    this.listeners.forEach((listener) => {
       listener(this.toasts);
-    }
+    });
   }
 }
 

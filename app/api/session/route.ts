@@ -7,5 +7,5 @@ export async function GET(req: NextRequest) {
   if (secError) return secError;
 
   const session = getSession();
-  return NextResponse.json({ user: session });
+  return NextResponse.json({ user: session, ...(session || {}) });
 }

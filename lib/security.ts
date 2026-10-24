@@ -34,12 +34,15 @@ export function validateHostAndOrigin(req: NextRequest): NextResponse | null {
   if (isMutating) {
     const originHeader = req.headers.get('origin');
     const refererHeader = req.headers.get('referer');
+    const hostPort = hostHeader.includes(':') ? hostHeader.split(':')[1] : '3000';
 
     if (originHeader) {
       try {
         const originUrl = new URL(originHeader);
         const originHost = originUrl.hostname.toLowerCase();
-        if (!isLoopbackHostname(originHost)) {
+        const originPort = originUrl.port || (originUrl.protocol === 'https:' ? '443' : '80');
+
+        if (!isLoopbackHostname(originHost) || (originPort && hostPort && originPort !== hostPort)) {
           return NextResponse.json(
             { error: 'Security violation: Cross-origin request rejected' },
             { status: 403 }
@@ -55,7 +58,9 @@ export function validateHostAndOrigin(req: NextRequest): NextResponse | null {
       try {
         const refUrl = new URL(refererHeader);
         const refHost = refUrl.hostname.toLowerCase();
-        if (!isLoopbackHostname(refHost)) {
+        const refPort = refUrl.port || (refUrl.protocol === 'https:' ? '443' : '80');
+
+        if (!isLoopbackHostname(refHost) || (refPort && hostPort && refPort !== hostPort)) {
           return NextResponse.json(
             { error: 'Security violation: Untrusted Referer header rejected' },
             { status: 403 }

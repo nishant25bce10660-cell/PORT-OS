@@ -3,6 +3,8 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Item, FolderItem, FileItem, TrashedItem } from '@/lib/types';
 import QuickLookModal from './QuickLookModal';
+import PortOSIcon from '@/components/icons/PortOSIcon';
+import { getIconKindForFile, getIconKindForFolder } from '@/components/icons/iconRegistry';
 
 export type ViewMode = 'icons' | 'list' | 'columns' | 'gallery';
 export type SortField = 'name' | 'date' | 'size' | 'kind';
@@ -20,63 +22,20 @@ interface FolderViewProps {
   onDeleteItem: (itemId: string) => void;
   onMoveToTrash?: (itemId: string) => void;
   onRestoreTrash?: (itemId: string) => void;
+  onEmptyTrash?: () => void;
+  initialIsTrashView?: boolean;
   onSetWallpaper?: (file: FileItem) => void;
   onImportFromPC?: (fileData: { name: string; content?: string; base64?: string }) => void;
   breadcrumbs: { id: string; name: string }[];
   onBreadcrumbClick: (index: number) => void;
 }
 
-function renderFileGlyph(item: Item) {
-  if (item.kind === 'folder') {
-    return (
-      <svg width="42" height="42" viewBox="0 0 48 48" fill="none">
-        <path d="M6 10C6 8.34315 7.34315 7 9 7H18.5858C19.3815 7 20.1446 7.31607 20.7071 7.87868L23.1213 10.2929C23.6839 10.8554 24.447 11.1716 25.2426 11.1716H39C40.6569 11.1716 42 12.5147 42 14.1716V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V10Z" fill="#0284c7" />
-        <path d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z" fill="#38bdf8" />
-      </svg>
-    );
-  }
-
-  const name = item.name.toLowerCase();
-  if (name.endsWith('.md')) {
-    return (
-      <svg width="38" height="38" viewBox="0 0 48 48" fill="none">
-        <path d="M10 6C10 4.89543 10.8954 4 12 4H28L38 14V42C38 43.1046 37.1046 44 36 44H12C10.8954 44 10 43.1046 10 42V6Z" fill="#1e293b" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-        <path d="M28 4V14H38" fill="#334155" />
-        <rect x="15" y="24" width="18" height="12" rx="2" fill="#7C6CFF" fillOpacity="0.25" stroke="#7C6CFF" strokeWidth="1.2" />
-        <text x="24" y="33" fontSize="8" fontWeight="bold" fill="#F5F7FA" textAnchor="middle" fontFamily="sans-serif">MD</text>
-      </svg>
-    );
-  }
-
-  if (name.endsWith('.go') || name.endsWith('.ts') || name.endsWith('.js') || name.endsWith('.py')) {
-    return (
-      <svg width="38" height="38" viewBox="0 0 48 48" fill="none">
-        <path d="M10 6C10 4.89543 10.8954 4 12 4H28L38 14V42C38 43.1046 37.1046 44 36 44H12C10.8954 44 10 43.1046 10 42V6Z" fill="#0f172a" stroke="rgba(53, 208, 186, 0.4)" strokeWidth="1.5" />
-        <path d="M28 4V14H38" fill="#1e293b" />
-        <text x="24" y="29" fontSize="11" fontWeight="bold" fill="#35D0BA" textAnchor="middle" fontFamily="monospace">&lt;/&gt;</text>
-      </svg>
-    );
-  }
-
-  if (name.includes('cert') || name.endsWith('.pdf')) {
-    return (
-      <svg width="38" height="38" viewBox="0 0 48 48" fill="none">
-        <path d="M10 6C10 4.89543 10.8954 4 12 4H28L38 14V42C38 43.1046 37.1046 44 36 44H12C10.8954 44 10 43.1046 10 42V6Z" fill="#1c1917" stroke="rgba(254, 240, 138, 0.3)" strokeWidth="1.5" />
-        <path d="M28 4V14H38" fill="#292524" />
-        <circle cx="24" cy="27" r="7" fill="#ca8a04" fillOpacity="0.4" stroke="#fef08a" strokeWidth="1.2" />
-        <path d="M24 23l1.5 3 3.5.5-2.5 2.5.5 3.5-3-1.5-3 1.5.5-3.5-2.5-2.5 3.5-.5z" fill="#fef08a" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg width="38" height="38" viewBox="0 0 48 48" fill="none">
-      <path d="M10 6C10 4.89543 10.8954 4 12 4H28L38 14V42C38 43.1046 37.1046 44 36 44H12C10.8954 44 10 43.1046 10 42V6Z" fill="#1e222d" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      <path d="M28 4V14H38" fill="#2a303f" />
-      <line x1="16" y1="22" x2="32" y2="22" stroke="#64748b" strokeWidth="2" strokeLinecap="round" />
-      <line x1="16" y1="28" x2="32" y2="28" stroke="#64748b" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
+function renderFileGlyph(item: Item, size: number = 42) {
+  const kind =
+    item.kind === 'folder'
+      ? getIconKindForFolder(item.id, item.name)
+      : getIconKindForFile(item.name);
+  return <PortOSIcon kind={kind} size={size} />;
 }
 
 function getItemKindLabel(item: Item): string {
@@ -102,6 +61,8 @@ export default function FolderView({
   onDeleteItem,
   onMoveToTrash,
   onRestoreTrash,
+  onEmptyTrash,
+  initialIsTrashView = false,
   onSetWallpaper,
   onImportFromPC,
   breadcrumbs,
@@ -114,14 +75,18 @@ export default function FolderView({
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
   const [quickLookItem, setQuickLookItem] = useState<Item | null>(null);
-  const [isTrashView, setIsTrashView] = useState(false);
-  const [isPCView, setIsPCView] = useState(false);
-  const [pcItems, setPcItems] = useState<any[]>([]);
-  const [pcPath, setPcPath] = useState('');
+  const [isTrashView, setIsTrashView] = useState(initialIsTrashView || folder.id === 'trash');
+  const [showEmptyConfirm, setShowEmptyConfirm] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [navHistory, setNavHistory] = useState<FolderItem[]>([folder]);
   const [historyIndex, setHistoryIndex] = useState(0);
+
+  useEffect(() => {
+    if (initialIsTrashView || folder.id === 'trash') {
+      setIsTrashView(true);
+    }
+  }, [initialIsTrashView, folder.id]);
 
   useEffect(() => {
     setNavHistory((prev) => {
@@ -160,20 +125,6 @@ export default function FolderView({
   }>({ visible: false, x: 0, y: 0, item: null });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Load PC items when PC view is activated
-  useEffect(() => {
-    if (isPCView && isAdmin) {
-      fetch(`/api/pc/browse?path=${encodeURIComponent(pcPath)}`)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data) => {
-          if (data && data.items) {
-            setPcItems(data.items);
-          }
-        })
-        .catch(console.error);
-    }
-  }, [isPCView, pcPath, isAdmin]);
 
   // Keyboard navigation & Quick Look on Spacebar
   useEffect(() => {
@@ -284,23 +235,13 @@ export default function FolderView({
       setUploadProgress(100);
       const isImg = file.type.startsWith('image/');
 
-      const res = await fetch('/api/pc/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          targetFolderId: folder.id,
-          fileName: file.name,
-          content: !isImg ? (reader.result as string) : undefined,
-          base64: isImg ? (reader.result as string).split(',')[1] : undefined,
-        }),
-      });
-
       setTimeout(() => setUploadProgress(null), 400);
 
-      if (res.ok && onImportFromPC) {
+      if (onImportFromPC) {
         onImportFromPC({
           name: file.name,
           content: !isImg ? (reader.result as string) : undefined,
+          base64: isImg ? (reader.result as string).split(',')[1] : undefined,
         });
       }
     };
@@ -333,10 +274,16 @@ export default function FolderView({
     e.preventDefault();
     e.stopPropagation();
     setSelectedItemId(item.id);
+    const menuW = 180;
+    const menuH = 180;
+    const screenW = typeof window !== 'undefined' ? window.innerWidth : 1200;
+    const screenH = typeof window !== 'undefined' ? window.innerHeight : 800;
+    const clampedX = Math.max(8, Math.min(e.clientX, screenW - menuW - 12));
+    const clampedY = Math.max(8, Math.min(e.clientY, screenH - menuH - 12));
     setContextMenu({
       visible: true,
-      x: e.clientX,
-      y: e.clientY,
+      x: clampedX,
+      y: clampedY,
       item,
     });
   };
@@ -488,6 +435,8 @@ export default function FolderView({
           >
             <button
               type="button"
+              id="btn-view-icons"
+              data-view="icons"
               className={`btn-view-icons ${viewMode === 'icons' ? 'is-active' : ''}`}
               title="Icons View"
               onClick={() => setViewMode('icons')}
@@ -505,6 +454,8 @@ export default function FolderView({
             </button>
             <button
               type="button"
+              id="btn-view-list"
+              data-view="list"
               className={`btn-view-list ${viewMode === 'list' ? 'is-active' : ''}`}
               title="List View"
               onClick={() => setViewMode('list')}
@@ -522,6 +473,8 @@ export default function FolderView({
             </button>
             <button
               type="button"
+              id="btn-view-columns"
+              data-view="columns"
               className={`btn-view-columns ${viewMode === 'columns' ? 'is-active' : ''}`}
               title="Columns View"
               onClick={() => setViewMode('columns')}
@@ -539,6 +492,8 @@ export default function FolderView({
             </button>
             <button
               type="button"
+              id="btn-view-gallery"
+              data-view="gallery"
               className={`btn-view-gallery ${viewMode === 'gallery' ? 'is-active' : ''}`}
               title="Gallery View"
               onClick={() => setViewMode('gallery')}
@@ -549,10 +504,17 @@ export default function FolderView({
                 padding: '4px 7px',
                 color: viewMode === 'gallery' ? '#fff' : 'var(--text-secondary)',
                 cursor: 'pointer',
-                fontSize: '12px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              🖼️
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <rect x="1" y="2" width="14" height="9" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+                <rect x="2" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
+                <rect x="6.5" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
+                <rect x="11" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
+              </svg>
             </button>
           </div>
         </div>
@@ -582,17 +544,21 @@ export default function FolderView({
               left: '8px',
               top: '50%',
               transform: 'translateY(-50%)',
-              fontSize: '10px',
               color: 'var(--text-muted)',
               pointerEvents: 'none',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            🔍
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="6.5" cy="6.5" r="4.5" />
+              <line x1="10" y1="10" x2="14.5" y2="14.5" strokeLinecap="round" />
+            </svg>
           </span>
         </div>
 
         {/* Right: Admin Action Buttons */}
-        {canEdit && !isTrashView && !isPCView && (
+        {canEdit && !isTrashView && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <button
               type="button"
@@ -685,7 +651,6 @@ export default function FolderView({
                 key={rf.id}
                 onClick={() => {
                   setIsTrashView(false);
-                  setIsPCView(false);
                   onNavigateFolder(rf);
                 }}
                 style={{
@@ -695,11 +660,11 @@ export default function FolderView({
                   padding: '5px 8px',
                   borderRadius: '6px',
                   cursor: 'pointer',
-                  background: folder.id === rf.id && !isTrashView && !isPCView ? 'rgba(56, 189, 248, 0.2)' : 'transparent',
-                  color: folder.id === rf.id && !isTrashView && !isPCView ? '#fff' : 'var(--text-secondary)',
+                  background: folder.id === rf.id && !isTrashView ? 'rgba(56, 189, 248, 0.2)' : 'transparent',
+                  color: folder.id === rf.id && !isTrashView ? '#fff' : 'var(--text-secondary)',
                 }}
               >
-                <span>📁</span>
+                <PortOSIcon kind={getIconKindForFolder(rf.id, rf.name)} size={16} />
                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {rf.name}
                 </span>
@@ -707,29 +672,11 @@ export default function FolderView({
             ))}
           </div>
 
-          {/* Section: Favorites (Admin only) */}
+          {/* Section: Trash (Admin only) */}
           {isAdmin && (
             <div>
               <div style={{ padding: '0 6px 4px 6px', fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Favorites
-              </div>
-              <div
-                onClick={() => {
-                  setIsTrashView(false);
-                  setIsPCView(false);
-                  if (rootFolders[0]) onNavigateFolder(rootFolders[0]);
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '5px 8px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  color: 'var(--text-secondary)',
-                }}
-              >
-                <span>🖥️</span> Desktop
+                System
               </div>
 
               {/* Trash Folder */}
@@ -737,7 +684,6 @@ export default function FolderView({
                 className="sidebar-item-trash"
                 onClick={() => {
                   setIsTrashView(true);
-                  setIsPCView(false);
                 }}
                 style={{
                   display: 'flex',
@@ -751,41 +697,14 @@ export default function FolderView({
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>🗑️</span> Trash
+                  <PortOSIcon kind={trashItems.length > 0 ? 'trash-full' : 'trash'} size={16} />
+                  <span>Trash</span>
                 </div>
                 {trashItems.length > 0 && (
                   <span style={{ fontSize: '10px', background: 'rgba(255, 255, 255, 0.1)', padding: '1px 5px', borderRadius: '10px' }}>
                     {trashItems.length}
                   </span>
                 )}
-              </div>
-            </div>
-          )}
-
-          {/* F2 & F3: Section Locations (Rendered ONLY if canEdit / Admin) */}
-          {isAdmin && (
-            <div>
-              <div style={{ padding: '0 6px 4px 6px', fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Locations
-              </div>
-              <div
-                className="sidebar-item-pc"
-                onClick={() => {
-                  setIsPCView(true);
-                  setIsTrashView(false);
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '5px 8px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  background: isPCView ? 'rgba(56, 189, 248, 0.2)' : 'transparent',
-                  color: isPCView ? '#fff' : 'var(--text-secondary)',
-                }}
-              >
-                <span>💻</span> This PC
               </div>
             </div>
           )}
@@ -805,17 +724,119 @@ export default function FolderView({
           {isTrashView ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '8px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#f87171' }}>Trash Bin</span>
-                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{trashItems.length} items</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <PortOSIcon kind={trashItems.length > 0 ? 'trash-full' : 'trash'} size={20} />
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: '#f87171' }}>Trash Bin</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>({trashItems.length} items)</span>
+                </div>
+                {canEdit && trashItems.length > 0 && (
+                  <button
+                    id="btn-empty-trash"
+                    type="button"
+                    onClick={() => setShowEmptyConfirm(true)}
+                    style={{
+                      padding: '4px 12px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      background: 'rgba(239, 68, 68, 0.2)',
+                      border: '1px solid rgba(239, 68, 68, 0.4)',
+                      color: '#f87171',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Empty Trash...
+                  </button>
+                )}
               </div>
+
+              {/* Confirmation modal for Empty Trash */}
+              {showEmptyConfirm && (
+                <div
+                  id="empty-trash-dialog"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'rgba(0, 0, 0, 0.65)',
+                    backdropFilter: 'blur(8px)',
+                    zIndex: 50,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '20px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '320px',
+                      background: '#1a1e29',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      borderRadius: '12px',
+                      padding: '20px',
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6)',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <div style={{ fontSize: '28px', marginBottom: '8px' }}>🗑️</div>
+                    <h4 style={{ fontSize: '14px', fontWeight: 600, margin: '0 0 6px 0', color: '#fff' }}>
+                      Empty Trash?
+                    </h4>
+                    <p style={{ fontSize: '12px', color: 'var(--tx-2, #94a3b8)', margin: '0 0 16px 0', lineHeight: 1.4 }}>
+                      Are you sure you want to permanently erase the items in the Trash? You can’t undo this action.
+                    </p>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                      <button
+                        id="btn-cancel-empty-trash"
+                        type="button"
+                        onClick={() => setShowEmptyConfirm(false)}
+                        style={{
+                          padding: '6px 14px',
+                          fontSize: '12px',
+                          borderRadius: '6px',
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          border: '1px solid rgba(255, 255, 255, 0.15)',
+                          color: '#fff',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        id="btn-confirm-empty-trash"
+                        type="button"
+                        onClick={() => {
+                          setShowEmptyConfirm(false);
+                          onEmptyTrash?.();
+                        }}
+                        style={{
+                          padding: '6px 16px',
+                          fontSize: '12px',
+                          fontWeight: 600,
+                          borderRadius: '6px',
+                          background: '#ef4444',
+                          border: 'none',
+                          color: '#fff',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Empty Trash
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {trashItems.length === 0 ? (
-                <div style={{ textAlign: 'center', color: 'var(--text-muted)', paddingTop: '40px', fontSize: '12px' }}>
-                  Trash is empty.
+                <div style={{ textAlign: 'center', color: 'var(--text-muted)', paddingTop: '40px', fontSize: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                  <PortOSIcon kind="trash" size={32} />
+                  <span>Trash is empty.</span>
                 </div>
               ) : (
                 trashItems.map((trashed) => (
                   <div
                     key={trashed.id}
+                    id={`trash-item-${trashed.id}`}
+                    className="trash-item-row"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -826,99 +847,61 @@ export default function FolderView({
                       fontSize: '12px',
                     }}
                   >
-                    <span>{trashed.item.name}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {renderFileGlyph(trashed.item, 20)}
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontWeight: 500 }}>{trashed.item.name}</span>
+                        <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+                          Original folder: {trashed.originalParentId || 'Vault Root'} · {trashed.trashedAt ? new Date(trashed.trashedAt).toLocaleTimeString() : ''}
+                        </span>
+                      </div>
+                    </div>
                     {canEdit && (
-                      <button
-                        type="button"
-                        onClick={() => onRestoreTrash && onRestoreTrash(trashed.id)}
-                        style={{
-                          padding: '4px 10px',
-                          fontSize: '11px',
-                          background: 'rgba(52, 211, 153, 0.2)',
-                          border: '1px solid rgba(52, 211, 153, 0.4)',
-                          color: '#34d399',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Restore
-                      </button>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <button
+                          id={`btn-restore-${trashed.id}`}
+                          type="button"
+                          onClick={() => onRestoreTrash && onRestoreTrash(trashed.id)}
+                          style={{
+                            padding: '4px 10px',
+                            fontSize: '11px',
+                            fontWeight: 500,
+                            background: 'rgba(52, 211, 153, 0.18)',
+                            border: '1px solid rgba(52, 211, 153, 0.35)',
+                            color: '#34d399',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Put Back
+                        </button>
+                        <button
+                          id={`btn-delete-perm-${trashed.id}`}
+                          type="button"
+                          onClick={() => onDeleteItem && onDeleteItem(trashed.id)}
+                          style={{
+                            padding: '4px 8px',
+                            fontSize: '11px',
+                            background: 'rgba(239, 68, 68, 0.15)',
+                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                            color: '#f87171',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                          }}
+                          title="Delete Immediately"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     )}
                   </div>
                 ))
               )}
             </div>
-          ) : isPCView ? (
-            /* THIS PC VIEW */
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-                This PC &gt; {pcPath || 'Roots'}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: '12px' }}>
-                {pcItems.map((pci) => (
-                  <div
-                    key={pci.name}
-                    onClick={() => {
-                      if (pci.isDirectory) {
-                        setPcPath(pci.path);
-                      }
-                    }}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      padding: '10px 6px',
-                      borderRadius: '6px',
-                      background: 'rgba(255, 255, 255, 0.04)',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <span style={{ fontSize: '28px' }}>{pci.isDirectory ? '📁' : '📄'}</span>
-                    <span style={{ fontSize: '11px', marginTop: '6px', textAlign: 'center', wordBreak: 'break-all' }}>
-                      {pci.name}
-                    </span>
-                    {!pci.isDirectory && canEdit && (
-                      <button
-                        type="button"
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          const res = await fetch(`/api/pc/read?path=${encodeURIComponent(pci.path)}`);
-                          if (res.ok) {
-                            const data = await res.json();
-                            await fetch('/api/pc/import', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({
-                                targetFolderId: folder.id,
-                                fileName: pci.name,
-                                content: data.content,
-                                base64: data.base64,
-                              }),
-                            });
-                            alert(`Imported ${pci.name} into vault!`);
-                          }
-                        }}
-                        style={{
-                          marginTop: '6px',
-                          padding: '2px 6px',
-                          fontSize: '10px',
-                          background: 'rgba(56, 189, 248, 0.2)',
-                          border: 'none',
-                          borderRadius: '4px',
-                          color: '#38bdf8',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Import
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
           ) : viewMode === 'icons' ? (
             /* 1. ICONS VIEW */
             <div
+              className="finder-view-icons"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))',
@@ -1018,7 +1001,7 @@ export default function FolderView({
             </div>
           ) : viewMode === 'list' ? (
             /* 2. LIST VIEW */
-            <div style={{ width: '100%', fontSize: '11px' }}>
+            <div className="finder-view-list" style={{ width: '100%', fontSize: '11px' }}>
               <div
                 style={{
                   display: 'grid',
@@ -1059,7 +1042,7 @@ export default function FolderView({
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '14px' }}>{isFolder ? '📁' : item.name.endsWith('.md') ? '📝' : item.name.includes('cert') ? '📜' : '📄'}</span>
+                      {renderFileGlyph(item, 18)}
                       <span style={{ fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</span>
                     </div>
                     <span style={{ color: 'var(--text-secondary)' }}>Oct 20, 2026</span>
@@ -1075,7 +1058,7 @@ export default function FolderView({
             </div>
           ) : viewMode === 'columns' ? (
             /* 3. COLUMNS VIEW */
-            <div style={{ display: 'flex', height: '100%', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '6px' }}>
+            <div className="finder-view-columns" style={{ display: 'flex', height: '100%', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '6px' }}>
               <div style={{ width: '220px', borderRight: '1px solid rgba(255, 255, 255, 0.08)', overflowY: 'auto' }}>
                 {displayedItems.map((item) => (
                   <div
@@ -1096,33 +1079,39 @@ export default function FolderView({
                       cursor: 'pointer',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span>{item.kind === 'folder' ? '📁' : '📄'}</span>
-                      <span>{item.name}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {renderFileGlyph(item, 16)}
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</span>
                     </div>
-                    {item.kind === 'folder' && <span style={{ color: 'var(--text-muted)' }}>&gt;</span>}
+                    {item.kind === 'folder' && <span style={{ color: 'var(--text-muted)', fontSize: '11px' }}>&gt;</span>}
                   </div>
                 ))}
               </div>
               <div style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                {selectedItemId ? (
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '36px', marginBottom: '8px' }}>📄</div>
-                    <div style={{ fontSize: '13px', fontWeight: 600 }}>
-                      {displayedItems.find((i) => i.id === selectedItemId)?.name}
+                {selectedItemId ? (() => {
+                  const sel = displayedItems.find((i) => i.id === selectedItemId);
+                  if (!sel) return null;
+                  return (
+                    <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <div style={{ marginBottom: '12px' }}>
+                        {renderFileGlyph(sel, 54)}
+                      </div>
+                      <div style={{ fontSize: '13px', fontWeight: 600 }}>
+                        {sel.name}
+                      </div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                        Press Spacebar for Quick Look
+                      </div>
                     </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                      Press Spacebar for Quick Look
-                    </div>
-                  </div>
-                ) : (
+                  );
+                })() : (
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Select an item to preview</span>
                 )}
               </div>
             </div>
           ) : (
             /* 4. GALLERY VIEW */
-            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '16px' }}>
+            <div className="finder-view-gallery" style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '16px' }}>
               <div
                 style={{
                   flex: 1,
@@ -1135,16 +1124,20 @@ export default function FolderView({
                   padding: '20px',
                 }}
               >
-                {selectedItemId ? (
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '54px', marginBottom: '12px' }}>
-                      {displayedItems.find((i) => i.id === selectedItemId)?.kind === 'folder' ? '📁' : '📄'}
+                {selectedItemId ? (() => {
+                  const sel = displayedItems.find((i) => i.id === selectedItemId);
+                  if (!sel) return null;
+                  return (
+                    <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <div style={{ marginBottom: '14px' }}>
+                        {renderFileGlyph(sel, 72)}
+                      </div>
+                      <div style={{ fontSize: '15px', fontWeight: 600 }}>
+                        {sel.name}
+                      </div>
                     </div>
-                    <div style={{ fontSize: '15px', fontWeight: 600 }}>
-                      {displayedItems.find((i) => i.id === selectedItemId)?.name}
-                    </div>
-                  </div>
-                ) : (
+                  );
+                })() : (
                   <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Select an item</span>
                 )}
               </div>
@@ -1165,10 +1158,15 @@ export default function FolderView({
                       background: selectedItemId === item.id ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.04)',
                       border: selectedItemId === item.id ? '1px solid #38bdf8' : '1px solid transparent',
                       cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
                     }}
                   >
-                    <div style={{ fontSize: '20px' }}>{item.kind === 'folder' ? '📁' : '📄'}</div>
-                    <div style={{ fontSize: '10px', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {renderFileGlyph(item, 28)}
+                    </div>
+                    <div style={{ fontSize: '10px', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '56px' }}>
                       {item.name}
                     </div>
                   </div>

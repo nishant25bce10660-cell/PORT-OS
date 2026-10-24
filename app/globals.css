@@ -207,13 +207,17 @@ html, body {
 
 .desktop-icon-label {
   margin-top: 6px;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 500;
   text-align: center;
   color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  background: rgba(10, 14, 23, 0.72);
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
   line-height: 1.25;
   word-break: break-word;
+  max-width: 90px;
 }
 
 /* Dock */
@@ -261,23 +265,15 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 10px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
   position: relative;
 }
 
 .dock-squircle::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 45%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.02));
-  border-radius: 22% 22% 40% 40%;
-  pointer-events: none;
+  display: none;
 }
 
 .dock-tooltip {
@@ -754,38 +750,74 @@ html, body {
 
 /* Stats Metric Pills */
 .widget-stats-grid {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
   margin-top: 10px;
+  width: 100%;
 }
 
 .widget-stat-pill {
-  flex: 1;
+  min-width: 0;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 10px 8px;
+  border-radius: 10px;
+  padding: 8px 6px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.widget-stat-value {
-  font-family: var(--font-mac);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.1;
-  color: #ffffff;
-}
-
+.widget-stat-pill .stat-label,
 .widget-stat-label {
   font-size: 10px;
   font-weight: 500;
   color: var(--tx-2, #a9b1bf);
-  margin-top: 2px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.widget-stat-pill .stat-value,
+.widget-stat-value {
+  font-family: var(--font-mac);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 2px 0;
+}
+
+.widget-stat-pill .stat-sparkline {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.widget-stat-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  color: var(--tx-2, #a9b1bf);
+}
+
+.widget-stat-footer .stat-footer-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .widget-micro-chart {
@@ -800,6 +832,19 @@ html, body {
   width: 4px;
   border-radius: 2px;
   background: linear-gradient(to top, #7c6cff, #35d0ba);
+}
+
+/* Dark Mode Form Select & Option Styling */
+select,
+select option {
+  color-scheme: dark;
+  background-color: #1a1e29 !important;
+  color: #ffffff !important;
+}
+
+select:focus {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.6) !important;
 }
 
 /* Modal Dialog / Login */
@@ -1073,4 +1118,375 @@ html, body {
     transform: translateX(0) scale(1);
   }
 }
+
+/* ==========================================================================
+   PORT OS LAYERED APPLICATION & FILE ICON DESIGN SYSTEM
+   ========================================================================== */
+
+/* The display shell supplies shape, material, and depth.
+   Source SVG artwork remains square and reusable. */
+.portos-app-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--portos-icon-size, 48px);
+  height: var(--portos-icon-size, 48px);
+  aspect-ratio: 1;
+  flex: 0 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--portos-icon-edge, rgba(255, 255, 255, 0.14));
+  border-radius: var(--portos-icon-radius, 22%);
+  background: linear-gradient(
+    145deg,
+    var(--portos-icon-bg, #202633),
+    var(--portos-icon-bg-deep, #111722)
+  );
+  box-shadow: var(--portos-icon-shadow, 0 5px 14px rgba(0, 0, 0, 0.22));
+  transition: var(--portos-icon-transition, transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Optional restrained surface highlight */
+.portos-app-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    155deg,
+    var(--portos-icon-highlight, rgba(255, 255, 255, 0.09)),
+    transparent 52%
+  );
+}
+
+/* Artwork layers share the same square coordinate system */
+.portos-app-icon__background,
+.portos-app-icon__symbol {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.portos-app-icon__background {
+  z-index: 0;
+  object-fit: cover;
+}
+
+/* Center the semantic foreground artwork */
+.portos-app-icon__symbol {
+  z-index: 1;
+  width: 68%;
+  height: 68%;
+  margin: auto;
+  overflow: visible;
+  color: var(--portos-icon-symbol, #f4f7fb);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portos-app-icon__symbol svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* For folders and documents that carry their own silhouette */
+.portos-app-icon--glyph-mode {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.portos-app-icon--glyph-mode::before {
+  display: none !important;
+}
+
+.portos-app-icon--glyph-mode .portos-app-icon__symbol {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+/* Semantic Category & Theme Variants */
+.portos-app-icon[data-kind="finder"] {
+  --portos-icon-bg: #254a67;
+  --portos-icon-bg-deep: #172b43;
+  --portos-icon-accent: #90d7f5;
+}
+
+.portos-app-icon[data-kind="terminal"] {
+  --portos-icon-bg: #252c3a;
+  --portos-icon-bg-deep: #111722;
+  --portos-icon-accent: #a7e3c6;
+}
+
+.portos-app-icon[data-kind="settings"] {
+  --portos-icon-bg: #424652;
+  --portos-icon-bg-deep: #242732;
+  --portos-icon-accent: #d2d7e1;
+}
+
+.portos-app-icon[data-kind="projects"] {
+  --portos-icon-bg: #1e3a8a;
+  --portos-icon-bg-deep: #172554;
+  --portos-icon-accent: #60a5fa;
+}
+
+.portos-app-icon[data-kind="cert-education"] {
+  --portos-icon-bg: #581c87;
+  --portos-icon-bg-deep: #3b0764;
+  --portos-icon-accent: #c084fc;
+}
+
+.portos-app-icon[data-kind="owners-data"] {
+  --portos-icon-bg: #065f46;
+  --portos-icon-bg-deep: #022c22;
+  --portos-icon-accent: #34d399;
+}
+
+.portos-app-icon[data-kind="widgets"] {
+  --portos-icon-bg: #3730a3;
+  --portos-icon-bg-deep: #1e1b4b;
+  --portos-icon-accent: #818cf8;
+}
+
+.portos-app-icon[data-kind="about"] {
+  --portos-icon-bg: #334155;
+  --portos-icon-bg-deep: #0f172a;
+  --portos-icon-accent: #94a3b8;
+}
+
+.portos-app-icon[data-kind="trash"],
+.portos-app-icon[data-kind="trash-full"] {
+  --portos-icon-bg: #262e3d;
+  --portos-icon-bg-deep: #131822;
+  --portos-icon-accent: #cbd5e1;
+}
+
+.portos-app-icon[data-kind="markdown"] {
+  --portos-icon-bg: #263342;
+  --portos-icon-bg-deep: #182331;
+  --portos-icon-accent: #79c8f2;
+}
+
+.portos-app-icon[data-kind="code"] {
+  --portos-icon-bg: #252b45;
+  --portos-icon-bg-deep: #181d32;
+  --portos-icon-accent: #a5b4fc;
+}
+
+.portos-app-icon[data-kind="certificate"] {
+  --portos-icon-bg: #343126;
+  --portos-icon-bg-deep: #211f19;
+  --portos-icon-accent: #e8c77a;
+}
+
+.portos-app-icon[data-kind="image"] {
+  --portos-icon-bg: #1e293b;
+  --portos-icon-bg-deep: #0f172a;
+  --portos-icon-accent: #38bdf8;
+}
+
+.portos-app-icon[data-kind="folder"],
+.portos-app-icon[data-kind="folder-projects"],
+.portos-app-icon[data-kind="folder-cert-edu"],
+.portos-app-icon[data-kind="folder-owner"] {
+  --portos-icon-bg: #24364a;
+  --portos-icon-bg-deep: #172638;
+  --portos-icon-accent: #8fc8ef;
+}
+
+.portos-app-icon[data-kind="generic-file"] {
+  --portos-icon-bg: #29313b;
+  --portos-icon-bg-deep: #191e27;
+  --portos-icon-accent: #b8c5d4;
+}
+
+/* Selected State */
+.portos-app-icon--selected {
+  outline: 2px solid var(--portos-icon-focus, #7dd3fc);
+  outline-offset: 2px;
+}
+
+/* Disabled State */
+.portos-app-icon--disabled {
+  opacity: 0.45;
+  filter: grayscale(40%);
+}
+
+/* Accessible Interactive Wrapper */
+.portos-app-icon-button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 4px;
+  border: 0;
+  border-radius: 10px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.portos-app-icon-button:focus-visible {
+  outline: 2px solid var(--portos-icon-focus, #7dd3fc);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .portos-app-icon-button:hover .portos-app-icon {
+    transform: translateY(-1px);
+  }
+}
+
+@media (forced-colors: active) {
+  .portos-app-icon {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+  .portos-app-icon--selected {
+    outline: 2px solid Highlight;
+  }
+  .portos-app-icon-button:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portos-app-icon,
+  .portos-app-icon-button,
+  .portos-app-icon::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   APPLE-INSPIRED VISUAL EFFECTS ENGINE (ROUND 11 FUNCTIONAL ARCHITECTURE)
+   ========================================================================== */
+
+/* 1. Liquid Glass: Layered translucency, refractive sheen, specular highlight borders */
+.fx-liquid-glass .window-frame,
+.fx-liquid-glass .desktop-widget,
+.fx-liquid-glass #portfolio-menubar {
+  backdrop-filter: blur(28px) saturate(190%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(16, 20, 30, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.fx-liquid-glass .window-titlebar {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 2. Glassmorphism: Frosted backdrop blur, deep satin surface, crisp satin border */
+.fx-glassmorphism .window-frame,
+.fx-glassmorphism .desktop-widget,
+.fx-glassmorphism .context-menu-portal {
+  backdrop-filter: blur(36px) saturate(180%) contrast(105%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(180%) contrast(105%) !important;
+  background: rgba(14, 18, 28, 0.68) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 0.5px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+.fx-glassmorphism .desktop-widget {
+  background: rgba(18, 24, 38, 0.72) !important;
+}
+
+/* 3. Magnetic Hover: Interactive spring translation on pointer hover */
+.fx-magnetic-hover .dock-item-btn:hover {
+  transform: translateY(-8px) scale(1.15) !important;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.fx-magnetic-hover .desktop-icon-item:hover {
+  transform: translateY(-4px) scale(1.05) !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.fx-magnetic-hover .desktop-widget:hover {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.25) !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+}
+
+/* 4. 3D Tilt Parallax: Spatial depth perspective on desktop elements */
+.fx-tilt-effect .desktop-widget {
+  perspective: 800px;
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.fx-tilt-effect .desktop-widget:hover {
+  transform: perspective(800px) rotateX(3deg) rotateY(-4deg) translateY(-3px);
+  box-shadow: -8px 18px 38px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 255, 255, 0.1) !important;
+}
+
+.fx-tilt-effect .window-frame {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 2px 10px rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 5. Ambient Glow: Volumetric luminous color spill around active surfaces */
+.fx-ambient-glow .desktop-widget {
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 35px rgba(56, 189, 248, 0.22), 0 0 15px rgba(99, 102, 241, 0.18) !important;
+}
+
+.fx-ambient-glow .window-frame {
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 45px rgba(56, 189, 248, 0.2), 0 0 18px rgba(53, 208, 186, 0.15) !important;
+}
+
+.fx-ambient-glow #portfolio-menubar {
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15) !important;
+}
+
+.fx-ambient-glow .dock-container {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.22) !important;
+}
+
+/* 6. Aurora Mesh: Dynamic multi-color blended gradient orbs flowing across desktop */
+.fx-aurora-mesh::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: 
+    radial-gradient(circle at 15% 25%, rgba(56, 189, 248, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.18) 0%, transparent 55%),
+    radial-gradient(circle at 75% 20%, rgba(251, 191, 36, 0.12) 0%, transparent 40%);
+  filter: blur(40px);
+  animation: auroraMeshDrift 24s ease-in-out infinite alternate;
+}
+
+@keyframes auroraMeshDrift {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-2%, 2%);
+  }
+  100% {
+    transform: scale(1.03) translate(2%, -1.5%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-aurora-mesh::before {
+    animation: none !important;
+  }
+}
+
+
 

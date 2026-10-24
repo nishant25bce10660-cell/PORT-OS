@@ -119,7 +119,7 @@ async function runTestM2() {
     let winEl = await page.$('#window-folder-projects');
     if (!winEl) {
       await page.waitForSelector('#desktop-item-projects', { timeout: 5000 });
-      await page.click('#desktop-item-projects');
+      await page.click('#desktop-item-projects', { clickCount: 2 });
       await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
     }
     const layerCheck = await page.evaluate(() => {
@@ -165,15 +165,13 @@ async function runTestM2() {
     await page.waitForFunction(() => !document.getElementById('login-modal-overlay'), { timeout: 5000 });
     console.log('[ADMIN] Authenticated successfully.');
 
-    // Toggle Edit Mode in MenuBar
-    await page.waitForSelector('#toggle-edit-mode-pill', { timeout: 5000 });
-    await page.click('#toggle-edit-mode-pill');
-    await new Promise((r) => setTimeout(r, 400));
-    console.log('[ADMIN] Edit mode enabled.');
+    // Verify Round 7: Global Edit Mode toggle is eliminated
+    const editPill = await page.$('#toggle-edit-mode-pill');
+    assert(!editPill, 'Global Edit Mode toggle pill must be eliminated in Round 7');
+    console.log('[ROUND 7] Global Edit Mode toggle pill correctly eliminated.');
 
-    // Verify Admin toolbar + Add Widget is rendered
-    await page.waitForSelector('#widgets-admin-toolbar', { timeout: 5000 });
-    console.log('Admin widgets toolbar is visible.');
+    // Verify Quick Note has NoteEditor with character counter directly for admin
+    await page.waitForSelector('#widget-widget-note textarea', { timeout: 5000 });
 
     // Verify Quick Note now has NoteEditor with character counter
     const adminNoteState = await page.evaluate(() => {

@@ -96,3 +96,36 @@ PORT OS is a personal desktop portfolio operating system running in the browser 
 All security controls are verified continuously via automated regression harnesses:
 1. `npm test` runs comprehensive defect and security suite `scripts/tests/test-round6-defects-and-security.mjs`.
 2. `node scripts/security/audit.mjs` runs automated static AST scans, dependency vulnerability checks, and dynamic fuzzing tests.
+
+---
+
+## 6. Threat Model Updates & Hardening (Rounds 7–10)
+
+### 6.1 Attack Surface Reductions
+- **Asset A1 (PC Bridge /api/pc/*) Completely Eliminated**: Per Open Question Q3 and acceptance check VF-05, all server-side host browsing, reading, and importing routes (`/api/pc/browse`, `/api/pc/read`, `/api/pc/import`) were permanently deleted. File imports occur exclusively via client-side HTML5 Drag-and-Drop and native browser file picker `<input type="file">` with in-memory validation, completely neutralizing host filesystem traversal and remote file reading vulnerabilities.
+- **Simulated Control Center Removed**: Per Open Question Q2 and acceptance check VF-06, simulated hardware toggles and Control Center components were deleted, removing dead state manipulation vectors.
+
+### 6.2 Credential & Secret Management Hardening (SEC-A)
+- **Zero Default Passwords**: Plaintext credentials and default bcrypt hashes completely purged from repository, configuration files, and `data/portfolio.json`.
+- **Argon2/Bcrypt Cost >= 12**: Admin password storage enforces bcrypt hash comparison with cost 12.
+- **npm run set-password**: Dedicated CLI utility hashes owner password interactively without committing secrets to disk.
+- **Git Hygiene**: `.env*`, `data/`, and all `.log` files strictly enforced in `.gitignore`.
+
+### 6.3 Route Handler Authorization & RBAC (SEC-C)
+- **requireRole() Inside Every Route Handler**: Enforced across all mutating and sensitive endpoints (`/api/items`, `/api/items/[id]`, `/api/items/trash`, `/api/items/trash/restore`, `/api/portfolio`, `/api/settings`, `/api/settings/font`, `/api/telemetry/visitors`, `/api/widgets`). Unauthenticated requests strictly return HTTP 401; unauthorized guest requests strictly return HTTP 403.
+- **Live 23-Endpoint Matrix Verification**: Automated suite `scripts/devtools/authz-cookie-audit.mjs` continuously validates HTTP status codes against `SECURITY/authz-matrix.json` with zero allowed discrepancies.
+
+### 6.4 Session & Cookie Hardening (SEC-B)
+- **Strict Host-Only Cookies**: `portfolio_session` cookie issued with `HttpOnly`, `SameSite=Strict`, `Path=/`, and no `Domain` attribute.
+- **Session Rotation & Expiration**: Session IDs rotate on login; idle timeout enforced at 30 minutes for Owner and 4 hours for Guest; session invalidated immediately on logout (`Max-Age=0`).
+
+### 6.5 Origin, Host & Cross-Site Defense (SEC-D)
+- **DNS Rebinding Prevention**: Loopback `Host` header enforcement rejects non-loopback hosts with HTTP 400.
+- **CSRF Neutralization**: State-mutating requests (`POST`, `PUT`, `DELETE`, `PATCH`) validate `Origin` and `Referer` against loopback hosts, rejecting cross-origin requests with HTTP 403.
+
+### 6.6 Privacy & Telemetry Hardening (SEC-J)
+- **IP Address Hashing**: Visitor IP addresses are immediately hashed with SHA-256 before telemetry logging, ensuring zero plaintext IP addresses are stored on disk.
+- **Client-Side Asset Storage**: Guest and viewer custom wallpapers and assets are stored exclusively in client-side IndexedDB, with zero binary upload to the server.
+
+### 6.7 Security Headers & Defense-in-Depth (SEC-F)
+- **Global HTTP Headers**: Configured in `next.config.mjs`: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`, and `Cache-Control: no-store` on all `/api/*` endpoints.

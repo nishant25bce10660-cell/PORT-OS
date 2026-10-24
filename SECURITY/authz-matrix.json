@@ -1,0 +1,278 @@
+[
+  {
+    "route": "/api/auth/login",
+    "method": "POST",
+    "handler": "app/api/auth/login/route.ts",
+    "expected": {
+      "anonymous": 200,
+      "guest": 200,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/auth/login",
+    "method": "DELETE",
+    "handler": "app/api/auth/login/route.ts",
+    "expected": {
+      "anonymous": 200,
+      "guest": 200,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/auth/logout",
+    "method": "POST",
+    "handler": "app/api/auth/logout/route.ts",
+    "expected": {
+      "anonymous": 200,
+      "guest": 200,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items",
+    "method": "POST",
+    "handler": "app/api/items/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items/trash/restore",
+    "method": "POST",
+    "handler": "app/api/items/trash/restore/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items/trash",
+    "method": "GET",
+    "handler": "app/api/items/trash/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items/trash",
+    "method": "POST",
+    "handler": "app/api/items/trash/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items/trash",
+    "method": "DELETE",
+    "handler": "app/api/items/trash/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items/[id]",
+    "method": "PUT",
+    "handler": "app/api/items/[id]/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/items/[id]",
+    "method": "DELETE",
+    "handler": "app/api/items/[id]/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/pc/browse",
+    "method": "GET",
+    "handler": "app/api/pc/browse/route.ts",
+    "expected": {
+      "anonymous": 404,
+      "guest": 404,
+      "owner": 404
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/pc/import",
+    "method": "POST",
+    "handler": "app/api/pc/import/route.ts",
+    "expected": {
+      "anonymous": 404,
+      "guest": 404,
+      "owner": 404
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/pc/read",
+    "method": "GET",
+    "handler": "app/api/pc/read/route.ts",
+    "expected": {
+      "anonymous": 404,
+      "guest": 404,
+      "owner": 404
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/portfolio",
+    "method": "GET",
+    "handler": "app/api/portfolio/route.ts",
+    "expected": {
+      "anonymous": 200,
+      "guest": 200,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/portfolio",
+    "method": "PUT",
+    "handler": "app/api/portfolio/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/session",
+    "method": "GET",
+    "handler": "app/api/session/route.ts",
+    "expected": {
+      "anonymous": 200,
+      "guest": 200,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/settings/font",
+    "method": "POST",
+    "handler": "app/api/settings/font/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/settings",
+    "method": "GET",
+    "handler": "app/api/settings/route.ts",
+    "expected": {
+      "anonymous": 200,
+      "guest": 200,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/settings",
+    "method": "PUT",
+    "handler": "app/api/settings/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/telemetry/visitors",
+    "method": "GET",
+    "handler": "app/api/telemetry/visitors/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/telemetry/visitors",
+    "method": "DELETE",
+    "handler": "app/api/telemetry/visitors/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/widgets",
+    "method": "PUT",
+    "handler": "app/api/widgets/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  },
+  {
+    "route": "/api/widgets",
+    "method": "POST",
+    "handler": "app/api/widgets/route.ts",
+    "expected": {
+      "anonymous": 401,
+      "guest": 403,
+      "owner": 200
+    },
+    "hasRequireRole": false,
+    "hasHostOriginCheck": true
+  }
+]

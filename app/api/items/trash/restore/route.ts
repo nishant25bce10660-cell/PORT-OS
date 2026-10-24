@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
 import { getPortfolioData, savePortfolioData } from '@/lib/data';
 import { addItemToTree, findItemById } from '@/lib/tree';
-import { validateHostAndOrigin } from '@/lib/security';
+import { validateHostAndOrigin, requireRole } from '@/lib/security';
 
 export async function POST(req: NextRequest) {
   const secError = validateHostAndOrigin(req);
   if (secError) return secError;
 
-  const session = getSession();
-  if (!session || session.role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-  }
+  const { errorResponse } = requireRole(['admin']);
+  if (errorResponse) return errorResponse;
 
   try {
     const body = await req.json();

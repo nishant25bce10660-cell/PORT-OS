@@ -1,0 +1,538 @@
+{
+  "apiInventory": [
+    {
+      "file": "app/api/auth/login/route.ts",
+      "route": "/api/auth/login",
+      "methods": [
+        "POST",
+        "DELETE"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": false,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/auth/logout/route.ts",
+      "route": "/api/auth/logout",
+      "methods": [
+        "POST"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": false,
+      "hasAdminCheck": false,
+      "hasBodyValidation": false
+    },
+    {
+      "file": "app/api/items/route.ts",
+      "route": "/api/items",
+      "methods": [
+        "POST"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/items/trash/restore/route.ts",
+      "route": "/api/items/trash/restore",
+      "methods": [
+        "POST"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/items/trash/route.ts",
+      "route": "/api/items/trash",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/items/[id]/route.ts",
+      "route": "/api/items/[id]",
+      "methods": [
+        "PUT",
+        "DELETE"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/pc/browse/route.ts",
+      "route": "/api/pc/browse",
+      "methods": [
+        "GET"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": false
+    },
+    {
+      "file": "app/api/pc/import/route.ts",
+      "route": "/api/pc/import",
+      "methods": [
+        "POST"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/pc/read/route.ts",
+      "route": "/api/pc/read",
+      "methods": [
+        "GET"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": false
+    },
+    {
+      "file": "app/api/portfolio/route.ts",
+      "route": "/api/portfolio",
+      "methods": [
+        "GET",
+        "PUT"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/session/route.ts",
+      "route": "/api/session",
+      "methods": [
+        "GET"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": false,
+      "hasBodyValidation": false
+    },
+    {
+      "file": "app/api/settings/font/route.ts",
+      "route": "/api/settings/font",
+      "methods": [
+        "POST"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/settings/route.ts",
+      "route": "/api/settings",
+      "methods": [
+        "GET",
+        "PUT"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    },
+    {
+      "file": "app/api/telemetry/visitors/route.ts",
+      "route": "/api/telemetry/visitors",
+      "methods": [
+        "GET",
+        "DELETE"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": false
+    },
+    {
+      "file": "app/api/widgets/route.ts",
+      "route": "/api/widgets",
+      "methods": [
+        "PUT",
+        "POST"
+      ],
+      "hasHostOriginCheck": true,
+      "hasRequireRole": false,
+      "hasSessionCheck": true,
+      "hasAdminCheck": true,
+      "hasBodyValidation": true
+    }
+  ],
+  "dangerFindings": [
+    {
+      "file": "app/api/pc/import/route.ts",
+      "line": 25,
+      "type": "mathRandom",
+      "code": "const fileId = `file-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 129,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/session');"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 159,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/portfolio');"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 165,
+      "type": "localStorage",
+      "code": "const storedWidgets = localStorage.getItem('portos_widgets_layout');"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 192,
+      "type": "localStorage",
+      "code": "const saved = localStorage.getItem(key);"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 211,
+      "type": "localStorage",
+      "code": "localStorage.setItem(key, JSON.stringify(windows));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 376,
+      "type": "fetch",
+      "code": "await fetch('/api/auth/logout', { method: 'POST' });"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 385,
+      "type": "localStorage",
+      "code": "localStorage.removeItem(key);"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 443,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/items', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 465,
+      "type": "fetch",
+      "code": "const res = await fetch(`/api/items/${itemId}`, {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 492,
+      "type": "fetch",
+      "code": "const res = await fetch(`/api/items/${itemId}`, {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 513,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/items/trash', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 541,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/items/trash/restore', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 568,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/settings', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 590,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/settings/reset', { method: 'POST' });"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 611,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_customization', JSON.stringify(custom));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 621,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/settings', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 660,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/items', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 689,
+      "type": "fetch",
+      "code": "const res = await fetch(`/api/items/${fileId}`, {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 712,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/portfolio', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 738,
+      "type": "fetch",
+      "code": "await fetch('/api/widgets', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 749,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 766,
+      "type": "fetch",
+      "code": "await fetch('/api/widgets', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 776,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 793,
+      "type": "fetch",
+      "code": "await fetch('/api/widgets', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 803,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 832,
+      "type": "fetch",
+      "code": "await fetch('/api/widgets', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 842,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_widgets_layout', JSON.stringify(nextWidgets));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 933,
+      "type": "fetch",
+      "code": "fetch('/api/items', {"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 1077,
+      "type": "localStorage",
+      "code": "const stored = localStorage.getItem('portos_customization');"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 1156,
+      "type": "localStorage",
+      "code": "localStorage.removeItem('portos_desktop_icons');"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 1237,
+      "type": "localStorage",
+      "code": "const stored = localStorage.getItem('portos_desktop_icons');"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 1241,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_desktop_icons', JSON.stringify(parsed));"
+    },
+    {
+      "file": "app/page.tsx",
+      "line": 1265,
+      "type": "localStorage",
+      "code": "localStorage.removeItem('portos_desktop_icons');"
+    },
+    {
+      "file": "components/DesktopIcons.tsx",
+      "line": 55,
+      "type": "localStorage",
+      "code": "const stored = localStorage.getItem('portos_desktop_icons');"
+    },
+    {
+      "file": "components/DesktopIcons.tsx",
+      "line": 76,
+      "type": "localStorage",
+      "code": "const stored = localStorage.getItem('portos_desktop_icons');"
+    },
+    {
+      "file": "components/DesktopIcons.tsx",
+      "line": 90,
+      "type": "localStorage",
+      "code": "const stored = localStorage.getItem('portos_desktop_icons');"
+    },
+    {
+      "file": "components/DesktopIcons.tsx",
+      "line": 113,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_desktop_icons', JSON.stringify(newPositions));"
+    },
+    {
+      "file": "components/FileEditor.tsx",
+      "line": 389,
+      "type": "childProcess",
+      "code": "while ((match = regex.exec(text)) !== null) {"
+    },
+    {
+      "file": "components/FolderView.tsx",
+      "line": 227,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/pc/import', {"
+    },
+    {
+      "file": "components/LoginModal.tsx",
+      "line": 87,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/auth/login', {"
+    },
+    {
+      "file": "components/LoginModal.tsx",
+      "line": 124,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/auth/login', {"
+    },
+    {
+      "file": "components/SystemSettings.tsx",
+      "line": 60,
+      "type": "fetch",
+      "code": "fetch('/api/telemetry/visitors')"
+    },
+    {
+      "file": "components/SystemSettings.tsx",
+      "line": 95,
+      "type": "localStorage",
+      "code": "localStorage.setItem('portos_customization', JSON.stringify(nextCustomization));"
+    },
+    {
+      "file": "components/SystemSettings.tsx",
+      "line": 150,
+      "type": "localStorage",
+      "code": "localStorage.removeItem('portos_customization');"
+    },
+    {
+      "file": "components/SystemSettings.tsx",
+      "line": 171,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/telemetry/visitors', { method: 'DELETE' });"
+    },
+    {
+      "file": "components/SystemSettings.tsx",
+      "line": 247,
+      "type": "fetch",
+      "code": "const res = await fetch('/api/settings/font', {"
+    },
+    {
+      "file": "lib/telemetry.ts",
+      "line": 40,
+      "type": "mathRandom",
+      "code": "id: `vis-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,"
+    },
+    {
+      "file": "lib/toast.ts",
+      "line": 26,
+      "type": "mathRandom",
+      "code": "const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;"
+    },
+    {
+      "file": "lib/window-store.ts",
+      "line": 321,
+      "type": "localStorage",
+      "code": "const saved = localStorage.getItem(key);"
+    },
+    {
+      "file": "lib/window-store.ts",
+      "line": 353,
+      "type": "localStorage",
+      "code": "localStorage.setItem(key, JSON.stringify(payload));"
+    }
+  ],
+  "remnantFindings": [
+    {
+      "file": "components/ControlCenter.tsx",
+      "line": 7,
+      "type": "controlCenter",
+      "code": "interface ControlCenterProps {"
+    },
+    {
+      "file": "components/ControlCenter.tsx",
+      "line": 17,
+      "type": "controlCenter",
+      "code": "export default function ControlCenter({"
+    },
+    {
+      "file": "components/ControlCenter.tsx",
+      "line": 25,
+      "type": "controlCenter",
+      "code": "}: ControlCenterProps) {"
+    },
+    {
+      "file": "components/ControlCenter.tsx",
+      "line": 52,
+      "type": "controlCenter",
+      "code": "if (!target.closest('#menu-btn-control-center')) {"
+    },
+    {
+      "file": "components/ControlCenter.tsx",
+      "line": 82,
+      "type": "controlCenter",
+      "code": "id=\"control-center-popover\""
+    },
+    {
+      "file": "components/FolderView.tsx",
+      "line": 227,
+      "type": "pcBridge",
+      "code": "const res = await fetch('/api/pc/import', {"
+    }
+  ]
+}

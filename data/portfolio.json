@@ -1,7 +1,7 @@
 {
   "admin": {
     "username": "admin",
-    "passwordHash": ""
+    "passwordHash": "$2a$12$izpx3LuHsoldUqSzcQnq1OzqdfsK39HOpCoFxQI7KTs0nzM0pOngS"
   },
   "owner": {
     "name": "Nishant Singh",
@@ -16,22 +16,22 @@
     {
       "id": "widget-clock",
       "type": "clock",
-      "x": 64,
-      "y": 96,
+      "x": 512,
+      "y": 320,
       "text": "San Francisco, CA"
     },
     {
       "id": "widget-note",
       "type": "note",
-      "x": 192,
-      "y": 800,
+      "x": 352,
+      "y": 960,
       "text": "Welcome to PORT OS — Personal Portfolio Desktop"
     },
     {
       "id": "widget-counter",
       "type": "counter",
-      "x": 64,
-      "y": 560,
+      "x": 112,
+      "y": 336,
       "text": "Total Projects: 4 | Credentials: 4"
     }
   ],
@@ -91,12 +91,6 @@
           "kind": "folder",
           "children": [
             {
-              "id": "file-cert-aws",
-              "name": "AWS-Solutions-Architect-Pro.md",
-              "kind": "file",
-              "content": "# AWS Certified Solutions Architect - Professional\n\n- **Credential ID:** AWS-SAP-74892\n- **Validation:** Active through 2026\n- **Domains:** Multi-region resilient topologies, hybrid cloud networking, zero-trust IAM architecture"
-            },
-            {
               "id": "file-cert-cka",
               "name": "CKA-Kubernetes-Administrator.md",
               "kind": "file",
@@ -107,6 +101,12 @@
               "name": "Google-Cloud-Professional-Data-Engineer.md",
               "kind": "file",
               "content": "# Google Cloud Certified Professional Data Engineer\n\n- **Credential:** Google Cloud Platform\n- **Validation:** Active through 2026\n- **Domains:** High-throughput streaming with Dataflow/Beam, BigQuery analytics, Dataproc Spark clusters"
+            },
+            {
+              "id": "file-cert-aws",
+              "name": "AWS-Solutions-Architect-Pro.md",
+              "kind": "file",
+              "content": "# AWS Certified Solutions Architect - Professional\n\n- **Credential ID:** AWS-SAP-74892\n- **Validation:** Active through 2026\n- **Domains:** Multi-region resilient topologies, hybrid cloud networking, zero-trust IAM architecture"
             }
           ]
         }
@@ -117,12 +117,6 @@
       "name": "Owner's Data",
       "kind": "folder",
       "children": [
-        {
-          "id": "file-about-me",
-          "name": "About-Me.md",
-          "kind": "file",
-          "content": "# About Me\n\nHello! I am a Senior Full-Stack and Systems Engineer dedicated to crafting robust software systems and intuitive, delightful user interfaces.\n\n### Core Philosophy\n1. **Zero Compromise on Performance:** 60 FPS rendering, sub-100ms API response, zero layout shift.\n2. **Type Safety & Reliability:** Robust data contracts, strictly typed schemas, automated verification.\n3. **Craft & Ergonomics:** macOS aesthetics, smooth spring curves, pixel-perfect hierarchy."
-        },
         {
           "id": "file-contact",
           "name": "Contact.md",
@@ -144,13 +138,97 @@
     },
     "appearance": {
       "theme": "dark",
-      "wallpaper": "silk-midnight",
+      "wallpaper": "wave-shader",
       "accentColor": "#10b981",
       "font": "Inter"
     },
+    "customization": {
+      "wallpaperDesktop": "wave-shader",
+      "wallpaperLockScreen": "silk-midnight",
+      "desktopWallpaper": {
+        "type": "preset",
+        "preset": "wave-shader"
+      },
+      "lockScreenWallpaper": {
+        "type": "preset",
+        "preset": "obsidian",
+        "scaling": "cover"
+      },
+      "theme": "dark",
+      "accentColor": "#38bdf8",
+      "font": "Inter",
+      "iconSize": 48,
+      "clock": {
+        "style": "digital",
+        "digitSize": "medium",
+        "is24Hour": false,
+        "sizeMode": "standard",
+        "location": "San Francisco, CA",
+        "showDate": true,
+        "showSeconds": true
+      },
+      "clockConfig": {
+        "timeFormat": "24h",
+        "is24Hour": true,
+        "showSeconds": true,
+        "showDate": true,
+        "showGlow": true,
+        "glowIntensity": 0.6,
+        "fontFamily": "JetBrains Mono",
+        "fontWeight": "700",
+        "digitSize": "medium",
+        "hoursColor": "#38bdf8",
+        "colonColor": "#35d0ba",
+        "minutesColor": "#ffffff",
+        "secondsColor": "#7c6cff",
+        "digitColorHours": "#38bdf8",
+        "digitColorColon": "#35d0ba",
+        "digitColorMinutes": "#ffffff",
+        "digitColorSeconds": "#7c6cff",
+        "locationLabel": "San Francisco, CA",
+        "material": "liquid-glass",
+        "sizeMode": "auto",
+        "customWidth": 300,
+        "customHeight": 180
+      },
+      "effects": {
+        "preset": "liquid-glass",
+        "liquidGlass": true,
+        "glassmorphism": true,
+        "magneticHover": false,
+        "tiltEffect": false,
+        "ambientGlow": true,
+        "auroraMesh": false,
+        "glassOpacity": 0.85,
+        "blurAmount": 24,
+        "specularBorders": true,
+        "glowIntensity": 0.7,
+        "tiltEnabled": true,
+        "parallaxDepth": true,
+        "reduceMotion": false,
+        "highContrast": false
+      },
+      "desktopIcons": {
+        "positions": {
+          "projects": {
+            "x": 24,
+            "y": 52
+          },
+          "cert-education": {
+            "x": 24,
+            "y": 156
+          },
+          "owners-data": {
+            "x": 24,
+            "y": 260
+          }
+        },
+        "size": "medium"
+      }
+    },
     "boot": {
-      "bootAnimation": "classic",
-      "metalFinish": "silver",
+      "bootAnimation": "cyber",
+      "metalFinish": "space-gray",
       "bootText": "PORT OS"
     },
     "security": {

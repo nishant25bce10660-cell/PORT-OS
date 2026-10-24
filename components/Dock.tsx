@@ -2,6 +2,8 @@
 
 import React, { useRef, useState, useCallback } from 'react';
 import { sound } from '@/lib/sound';
+import PortOSIcon from '@/components/icons/PortOSIcon';
+import { getIconKindForApp } from '@/components/icons/iconRegistry';
 
 export interface MinimizedWindowInfo {
   id: string;
@@ -15,6 +17,7 @@ interface DockProps {
   onSignOut: () => void;
   minimizedWindows: MinimizedWindowInfo[];
   activeWindowIds: string[];
+  onContextMenu?: (e: React.MouseEvent, itemId?: string) => void;
 }
 
 interface DockItemDef {
@@ -29,92 +32,47 @@ export default function Dock({
   onSignOut,
   minimizedWindows,
   activeWindowIds,
+  onContextMenu,
 }: DockProps) {
   const dockRef = useRef<HTMLDivElement>(null);
   const [bouncingId, setBouncingId] = useState<string | null>(null);
 
-  // Original geometric icons (Zero copyrighted Apple assets)
+  // Layered Apple-inspired app icons
   const baseItems: DockItemDef[] = [
     {
       id: 'finder',
       name: 'Finder',
-      icon: (
-        // Geometric Dual-Tone File Organizer (No smiley face)
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#1e293b" />
-          <path d="M4 8C4 6.89543 4.89543 6 6 6H10L12 8H18C19.1046 8 20 8.89543 20 10V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V8Z" fill="#38bdf8" />
-          <path d="M4 11H20V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V11Z" fill="#0284c7" />
-          <path d="M8 14H16" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="finder" size={38} />,
     },
     {
       id: 'projects',
       name: 'Projects',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#2563eb" />
-          <path d="M8 9L5 12L8 15M16 9L19 12L16 15M13 7L11 17" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="projects" size={38} />,
     },
     {
       id: 'certifications',
       name: 'Certifications & Education',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#7c3aed" />
-          <path d="M12 6L4 10L12 14L20 10L12 6Z" stroke="#ffffff" strokeWidth="1.5" strokeLinejoin="round" />
-          <path d="M7 11.5V16C7 17.5 9.23858 18.5 12 18.5C14.7614 18.5 17 17.5 17 16V11.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="cert-education" size={38} />,
     },
     {
       id: 'owner',
       name: "Owner's Data",
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#059669" />
-          <circle cx="12" cy="10" r="3.2" stroke="#ffffff" strokeWidth="1.6" />
-          <path d="M6.5 18C6.5 15.5 8.8 14 12 14C15.2 14 17.5 15.5 17.5 18" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="owners-data" size={38} />,
     },
     {
       id: 'widgets',
       name: 'Widgets',
-      icon: (
-        // D10: macOS Widget Grid glyph (replacing orange clock icon)
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#6366f1" />
-          <rect x="5" y="5" width="6" height="6" rx="2" fill="#ffffff" fillOpacity="0.9" />
-          <rect x="13" y="5" width="6" height="6" rx="2" fill="#ffffff" fillOpacity="0.55" />
-          <rect x="5" y="13" width="6" height="6" rx="2" fill="#ffffff" fillOpacity="0.55" />
-          <rect x="13" y="13" width="6" height="6" rx="2" fill="#ffffff" fillOpacity="0.9" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="widgets" size={38} />,
     },
     {
       id: 'settings',
       name: 'System Settings',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#475569" />
-          <circle cx="12" cy="12" r="3" stroke="#ffffff" strokeWidth="1.6" />
-          <path d="M12 4V6M12 18V20M4 12H6M18 12H20M6.34 6.34L7.75 7.75M16.24 16.24L17.66 17.66M6.34 17.66L7.75 16.24M16.24 7.75L17.66 6.34" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="settings" size={38} />,
     },
     {
       id: 'terminal',
       name: 'Terminal',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect width="24" height="24" rx="6" fill="#0f172a" />
-          <path d="M6 8L10 12L6 16" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <line x1="12" y1="16" x2="18" y2="16" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ),
+      icon: <PortOSIcon kind="terminal" size={38} />,
     },
   ];
 
@@ -170,6 +128,11 @@ export default function Dock({
         ref={dockRef}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onContextMenu?.(e);
+        }}
         id="macos-dock"
       >
         {/* Core Apps */}
@@ -183,6 +146,11 @@ export default function Dock({
               className={`dock-item-btn ${isBouncing ? 'dock-bouncing-hops' : ''}`}
               id={`dock-item-${item.id}`}
               onClick={() => handleClickItem(item.id, true)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onContextMenu?.(e, item.id);
+              }}
               style={{
                 transformOrigin: 'bottom center',
               }}
@@ -214,11 +182,7 @@ export default function Dock({
             >
               <span className="dock-tooltip">{win.title}</span>
               <div className="dock-squircle">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="3" width="18" height="18" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" />
-                  <path d="M7 8H17" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" />
-                  <path d="M7 12H13" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+                <PortOSIcon kind={getIconKindForApp(win.id)} size={38} />
               </div>
               <div className="dock-dot" style={{ background: '#ffbd2e' }} />
             </button>
@@ -235,16 +199,8 @@ export default function Dock({
           }}
         >
           <span className="dock-tooltip">Trash</span>
-          <div
-            className="dock-squircle"
-            style={{
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-            }}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M4 7H20M10 11V17M14 11V17M5 7L6 19C6 20.1046 6.89543 21 8 21H16C17.1046 21 18 20.1046 18 19L19 7M9 7V4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V7" stroke="#cbd5e1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div className="dock-squircle">
+            <PortOSIcon kind="trash" size={38} />
           </div>
         </button>
 

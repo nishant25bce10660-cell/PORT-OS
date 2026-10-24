@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
 import { getPortfolioData, savePortfolioData, TrashedItem } from '@/lib/data';
 import { findItemById, findParentFolder, removeItemFromTree } from '@/lib/tree';
-import { validateHostAndOrigin } from '@/lib/security';
+import { validateHostAndOrigin, requireRole } from '@/lib/security';
 
 export async function GET(req: NextRequest) {
   const secError = validateHostAndOrigin(req);
   if (secError) return secError;
 
-  const session = getSession();
-  if (!session || session.role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-  }
+  const { errorResponse } = requireRole(['admin']);
+  if (errorResponse) return errorResponse;
 
   try {
     const data = getPortfolioData();
@@ -26,10 +23,8 @@ export async function POST(req: NextRequest) {
   const secError = validateHostAndOrigin(req);
   if (secError) return secError;
 
-  const session = getSession();
-  if (!session || session.role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-  }
+  const { errorResponse } = requireRole(['admin']);
+  if (errorResponse) return errorResponse;
 
   try {
     const body = await req.json();
@@ -62,7 +57,7 @@ export async function POST(req: NextRequest) {
     data.trash.push(trashedItem);
     savePortfolioData(data);
 
-    return NextResponse.json({ success: true, trashedItem, root: data.root });
+    return NextResponse.json({ success: true, trashedItem, root: data.root, trash: data.trash });
   } catch (err) {
     console.error('Error moving item to trash:', err);
     return NextResponse.json({ error: 'Failed to move item to trash' }, { status: 500 });
@@ -73,16 +68,14 @@ export async function DELETE(req: NextRequest) {
   const secError = validateHostAndOrigin(req);
   if (secError) return secError;
 
-  const session = getSession();
-  if (!session || session.role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-  }
+  const { errorResponse } = requireRole(['admin']);
+  if (errorResponse) return errorResponse;
 
   try {
     const data = getPortfolioData();
     data.trash = [];
     savePortfolioData(data);
-    return NextResponse.json({ success: true, message: 'Trash emptied' });
+    return NextResponse.json({ success: true, message: 'Trash emptied', trash: [], root: data.root });
   } catch (err) {
     console.error('Error emptying trash:', err);
     return NextResponse.json({ error: 'Failed to empty trash' }, { status: 500 });

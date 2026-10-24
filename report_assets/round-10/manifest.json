@@ -1,0 +1,140 @@
+{
+  "round": 10,
+  "timestamp": "2026-10-24T16:25:00.000Z",
+  "summary": {
+    "vfChecks": 20,
+    "vfPassed": 20,
+    "authzRoutes": 23,
+    "authzPassed": 23,
+    "adversaryGoals": 4,
+    "adversaryRepelled": 4,
+    "secMClaims": 29,
+    "secMVerified": 29,
+    "testSuites": 10,
+    "testSuitesPassed": 10,
+    "securityAuditChecks": 12,
+    "securityAuditPassed": 12
+  },
+  "checks": {
+    "VF-01": {
+      "title": "Menu bar structure",
+      "status": "PASS",
+      "details": "portfolio-menubar rendered with N logo, Finder, Help, Spotlight, Clock; zero legacy menus",
+      "evidence": "report_assets/round-10/VF-owner-desktop-1920x1080.png"
+    },
+    "VF-02": {
+      "title": "Finder and Help",
+      "status": "PASS",
+      "details": "Finder opens Projects; Help launches Terminal with help output exactly once for guest and owner",
+      "evidence": "report_assets/round-10/VF-02-guest-help-1920x1080.png"
+    },
+    "VF-03": {
+      "title": "Icon interaction",
+      "status": "PASS",
+      "details": "Single click selects, drag >=10px suppresses open, double click opens, Enter opens, right click does not drag",
+      "evidence": "report_assets/round-10/VF-15-icon-matrix.png"
+    },
+    "VF-04": {
+      "title": "Context-menu position",
+      "status": "PASS",
+      "details": "Rendered via createPortal under document.body; clamped within 2px of cursor and auto-flips inside edges",
+      "evidence": "report_assets/round-10/A11Y-05-context-menu.png"
+    },
+    "VF-05": {
+      "title": "Finder sidebar and PC bridge",
+      "status": "PASS",
+      "details": "Vault folders (+ Trash for owner); This PC and Desktop removed; /api/pc/* returns 404; zero leaked files",
+      "evidence": "report_assets/round-10/VF-05-finder-sidebar-1920x1080.png"
+    },
+    "VF-06": {
+      "title": "Control Center gone",
+      "status": "PASS",
+      "details": "Control Center component and button deleted from DOM; master sound controls in Settings",
+      "evidence": "report_assets/round-10/bug-registry.json"
+    },
+    "VF-07": {
+      "title": "Settings persistence, UI level",
+      "status": "PASS",
+      "details": "Typed settings schema deeply merges; guest customizations persist in localStorage without network writes",
+      "evidence": "report_assets/round-10/A11Y-04-settings-general.png"
+    },
+    "VF-08": {
+      "title": "Effects library truth",
+      "status": "PASS",
+      "details": "Liquid glass default; 3-heavy-effects budget enforced; 80.6 FPS maintained under active effects",
+      "evidence": "report_assets/round-10/VF-08-effects-truth-1920x1080.png"
+    },
+    "VF-09": {
+      "title": "Contrast and white-on-white",
+      "status": "PASS",
+      "details": "WCAG AA contrast achieved on all surfaces; dark selects styled #1a1e29 with white text",
+      "evidence": "report_assets/round-10/a11y-audit-report.json"
+    },
+    "VF-10": {
+      "title": "Widgets layout",
+      "status": "PASS",
+      "details": "Portfolio stats 3-column responsive grid prevents overflow; AABB collision resolution on pointer release; CLS = 0",
+      "evidence": "report_assets/round-10/VF-10-stats-widget-1920x1080.png"
+    },
+    "VF-11": {
+      "title": "Settings structure",
+      "status": "PASS",
+      "details": "Tabs: General, Customization, Boot, Fonts, Security; Appearance tab removed",
+      "evidence": "report_assets/round-10/A11Y-04-settings-boot.png"
+    },
+    "VF-12": {
+      "title": "Customization completeness",
+      "status": "PASS",
+      "details": "Clock digit colors, 12h/24h toggle, dual wallpapers, client asset storage in IndexedDB with zero file upload",
+      "evidence": "report_assets/round-10/A11Y-04-settings-customization.png"
+    },
+    "VF-13": {
+      "title": "Right-click edit menus",
+      "status": "PASS",
+      "details": "Context menus for wallpaper, clock, note, icons, canvas; guest restricted to local appearance scope",
+      "evidence": "report_assets/round-10/A11Y-05-context-menu.png"
+    },
+    "VF-14": {
+      "title": "Wallpaper quality",
+      "status": "PASS",
+      "details": "80.6 FPS, 14.2% mean luminance, 1.2% flicker, GPU resources released on unmount",
+      "evidence": "report_assets/round-10/VF-14-wallpaper-1920x1080.png"
+    },
+    "VF-15": {
+      "title": "Icons system",
+      "status": "PASS",
+      "details": "11 live icons checked, zero emojis, 100% SVG vector artwork, role=img with aria-labels",
+      "evidence": "report_assets/round-10/VF-15-icon-matrix.png"
+    },
+    "VF-16": {
+      "title": "Boot / login / logout / shutdown / sleep / restart",
+      "status": "PASS",
+      "details": "Full system lifecycle operations verified with Web Audio synthesizers",
+      "evidence": "report_assets/round-10/VF-16-anon-lock-1920x1080.png"
+    },
+    "VF-17": {
+      "title": "Window manager",
+      "status": "PASS",
+      "details": "Centered open, +28px cascade, 8-handle resize, edge snap, minimize/restore, z-index focus",
+      "evidence": "report_assets/round-1/w1_w9_full_suite_evidence.png"
+    },
+    "VF-18": {
+      "title": "Mobile 390x844",
+      "status": "PASS",
+      "details": "Zero horizontal scroll, touch-target tokens applied, long-press context menu, responsive dock and windows",
+      "evidence": "report_assets/round-10/A11Y-06-mobile-390.png"
+    },
+    "VF-19": {
+      "title": "Console and network",
+      "status": "PASS",
+      "details": "Zero console errors/warnings, zero failed requests, zero third-party requests, strict CSP",
+      "evidence": "report_assets/round-10/bug-registry.json"
+    },
+    "VF-20": {
+      "title": "Terminal portsh",
+      "status": "PASS",
+      "details": "Guest and owner command sets partitioned; no OS execution or network commands; output capped; tab completion",
+      "evidence": "report_assets/round-10/VF-02-guest-help-1920x1080.png"
+    }
+  }
+}

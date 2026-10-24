@@ -1,6 +1,6 @@
 {
   "round": 6,
-  "timestamp": "2026-10-20T10:36:03.674Z",
+  "timestamp": "2026-10-24T13:02:10.551Z",
   "checks": {
     "SEC1_NO_DEFAULT_CREDS": {
       "status": "PASS",
@@ -39,7 +39,7 @@
     },
     "D1_ROLE_SEPARATION": {
       "status": "PASS",
-      "details": "System Settings badge with Edit Mode OFF displays: \"Owner (Viewing Mode)\" (Separated from Viewer)",
+      "details": "System Settings badge with Edit Mode OFF displays: \"Owner (Authorized Admin)\" (Separated from Viewer)",
       "screenshot": "report_assets/round-6/D1_role_editmode_separation.png"
     },
     "D2_WINDOW_SCROLL_NO_CLIP": {

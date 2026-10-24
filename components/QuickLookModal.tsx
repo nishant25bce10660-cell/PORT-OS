@@ -200,7 +200,7 @@ export default function QuickLookModal({ item, onClose, onSetWallpaper }: QuickL
             {isFile ? `${file?.content?.length || 0} characters` : 'Folder'}
           </span>
 
-          {isFile && onSetWallpaper && (
+          {isFile && onSetWallpaper && file && (
             <button
               type="button"
               className="btn-set-wallpaper"

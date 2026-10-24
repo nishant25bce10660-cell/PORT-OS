@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-10-24T10:17:02.482Z",
+  "lcp": {
+    "lockScreen": {
+      "lcpMs": 1252,
+      "cls": 0,
+      "ttfbMs": 5.2000000001862645,
+      "element": {
+        "tag": "DIV",
+        "id": "boot-screen-text",
+        "className": "",
+        "size": 1520
+      },
+      "pass": true
+    },
+    "desktop": {
+      "transitionMs": 711,
+      "fcpMs": 924,
+      "cls": 0.00016586812337239585,
+      "pass": true
+    },
+    "finder": {
+      "openMs": 180,
+      "pass": true
+    }
+  },
+  "memory": {
+    "baseline": {
+      "jsHeapUsedMB": 4.720367431640625,
+      "jsHeapTotalMB": 5.5,
+      "domNodes": 606,
+      "jsEventListeners": 320,
+      "liveDomNodes": 282
+    },
+    "final": {
+      "jsHeapUsedMB": 5.642238616943359,
+      "jsHeapTotalMB": 6.5,
+      "domNodes": 3426,
+      "jsEventListeners": 692,
+      "liveDomNodes": 282
+    },
+    "heapGrowthMB": 0.9218711853027344,
+    "heapGrowthPercent": 19.52964888121699,
+    "nodeDelta": 0,
+    "pass": true
+  },
+  "wallpaper": {
+    "desktop": {
+      "hasCanvas": true,
+      "fps": 80.56592650821393,
+      "meanLuminance": 0.142,
+      "flicker": 0.012,
+      "dpr": 1
+    },
+    "mobile": {
+      "hasCanvas": true,
+      "width": 390,
+      "height": 844
+    },
+    "evidence1920": "report_assets/round-10/VF-14-wallpaper-1920x1080.png",
+    "evidence390": "report_assets/round-10/VF-14-wallpaper-390x844.png",
+    "pass": true
+  },
+  "icons": {
+    "totalIconInstances": 11,
+    "emojiFound": 0,
+    "missingRoles": 0,
+    "missingLabels": 0,
+    "forcedColorsSupported": true,
+    "reducedMotionSupported": true,
+    "evidenceFile": "report_assets/round-10/VF-15-icon-matrix.png",
+    "pass": true
+  }
+}

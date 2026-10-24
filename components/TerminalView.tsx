@@ -11,6 +11,7 @@ interface TerminalViewProps {
   onClose?: () => void;
   onOpenWindow?: (id: string, title: string, meta: any) => void;
   onSetWallpaper?: (wp: string) => void;
+  initialCommand?: string;
 }
 
 interface CommandHistoryEntry {
@@ -26,6 +27,7 @@ export default function TerminalView({
   onClose,
   onOpenWindow,
   onSetWallpaper,
+  initialCommand,
 }: TerminalViewProps) {
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState<CommandHistoryEntry[]>([
@@ -91,6 +93,14 @@ export default function TerminalView({
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>uname -a</span> - Display system architecture & kernel</div>
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>date</span> - Display current ISO timestamp</div>
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>theme &lt;name&gt;</span> - Switch wallpaper theme</div>
+            {userRole === 'admin' && (
+              <>
+                <div><span style={{ color: '#f59e0b', width: '130px', display: 'inline-block' }}>edit &lt;file&gt;</span> - Open markdown document in FileEditor (Owner)</div>
+                <div><span style={{ color: '#f59e0b', width: '130px', display: 'inline-block' }}>mkdir &lt;name&gt;</span> - Create new vault folder (Owner)</div>
+                <div><span style={{ color: '#f59e0b', width: '130px', display: 'inline-block' }}>rm &lt;file&gt;</span> - Move vault file or folder to trash (Owner)</div>
+                <div><span style={{ color: '#f59e0b', width: '130px', display: 'inline-block' }}>passwd</span> - Update portfolio administrator credentials (Owner)</div>
+              </>
+            )}
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>clear</span> - Clear terminal scrollback</div>
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>exit</span> - Close terminal window</div>
           </div>
@@ -111,7 +121,7 @@ export default function TerminalView({
   \\_____/  `}
             </pre>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', fontSize: '11.5px', minWidth: '220px' }}>
-              <div><strong style={{ color: '#38bdf8' }}>PORT OS</strong> 1.0.0 (macOS Dark Edition)</div>
+              <div><strong style={{ color: '#38bdf8' }}>PORT OS</strong> 1.0.0 (macOS Dark Release)</div>
               <div style={{ color: 'rgba(255,255,255,0.2)' }}>────────────────────────────────────</div>
               <div><span style={{ color: '#9ca3af' }}>OS:</span> PORT OS Darwin Browser Edition</div>
               <div><span style={{ color: '#9ca3af' }}>Host:</span> Browser V8 Virtual Machine</div>
@@ -263,6 +273,38 @@ export default function TerminalView({
         break;
       }
 
+      case 'edit':
+        if (userRole !== 'admin') {
+          output = <span style={{ color: '#f87171' }}>portsh: permission denied: &apos;edit&apos; requires administrator role</span>;
+        } else {
+          output = <span style={{ color: '#38bdf8' }}>Launching FileEditor for {args.join(' ') || 'selected file'}...</span>;
+        }
+        break;
+
+      case 'mkdir':
+        if (userRole !== 'admin') {
+          output = <span style={{ color: '#f87171' }}>portsh: permission denied: &apos;mkdir&apos; requires administrator role</span>;
+        } else {
+          output = <span style={{ color: '#34d399' }}>Created directory {args[0] || 'new_folder'}</span>;
+        }
+        break;
+
+      case 'rm':
+        if (userRole !== 'admin') {
+          output = <span style={{ color: '#f87171' }}>portsh: permission denied: &apos;rm&apos; requires administrator role</span>;
+        } else {
+          output = <span style={{ color: '#f59e0b' }}>Moved {args[0] || 'item'} to Trash</span>;
+        }
+        break;
+
+      case 'passwd':
+        if (userRole !== 'admin') {
+          output = <span style={{ color: '#f87171' }}>portsh: permission denied: &apos;passwd&apos; requires administrator role</span>;
+        } else {
+          output = <span style={{ color: '#38bdf8' }}>Run &apos;npm run set-password&apos; on server host CLI to update password hash</span>;
+        }
+        break;
+
       case 'clear':
         setHistory([]);
         return;
@@ -288,6 +330,14 @@ export default function TerminalView({
     ]);
     sound.playClickSound();
   };
+
+  const executedInitialRef = useRef<boolean>(false);
+  useEffect(() => {
+    if (initialCommand && !executedInitialRef.current) {
+      executedInitialRef.current = true;
+      handleCommand(initialCommand);
+    }
+  }, [initialCommand]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -317,7 +367,7 @@ export default function TerminalView({
 
   return (
     <div
-      id="window-terminal"
+      id="terminal-view-container"
       style={{
         display: 'flex',
         flexDirection: 'column',

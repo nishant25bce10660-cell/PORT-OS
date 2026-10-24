@@ -30,6 +30,7 @@ interface WindowProps {
   onCycleSnap?: (id: string) => void;
   onToggleMaximize?: (id: string) => void;
   onSnapPreview?: (preview: { visible: boolean; x: number; y: number; w: number; h: number } | null) => void;
+  onContextMenu?: (e: React.MouseEvent, windowId: string) => void;
   children: React.ReactNode;
 }
 
@@ -48,6 +49,7 @@ export default function Window({
   onCycleSnap,
   onToggleMaximize,
   onSnapPreview,
+  onContextMenu,
   children,
 }: WindowProps) {
   const shellRef = useRef<HTMLDivElement>(null);
@@ -442,6 +444,13 @@ export default function Window({
           onPointerUp={handleTitlePointerUp}
           onPointerCancel={handleTitlePointerUp}
           onDoubleClick={handleTitleDoubleClick}
+          onContextMenu={(e) => {
+            if (onContextMenu) {
+              e.preventDefault();
+              e.stopPropagation();
+              onContextMenu(e, win.id);
+            }
+          }}
         >
           <div className={`traffic-lights ${isActive ? 'is-active' : 'is-inactive'}`}>
             {/* Close */}

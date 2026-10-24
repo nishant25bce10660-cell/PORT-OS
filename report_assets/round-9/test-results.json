@@ -1,0 +1,61 @@
+{
+  "round": 9,
+  "timestamp": "2026-10-24T13:02:45.070Z",
+  "checks": {
+    "M17.1_CSS_TOKENS": {
+      "status": "PASS",
+      "details": "Layered icon CSS tokens loaded. --portos-icon-radius=true, borderRadius=22%",
+      "screenshot": "report_assets/round-9/01-css-tokens.png"
+    },
+    "M17.2_DESKTOP_ICONS": {
+      "status": "PASS",
+      "details": "Desktop icons rendered with layered structure, accessibility attributes and selection outline. Verified 3 items.",
+      "screenshot": "report_assets/round-9/02-desktop-icons.png"
+    },
+    "M17.3_DOCK_ICONS": {
+      "status": "PASS",
+      "details": "Dock application icons verified. 9 items rendered with SVG artwork and running dots.",
+      "screenshot": "report_assets/round-9/03-dock-icons.png"
+    },
+    "M18.1_FINDER_ICONS_VIEW": {
+      "status": "PASS",
+      "details": "Finder Icons view renders 4 items with glyph-mode silhouettes for files/folders.",
+      "screenshot": "report_assets/round-9/04-finder-icons-view.png"
+    },
+    "M18.2_FINDER_LIST_VIEW": {
+      "status": "PASS",
+      "details": "Finder List view renders 4 rows with vector icons.",
+      "screenshot": "report_assets/round-9/05-finder-list-view.png"
+    },
+    "M18.3_FINDER_COLUMNS_VIEW": {
+      "status": "PASS",
+      "details": "Finder Columns view renders items with vector icons.",
+      "screenshot": "report_assets/round-9/06-finder-columns-view.png"
+    },
+    "M18.4_FINDER_GALLERY_VIEW": {
+      "status": "PASS",
+      "details": "Finder Gallery view renders large preview and thumbnail strip vector icons.",
+      "screenshot": "report_assets/round-9/07-finder-gallery-view.png"
+    },
+    "M18.5_FINDER_SIDEBAR_ICONS": {
+      "status": "PASS",
+      "details": "Finder sidebar renders 4 vector icons for vault and system trash.",
+      "screenshot": null
+    },
+    "M18.6_SPOTLIGHT_ICONS": {
+      "status": "PASS",
+      "details": "Spotlight search renders 27 items with unified vector icons and zero emojis.",
+      "screenshot": "report_assets/round-9/08-spotlight-icons.png"
+    },
+    "M18.7_CONTEXT_MENU_ICONS": {
+      "status": "PASS",
+      "details": "Desktop context menu rendered 7 items with 7 vector icons.",
+      "screenshot": "report_assets/round-9/09-context-menu-icons.png"
+    },
+    "M18.8_ZERO_EMOJIS_PURITY": {
+      "status": "PASS",
+      "details": "Full visual surfaces verified: 100% of application and file icons render native vector SVGs with 0 emojis.",
+      "screenshot": null
+    }
+  }
+}

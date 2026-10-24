@@ -77,4 +77,18 @@
   --dur-slow: 520ms;
   --dur-glide: 900ms;
   --dur-ambient: 1600ms;
+
+  /* PORT OS App-Icon Design Tokens */
+  --portos-icon-size: 48px;
+  --portos-icon-radius: 22%;
+  --portos-icon-bg: #202633;
+  --portos-icon-bg-deep: #111722;
+  --portos-icon-accent: #55c7e8;
+  --portos-icon-symbol: #f4f7fb;
+  --portos-icon-symbol-muted: #cbd5e1;
+  --portos-icon-edge: rgba(255, 255, 255, 0.14);
+  --portos-icon-highlight: rgba(255, 255, 255, 0.09);
+  --portos-icon-shadow: 0 5px 14px rgba(0, 0, 0, 0.22);
+  --portos-icon-focus: #7dd3fc;
+  --portos-icon-transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }

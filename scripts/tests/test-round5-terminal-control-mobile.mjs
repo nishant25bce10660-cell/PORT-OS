@@ -113,45 +113,17 @@ async function runRound5Tests() {
     results['M9_1_TERMINAL'] = 'PASS';
 
     // -------------------------------------------------------------
-    // TEST 2: M9.2 - CONTROL CENTER POPOVER
+    // TEST 2: M9.2 - CONTROL CENTER REMOVED / CLEAN MENU BAR
     // -------------------------------------------------------------
-    console.log('\n--- Testing M9.2: Control Center Popover & Sliders ---');
+    console.log('\n--- Testing M9.2: Control Center Removed & Clean Menu Bar Verified ---');
     
-    const controlCenterBtn = await page.waitForSelector('#menu-btn-control-center', { timeout: 3000 });
-    assert(controlCenterBtn, 'Control center button (#menu-btn-control-center) must exist in menu bar');
-    await page.click('#menu-btn-control-center');
-    await new Promise((r) => setTimeout(r, 400));
-
-    const controlCenterPopover = await page.waitForSelector('#control-center-popover', { timeout: 2000 });
-    assert(controlCenterPopover, 'Control Center popover (#control-center-popover) must open on click');
-
-    // Check sliders for Display Brightness and Volume
-    const ccControls = await page.evaluate(() => {
+    const controlCenterExists = await page.evaluate(() => {
+      const btn = document.getElementById('menu-btn-control-center');
       const popover = document.getElementById('control-center-popover');
-      if (!popover) return { exists: false };
-      const brightnessSlider = popover.querySelector('input[type="range"].brightness-slider');
-      const volumeSlider = popover.querySelector('input[type="range"].volume-slider');
-      const wifiToggle = popover.querySelector('.cc-tile-wifi');
-      const bluetoothToggle = popover.querySelector('.cc-tile-bluetooth');
-      return {
-        exists: true,
-        hasBrightness: !!brightnessSlider,
-        hasVolume: !!volumeSlider,
-        hasWifi: !!wifiToggle,
-        hasBluetooth: !!bluetoothToggle,
-      };
+      return !!(btn || popover);
     });
-
-    console.log('[M9.2] Control Center elements:', ccControls);
-    assert(ccControls.hasBrightness, 'Control Center must feature Display Brightness slider');
-    assert(ccControls.hasVolume, 'Control Center must feature Sound Volume slider');
-    assert(ccControls.hasWifi, 'Control Center must feature WiFi toggle tile');
-
-    // Click button again to dismiss
-    await page.click('#menu-btn-control-center');
-    await new Promise((r) => setTimeout(r, 300));
-    const ccDismissed = await page.evaluate(() => !document.getElementById('control-center-popover'));
-    assert(ccDismissed, 'Clicking Control Center button must toggle off popover');
+    assert(!controlCenterExists, 'Control Center button and popover must be completely removed from menu bar');
+    console.log('[M9.2] Verified: Control Center is absent and menu bar is clean');
     results['M9_2_CONTROL_CENTER'] = 'PASS';
 
     // -------------------------------------------------------------

@@ -1,0 +1,123 @@
+{
+  "goal1_anonReadRestricted": {
+    "pass": true,
+    "details": [
+      {
+        "path": "/api/pc/browse",
+        "status": 404,
+        "blocked": true
+      },
+      {
+        "path": "/api/pc/read?path=C:/Windows/System32/drivers/etc/hosts",
+        "status": 404,
+        "blocked": true
+      },
+      {
+        "path": "/api/items/trash",
+        "status": 401,
+        "blocked": true
+      },
+      {
+        "path": "/api/telemetry/visitors",
+        "status": 401,
+        "blocked": true
+      },
+      {
+        "path": "/data/portfolio.json",
+        "status": 404,
+        "blocked": true
+      },
+      {
+        "path": "/.env.local",
+        "status": 404,
+        "blocked": true
+      },
+      {
+        "path": "/package.json",
+        "status": 404,
+        "blocked": true
+      },
+      {
+        "path": "/.git/config",
+        "status": 404,
+        "blocked": true
+      }
+    ]
+  },
+  "goal2_guestMutateServer": {
+    "pass": true,
+    "details": [
+      {
+        "method": "POST",
+        "path": "/api/items",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "method": "PUT",
+        "path": "/api/items/projects",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/items/projects",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "method": "PUT",
+        "path": "/api/settings",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "method": "PUT",
+        "path": "/api/portfolio",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "method": "PUT",
+        "path": "/api/widgets",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/telemetry/visitors",
+        "status": 403,
+        "blocked": true
+      }
+    ]
+  },
+  "goal3_xssExecution": {
+    "pass": true,
+    "details": []
+  },
+  "goal4_crossOriginAccess": {
+    "pass": true,
+    "details": [
+      {
+        "origin": "http://attacker-evil.com",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "origin": "https://phishing-site.xyz",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "origin": "http://localhost:8080",
+        "status": 403,
+        "blocked": true
+      },
+      {
+        "origin": "null",
+        "status": 403,
+        "blocked": true
+      }
+    ]
+  }
+}

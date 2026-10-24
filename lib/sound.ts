@@ -208,6 +208,30 @@ class SoundEngine {
     osc.start(now);
     osc.stop(now + 0.02);
   }
+
+  public playStartupChime() {
+    this.playBootChime();
+  }
+
+  public playSleepSound() {
+    this.playShutdownSound();
+  }
+
+  public playRestartSound() {
+    this.playBootChime();
+  }
+
+  public playWindowOpenSound() {
+    this.playClickSound();
+  }
+
+  public playWindowCloseSound() {
+    this.playClickSound();
+  }
+
+  public playWindowMinimizeSound() {
+    this.playClickSound();
+  }
 }
 
 export const sound = new SoundEngine();

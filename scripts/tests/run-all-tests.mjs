@@ -11,6 +11,10 @@ const testSuites = [
   { name: 'M7 & M8: Shader Wallpaper & Spotlight', script: 'scripts/tests/test-round4-shader-spotlight.mjs' },
   { name: 'M9 & M10: Terminal, Control Center & FPS', script: 'scripts/tests/test-round5-terminal-control-mobile.mjs' },
   { name: 'M11 & M12: Defects (D1–D14) & Security Audit', script: 'scripts/tests/test-round6-defects-and-security.mjs' },
+  { name: 'M13 & M14: Customization, Visual Effects & Audit', script: 'scripts/tests/test-round7-customization-effects.mjs' },
+  { name: 'M15 & M16: Menu Bar Refactor, Desktop Interactions & Persistence', script: 'scripts/tests/test-round8-refactor-and-interactions.mjs' },
+  { name: 'M17 & M18: Layered Icon System & SVG Architecture', script: 'scripts/tests/test-round9-icon-system.mjs' },
+  { name: 'M27–M31: Custom Widget Studio, Effects Engine & Trash Repair', script: 'scripts/tests/test-round11-widgets-effects-trash.mjs' },
 ];
 
 function runScript(scriptPath) {
@@ -37,6 +41,7 @@ async function runAll() {
     try {
       await runScript(suite.script);
       summary.push({ name: suite.name, status: 'PASS' });
+      await new Promise((r) => setTimeout(r, 1200));
     } catch (err) {
       summary.push({ name: suite.name, status: 'FAIL', error: err.message });
       console.error(`\n[FAILED] ${suite.name}: ${err.message}`);

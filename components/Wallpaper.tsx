@@ -5,6 +5,7 @@ import * as THREE from 'three';
 
 interface WallpaperProps {
   wallpaper?: string;
+  customImageUrl?: string;
   hasMaximizedWindow?: boolean;
 }
 
@@ -19,26 +20,27 @@ const silkVertexShader = `
   varying vec3 vViewPosition;
   varying float vElevation;
 
-  // Fluid harmonic wave displacement function
+  // Smooth Gerstner-harmonic silk wave displacement
   float getElevation(vec2 pos, float time, vec2 mouse) {
     float elevation = 0.0;
     
-    // Wave 1: Broad slow ocean swell
-    elevation += sin(pos.x * 0.065 + time * 0.38) * 3.8;
-    elevation += cos(pos.y * 0.082 + time * 0.32) * 3.2;
+    // Wave 1: Gentle primary silk swell
+    float w1 = sin(pos.x * 0.045 + pos.y * 0.035 + time * 0.32);
+    elevation += w1 * 3.4;
 
-    // Wave 2: Medium diagonal rolling silk fold
-    elevation += sin((pos.x * 0.085 + pos.y * 0.075) * 0.9 + time * 0.55) * 2.2;
-    elevation += cos((pos.x * 0.055 - pos.y * 0.09) * 0.85 + time * 0.42) * 1.8;
+    // Wave 2: Diagonal rolling silk fold
+    float w2 = cos(pos.x * 0.065 - pos.y * 0.055 + time * 0.42);
+    elevation += w2 * 2.1;
 
-    // Wave 3: Delicate high-frequency silk ripples
-    elevation += sin(pos.x * 0.18 + pos.y * 0.14 + time * 0.85) * 0.9;
-    elevation += cos(pos.x * 0.12 - pos.y * 0.16 + time * 0.7) * 0.7;
+    // Wave 3: Delicate micro-ripple harmonic
+    float w3 = sin((pos.x * 0.08 + pos.y * 0.09) * 1.1 + time * 0.6);
+    elevation += w3 * 0.85;
 
-    // Interactive mouse parallax gentle swell
-    vec2 mouseOffset = pos - mouse * 35.0;
-    float dist = length(mouseOffset);
-    elevation += exp(-dist * 0.06) * sin(dist * 0.2 - time * 1.2) * 1.5;
+    // Smooth pointer parallax deflection (soft Gaussian without jarring ripple oscillation)
+    vec2 mPos = mouse * 30.0;
+    float dist = length(pos - mPos);
+    float mouseSwell = exp(-dist * 0.045) * 1.8;
+    elevation += mouseSwell;
 
     return elevation;
   }
@@ -52,8 +54,8 @@ const silkVertexShader = `
     pos.z += elev;
     vElevation = elev;
 
-    // Analytical normal approximation via finite differences
-    float eps = 0.12;
+    // Analytical finite-difference normal calculation
+    float eps = 0.08;
     float elevX = getElevation(pos.xy + vec2(eps, 0.0), u_time, u_mouse);
     float elevY = getElevation(pos.xy + vec2(0.0, eps), u_time, u_mouse);
     vec3 tangentX = normalize(vec3(eps, 0.0, elevX - elev));
@@ -87,42 +89,44 @@ const silkFragmentShader = `
     vec3 viewDir = normalize(vViewPosition);
 
     // Primary directional light from upper-left
-    vec3 lightDir = normalize(vec3(-0.4, 0.6, 0.7));
+    vec3 lightDir = normalize(vec3(-0.45, 0.65, 0.6));
     float diff = max(dot(normal, lightDir), 0.0);
 
-    // Secondary subtle fill light from right
-    vec3 fillLightDir = normalize(vec3(0.6, -0.2, 0.5));
-    float fillDiff = max(dot(normal, fillLightDir), 0.0) * 0.35;
+    // Secondary soft ambient fill light
+    vec3 fillLightDir = normalize(vec3(0.5, -0.2, 0.4));
+    float fillDiff = max(dot(normal, fillLightDir), 0.0) * 0.28;
 
-    // Specular highlight: satin / silk sheen with broad anisotropic exponent
+    // Anisotropic silk specular sheen
     vec3 halfVector = normalize(lightDir + viewDir);
     float specAngle = max(dot(normal, halfVector), 0.0);
-    float specular = pow(specAngle, 24.0) * 0.85;
+    float specular = pow(specAngle, 36.0) * 0.55;
 
-    // Velvet / Silk Fresnel rim effect
-    float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0) * 0.65;
+    // Velvet/Silk Fresnel rim sheen along silhouette grazing angles
+    float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 2.8) * 0.45;
 
-    // Elevation gradient mapping (-6.0 to 6.0 range)
-    float t = clamp((vElevation + 4.5) / 9.0, 0.0, 1.0);
-    vec3 baseColor = mix(u_color_deep, u_color_mid, smoothstep(0.1, 0.6, t));
-    baseColor = mix(baseColor, u_color_crest, smoothstep(0.55, 0.95, t));
+    // Elevation gradient mapping (-5.5 to 5.5 range)
+    float t = clamp((vElevation + 4.0) / 8.0, 0.0, 1.0);
+    vec3 baseColor = mix(u_color_deep, u_color_mid, smoothstep(0.08, 0.55, t));
+    baseColor = mix(baseColor, u_color_crest, smoothstep(0.5, 0.95, t));
 
     // Combine diffuse, specular sheen, and rim lighting
-    vec3 finalColor = baseColor * (0.45 + diff * 0.55 + fillDiff);
+    vec3 finalColor = baseColor * (0.4 + diff * 0.55 + fillDiff);
     finalColor += u_color_specular * (specular * 0.4);
-    finalColor += u_color_crest * (fresnel * 0.4);
+    finalColor += u_color_crest * (fresnel * 0.35);
 
     // Vignette towards edges
     vec2 centerDist = vUv - vec2(0.5);
-    float vignette = clamp(1.0 - dot(centerDist, centerDist) * 0.85, 0.25, 1.0);
+    float vignette = clamp(1.0 - dot(centerDist, centerDist) * 0.75, 0.35, 1.0);
     finalColor *= vignette;
 
-    // D9: Clamp perceived luminance strictly between 8% and 22% (Rec. 709 standard)
+    // Filmic tone compression (eliminates bright cyan spikes & clipped highlights)
+    finalColor = finalColor / (vec3(1.0) + finalColor * 0.65);
+
+    // Rec. 709 safe contrast shaping with luminance clamping (8% - 22%)
     float lum = dot(finalColor, vec3(0.2126, 0.7152, 0.0722));
     float targetLum = clamp(lum, 0.08, 0.22);
-    if (lum > 0.001) {
-      finalColor = finalColor * (targetLum / lum);
-    }
+    finalColor = finalColor * (targetLum / max(lum, 0.001));
+    finalColor = mix(finalColor, vec3(targetLum), 0.05);
 
     gl_FragColor = vec4(finalColor, u_opacity);
   }
@@ -175,7 +179,7 @@ function getWallpaperPalette(theme?: string) {
   }
 }
 
-export default function Wallpaper({ wallpaper = 'wave-shader', hasMaximizedWindow = false }: WallpaperProps) {
+export default function Wallpaper({ wallpaper = 'wave-shader', customImageUrl, hasMaximizedWindow = false }: WallpaperProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [hasWebGL, setHasWebGL] = useState(true);
   const isPausedRef = useRef(false);
@@ -184,7 +188,25 @@ export default function Wallpaper({ wallpaper = 'wave-shader', hasMaximizedWindo
     isPausedRef.current = !!hasMaximizedWindow;
   }, [hasMaximizedWindow]);
 
+  // Tab visibility detection to pause shader loop when hidden
   useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isPausedRef.current = true;
+      } else {
+        isPausedRef.current = !!hasMaximizedWindow;
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [hasMaximizedWindow]);
+
+  useEffect(() => {
+    if (customImageUrl) {
+      // Custom image selected: bypass Three.js shader
+      return;
+    }
+
     const container = mountRef.current;
     if (!container) return;
 
@@ -202,186 +224,169 @@ export default function Wallpaper({ wallpaper = 'wave-shader', hasMaximizedWindo
     }
 
     let animationFrameId: number;
-    let renderer: THREE.WebGLRenderer | null = null;
-    let material: THREE.ShaderMaterial | null = null;
-    let geometry: THREE.PlaneGeometry | null = null;
+    let renderer: THREE.WebGLRenderer;
+    let scene: THREE.Scene;
+    let camera: THREE.PerspectiveCamera;
+    let material: THREE.ShaderMaterial;
+    let mesh: THREE.Mesh;
+
+    const palette = getWallpaperPalette(wallpaper);
 
     try {
       const width = container.clientWidth || window.innerWidth;
       const height = container.clientHeight || window.innerHeight;
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(48, width / height, 0.1, 1000);
-      camera.position.set(0, -22, 16);
-      camera.lookAt(0, 0, 0);
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.set(0, 0, 48);
 
       renderer = new THREE.WebGLRenderer({
         antialias: true,
-        alpha: true,
         powerPreference: 'high-performance',
+        alpha: false,
       });
       renderer.setSize(width, height);
-      
-      // P9: DPR capped at 1.5 for performance budget (>= 55 fps)
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      renderer.setPixelRatio(dpr);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       renderer.domElement.className = 'wallpaper-canvas';
+      renderer.domElement.id = 'wallpaper-canvas';
       container.appendChild(renderer.domElement);
 
-      // Create high-resolution wavy mesh
-      const planeWidth = 72;
-      const planeHeight = 48;
-      geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, 110, 80);
-
-      const palette = getWallpaperPalette(wallpaper);
-
-      // Uniforms for the Silk Wave shader
-      const uniforms = {
-        u_time: { value: 0.0 },
-        u_mouse: { value: new THREE.Vector2(0.0, 0.0) },
-        u_resolution: { value: new THREE.Vector2(width, height) },
-        u_color_deep: { value: palette.deep },
-        u_color_mid: { value: palette.mid },
-        u_color_crest: { value: palette.crest },
-        u_color_specular: { value: palette.specular },
-        u_opacity: { value: 0.95 },
-      };
+      // Plane geometry for silk wave
+      const geometry = new THREE.PlaneGeometry(90, 60, 96, 64);
 
       material = new THREE.ShaderMaterial({
         vertexShader: silkVertexShader,
         fragmentShader: silkFragmentShader,
-        uniforms,
-        transparent: true,
-        side: THREE.DoubleSide,
-        depthWrite: false,
+        uniforms: {
+          u_time: { value: 0 },
+          u_mouse: { value: new THREE.Vector2(0, 0) },
+          u_resolution: { value: new THREE.Vector2(width, height) },
+          u_color_deep: { value: palette.deep },
+          u_color_mid: { value: palette.mid },
+          u_color_crest: { value: palette.crest },
+          u_color_specular: { value: palette.specular },
+          u_opacity: { value: 1.0 },
+        },
+        wireframe: false,
       });
 
-      const plane = new THREE.Mesh(geometry, material);
-      plane.rotation.x = 0.22;
-      scene.add(plane);
+      mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
 
-      // Register inspection object on window for acceptance tests & diagnostics
       if (typeof window !== 'undefined') {
         (window as any).__portos_wallpaper = {
           isShaderMaterial: true,
           isWireframe: false,
           isPaused: false,
-          setPaused: (p: boolean) => {
-            isPausedRef.current = p;
-            (window as any).__portos_wallpaper.isPaused = p;
-          },
+          renderer,
+          material,
         };
       }
 
-      // Smooth mouse coordinates tracking with spring easing
-      let targetMouseX = 0;
-      let targetMouseY = 0;
-      let currentMouseX = 0;
-      let currentMouseY = 0;
+      // Mouse parallax with smooth damping
+      const targetMouse = new THREE.Vector2(0, 0);
+      const currentMouse = new THREE.Vector2(0, 0);
 
-      const handleMouseMove = (e: MouseEvent) => {
-        const normX = (e.clientX / window.innerWidth) * 2 - 1;
-        const normY = -(e.clientY / window.innerHeight) * 2 + 1;
-        targetMouseX = normX;
-        targetMouseY = normY;
+      const handlePointerMove = (e: PointerEvent) => {
+        const nx = (e.clientX / window.innerWidth) * 2 - 1;
+        const ny = -(e.clientY / window.innerHeight) * 2 + 1;
+        targetMouse.set(nx, ny);
       };
 
-      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
 
-      // P9: Pause canvas when tab is hidden or window is maximized
-      const handleVisibilityChange = () => {
-        const isHidden = document.hidden;
-        isPausedRef.current = isHidden || hasMaximizedWindow;
-        if (typeof window !== 'undefined' && (window as any).__portos_wallpaper) {
-          (window as any).__portos_wallpaper.isPaused = isPausedRef.current;
-        }
-      };
-
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-
-      const clock = new THREE.Clock();
-
-      const animate = () => {
-        animationFrameId = requestAnimationFrame(animate);
-
-        // Check if currently paused
-        if (isPausedRef.current) {
-          return;
-        }
-
-        const delta = clock.getDelta();
-        const elapsedTime = clock.getElapsedTime();
-
-        // Smooth mouse spring interpolation
-        currentMouseX += (targetMouseX - currentMouseX) * 0.05;
-        currentMouseY += (targetMouseY - currentMouseY) * 0.05;
-
-        if (material) {
-          material.uniforms.u_time.value = elapsedTime;
-          material.uniforms.u_mouse.value.set(currentMouseX, currentMouseY);
-        }
-
-        renderer?.render(scene, camera);
-      };
-
-      animate();
-
+      // Resize handler
       const handleResize = () => {
-        if (!container || !renderer || !material) return;
+        if (!container || !renderer || !camera) return;
         const w = container.clientWidth || window.innerWidth;
         const h = container.clientHeight || window.innerHeight;
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
         material.uniforms.u_resolution.value.set(w, h);
       };
 
       window.addEventListener('resize', handleResize);
 
-      return () => {
-        cancelAnimationFrame(animationFrameId);
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('resize', handleResize);
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      // Animation loop
+      let lastTime = performance.now();
+      let accumulatedTime = 0;
 
+      const animate = (now: number) => {
+        animationFrameId = requestAnimationFrame(animate);
+
+        if (isPausedRef.current) return;
+
+        const delta = Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+        accumulatedTime += delta;
+
+        // Smooth damping towards mouse position
+        currentMouse.lerp(targetMouse, 0.05);
+
+        material.uniforms.u_time.value = accumulatedTime;
+        material.uniforms.u_mouse.value.copy(currentMouse);
+
+        renderer.render(scene, camera);
+      };
+
+      animationFrameId = requestAnimationFrame(animate);
+
+      return () => {
+        if (typeof window !== 'undefined') {
+          delete (window as any).__portos_wallpaper;
+        }
+        cancelAnimationFrame(animationFrameId);
+        window.removeEventListener('pointermove', handlePointerMove);
+        window.removeEventListener('resize', handleResize);
         if (renderer && renderer.domElement && container.contains(renderer.domElement)) {
           container.removeChild(renderer.domElement);
           renderer.dispose();
         }
-        geometry?.dispose();
-        material?.dispose();
-
-        if (typeof window !== 'undefined') {
-          delete (window as any).__portos_wallpaper;
-        }
+        geometry.dispose();
+        material.dispose();
       };
-    } catch (err) {
-      console.warn('Three.js Silk Wave Shader failed to initialize, using fallback:', err);
+    } catch {
       setHasWebGL(false);
     }
-  }, [wallpaper, hasMaximizedWindow]);
+  }, [wallpaper, customImageUrl]);
 
   const palette = getWallpaperPalette(wallpaper);
+
+  if (customImageUrl) {
+    return (
+      <div
+        className="wallpaper-canvas-container"
+        id="desktop-wallpaper-container"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${customImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+    );
+  }
 
   return (
     <div
       ref={mountRef}
-      className="wallpaper-container"
-      id="portos-wallpaper"
+      className="wallpaper-canvas-container"
+      id="desktop-wallpaper-container"
       style={{
         position: 'absolute',
         inset: 0,
-        overflow: 'hidden',
-        pointerEvents: 'none',
         zIndex: 0,
         background: palette.gradient,
-        transition: 'background 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        overflow: 'hidden',
+        pointerEvents: 'none',
       }}
     >
       {!hasWebGL && (
         <div
-          className="wallpaper-fallback"
           style={{
             position: 'absolute',
             inset: 0,

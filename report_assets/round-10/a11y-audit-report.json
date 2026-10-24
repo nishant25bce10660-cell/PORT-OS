@@ -1,0 +1,57 @@
+[
+  {
+    "id": "A11Y-001",
+    "bugId": "BUG-A11Y-007",
+    "severity": "Low",
+    "surface": "Mobile (390px)",
+    "elementDesc": "<SPAN id=\"menu-item-top-finder\" class=\"menu-item menu-app-name\"> \"Finder\"",
+    "issueType": "Tap Target Size < 44x44px",
+    "expected": "Touch targets on mobile should be >= 44x44px per WCAG / web.dev",
+    "actual": "Size: 33x14px",
+    "screenshot": "d:\\porfolio project 1\\report_assets\\round-10\\A11Y-06-mobile-390.png"
+  },
+  {
+    "id": "A11Y-002",
+    "bugId": "BUG-A11Y-007",
+    "severity": "Low",
+    "surface": "Mobile (390px)",
+    "elementDesc": "<SPAN id=\"menu-item-top-help\" class=\"menu-item\"> \"Help\"",
+    "issueType": "Tap Target Size < 44x44px",
+    "expected": "Touch targets on mobile should be >= 44x44px per WCAG / web.dev",
+    "actual": "Size: 24x14px",
+    "screenshot": "d:\\porfolio project 1\\report_assets\\round-10\\A11Y-06-mobile-390.png"
+  },
+  {
+    "id": "A11Y-003",
+    "bugId": "BUG-A11Y-007",
+    "severity": "Low",
+    "surface": "Mobile (390px)",
+    "elementDesc": "<BUTTON id=\"menu-btn-spotlight\" class=\"\"> \"\"",
+    "issueType": "Tap Target Size < 44x44px",
+    "expected": "Touch targets on mobile should be >= 44x44px per WCAG / web.dev",
+    "actual": "Size: 26x18px",
+    "screenshot": "d:\\porfolio project 1\\report_assets\\round-10\\A11Y-06-mobile-390.png"
+  },
+  {
+    "id": "A11Y-004",
+    "bugId": "BUG-A11Y-007",
+    "severity": "Low",
+    "surface": "Mobile (390px)",
+    "elementDesc": "<BUTTON id=\"btn-close-folder-projects\" class=\"traffic-light traffic-light-close\"> \"✕\"",
+    "issueType": "Tap Target Size < 44x44px",
+    "expected": "Touch targets on mobile should be >= 44x44px per WCAG / web.dev",
+    "actual": "Size: 12x12px",
+    "screenshot": "d:\\porfolio project 1\\report_assets\\round-10\\A11Y-06-mobile-390.png"
+  },
+  {
+    "id": "A11Y-005",
+    "bugId": "BUG-A11Y-007",
+    "severity": "Low",
+    "surface": "Mobile (390px)",
+    "elementDesc": "<BUTTON id=\"btn-minimize-folder-projects\" class=\"traffic-light traffic-light-minimize\"> \"−\"",
+    "issueType": "Tap Target Size < 44x44px",
+    "expected": "Touch targets on mobile should be >= 44x44px per WCAG / web.dev",
+    "actual": "Size: 12x12px",
+    "screenshot": "d:\\porfolio project 1\\report_assets\\round-10\\A11Y-06-mobile-390.png"
+  }
+]

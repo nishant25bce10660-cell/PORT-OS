@@ -1,183 +1,326 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import PortOSIcon from '@/components/icons/PortOSIcon';
+import { getIconKindForApp, PortOSIconKind } from '@/components/icons/iconRegistry';
+
+export interface DesktopIconItemData {
+  id: string;
+  label: string;
+  type: 'folder' | 'document' | 'user' | 'project';
+  x: number;
+  y: number;
+}
 
 interface DesktopIconsProps {
-  editMode: boolean;
+  isAdmin?: boolean;
   onOpenProjects: () => void;
   onOpenCertEducation: () => void;
   onOpenOwnersData: () => void;
-  onNewFolder: () => void;
+  onNewFolder?: () => void;
+  onContextMenuIcon?: (e: React.MouseEvent, iconId: string, label: string) => void;
+  initialPositions?: Record<string, { x: number; y: number }>;
+  onSavePositions?: (positions: Record<string, { x: number; y: number }>) => void;
+  iconSize?: 'small' | 'medium' | 'large';
+  extraIcons?: Array<{ id: string; label: string; type: string }>;
+  onOpenExtraIcon?: (icon: { id: string; label: string; type: string }) => void;
 }
 
+const getDefaultPositions = (): Record<string, { x: number; y: number }> => {
+  const rightX = typeof window !== 'undefined' ? Math.max(300, window.innerWidth - 108) : 1330;
+  return {
+    projects: { x: rightX, y: 52 },
+    'cert-education': { x: rightX, y: 164 },
+    'owners-data': { x: rightX, y: 276 },
+  };
+};
+
 export default function DesktopIcons({
-  editMode,
+  isAdmin = false,
   onOpenProjects,
   onOpenCertEducation,
   onOpenOwnersData,
   onNewFolder,
+  onContextMenuIcon,
+  initialPositions,
+  onSavePositions,
+  iconSize = 'medium',
+  extraIcons = [],
+  onOpenExtraIcon,
 }: DesktopIconsProps) {
+  const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>(() => {
+    const defaults = getDefaultPositions();
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('portos_desktop_icons');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && typeof parsed === 'object') {
+            return { ...defaults, ...parsed };
+          }
+        }
+      } catch {}
+    }
+    return initialPositions && Object.keys(initialPositions).length > 0
+      ? { ...defaults, ...initialPositions }
+      : defaults;
+  });
+
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  // Sync when screen resizes or initialPositions change
+  useEffect(() => {
+    const handleResize = () => {
+      // If no stored positions, keep aligned to right
+      if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem('portos_desktop_icons');
+        if (!stored) {
+          setPositions(getDefaultPositions());
+        }
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (initialPositions && Object.keys(initialPositions).length > 0) {
+      setPositions((prev) => {
+        if (typeof window !== 'undefined') {
+          const stored = localStorage.getItem('portos_desktop_icons');
+          if (stored) return prev;
+        }
+        return { ...prev, ...initialPositions };
+      });
+    }
+  }, [initialPositions]);
+
+  // Pointer drag state
+  const dragRef = useRef<{
+    id: string;
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    hasMoved: boolean;
+    targetEl: HTMLElement | null;
+  } | null>(null);
+  const lastDraggedAtRef = useRef<number>(0);
+
+  const savePositionsToStorage = useCallback(
+    (newPositions: Record<string, { x: number; y: number }>) => {
+      try {
+        localStorage.setItem('portos_desktop_icons', JSON.stringify(newPositions));
+      } catch {}
+      if (onSavePositions) {
+        onSavePositions(newPositions);
+      }
+    },
+    [onSavePositions]
+  );
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>, id: string) => {
+    if (e.button !== 0) return;
+    setSelectedId(id);
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+
+    const defaults = getDefaultPositions();
+    const cur = positions[id] || defaults[id] || { x: 1200, y: 52 };
+    dragRef.current = {
+      id,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: cur.x,
+      origY: cur.y,
+      hasMoved: false,
+      targetEl: e.currentTarget,
+    };
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current) return;
+
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+
+    if (!dragRef.current.hasMoved && Math.hypot(dx, dy) > 4) {
+      dragRef.current.hasMoved = true;
+    }
+
+    if (dragRef.current.hasMoved) {
+      const rawX = dragRef.current.origX + dx;
+      const rawY = dragRef.current.origY + dy;
+
+      // 16px Grid snapping
+      const snappedX = Math.round(rawX / 16) * 16;
+      const snappedY = Math.round(rawY / 16) * 16;
+
+      const screenW = typeof window !== 'undefined' ? window.innerWidth : 1200;
+      const screenH = typeof window !== 'undefined' ? window.innerHeight : 800;
+      const clampedX = Math.max(16, Math.min(snappedX, screenW - 100));
+      const clampedY = Math.max(40, Math.min(snappedY, screenH - 140));
+
+      if (dragRef.current.targetEl) {
+        dragRef.current.targetEl.style.transform = `translate3d(${clampedX}px, ${clampedY}px, 0)`;
+      }
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current) return;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+
+    const { id, hasMoved, targetEl } = dragRef.current;
+    dragRef.current = null;
+
+    if (hasMoved) {
+      lastDraggedAtRef.current = Date.now();
+      if (targetEl) {
+        const match = targetEl.style.transform.match(/translate3d\((\d+)px,\s*(\d+)px/);
+        if (match) {
+          const x = parseInt(match[1], 10);
+          const y = parseInt(match[2], 10);
+          setPositions((prev) => {
+            const next = { ...prev, [id]: { x, y } };
+            savePositionsToStorage(next);
+            return next;
+          });
+        }
+      }
+    }
+  };
+
+  // Keyboard navigation for selected icon (Arrow keys nudge by 16px)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, id: string) => {
+    let dx = 0;
+    let dy = 0;
+    if (e.key === 'ArrowRight') dx = 16;
+    else if (e.key === 'ArrowLeft') dx = -16;
+    else if (e.key === 'ArrowDown') dy = 16;
+    else if (e.key === 'ArrowUp') dy = -16;
+    else return;
+
+    e.preventDefault();
+    setPositions((prev) => {
+      const defaults = getDefaultPositions();
+      const cur = prev[id] || defaults[id] || { x: 1200, y: 52 };
+      const nextX = Math.max(16, Math.min(cur.x + dx, (typeof window !== 'undefined' ? window.innerWidth : 1200) - 100));
+      const nextY = Math.max(40, Math.min(cur.y + dy, (typeof window !== 'undefined' ? window.innerHeight : 800) - 140));
+      const updated = { ...prev, [id]: { x: nextX, y: nextY } };
+      savePositionsToStorage(updated);
+      return updated;
+    });
+  };
+
+  const iconScale = iconSize === 'small' ? 0.85 : iconSize === 'large' ? 1.2 : 1.0;
+  const iconGraphicSize = iconSize === 'small' ? 40 : iconSize === 'large' ? 56 : 48;
+
+  const renderIconGraphic = (type: string, label?: string, selected?: boolean) => {
+    const kind = getIconKindForApp(type);
+    return <PortOSIcon kind={kind} size={iconGraphicSize} label={label} selected={selected} />;
+  };
+
+  const allIcons = [
+    { id: 'projects', label: 'Projects', type: 'projects', onOpen: onOpenProjects },
+    { id: 'cert-education', label: 'Certification & Education', type: 'cert-education', onOpen: onOpenCertEducation },
+    { id: 'owners-data', label: "Owner's Data", type: 'owners-data', onOpen: onOpenOwnersData },
+    ...extraIcons.map((extra) => ({
+      id: extra.id,
+      label: extra.label,
+      type: extra.type,
+      onOpen: () => onOpenExtraIcon?.(extra),
+    })),
+  ];
+
   return (
-    <div className="desktop-icons-column">
-      {/* 1. Projects */}
-      <div
-        className="desktop-icon-item"
-        id="desktop-item-projects"
-        onClick={onOpenProjects}
-        onDoubleClick={onOpenProjects}
-        tabIndex={0}
-      >
-        <div className="desktop-icon-graphic">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            {/* macOS folder background */}
-            <path
-              d="M6 10C6 8.34315 7.34315 7 9 7H18.5858C19.3815 7 20.1446 7.31607 20.7071 7.87868L23.1213 10.2929C23.6839 10.8554 24.447 11.1716 25.2426 11.1716H39C40.6569 11.1716 42 12.5147 42 14.1716V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V10Z"
-              fill="#007aff"
-              fillOpacity="0.85"
-            />
-            {/* Folder tab */}
-            <path
-              d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z"
-              fill="url(#folderGrad1)"
-            />
-            {/* Code symbol </> */}
-            <path
-              d="M19 23L14 28L19 33M29 23L34 28L29 33M26 21L22 35"
-              stroke="#ffffff"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <defs>
-              <linearGradient id="folderGrad1" x1="24" y1="13" x2="24" y2="40" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#38bdf8" />
-                <stop offset="1" stopColor="#0284c7" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span className="desktop-icon-label">Projects</span>
-      </div>
+    <div className="desktop-icons-container" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 25 }}>
+      {allIcons.map((icon) => {
+        const defaults = getDefaultPositions();
+        const pos = positions[icon.id] || defaults[icon.id] || { x: 1200, y: 52 };
+        const isSelected = selectedId === icon.id;
 
-      {/* 2. Certification & Education */}
-      <div
-        className="desktop-icon-item"
-        id="desktop-item-cert-education"
-        onClick={onOpenCertEducation}
-        onDoubleClick={onOpenCertEducation}
-        tabIndex={0}
-      >
-        <div className="desktop-icon-graphic">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <path
-              d="M6 10C6 8.34315 7.34315 7 9 7H18.5858C19.3815 7 20.1446 7.31607 20.7071 7.87868L23.1213 10.2929C23.6839 10.8554 24.447 11.1716 25.2426 11.1716H39C40.6569 11.1716 42 12.5147 42 14.1716V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V10Z"
-              fill="#8b5cf6"
-              fillOpacity="0.85"
-            />
-            <path
-              d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z"
-              fill="url(#folderGrad2)"
-            />
-            {/* Graduation Cap */}
-            <path
-              d="M24 21L14 26L24 31L34 26L24 21Z"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M17 27.5V33C17 35 20.134 36.5 24 36.5C27.866 36.5 31 35 31 33V27.5"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <defs>
-              <linearGradient id="folderGrad2" x1="24" y1="13" x2="24" y2="40" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#a78bfa" />
-                <stop offset="1" stopColor="#7c3aed" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span className="desktop-icon-label">Certification & Education</span>
-      </div>
-
-      {/* 3. Owner's Data */}
-      <div
-        className="desktop-icon-item"
-        id="desktop-item-owners-data"
-        onClick={onOpenOwnersData}
-        onDoubleClick={onOpenOwnersData}
-        tabIndex={0}
-      >
-        <div className="desktop-icon-graphic">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <path
-              d="M6 10C6 8.34315 7.34315 7 9 7H18.5858C19.3815 7 20.1446 7.31607 20.7071 7.87868L23.1213 10.2929C23.6839 10.8554 24.447 11.1716 25.2426 11.1716H39C40.6569 11.1716 42 12.5147 42 14.1716V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V10Z"
-              fill="#10b981"
-              fillOpacity="0.85"
-            />
-            <path
-              d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z"
-              fill="url(#folderGrad3)"
-            />
-            {/* User icon */}
-            <circle cx="24" cy="24" r="4.5" stroke="#ffffff" strokeWidth="2" />
-            <path
-              d="M17 34C17 31 20 29.5 24 29.5C28 29.5 31 31 31 34"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <defs>
-              <linearGradient id="folderGrad3" x1="24" y1="13" x2="24" y2="40" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#34d399" />
-                <stop offset="1" stopColor="#059669" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span className="desktop-icon-label">Owner&apos;s Data</span>
-      </div>
-
-      {/* 4. New Folder icon in Edit mode */}
-      {editMode && (
-        <div
-          className="desktop-icon-item"
-          id="desktop-item-new-folder"
-          onClick={onNewFolder}
-          onDoubleClick={onNewFolder}
-          tabIndex={0}
-        >
-          <div className="desktop-icon-graphic">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <path
-                d="M6 10C6 8.34315 7.34315 7 9 7H18.5858C19.3815 7 20.1446 7.31607 20.7071 7.87868L23.1213 10.2929C23.6839 10.8554 24.447 11.1716 25.2426 11.1716H39C40.6569 11.1716 42 12.5147 42 14.1716V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V10Z"
-                fill="#f59e0b"
-                fillOpacity="0.85"
-              />
-              <path
-                d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z"
-                fill="url(#folderGrad4)"
-              />
-              {/* Plus icon */}
-              <path
-                d="M24 22V32M19 27H29"
-                stroke="#ffffff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <defs>
-                <linearGradient id="folderGrad4" x1="24" y1="13" x2="24" y2="40" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#fbbf24" />
-                  <stop offset="1" stopColor="#d97706" />
-                </linearGradient>
-              </defs>
-            </svg>
+        return (
+          <div
+            key={icon.id}
+            id={`desktop-item-${icon.id}`}
+            className={`desktop-icon-item movable-icon ${isSelected ? 'is-selected' : ''}`}
+            tabIndex={0}
+            role="button"
+            aria-label={icon.label}
+            style={{
+              position: 'absolute',
+              transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`,
+              width: `${Math.round(80 * iconScale)}px`,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '6px 4px',
+              borderRadius: '8px',
+              cursor: 'grab',
+              userSelect: 'none',
+              pointerEvents: 'auto',
+              zIndex: isSelected ? 30 : 25,
+              background: isSelected ? 'rgba(56, 189, 248, 0.22)' : 'transparent',
+              border: isSelected ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
+              transition: dragRef.current?.id === icon.id ? 'none' : 'background 0.15s ease',
+              touchAction: 'none',
+            }}
+            onPointerDown={(e) => handlePointerDown(e, icon.id)}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (Date.now() - lastDraggedAtRef.current < 250) return;
+              setSelectedId(icon.id);
+            }}
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              if (Date.now() - lastDraggedAtRef.current < 250) return;
+              icon.onOpen();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                icon.onOpen();
+              } else {
+                handleKeyDown(e, icon.id);
+              }
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setSelectedId(icon.id);
+              onContextMenuIcon?.(e, icon.id, icon.label);
+            }}
+          >
+            <div className="desktop-icon-graphic">{renderIconGraphic(icon.type, icon.label, isSelected)}</div>
+            <span
+              className="desktop-icon-label"
+              style={{
+                fontSize: `${Math.round(11 * iconScale)}px`,
+                fontWeight: 500,
+                color: '#ffffff',
+                textAlign: 'center',
+                lineHeight: '1.25',
+                textShadow: '0 1px 3px rgba(0,0,0,0.85)',
+                wordBreak: 'break-word',
+                padding: '1px 6px',
+                borderRadius: '4px',
+                background: isSelected ? 'rgba(2, 84, 184, 0.95)' : 'rgba(10, 14, 23, 0.65)',
+              }}
+            >
+              {icon.label}
+            </span>
           </div>
-          <span className="desktop-icon-label">+ New Folder</span>
-        </div>
-      )}
+        );
+      })}
     </div>
   );
 }

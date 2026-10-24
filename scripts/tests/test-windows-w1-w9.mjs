@@ -81,7 +81,7 @@ async function runAcceptanceW1toW9() {
     // -------------------------------------------------------------
     console.log('\n--- Checking W8: Centered Open & Cascade ---');
     await page.waitForSelector('#desktop-item-projects', { timeout: 5000 });
-    await page.click('#desktop-item-projects');
+    await page.click('#desktop-item-projects', { clickCount: 2 });
     await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
     await new Promise((r) => setTimeout(r, 400));
 
@@ -95,7 +95,7 @@ async function runAcceptanceW1toW9() {
     assert(win1Box.y >= 28, `Window 1 must be below menu bar y>=28 (got ${win1Box.y})`);
 
     // Open second window (Certification & Education)
-    await page.click('#desktop-item-cert-education');
+    await page.click('#desktop-item-cert-education', { clickCount: 2 });
     await page.waitForSelector('#window-folder-cert-edu', { timeout: 5000 });
     await new Promise((r) => setTimeout(r, 400));
 
@@ -372,7 +372,7 @@ async function runAcceptanceW1toW9() {
     // -------------------------------------------------------------
     console.log('\n--- Checking W9: Persistence on Reload & RBAC Network Guard ---');
     // Open Projects again and place at known coordinates
-    await page.click('#desktop-item-projects');
+    await page.click('#desktop-item-projects', { clickCount: 2 });
     await page.waitForSelector('#window-folder-projects', { timeout: 3000 });
     await new Promise((r) => setTimeout(r, 300));
 

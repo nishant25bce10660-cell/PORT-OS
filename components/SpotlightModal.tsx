@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { PortfolioData, FolderItem, FileItem, Item } from '@/lib/types';
+import PortOSIcon from '@/components/icons/PortOSIcon';
+import { getIconKindForFile, getIconKindForFolder } from '@/components/icons/iconRegistry';
 
 export interface SpotlightItem {
   id: string;
   title: string;
   subtitle: string;
   category: 'Applications' | 'Documents & Projects' | 'System Actions';
-  icon: string;
+  icon: React.ReactNode;
   onSelect: () => void;
 }
 
@@ -79,7 +81,7 @@ export default function SpotlightModal({
       title: 'Projects',
       subtitle: 'Browse portfolio projects & source code',
       category: 'Applications',
-      icon: '📁',
+      icon: <PortOSIcon kind="projects" size={22} />,
       onSelect: onOpenProjects,
     });
 
@@ -88,7 +90,7 @@ export default function SpotlightModal({
       title: 'Certification & Education',
       subtitle: 'View credentials, degrees, and certificates',
       category: 'Applications',
-      icon: '🎓',
+      icon: <PortOSIcon kind="cert-education" size={22} />,
       onSelect: onOpenCertEducation,
     });
 
@@ -97,7 +99,7 @@ export default function SpotlightModal({
       title: "Owner's Data",
       subtitle: 'About Me, bio, and contact information',
       category: 'Applications',
-      icon: '👤',
+      icon: <PortOSIcon kind="owners-data" size={22} />,
       onSelect: onOpenOwnersData,
     });
 
@@ -106,7 +108,7 @@ export default function SpotlightModal({
       title: 'System Settings',
       subtitle: 'Appearance, Wallpapers, Boot, and Fonts',
       category: 'Applications',
-      icon: '⚙️',
+      icon: <PortOSIcon kind="settings" size={22} />,
       onSelect: () => onOpenSettings(),
     });
 
@@ -115,7 +117,7 @@ export default function SpotlightModal({
       title: 'Widgets Manager',
       subtitle: 'Configure desktop clocks, notes, and stats',
       category: 'Applications',
-      icon: '📊',
+      icon: <PortOSIcon kind="widgets" size={22} />,
       onSelect: onOpenWidgets,
     });
 
@@ -125,7 +127,7 @@ export default function SpotlightModal({
         title: 'Terminal',
         subtitle: 'Interactive command-line shell (portsh v1.0)',
         category: 'Applications',
-        icon: '💻',
+        icon: <PortOSIcon kind="terminal" size={22} />,
         onSelect: onOpenTerminal,
       });
     }
@@ -136,7 +138,7 @@ export default function SpotlightModal({
         title: 'About PORT OS',
         subtitle: 'Hardware, software, and kernel version',
         category: 'Applications',
-        icon: 'ℹ️',
+        icon: <PortOSIcon kind="about" size={22} />,
         onSelect: onOpenAbout,
       });
     }
@@ -152,7 +154,7 @@ export default function SpotlightModal({
               title: file.name,
               subtitle: pathPrefix ? `${pathPrefix} • Markdown Document` : 'Markdown Document',
               category: 'Documents & Projects',
-              icon: '📄',
+              icon: <PortOSIcon kind={getIconKindForFile(file.name)} size={22} />,
               onSelect: () => onOpenFile(file),
             });
           } else if (it.kind === 'folder') {
@@ -162,7 +164,7 @@ export default function SpotlightModal({
               title: folder.name,
               subtitle: pathPrefix ? `${pathPrefix} • Folder` : 'Folder',
               category: 'Documents & Projects',
-              icon: '📁',
+              icon: <PortOSIcon kind={getIconKindForFolder(folder.id, folder.name)} size={22} />,
               onSelect: () => onOpenFolder(folder),
             });
             if (folder.children && folder.children.length > 0) {
@@ -181,7 +183,7 @@ export default function SpotlightModal({
         title: 'New Folder',
         subtitle: 'Create a new folder on the desktop',
         category: 'System Actions',
-        icon: '➕',
+        icon: <PortOSIcon kind="folder" size={22} />,
         onSelect: onNewFolder,
       });
     }
@@ -191,7 +193,7 @@ export default function SpotlightModal({
       title: 'Change Wallpaper',
       subtitle: 'Open System Settings Appearance tab',
       category: 'System Actions',
-      icon: '🖼️',
+      icon: <PortOSIcon kind="settings" size={22} />,
       onSelect: () => onOpenSettings('appearance'),
     });
 
@@ -200,7 +202,7 @@ export default function SpotlightModal({
       title: 'Sleep',
       subtitle: 'Put PORT OS into low-power sleep mode',
       category: 'System Actions',
-      icon: '🌙',
+      icon: <PortOSIcon kind="lock" size={22} />,
       onSelect: onSleep,
     });
 
@@ -209,7 +211,7 @@ export default function SpotlightModal({
       title: 'Restart PORT OS',
       subtitle: 'Reboot the operating system session',
       category: 'System Actions',
-      icon: '🔄',
+      icon: <PortOSIcon kind="power" size={22} />,
       onSelect: onRestart,
     });
 
@@ -218,7 +220,7 @@ export default function SpotlightModal({
       title: 'Shut Down',
       subtitle: 'Power down PORT OS',
       category: 'System Actions',
-      icon: '⏻',
+      icon: <PortOSIcon kind="power" size={22} />,
       onSelect: onShutdown,
     });
 
@@ -227,7 +229,7 @@ export default function SpotlightModal({
       title: 'Log Out',
       subtitle: 'Exit current user session',
       category: 'System Actions',
-      icon: '🚪',
+      icon: <PortOSIcon kind="power" size={22} />,
       onSelect: onSignOut,
     });
 
@@ -443,9 +445,9 @@ export default function SpotlightModal({
                     gap: '12px',
                   }}
                 >
-                  <span style={{ fontSize: '18px', width: '24px', textAlign: 'center' }}>
+                  <div style={{ width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     {item.icon}
-                  </span>
+                  </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div

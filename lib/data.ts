@@ -28,6 +28,14 @@ export function getPortfolioData(): PortfolioData {
           linkedin: parsed.owner.linkedin || DEFAULT_SETTINGS.general.linkedin,
         };
       }
+    } else if (!parsed.settings.customization) {
+      parsed.settings.customization = {
+        ...DEFAULT_SETTINGS.customization,
+        wallpaperDesktop: parsed.settings.appearance?.wallpaper || 'wave-shader',
+        theme: parsed.settings.appearance?.theme || 'dark',
+        accentColor: parsed.settings.appearance?.accentColor || '#38bdf8',
+        font: parsed.settings.appearance?.font || 'Inter',
+      };
     }
 
     if (!Array.isArray(parsed.trash)) {

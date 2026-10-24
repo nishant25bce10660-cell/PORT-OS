@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-10-24T10:51:11.836Z",
+  "total": 29,
+  "verified": 29,
+  "regressions": 0,
+  "claims": [
+    {
+      "id": "R6_W1_W9_WINDOW_MANAGER",
+      "claim": "Windows open centered, cascade +28px, 8-handle resize, edge snap, persistence",
+      "testSuite": "scripts/tests/test-windows-w1-w9.mjs"
+    },
+    {
+      "id": "R6_H1_NO_DEFAULT_CREDENTIALS",
+      "claim": "No default admin credentials; fail-closed authentication",
+      "testSuite": "scripts/security/audit.mjs"
+    },
+    {
+      "id": "R6_H2_ORIGIN_HOST_VALIDATION",
+      "claim": "Origin and loopback Host header validation (HTTP 400/403)",
+      "testSuite": "scripts/security/audit.mjs"
+    },
+    {
+      "id": "R6_H3_HARDENED_COOKIES",
+      "claim": "SameSite=Strict, httpOnly, HMAC-SHA256 timingSafeEqual",
+      "testSuite": "scripts/security/audit.mjs"
+    },
+    {
+      "id": "R6_H4_RBAC_GUARD",
+      "claim": "Server-side RBAC across mutating routes (HTTP 401/403)",
+      "testSuite": "scripts/security/audit.mjs"
+    },
+    {
+      "id": "R6_H5_SECURITY_SCANNER",
+      "claim": "npm run security 12/12 checks pass",
+      "testSuite": "scripts/security/audit.mjs"
+    },
+    {
+      "id": "R7_M13_CONTEXTUAL_CUSTOMIZATION",
+      "claim": "No global edit pill; object context menus; movable icons; dual wallpaper",
+      "testSuite": "scripts/tests/test-round7-customization-effects.mjs"
+    },
+    {
+      "id": "R7_M14_FILMIC_SHADER_REPAIR",
+      "claim": "Silk Wave shader repaired with luminance clamping; RBAC 403 enforced",
+      "testSuite": "scripts/tests/test-round7-customization-effects.mjs"
+    },
+    {
+      "id": "R8_1_MENU_BAR_REFACTOR",
+      "claim": "Menu bar retains N logo, Finder, Help, Spotlight; Control Center removed",
+      "testSuite": "scripts/tests/test-round8-refactor-and-interactions.mjs"
+    },
+    {
+      "id": "R8_2_DESKTOP_INTERACTIONS",
+      "claim": "Single click selects; drag nudges; double click opens; right-click context menu",
+      "testSuite": "scripts/tests/test-round8-refactor-and-interactions.mjs"
+    },
+    {
+      "id": "R8_3_FINDER_CLEANUP",
+      "claim": "This PC and Desktop removed from Finder; context menu viewport clamped",
+      "testSuite": "scripts/tests/test-round8-refactor-and-interactions.mjs"
+    },
+    {
+      "id": "R8_4_STATS_WIDGET",
+      "claim": "Portfolio stats 3-column grid fits widget; labels cleanly separated",
+      "testSuite": "scripts/tests/test-round8-refactor-and-interactions.mjs"
+    },
+    {
+      "id": "R8_5_DARK_SELECTS",
+      "claim": "Dropdowns styled with #1a1e29 dark theme and white text",
+      "testSuite": "scripts/tests/test-round8-refactor-and-interactions.mjs"
+    },
+    {
+      "id": "R8_6_SETTINGS_PERSISTENCE",
+      "claim": "PUT /api/settings deeply merges customization dictionary",
+      "testSuite": "scripts/tests/test-round8-refactor-and-interactions.mjs"
+    },
+    {
+      "id": "R9_M17_ICON_TOKENS",
+      "claim": "CSS token architecture with squircle radius and depth layers",
+      "testSuite": "scripts/tests/test-round9-icon-system.mjs"
+    },
+    {
+      "id": "R9_M18_21_VECTOR_ARTWORKS",
+      "claim": "21 vector SVG artworks with zero emojis across all UI surfaces",
+      "testSuite": "scripts/tests/test-round9-icon-system.mjs"
+    },
+    {
+      "id": "R10_VF01_TOP_MENU_BAR",
+      "claim": "Menu bar has id portfolio-menubar, N, Finder, Help, zero legacy menus",
+      "evidence": "VF-01-menubar"
+    },
+    {
+      "id": "R10_VF02_FINDER_AND_HELP",
+      "claim": "Help runs help once; guest gets read-only commands; owner gets owner commands",
+      "evidence": "VF-02-guest-help"
+    },
+    {
+      "id": "R10_VF04_CONTEXT_MENU_PORTAL",
+      "claim": "Context menu rendered via createPortal in body with viewport auto-flip",
+      "evidence": "A11Y-05-context-menu.png"
+    },
+    {
+      "id": "R10_VF05_PC_BRIDGE_ELIMINATED",
+      "claim": "Server routes /api/pc/* completely deleted; returns 404",
+      "evidence": "authz-cookie-report.json"
+    },
+    {
+      "id": "R10_VF06_CONTROL_CENTER_REMOVED",
+      "claim": "Control Center component and buttons deleted; sound controls in Settings",
+      "evidence": "live-bug-hunt.mjs"
+    },
+    {
+      "id": "R10_VF08_EFFECTS_TRUTH_BUDGET",
+      "claim": "Effects default to liquid glass only; 3-effect budget enforced",
+      "evidence": "VF-08-effects-truth"
+    },
+    {
+      "id": "R10_VF09_CONTRAST_TOKENS",
+      "claim": "WCAG AA contrast achieved on selected desktop labels and dark selects",
+      "evidence": "a11y-audit-report.json"
+    },
+    {
+      "id": "R10_VF14_WALLPAPER_QUALITY",
+      "claim": "80.6 FPS, 14.2% mean luminance, 1.2% flicker, GPU released on unmount",
+      "evidence": "VF-14-wallpaper-1920x1080.png"
+    },
+    {
+      "id": "R10_VF15_ZERO_EMOJIS_PURITY",
+      "claim": "Zero emojis in icon matrix; accessible role=img and aria-label",
+      "evidence": "VF-15-icon-matrix.png"
+    },
+    {
+      "id": "R10_LCP_PERFORMANCE",
+      "claim": "Lock screen LCP 1.25s (4x throttle <= 2.5s), CLS 0.0000, Finder open 180ms",
+      "evidence": "performance-memory-report.json"
+    },
+    {
+      "id": "R10_MEMORY_LEAK_ZERO",
+      "claim": "Heap growth 0.92 MB (budget <= 20MB), 0 detached DOM nodes delta",
+      "evidence": "performance-memory-report.json"
+    },
+    {
+      "id": "R10_AUTHZ_MATRIX_23_OF_23",
+      "claim": "23/23 API routes match expected authorization status codes",
+      "evidence": "authz-cookie-report.json"
+    },
+    {
+      "id": "R10_SEC_L_ADVERSARY_PASS",
+      "claim": "All 4 adversary attack goals repelled and verified live",
+      "evidence": "adversary-pass-report.json"
+    }
+  ]
+}

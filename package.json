@@ -15,6 +15,7 @@
     "test:all": "node scripts/tests/run-all-tests.mjs",
     "test:acceptance": "node scripts/test-acceptance.mjs",
     "security": "node scripts/security/audit.mjs",
+    "set-password": "node scripts/set-password.mjs",
     "report:word": "node scripts/build-word-report.mjs"
   },
   "dependencies": {

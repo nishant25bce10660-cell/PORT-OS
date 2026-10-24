@@ -10,6 +10,8 @@ export interface VisitorRecord {
   timestamp: string;
 }
 
+import crypto from 'crypto';
+
 const VISITORS_FILE_PATH = path.join(process.cwd(), 'data', 'visitors.json');
 
 export function getVisitors(): VisitorRecord[] {
@@ -36,11 +38,12 @@ export function recordVisitor(entry: {
 }): VisitorRecord {
   try {
     const list = getVisitors();
+    const hashedIp = crypto.createHash('sha256').update(entry.ip || '127.0.0.1').digest('hex').substring(0, 16);
     const newRecord: VisitorRecord = {
-      id: `vis-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      id: `vis-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`,
       name: entry.name,
       email: entry.email,
-      ip: entry.ip || '127.0.0.1',
+      ip: hashedIp,
       userAgent: entry.userAgent || 'Unknown',
       timestamp: new Date().toISOString(),
     };

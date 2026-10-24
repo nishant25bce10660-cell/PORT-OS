@@ -268,7 +268,7 @@ export default function LoginModal({
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                 }}
               >
-                <GeometricLogo size={48} variant="silver" />
+                <GeometricLogo size={48} />
               </div>
             </div>
             <div
@@ -468,6 +468,7 @@ export default function LoginModal({
               <div className="floating-input-group">
                 <input
                   id="input-admin-username"
+                  aria-label="Username"
                   className="floating-input"
                   type="text"
                   placeholder=" "
@@ -482,6 +483,7 @@ export default function LoginModal({
               <div className="floating-input-group" style={{ position: 'relative' }}>
                 <input
                   id="input-admin-password"
+                  aria-label="Password"
                   className="floating-input"
                   type="password"
                   placeholder=" "
@@ -551,6 +553,7 @@ export default function LoginModal({
               <div className="floating-input-group">
                 <input
                   id="input-viewer-name"
+                  aria-label="Your Full Name"
                   className="floating-input"
                   type="text"
                   placeholder=" "
@@ -565,6 +568,7 @@ export default function LoginModal({
               <div className="floating-input-group">
                 <input
                   id="input-viewer-email"
+                  aria-label="Your Email"
                   className="floating-input"
                   type="email"
                   placeholder=" "

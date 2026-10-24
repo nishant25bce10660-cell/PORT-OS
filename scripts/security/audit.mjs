@@ -117,9 +117,9 @@ async function runDynamicTests() {
     });
     check('Server-side RBAC enforced for unauthenticated write', rbacRes.status === 403 || rbacRes.status === 401, `Got HTTP ${rbacRes.status}`);
 
-    // 5. PC Bridge Path Traversal Attack
+    // 5. PC Bridge Path Traversal Attack (PC Bridge completely eliminated per Q3 & VF-05)
     const traversalRes = await fetch(`${BASE_URL}/api/pc/read?path=../../../../Windows/System32/drivers/etc/hosts`);
-    check('PC Bridge blocks path traversal vectors', traversalRes.status === 403 || traversalRes.status === 401, `Got HTTP ${traversalRes.status}`);
+    check('PC Bridge endpoints completely removed (404) or blocked (403/401)', traversalRes.status === 404 || traversalRes.status === 403 || traversalRes.status === 401, `Got HTTP ${traversalRes.status}`);
 
     // 6. Fail-closed admin login with no credentials
     const emptyLoginRes = await fetch(`${BASE_URL}/api/auth/login`, {

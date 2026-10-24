@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-10-24T10:50:15.175Z",
+  "cookieAudit": {
+    "hasHttpOnly": true,
+    "hasSameSiteStrict": true,
+    "hasPathSlash": true,
+    "hasNoDomain": true,
+    "isCleared": true,
+    "pass": true
+  },
+  "authzMatrix": {
+    "total": 23,
+    "passed": 23,
+    "failed": 0,
+    "mismatches": []
+  },
+  "hostOriginCheck": {
+    "badHostBlocked": true,
+    "badOriginBlocked": true,
+    "badRefererBlocked": true,
+    "pass": true
+  },
+  "rateLimitCheck": {
+    "rateLimitTriggered": true,
+    "pass": true
+  }
+}

@@ -14,10 +14,14 @@ chrome/
 
 # Environment Variables
 .env
+.env.*
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Data Storage & State
+data/
 
 # Debug Logs
 npm-debug.log*
