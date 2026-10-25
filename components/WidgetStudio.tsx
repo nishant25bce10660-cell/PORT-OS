@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { Widget, CustomWidgetBlock, CustomWidgetFieldType, WidgetCustomAppearance } from '@/lib/types';
+import CometDial from './CometDial';
+import WarmTooltip from './WarmTooltip';
 
 interface WidgetStudioProps {
   initialWidget?: Widget | null;
@@ -570,20 +572,22 @@ export default function WidgetStudio({ initialWidget, onSave, onCancel }: Widget
                       <span style={{ fontSize: '11px', fontWeight: 600, color: '#38bdf8' }}>
                         #{index + 1} {block.type.toUpperCase()}
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveBlock(block.id)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#f87171',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                        }}
-                        title="Remove Block"
-                      >
-                        ✕
-                      </button>
+                      <WarmTooltip content="Remove Block" side="top">
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveBlock(block.id)}
+                          aria-label="Remove Block"
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#f87171',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                          }}
+                        >
+                          ✕
+                        </button>
+                      </WarmTooltip>
                     </div>
 
                     {/* Block-specific field editor */}
@@ -754,34 +758,50 @@ export default function WidgetStudio({ initialWidget, onSave, onCancel }: Widget
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
-                  <span style={{ color: 'var(--tx-2)' }}>Surface Opacity</span>
-                  <span>{Math.round((appearance.bgOpacity ?? 0.8) * 100)}%</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '6px 0' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--tx-2)', fontWeight: 500 }}>Surface Opacity</div>
+                  <CometDial
+                    className="dial-surface-opacity"
+                    value={Math.round((appearance.bgOpacity ?? 0.8) * 100)}
+                    min={20}
+                    max={100}
+                    step={5}
+                    unit="%"
+                    label="Surface Opacity"
+                    size={88}
+                    accent="#38bdf8"
+                    ink="#ffffff"
+                    onChange={(val) => {
+                      setAppearance((prev) => ({ ...prev, bgOpacity: val / 100 }));
+                    }}
+                    onChangeEnd={(val) => {
+                      setAppearance((prev) => ({ ...prev, bgOpacity: val / 100 }));
+                    }}
+                  />
                 </div>
-                <input
-                  type="range"
-                  min="0.2"
-                  max="1.0"
-                  step="0.05"
-                  value={appearance.bgOpacity ?? 0.8}
-                  onChange={(e) => setAppearance({ ...appearance, bgOpacity: parseFloat(e.target.value) })}
-                />
-              </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
-                  <span style={{ color: 'var(--tx-2)' }}>Corner Radius</span>
-                  <span>{appearance.borderRadius ?? 14}px</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--tx-2)', fontWeight: 500 }}>Corner Radius</div>
+                  <CometDial
+                    className="dial-corner-radius"
+                    value={appearance.borderRadius ?? 14}
+                    min={4}
+                    max={24}
+                    step={2}
+                    unit="px"
+                    label="Corner Radius"
+                    size={88}
+                    accent="#38bdf8"
+                    ink="#ffffff"
+                    onChange={(val) => {
+                      setAppearance((prev) => ({ ...prev, borderRadius: val }));
+                    }}
+                    onChangeEnd={(val) => {
+                      setAppearance((prev) => ({ ...prev, borderRadius: val }));
+                    }}
+                  />
                 </div>
-                <input
-                  type="range"
-                  min="4"
-                  max="24"
-                  step="2"
-                  value={appearance.borderRadius ?? 14}
-                  onChange={(e) => setAppearance({ ...appearance, borderRadius: parseInt(e.target.value) })}
-                />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>

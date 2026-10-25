@@ -93,7 +93,7 @@ async function runRound7TestSuite() {
     console.log('\n--- CHECK 2: Object-Specific Contextual Menus & Clamping ---');
 
     // 2a. Desktop Wallpaper Context Menu
-    await page.mouse.click(600, 400, { button: 'right' });
+    await page.mouse.click(900, 300, { button: 'right' });
     await page.waitForSelector('#desktop-context-menu', { timeout: 4000 });
 
     const desktopMenuHeader = await page.evaluate(() => {

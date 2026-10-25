@@ -1,0 +1,165 @@
+<USER_REQUEST>
+PORT OS — Round 15 Strict-Gate Fix Loop Prompt
+
+Login alignment · widget buttons · dock menus · context menus · Quick Look · file pills · dock lag · full animation optimisation
+
+Give this whole file to the agent (Gemini 3.8 Flash with the Chrome DevTools skill) as ONE message. The agent's memory between rounds is PROGRESS.md.
+
+<ROLE> You are a senior front-end, QA, accessibility and performance engineer with the project's source code, a shell and the Chrome DevTools skill commands `/troubleshooting`, `/chrome-devtools`, `/a11y-debugging`, `/cookie-debugging`, `/debug-optimize-lcp` and `/memory-leak-debugging`. You fix bugs from real evidence and prove each fix live in the browser. Writing code is not enough: a step is done only when its live verification passes. </ROLE>
+
+<STRICT_SEQUENCE_RULE> The work is split into STEP 0 to STEP 10. You MUST do them in order.
+
+Do NOT start step N+1 until step N shows GATE PASSED with evidence.
+After every step, append one line to PROGRESS.md: ROUND 15 · STEP n · PASSED · evidence files · date. If you cannot write that line truthfully, the step is not finished.
+If a later step breaks an earlier gate, STOP, return to the earlier step, re-run its verification, fix it, and only then continue.
+If one step fails 5 attempts, stop patching: write a short root-cause note, change the approach (for example replace the component), then continue.
+Never skip, merge, reorder or "summarise" steps. Never mark a gate passed from code reading alone. </STRICT_SEQUENCE_RULE>
+
+<GLOBAL_RULES>
+
+Test only the local project on 127.0.0.1, in an isolated temporary Chrome profile, on a backup copy of data/. Never print or write passwords, tokens or cookie values.
+Evidence rule: every check needs measured numbers (rectangles, computed styles, status codes, FPS) plus its own screenshot or trace under report_assets/round-15/, listed in report_assets/round-15/manifest.json. "The element exists" is never a pass.
+Tests must be geometry-based and parameterised (several window sizes, positions, viewports, zoom levels). The old tests passed while these bugs existed because they only ran at one size or only on a maximised window.
+Remove replaced code completely (components, handlers, CSS, ids, tests). Do not leave a second implementation behind.
+Do not remove features nobody asked to remove. Keep role rules: guests are read-only, the owner writes, the server re-checks every write.
+Use WarmTooltip for any new tooltip. Do not add dependencies unless a step says so or it is unavoidable and justified.
+Never claim the app is "secure" or "unhackable". </GLOBAL_RULES>
+
+<CURRENT_STATE source="PROGRESS.md Rounds 12-14 + 5 screenshots + 48 s screen recording"> Delivered and reported green: Round 12 React Bits Dock with a speech-bubble right-click menu (DockMenu); Round 13 FolderFloat (desktop folders show their files as floating pills using Matter.js, matter-js dependency); Round 14 WarmTooltip, CometDial and dock revamp (dock now holds Finder, Widgets, Settings, Terminal, Trash, Sign Out); 12 test suites and 12 security checks passing.
+
+Observed defects (each is one step below):
+
+Login (image 1): avatars are Owner (left) and Guest (right); the switch underneath reads Viewer (left) and Admin (right). Order and wording are crossed, so the selected avatar and the highlighted half sit on a diagonal.
+Files (images 2 and 3): hovering a desktop folder makes the file pills pile up and overlap, hiding names. The Projects folder also contains a leftover test file named Round13_Trash_Test.md.
+Widgets (images 4 and 5): the edit (pencil) and remove (red) round buttons overlap at the top-left corner of the clock widget and, by the same shared code, on the other widgets.
+Dock right-click (video): the old list-style menu is still shown underneath the new speech-bubble menu, so two menus appear at once.
+Windowed context menu (video): in a non-maximised Finder window the right-click menu opens far away from the pointer (about 300 px right and 120 px down in the recording); in a maximised window it is correct. In the file viewer the browser's own menu (Back, Forward, Reload, Save as, View page source) appears instead of a PORT OS menu.
+Quick Look (video): opened from a non-maximised Finder window it blurs only that window, its panel sits at the lower right and is cut off by the window edge, and Markdown is shown as raw text (#, **) in a monospace font. It only works properly when the window is full screen.
+Dock lag (video): dock hover and bounce stutter while the animated WebGL wallpaper, widgets with blur effects, file pills and other animations run.
+
+Probable shared root cause for 5 and 6: overlays are rendered inside the transformed window element, so position: fixed and viewport coordinates are interpreted relative to the window instead of the screen. Verify this first.
+
+Likely files (verify, do not assume): components/LoginModal.tsx, components/Widgets.tsx, components/WidgetGallery.tsx, components/Dock.tsx, components/Dock.css, components/ContextMenu.tsx, components/FolderView.tsx, components/QuickLookModal.tsx, components/FolderFloat.tsx, components/FolderFloat.css, components/DesktopIcons.tsx, components/Window.tsx, components/Wallpaper.tsx, app/page.tsx, app/globals.css, scripts/tests/*. </CURRENT_STATE>
+
+STEP 0 — Prepare, baseline, clean test pollution
+
+Do all of this before touching any bug.
+
+Back up data/ and .env.local outside the repo. Run npm ci, npm run build, npm test, npm run security; record results.
+Start the app and connect with /chrome-devtools. If the connection fails, run /troubleshooting.
+Create the three identities: anonymous, guest, owner (credentials from environment variables only).
+Test pollution: find and delete leftover test files in the real vault and trash (for example Round13_Trash_Test.md, any *_Test.*, Test_*, fixture folders). Change every test that creates files so that it runs against a temporary copy of the data directory and deletes what it created. Prove it: run npm test twice and show that the vault file list is identical before and after.
+Record BEFORE numbers (4x CPU throttle): dock sweep FPS and p95 frame time, window drag FPS, FolderFloat hover FPS, idle main-thread busy %, JS heap, First Load JS.
+Add an evidence recorder that saves a named screenshot per check into report_assets/round-15/ and updates manifest.json. GATE 0 PASSED when: build, tests and security are green, the vault is clean, tests no longer pollute the vault, the recorder works, and BEFORE numbers are written down.
+STEP 1 — Login avatars and switch alignment (image 1)
+
+Problem: avatar order is Owner then Guest, the switch order is Viewer then Admin, the words differ (Owner/Guest/Viewer/Admin), so the layout looks diagonal. Required behaviour
+
+One source of truth for the selected login role. Internal role values stay as they are; only the visible labels change.
+Same order and same words everywhere on the login screen: left = Owner, right = Guest. Avatar captions, the switch segments, aria-labels and the submit button ("Sign in as Owner" / "Enter as Guest") all use Owner and Guest.
+The switch has exactly two equal segments and is as wide as the two avatar columns; each segment is horizontally centred under its avatar (centre difference ≤ 1 px). The sliding thumb always sits under the selected avatar.
+Both avatars share one baseline; names and captions share one baseline; spacing is symmetrical on both sides.
+Clicking an avatar, clicking a segment, and Left/Right arrow keys all change the same state (radio-group semantics, roving focus, visible focus ring). Thumb slide ≈ 220 ms spring; ring/glow fades; zero layout shift; the form fields underneath switch with the role.
+Works at 1920x1080, 1366x768 and 390x844. Verify (/chrome-devtools, /a11y-debugging)
+Read getBoundingClientRect() of both avatars and both segments: left/right order identical; |avatar centre x − segment centre x| ≤ 1 px for both; both avatar tops equal (±1 px).
+Click each of the 4 controls and press the arrow keys: state and highlighted segment and selected avatar always agree.
+CLS = 0 during switching; contrast AA; screenshot at the 3 viewports. GATE 1 PASSED when all numbers above pass at all 3 viewports and a regression test exists.
+STEP 2 — Widget edit/remove buttons must never overlap (images 4 and 5)
+
+Problem: the pencil and red remove buttons share the same corner, so one hides the other. It is a shared component, so every widget type is affected: clock, analog clock, note, stats/counter, calendar, countdown, todo, metric, quote, custom. Required behaviour
+
+One shared WidgetControls component used by every widget type (delete any per-widget copy).
+Remove (red) sits outside the top-left corner, Edit (pencil) outside the top-right corner, each about 24 px with a 32 px hit area (44 px on touch). They can never touch because they are on opposite corners; for widgets narrower than 120 px they stack vertically with an 8 px gap.
+They appear on hover, on keyboard focus-within and on touch; they never cover widget text; near a screen edge they flip inside the viewport. Use WarmTooltip for their labels. Role rules unchanged (guest changes stay local, owner changes are global). Verify
+For every widget type at minimum, default and maximum size and at 3 viewports: the two button rectangles do not intersect (gap ≥ 6 px), do not intersect any text node of the widget, and lie inside the viewport. Click each; confirm the right action. One screenshot per widget type. GATE 2 PASSED when all widget types pass at all sizes, with a regression test that iterates the widget catalog automatically (new widget types are covered without editing the test).
+STEP 3 — Dock right-click: remove the old menu, keep only the new one (video)
+
+Problem: right-clicking a dock icon opens the old list-style menu (section label such as "DOCK WIDGETS", rows such as "Open Widgets", "System Settings…", "Open Finder / New Finder Window / Show All Windows") underneath the new speech-bubble menu. Required behaviour
+
+Only the new speech-bubble DockMenu remains (spring pop, sliding highlight, selection blink).
+Delete the old dock menu completely: its component or branch, the global contextmenu branch for dock targets, CSS, ids and tests.
+The dock's onContextMenu calls preventDefault and stopPropagation; the global context-menu provider ignores events that start inside the dock.
+Merge any useful entry that only the old menu had into the new menu so no feature is lost (Finder: Open Finder, New Finder Window, Show All Windows; Widgets: Open Widget Studio, Widget Gallery, Reset Widgets; Settings: System Settings…; Trash: Open Trash, Empty Trash…).
+Exactly one menu at a time, opens within 100 ms, Esc / outside click / Shift+F10 work, repeated right-clicks never duplicate it. Verify
+For each dock item and each viewport: right-click, then count elements with a menu role on the page = 1; the old class names and ids do not exist in the DOM or in the source (grep); screenshot. Right-click 20 times quickly: still one menu. GATE 3 PASSED when the count is 1 for every item, the old code is gone, and no feature was lost.
+STEP 4 — One context menu that works for any window size (video)
+
+Problem: inside a non-maximised Finder window the menu opens far from the pointer; in a maximised window it is right. In the file viewer the browser's native menu appears. Required behaviour
+
+Find ALL context-menu implementations (global, Finder/FolderView, file viewer, Quick Look, Settings, Terminal, widgets, desktop) and replace them with ONE provider.
+Render through createPortal into a dedicated top-level overlay root that is a sibling of the windows layer and has no ancestor with transform, filter, contain, will-change or overflow: hidden. Position with viewport coordinates from the event (clientX, clientY). Never add window offsets.
+After render, measure the menu and place it: open at the pointer; if there is no room on the right open to the left of the pointer; if no room below open upward; keep at least 8 px from every viewport edge; submenus flip the same way; if the viewport is short, cap the height and scroll inside the menu without a visible scrollbar.
+Correct for every window size, position, snap state, maximised or zoomed window, a window dragged earlier, scrolled lists, browser zoom 100 %, 125 %, 150 %, and a different device pixel ratio. Close on Esc, outside click, window move or resize, scroll and blur.
+Suppress the browser's native context menu everywhere in the app except real text inputs and editable text. The file viewer, Quick Look, Settings, Terminal, widgets and desktop all show a PORT OS menu (or nothing), never the browser's menu.
+Keep role-based items: guests get no write actions; the server rejects them anyway. Verify (parameterised test scripts/tests/test-context-menu-geometry.mjs)
+Window sizes 360x240 (minimum), 600x400, 900x600, left-half snapped, right-half snapped, maximised; window positions top-left, centre, bottom-right; right-click at 9 points inside each (corners, edges, centre) on a file, on empty space, on the file viewer and on a widget; viewports 1920x1080, 1366x768, 390x844 (long-press); browser zoom 125 % and 150 %.
+Pass: menu top-left within 2 px of the pointer, OR flipped so that the menu edge is within 2 px of the pointer on the flipped axis; menu rectangle inside the viewport with ≥ 8 px margin; exactly one menu; a contextmenu listener proves defaultPrevented is true everywhere except text inputs (native menu never shown). GATE 4 PASSED when the whole matrix passes and only one menu implementation remains in the source.
+STEP 5 — Quick Look that fits any window size (video)
+
+Problem: from a non-maximised window, Quick Look blurs only that window and its panel is stuck at the lower right and clipped; Markdown shows as raw text. Required behaviour (macOS-like)
+
+Quick Look is a floating panel in the same top-level overlay root as Step 4 (never clipped by a window), independent of the Finder window size or state.
+It opens with a short zoom and fade from the selected file's on-screen rectangle (≈ 220 ms) and closes the same way in reverse. It is centred in the viewport. The dimmer covers the whole screen (light dim, no heavy blur; blur at most 8 px and disabled by the quality governor in Step 8).
+Size fits the content and the screen: documents min(720px, 90vw) by min(520px, 80vh); images scale to fit within 90vw by 80vh keeping their aspect ratio; minimum 320x240. On browser or window resize while open it re-fits live without jank (ResizeObserver, no polling).
+Works from all four Finder views (icons, list, columns, gallery), from the desktop file pills, and for any Finder window size or state.
+Markdown is rendered with the same sanitised renderer as the file viewer (headings, bold, lists, code, tables); no literal # or ** visible. Images, unsupported types (icon plus metadata) are handled.
+Space or Esc closes; Left/Right arrows move to the previous or next file with a crossfade; focus is trapped and returns to the file; role="dialog", aria-modal, label; reduced motion respected; header has the same close control style as windows and the file name with its icon. Verify
+For the window-size and viewport matrix of Step 4: panel rectangle fully inside the viewport (≥ 16 px margin), centred within 2 px, not clipped (elementFromPoint at the 4 corners of the panel returns the panel or its descendants); rendered text contains no ** and no leading # ; open and close durations measured between 180 and 280 ms; resizing the viewport while open re-fits within 100 ms; arrow-key navigation works; screenshot per case. GATE 5 PASSED when the matrix passes and Quick Look contains no code that depends on the Finder window's geometry.
+STEP 6 — File pills: aligned, four at a time, scrollable, same look, optimised (images 2 and 3)
+
+Problem: the floating file pills overlap each other when the cursor is over them, hiding names (the Matter.js physics lets bodies stack). Keep exactly: the pill shape, icon plus file name, colours, soft floating drift, small tilt feel, pop on hover and click, single click on a pill opens the file, double click on the folder opens Finder, folder single click selects. Required behaviour
+
+At most 4 pills visible at once. With 4 or fewer files, show all. With more, show a window of 4 and let the user scroll through the list with mouse wheel, trackpad two-finger scroll, touch drag and the Up/Down keys when focused. Pills glide along the same arc as now: the leaving pill fades and shrinks, the next one springs in. There is NO scrollbar. A subtle fade at the top or bottom edge may hint that more files exist; add no other widget.
+Deterministic layout: pills sit on slots along one smooth curve above the folder with a fixed vertical pitch of about 44-52 px, tilt within ±6° alternating by slot, left edges on the same curve. After rotation, no two pill rectangles may intersect (minimum gap 6 px). Pill width fits its text up to 260 px with a middle ellipsis (Distributed-KV…Store.md); the full name appears in a WarmTooltip.
+Motion: replace free collision physics with "spring to slot" motion (damped spring toward the slot plus ±2-3 px idle drift) so it keeps the floating feel but cannot overlap. If drag-and-throw stays, the pill springs back to its slot on release. Use Matter.js only if truly needed for the throw; if you remove it entirely, remove the dependency and matter-js types and justify it.
+Position: near a screen edge the cluster flips to the other side so all pills stay inside the viewport. Folders with 0, 1, 4, 5, 20 and 200 files, very long names, trashed or added files (list updates live), and guest versus owner all behave correctly. Guests only see files they may see.
+Performance: no animation frame loop while the cursor is not over the folder; a single requestAnimationFrame loop while visible, paused when the tab is hidden; transforms and opacity only; no backdrop-filter on pills (use a solid translucent surface); at most 4 pill elements in the DOM (virtualise); everything cleaned up on unmount. Verify
+Create temporary folders with 1, 3, 4, 5, 12 and 50 files (in the temporary data copy). On hover: visible pills ≤ 4; pairwise intersection of all pill bounding rectangles = 0 with ≥ 6 px gap; a real wheel event (and touch emulation) moves the window by one file per notch with a 180-260 ms animation; first and last positions stop correctly; no scrollbar element or scroll-gutter exists; long names are ellipsised and fully visible in the tooltip; folders near the right and bottom edges keep all pills inside the viewport; no rAF callbacks from FolderFloat when not hovering.
+Performance at 4x CPU throttle: ≥ 55 FPS average while hovering and scrolling; hover the folder 100 times, then take heap snapshots (/memory-leak-debugging): growth ≤ 5 MB, detached DOM nodes ≤ +20. GATE 6 PASSED when all of the above pass and the old overlap behaviour cannot be reproduced.
+STEP 7 — Dock lag (video)
+
+Problem: dock magnification and bounce stutter while other animations run. (The recording is 30 fps, so measure in the browser.) Method — follow in this order and write down what you find
+
+With /chrome-devtools, record a Performance trace while sweeping the cursor across the dock for 5 s and clicking each item, at 4x CPU throttle, with the wallpaper and all six Apple effects on.
+Check scripting: if magnification runs through React state on every pointermove, move it to refs and motion values driven by one requestAnimationFrame loop with no React re-render.
+Check layout: reading getBoundingClientRect for every item on every move causes forced layout. Cache the rectangles on pointer enter and on resize.
+Check CSS: only transform and opacity may animate. Remove animations of width, height, margin, gap. Keep the magnification transform and the bounce transform on separate wrapper elements so they never fight. Use will-change: transform only while hovering. Add contain: layout paint on the dock.
+Check compositing: the animated WebGL wallpaper forces every backdrop-filter surface above it (widgets, menu bar, windows, tooltips, Quick Look) to re-blur every frame. Count them in the trace. Fix: at most 3 blurred surfaces visible at once; while the pointer is over the dock or while a drag is running, switch widget blur to a solid translucent fill; keep the dock itself opaque with backdrop-filter: none.
+Check the speech-bubble menu and WarmTooltip handlers: no path building, sound creation or DOM measuring on hover. Pre-create audio nodes once.
+Check that the dock resize observer does not re-run on every frame. Pass numbers (4x CPU throttle, wallpaper and all effects on): dock sweep average ≥ 55 FPS, p95 frame ≤ 20 ms, no long task over 50 ms, bounce animation ≥ 55 FPS, pointer-to-visual delay ≤ 16 ms. Record BEFORE and AFTER. GATE 7 PASSED when the AFTER numbers pass in two consecutive runs and the cause that was found is written in PROGRESS.md.
+STEP 8 — FULL optimisation and lag check for EVERY animation (final functional step)
+
+Do not start this step until Gates 0-7 are passed. This is the full-version performance audit.
+
+Inventory every animation in a table: name, trigger, technology (CSS keyframes or transition, Web Animations, motion spring, rAF, WebGL, Matter.js), properties animated, composited or not, uses backdrop-filter or filter, always-on or on demand. At minimum include: wallpaper shaders (every preset), boot sequence (logo shine, letter rise, progress bar), login (avatar ring, switch thumb, shake), lock-to-desktop and logout transitions, sleep / restart / shutdown overlay, window open / close / minimise / zoom / snap / drag / resize, dock (entrance, magnification, bounce, running dot, speech-bubble menu), WarmTooltip, CometDial, context menus, Quick Look open and close, file pills, desktop icon select and drag, widgets (clock digits, seconds pulse, analog sweep, countdown, all six effects: Liquid Glass, Glassmorphism, Magnetic Hover, 3D Tilt, Ambient Glow, Aurora Mesh), toasts, Trash put back and empty, Finder view changes, Settings panel changes, Terminal typing.
+Measure each one with /chrome-devtools traces at 4x CPU throttle: average FPS, p95 frame time, long tasks, scripting, layout and paint time, GPU raster. Pass per interaction animation: ≥ 55 FPS average, p95 ≤ 20 ms, no long task > 50 ms.
+Fix every row below budget. Mandatory global measures:
+One shared animation scheduler (a single requestAnimationFrame loop that subscribers join and leave) instead of many separate loops.
+An automatic quality governor: if p95 frame time stays above 24 ms for 3 s, step down tier by tier (High, Medium, Low): first Quick Look and menu blur, then widget backdrop blur, then Aurora Mesh, Tilt and Magnetic effects, then wallpaper to 30 FPS and device pixel ratio 1; step back up after 10 s of stable frames. Respect prefers-reduced-motion. Provide a Settings choice: Performance mode Auto / High / Low.
+Animate only transform and opacity; no transition: all; no animated filter: blur; will-change on at most 10 elements at the same time and only during an animation.
+Pause everything that is hidden, covered or off-screen (tab hidden, minimised windows, covered wallpaper, IntersectionObserver for lists, animation-play-state: paused); use content-visibility: auto for long lists.
+At most 3 backdrop-filter surfaces visible at the same time.
+Heavy panels (Settings, Widget Studio, WebGL, Quick Look content) load with dynamic import; First Load JS may grow by at most 10 kB over the Step 0 value.
+Worst-case test: wallpaper + all six effects + 3 open windows + file pills hovering + dock sweep at the same time. Minimum 45 FPS average, or the quality governor must step in and restore ≥ 55 FPS within 3 s. Record the tier changes.
+Soak and leak tests (/memory-leak-debugging): run each animation 100 times, then a 10-minute idle soak. Pass: JS heap growth ≤ 10 % and ≤ 15 MB, detached DOM nodes ≤ +50, listener and timer counts flat, and when idle only the wallpaper and the clock own a running requestAnimationFrame.
+Load check (/debug-optimize-lcp): lock screen and desktop LCP ≤ 2.5 s at 4x CPU throttle, CLS ≤ 0.02, INP ≤ 200 ms.
+Produce a BEFORE and AFTER table for every row. GATE 8 PASSED when every row is within budget (or governed by the quality governor with measured recovery), the worst-case, soak and load tests pass, and the results are identical in two consecutive runs.
+STEP 9 — Final regression, accessibility and security check for these changes
+Run npm run build, npm test, npm run security, and add new suites for Steps 1-8 (login alignment, widget buttons, dock menu count, context-menu geometry matrix, Quick Look matrix, file-pill layout and scroll, dock FPS, animation budget runner). All must pass. Verify again the earlier requirements: menu bar (N, Finder, Help), single-click select and double-click open for desktop and Finder icons, Trash end to end, six Apple effects live, Widget Gallery and Studio, no Control Center, no PC routes, lock screen without pre-login data.
+/a11y-debugging: keyboard order, focus visibility, roles and names for the login switch, widget buttons, the dock menu, the context menu, Quick Look dialog (focus trap and return) and file pills; AA contrast; tap targets ≥ 44 px at 390 px; zero critical or serious issues.
+Security checks specific to these changes:
+Hostile file and folder names (<img src=x onerror=alert(1)>.md, "><svg onload=alert(1)>, very long names, bidi control characters, javascript: strings) inside pills, tooltips, context menus, Quick Look title and body, Finder lists: rendered as plain text, no dialog, no console error, no CSP violation.
+Quick Look Markdown: raw HTML removed, javascript: and data: links removed, links open with rel="noopener noreferrer".
+Every owner-only menu action (including dock menu "Reset Widgets", Trash actions, rename, delete) invoked as guest returns 403 from the server and changes nothing; no client flag can bypass it (edit localStorage or role state in DevTools and retry).
+Re-run the API authorization matrix (SECURITY/authz-matrix.json): zero mismatches. Cookies unchanged (/cookie-debugging): HttpOnly, SameSite=Strict, rotation, invalidation, no new cookies. CSP unchanged with zero violations; zero third-party requests.
+If a dependency was removed or added, run npm audit --omit=dev and update the lockfile; the guest's file list for pills comes from the same authorised API and contains nothing hidden or trashed.
+Repeat the four adversary goals on a clean profile: read a file outside the vault, become owner without credentials, make script run in another visitor's session, change owner content as guest. All must fail. GATE 9 PASSED when everything above is green in two consecutive full runs.
+STEP 10 — Record the work in PROGRESS.md
+
+Append (never rewrite) a ROUND 15 section containing: summary; the root cause found for each of the 7 defects; files created, changed and deleted (including the old dock menu and any removed dependency); the animation inventory with BEFORE and AFTER numbers; quality-governor tiers and thresholds; the test suites added, updated or retired; the evidence manifest; security results and residual risks; decisions and assumptions; open items (state "none" only if true). Update the milestone table. No secrets.
+
+<FINAL_ANSWER_TO_OWNER> Reply with: what was fixed for each of the 7 issues, what was deleted, the measured dock FPS before and after, the worst-case FPS result, and anything left undone. </FINAL_ANSWER_TO_OWNER>
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-25T21:44:24+05:30.
+</ADDITIONAL_METADATA>

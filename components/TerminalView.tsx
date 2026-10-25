@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PortfolioData, FileItem, FolderItem } from '@/lib/types';
 import { sound } from '@/lib/sound';
+import { useContextMenu, ContextMenuItem } from './ContextMenu';
 
 interface TerminalViewProps {
   portfolioData: PortfolioData | null;
@@ -365,9 +366,45 @@ export default function TerminalView({
 
   const promptUser = userRole === 'admin' ? 'owner' : 'guest';
 
+  const { openContextMenu } = useContextMenu();
+
+  const handleContextMenuTerminal = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target && target.tagName === 'INPUT') {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    openContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      title: 'Terminal (portsh)',
+      items: [
+        {
+          id: 'ctx-term-clear',
+          label: 'Clear Terminal',
+          action: () => setHistory([]),
+        },
+        {
+          id: 'ctx-term-help',
+          label: 'Show Help',
+          action: () => handleCommand('help'),
+        },
+        {
+          id: 'ctx-term-neofetch',
+          label: 'System Info (neofetch)',
+          action: () => handleCommand('neofetch'),
+        },
+      ],
+    });
+  };
+
   return (
     <div
       id="terminal-view-container"
+      onContextMenu={handleContextMenuTerminal}
       style={{
         display: 'flex',
         flexDirection: 'column',

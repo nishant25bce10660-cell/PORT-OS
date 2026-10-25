@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-10-24T21:44:36.031Z",
+  "lockscreenLcpMs": 1212,
+  "desktopLcpMs": 1212,
+  "dockHoverFps": 137.9,
+  "windowDragFps": 134,
+  "jsHeapUsedMb": 6.39,
+  "jsHeapTotalMb": 10.5,
+  "firstLoadJsKb": 87.2
+}

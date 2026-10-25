@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SystemSettings as ISystemSettings,
   DEFAULT_SETTINGS,
@@ -9,6 +9,9 @@ import {
 } from '@/lib/types';
 import { toastManager } from '@/lib/toast';
 import { sound } from '@/lib/sound';
+import CometDial from './CometDial';
+import { useContextMenu, ContextMenuItem } from './ContextMenu';
+import { qualityGovernor, QualityMode } from '@/lib/qualityGovernor';
 
 interface SystemSettingsProps {
   settings: ISystemSettings;
@@ -41,10 +44,62 @@ export default function SystemSettings({
   const [fontUploadSuccess, setFontUploadSuccess] = useState<string | null>(null);
   const [wallpaperUploadError, setWallpaperUploadError] = useState<string | null>(null);
   const [wallpaperUploadSuccess, setWallpaperUploadSuccess] = useState<string | null>(null);
+  const [perfMode, setPerfMode] = useState<QualityMode>('auto');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPerfMode(qualityGovernor.getMode());
+    }
+  }, []);
+
+  const handlePerfModeChange = (mode: QualityMode) => {
+    setPerfMode(mode);
+    qualityGovernor.setMode(mode);
+    toastManager.show({
+      title: 'Performance Mode Updated',
+      message: `Governor set to ${mode.toUpperCase()} mode.`,
+      type: 'info',
+    });
+  };
   const [visitors, setVisitors] = useState<Array<{ id: string; name: string; email: string; ip: string; timestamp: string }>>([]);
   const [loadingVisitors, setLoadingVisitors] = useState(false);
   const [masterVolume, setMasterVolume] = useState<number>(0.8);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const saveVolumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Load persisted master volume
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('portos_master_volume');
+      if (saved) {
+        const v = parseFloat(saved);
+        if (!isNaN(v) && isFinite(v)) {
+          const clamped = Math.max(0, Math.min(1, v));
+          setMasterVolume(clamped);
+          sound.setMasterVolume(clamped);
+        }
+      }
+    }
+  }, []);
+
+  const handleVolumeChangeEnd = (val: number) => {
+    const v = Math.max(0, Math.min(1, val / 100));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('portos_master_volume', v.toString());
+    }
+    if (canEdit && isAdmin) {
+      if (saveVolumeTimeoutRef.current) clearTimeout(saveVolumeTimeoutRef.current);
+      saveVolumeTimeoutRef.current = setTimeout(async () => {
+        try {
+          await fetch('/api/settings', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ appearance: { volume: v } }),
+          });
+        } catch {}
+      }, 300);
+    }
+  };
 
   // Sync incoming settings
   useEffect(() => {
@@ -329,10 +384,63 @@ export default function SystemSettings({
   // Active tab check (customization & appearance share same view)
   const isCustomizationTab = activeTab === 'customization' || activeTab === 'appearance';
 
+  const { openContextMenu } = useContextMenu();
+
+  const handleContextMenuSettings = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT')) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const items: ContextMenuItem[] = [
+      {
+        id: 'ctx-settings-general',
+        label: 'General / System Info',
+        action: () => setActiveTab('general'),
+      },
+      {
+        id: 'ctx-settings-customization',
+        label: 'Customization & Effects',
+        action: () => setActiveTab('customization'),
+      },
+      {
+        id: 'ctx-settings-boot',
+        label: 'Boot Sequence Settings',
+        action: () => setActiveTab('boot'),
+      },
+      {
+        id: 'ctx-settings-security',
+        label: 'Security & Access Logs',
+        action: () => setActiveTab('security'),
+      },
+    ];
+
+    if (canEdit && isAdmin) {
+      items.push({ id: 'ctx-div-reset', label: '', isDivider: true });
+      items.push({
+        id: 'ctx-settings-reset',
+        label: 'Reset All Settings to Defaults',
+        danger: true,
+        action: () => handleReset(),
+      });
+    }
+
+    openContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      title: 'System Settings',
+      items,
+    });
+  };
+
   return (
     <div
       className="system-settings-window"
       id="system-settings-root"
+      onContextMenu={handleContextMenuSettings}
       style={{
         display: 'flex',
         height: '100%',
@@ -895,6 +1003,7 @@ export default function SystemSettings({
                       key={eff.key}
                       id={`effect-card-${eff.key}`}
                       className="effect-toggle-card"
+                      data-effect={eff.key}
                       onClick={() => {
                         const isEn = !!(currentCustom.effects as any)[eff.key];
                         handleCustomizationChange('effects', {
@@ -912,6 +1021,7 @@ export default function SystemSettings({
                         gap: '2px',
                       }}
                     >
+                      <span id={`toggle-fx-${eff.key}`} data-enabled={isEnabled ? 'true' : 'false'} style={{ display: 'none' }} />
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ fontSize: '12px', fontWeight: 600 }}>{eff.label}</span>
                         <span style={{ fontSize: '10px', color: isEnabled ? '#38bdf8' : '#9ca3af' }}>
@@ -925,28 +1035,66 @@ export default function SystemSettings({
               </div>
             </div>
 
+            {/* Section 4b: Performance Mode (Quality Governor Auto / High / Low) */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <label style={{ fontSize: '13px', fontWeight: 600 }}>Performance Governor Mode</label>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Auto / High / Low</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                {(['auto', 'high', 'low'] as const).map((m) => {
+                  const isCur = perfMode === m;
+                  return (
+                    <button
+                      key={m}
+                      type="button"
+                      id={`btn-perf-mode-${m}`}
+                      onClick={() => handlePerfModeChange(m)}
+                      style={{
+                        padding: '8px 10px',
+                        borderRadius: '6px',
+                        border: isCur ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.12)',
+                        background: isCur ? 'rgba(56, 189, 248, 0.22)' : 'rgba(255, 255, 255, 0.04)',
+                        color: isCur ? '#38bdf8' : '#fff',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        textTransform: 'capitalize',
+                      }}
+                    >
+                      {m}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Section 5: Master Audio & Sound Feedback (Replacing Control Center per Q2 & VF-06) */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
               <label style={{ fontSize: '13px', fontWeight: 600 }}>5. Master Audio & System Feedback</label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>Master Volume</span>
-                    <span style={{ fontWeight: 600, color: '#38bdf8' }}>{Math.round(masterVolume * 100)}%</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                    Master Volume
                   </div>
-                  <input
-                    id="slider-master-volume"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.05"
-                    value={masterVolume}
-                    onChange={(e) => {
-                      const val = parseFloat(e.target.value);
-                      setMasterVolume(val);
-                      sound.setMasterVolume(val);
+                  <CometDial
+                    className="dial-master-volume"
+                    value={Math.round(masterVolume * 100)}
+                    min={0}
+                    max={100}
+                    step={5}
+                    unit="%"
+                    label="Master Volume"
+                    size={96}
+                    accent="#38bdf8"
+                    ink="#ffffff"
+                    disabled={isMuted}
+                    onChange={(val) => {
+                      const v = val / 100;
+                      setMasterVolume(v);
+                      sound.setMasterVolume(v);
                     }}
-                    style={{ width: '100%', accentColor: '#38bdf8' }}
+                    onChangeEnd={handleVolumeChangeEnd}
                   />
                 </div>
 

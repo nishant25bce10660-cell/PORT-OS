@@ -1,6 +1,15 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  ReactNode,
+} from 'react';
 import { createPortal } from 'react-dom';
 
 export interface ContextMenuItem {
@@ -12,9 +21,31 @@ export interface ContextMenuItem {
   isHeading?: boolean;
   shortcut?: string;
   action?: () => void;
+  danger?: boolean;
 }
 
-interface ContextMenuProps {
+export interface ContextMenuOptions {
+  x: number;
+  y: number;
+  title?: string;
+  items: ContextMenuItem[];
+}
+
+interface ContextMenuContextType {
+  openContextMenu: (options: ContextMenuOptions) => void;
+  closeContextMenu: () => void;
+  isOpen: boolean;
+}
+
+const ContextMenuContext = createContext<ContextMenuContextType>({
+  openContextMenu: () => {},
+  closeContextMenu: () => {},
+  isOpen: false,
+});
+
+export const useContextMenu = () => useContext(ContextMenuContext);
+
+export interface ContextMenuProps {
   x: number;
   y: number;
   isOpen: boolean;
@@ -23,29 +54,89 @@ interface ContextMenuProps {
   onClose: () => void;
 }
 
-export default function ContextMenu({ x, y, isOpen, items, title, onClose }: ContextMenuProps) {
+export function ContextMenuInternal({
+  x,
+  y,
+  isOpen,
+  items,
+  title,
+  onClose,
+}: ContextMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [coords, setCoords] = useState<{ x: number; y: number; maxHeight?: number; ready: boolean }>({
+    x,
+    y,
+    ready: false,
+  });
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Close when clicking outside or pressing Escape, resize or scroll, handle arrow navigation
+  // Precise geometry measurement and clamping with edge flipping
+  useLayoutEffect(() => {
+    if (!isOpen || !menuRef.current) {
+      setCoords({ x, y, ready: false });
+      return;
+    }
+    const el = menuRef.current;
+    const rect = el.getBoundingClientRect();
+    const w = rect.width || 220;
+    const h = rect.height || (items.length * 36 + (title ? 42 : 16));
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
+    const margin = 8;
+
+    // Horizontal placement: open at pointer; flip to left if overflowing right
+    let posX: number;
+    if (x + w <= screenW - margin) {
+      posX = x;
+    } else {
+      posX = x - w;
+    }
+    posX = Math.max(margin, Math.min(screenW - w - margin, posX));
+
+    // Vertical placement: open below pointer; flip upward if overflowing bottom
+    const maxAvailableH = screenH - 2 * margin;
+    let posY: number;
+    if (y + h <= screenH - margin) {
+      posY = y;
+    } else {
+      posY = y - h;
+    }
+
+    let maxHeight: number | undefined;
+    if (h > maxAvailableH) {
+      posY = margin;
+      maxHeight = maxAvailableH;
+    } else {
+      posY = Math.max(margin, Math.min(screenH - h - margin, posY));
+    }
+
+    setCoords({
+      x: posX,
+      y: posY,
+      maxHeight,
+      ready: true,
+    });
+  }, [isOpen, x, y, items, title]);
+
+  // Dismiss on outside click, window move/resize, scroll, blur, or Escape
   useEffect(() => {
     if (!isOpen) {
       setFocusedIndex(-1);
       return;
     }
 
-    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent | PointerEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
 
-    const handleWindowResizeOrScroll = () => {
+    const handleWindowChange = () => {
       onClose();
     };
 
@@ -57,7 +148,10 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
         e.preventDefault();
         setFocusedIndex((prev) => {
           let next = prev + 1;
-          while (next < items.length && (items[next].isDivider || items[next].isHeading || items[next].disabled)) {
+          while (
+            next < items.length &&
+            (items[next].isDivider || items[next].isHeading || items[next].disabled)
+          ) {
             next++;
           }
           return next < items.length ? next : prev;
@@ -66,12 +160,15 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
         e.preventDefault();
         setFocusedIndex((prev) => {
           let next = prev - 1;
-          while (next >= 0 && (items[next].isDivider || items[next].isHeading || items[next].disabled)) {
+          while (
+            next >= 0 &&
+            (items[next].isDivider || items[next].isHeading || items[next].disabled)
+          ) {
             next--;
           }
           return next >= 0 ? next : prev;
         });
-      } else if (e.key === 'Enter') {
+      } else if (e.key === 'Enter' || e.key === ' ') {
         if (focusedIndex >= 0 && focusedIndex < items.length) {
           const item = items[focusedIndex];
           if (!item.disabled && !item.isDivider && !item.isHeading && item.action) {
@@ -83,59 +180,70 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
       }
     };
 
-    window.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('touchstart', handleClickOutside);
+    window.addEventListener('pointerdown', handleClickOutside, { capture: true });
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('resize', handleWindowResizeOrScroll);
-    window.addEventListener('scroll', handleWindowResizeOrScroll, true);
+    window.addEventListener('resize', handleWindowChange);
+    window.addEventListener('scroll', handleWindowChange, { capture: true });
+    window.addEventListener('blur', handleWindowChange);
 
     return () => {
-      window.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('touchstart', handleClickOutside);
+      window.removeEventListener('pointerdown', handleClickOutside, { capture: true });
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('resize', handleWindowResizeOrScroll);
-      window.removeEventListener('scroll', handleWindowResizeOrScroll, true);
+      window.removeEventListener('resize', handleWindowChange);
+      window.removeEventListener('scroll', handleWindowChange, { capture: true });
+      window.removeEventListener('blur', handleWindowChange);
     };
   }, [isOpen, items, focusedIndex, onClose]);
 
-  if (!mounted || !isOpen || items.length === 0 || typeof document === 'undefined') return null;
+  if (!mounted || !isOpen || items.length === 0 || typeof document === 'undefined') {
+    return null;
+  }
 
-  // Viewport clamping calculations with edge flipping
-  const menuWidth = 220;
-  const itemHeight = 32;
-  const menuHeight = items.length * itemHeight + (title ? 36 : 12);
+  const portalTarget = document.getElementById('portal-root') || document.body;
+
+  // Initial estimate before useLayoutEffect measurement to prevent any frame jitter
+  const estW = 220;
+  const estH = items.length * 36 + (title ? 42 : 16);
   const screenW = typeof window !== 'undefined' ? window.innerWidth : 1200;
   const screenH = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const margin = 8;
+  const initX = x + estW <= screenW - margin ? Math.max(margin, x) : Math.max(margin, x - estW);
+  const initY = y + estH <= screenH - margin ? Math.max(margin, y) : Math.max(margin, y - estH);
 
-  // If menu overflows right edge, flip to left of pointer; otherwise place directly at pointer
-  const posX = x + menuWidth <= screenW - 8 ? Math.max(8, x) : Math.max(8, x - menuWidth);
-  // If menu overflows bottom edge, flip above pointer; otherwise place directly at pointer
-  const posY = y + menuHeight <= screenH - 8 ? Math.max(32, y) : Math.max(32, y - menuHeight);
+  const finalX = coords.ready ? coords.x : initX;
+  const finalY = coords.ready ? coords.y : initY;
 
   return createPortal(
     <div
       ref={menuRef}
       id="desktop-context-menu"
-      className="context-menu context-menu-popover"
+      className="context-menu context-menu-popover finder-context-menu"
       role="menu"
       aria-label={title || 'Context Menu'}
       style={{
         position: 'fixed',
-        left: `${posX}px`,
-        top: `${posY}px`,
-        width: `${menuWidth}px`,
+        left: `${finalX}px`,
+        top: `${finalY}px`,
+        width: '220px',
+        maxHeight: coords.maxHeight ? `${coords.maxHeight}px` : undefined,
+        overflowY: coords.maxHeight ? 'auto' : 'visible',
         background: 'rgba(24, 28, 38, 0.95)',
         border: '1px solid rgba(255, 255, 255, 0.14)',
         borderRadius: '12px',
         padding: '6px',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08)',
+        boxShadow:
+          '0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08)',
         backdropFilter: 'blur(28px)',
-        zIndex: 9999,
+        WebkitBackdropFilter: 'blur(28px)',
+        zIndex: 999999,
         display: 'flex',
         flexDirection: 'column',
         gap: '2px',
         userSelect: 'none',
-        animation: 'spotlightPop 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        pointerEvents: 'auto',
+        opacity: coords.ready ? 1 : 0.95,
+        transform: 'scale(1)',
+        transition: 'opacity 0.08s ease',
       }}
     >
       {title && (
@@ -197,7 +305,9 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
             id={`context-menu-item-${item.id}`}
             role="menuitem"
             tabIndex={item.disabled ? -1 : 0}
-            className={`context-menu-item ${item.disabled ? 'disabled' : ''} ${isFocused ? 'is-focused' : ''}`}
+            className={`context-menu-item ${item.disabled ? 'disabled' : ''} ${
+              isFocused ? 'is-focused' : ''
+            }`}
             onClick={() => {
               if (item.disabled) return;
               item.action?.();
@@ -215,7 +325,11 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
               padding: '6px 10px',
               borderRadius: '7px',
               fontSize: '13px',
-              color: item.disabled ? 'rgba(255, 255, 255, 0.3)' : '#f5f7fa',
+              color: item.disabled
+                ? 'rgba(255, 255, 255, 0.3)'
+                : item.danger
+                ? '#f87171'
+                : '#f5f7fa',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -237,7 +351,14 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
               }
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                overflow: 'hidden',
+              }}
+            >
               {item.icon && (
                 <span
                   style={{
@@ -252,10 +373,25 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
                   {item.icon}
                 </span>
               )}
-              <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{item.label}</span>
+              <span
+                style={{
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                }}
+              >
+                {item.label}
+              </span>
             </div>
             {item.shortcut && (
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginLeft: 'auto', flexShrink: 0 }}>
+              <span
+                style={{
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  marginLeft: 'auto',
+                  flexShrink: 0,
+                }}
+              >
                 {item.shortcut}
               </span>
             )}
@@ -263,6 +399,103 @@ export default function ContextMenu({ x, y, isOpen, items, title, onClose }: Con
         );
       })}
     </div>,
-    document.body
+    portalTarget
   );
+}
+
+// Global Context Menu Provider that suppresses native menu except on real text inputs
+export function ContextMenuProvider({ children }: { children: ReactNode }) {
+  const [menuState, setMenuState] = useState<ContextMenuOptions & { isOpen: boolean }>({
+    isOpen: false,
+    x: 0,
+    y: 0,
+    title: undefined,
+    items: [],
+  });
+
+  const openContextMenu = useCallback((options: ContextMenuOptions) => {
+    setMenuState({
+      isOpen: true,
+      x: options.x,
+      y: options.y,
+      title: options.title,
+      items: options.items,
+    });
+  }, []);
+
+  const closeContextMenu = useCallback(() => {
+    setMenuState((prev) => ({ ...prev, isOpen: false }));
+  }, []);
+
+  // Suppress browser native context menu everywhere except real text inputs/editable text
+  useEffect(() => {
+    const handleGlobalContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const isTextInput =
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable ||
+        (target.getAttribute && target.getAttribute('contenteditable') === 'true') ||
+        !!target.closest('input, textarea, [contenteditable="true"]');
+
+      if (!isTextInput) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('contextmenu', handleGlobalContextMenu, { capture: true });
+    return () => {
+      window.removeEventListener('contextmenu', handleGlobalContextMenu, { capture: true });
+    };
+  }, []);
+
+  return (
+    <ContextMenuContext.Provider
+      value={{
+        openContextMenu,
+        closeContextMenu,
+        isOpen: menuState.isOpen,
+      }}
+    >
+      {children}
+      <ContextMenuInternal
+        x={menuState.x}
+        y={menuState.y}
+        isOpen={menuState.isOpen}
+        items={menuState.items}
+        title={menuState.title}
+        onClose={closeContextMenu}
+      />
+    </ContextMenuContext.Provider>
+  );
+}
+
+export default function ContextMenu(props: ContextMenuProps) {
+  // Global contextmenu suppression listener if used standalone
+  useEffect(() => {
+    const handleGlobalContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const isTextInput =
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable ||
+        (target.getAttribute && target.getAttribute('contenteditable') === 'true') ||
+        !!target.closest('input, textarea, [contenteditable="true"]');
+
+      if (!isTextInput) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('contextmenu', handleGlobalContextMenu, { capture: true });
+    return () => {
+      window.removeEventListener('contextmenu', handleGlobalContextMenu, { capture: true });
+    };
+  }, []);
+
+  return <ContextMenuInternal {...props} />;
 }

@@ -1,5 +1,6 @@
 import { spawn } from 'child_process';
 import path from 'path';
+import fs from 'fs';
 
 process.env.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
@@ -15,6 +16,7 @@ const testSuites = [
   { name: 'M15 & M16: Menu Bar Refactor, Desktop Interactions & Persistence', script: 'scripts/tests/test-round8-refactor-and-interactions.mjs' },
   { name: 'M17 & M18: Layered Icon System & SVG Architecture', script: 'scripts/tests/test-round9-icon-system.mjs' },
   { name: 'M27–M31: Custom Widget Studio, Effects Engine & Trash Repair', script: 'scripts/tests/test-round11-widgets-effects-trash.mjs' },
+  { name: 'M32–M34: WarmTooltip, CometDial & Dock Revamp', script: 'scripts/tests/test-round13-warmtooltip-cometdial.mjs' },
 ];
 
 function runScript(scriptPath) {
@@ -35,17 +37,26 @@ async function runAll() {
 
   const startTime = Date.now();
   const summary = [];
+  const PORTFOLIO_PATH = path.resolve('data/portfolio.json');
+  const pristinePortfolio = fs.existsSync(PORTFOLIO_PATH) ? fs.readFileSync(PORTFOLIO_PATH, 'utf8') : null;
 
-  for (const suite of testSuites) {
-    console.log(`\n>>> STARTING: ${suite.name} (${suite.script})`);
-    try {
-      await runScript(suite.script);
-      summary.push({ name: suite.name, status: 'PASS' });
-      await new Promise((r) => setTimeout(r, 1200));
-    } catch (err) {
-      summary.push({ name: suite.name, status: 'FAIL', error: err.message });
-      console.error(`\n[FAILED] ${suite.name}: ${err.message}`);
-      break;
+  try {
+    for (const suite of testSuites) {
+      console.log(`\n>>> STARTING: ${suite.name} (${suite.script})`);
+      try {
+        await runScript(suite.script);
+        summary.push({ name: suite.name, status: 'PASS' });
+        await new Promise((r) => setTimeout(r, 1200));
+      } catch (err) {
+        summary.push({ name: suite.name, status: 'FAIL', error: err.message });
+        console.error(`\n[FAILED] ${suite.name}: ${err.message}`);
+        break;
+      }
+    }
+  } finally {
+    if (pristinePortfolio) {
+      fs.writeFileSync(PORTFOLIO_PATH, pristinePortfolio, 'utf8');
+      console.log('[VAULT INTEGRITY GUARD] data/portfolio.json restored to pristine state.');
     }
   }
 

@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FileItem } from '@/lib/types';
+import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
+import { useContextMenu, ContextMenuItem } from './ContextMenu';
 
 interface FileEditorProps {
   file: FileItem;
@@ -20,10 +22,84 @@ export default function FileEditor({
   const [viewMode, setViewMode] = useState<'preview' | 'source'>('preview');
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setContent(file.content || '');
   }, [file]);
+
+  const applyFormat = (format: 'bold' | 'italic' | 'link' | 'heading' | 'list' | 'code') => {
+    if (!canEdit || !isAdmin) return;
+    if (viewMode !== 'source') {
+      setViewMode('source');
+    }
+    setTimeout(() => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+      const start = textarea.selectionStart ?? 0;
+      const end = textarea.selectionEnd ?? 0;
+      const selected = content.slice(start, end);
+      const before = content.slice(0, start);
+      const after = content.slice(end);
+      let replacement = '';
+      let cursorOffset = 0;
+
+      switch (format) {
+        case 'bold':
+          replacement = `**${selected || 'bold text'}**`;
+          cursorOffset = selected ? replacement.length : 2;
+          break;
+        case 'italic':
+          replacement = `*${selected || 'italic text'}*`;
+          cursorOffset = selected ? replacement.length : 1;
+          break;
+        case 'link':
+          replacement = `[${selected || 'link text'}](https://example.com)`;
+          cursorOffset = selected ? replacement.length : 1;
+          break;
+        case 'heading':
+          replacement = `\n### ${selected || 'Heading'}\n`;
+          cursorOffset = replacement.length;
+          break;
+        case 'list':
+          replacement = `\n- ${selected || 'List item'}\n`;
+          cursorOffset = replacement.length;
+          break;
+        case 'code':
+          replacement = selected.includes('\n')
+            ? `\n\`\`\`\n${selected || 'code'}\n\`\`\`\n`
+            : `\`${selected || 'code'}\``;
+          cursorOffset = selected ? replacement.length : 1;
+          break;
+      }
+
+      const newContent = before + replacement + after;
+      setContent(newContent);
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + cursorOffset, start + cursorOffset);
+      }, 10);
+    }, 50);
+  };
+
+  useEffect(() => {
+    if (!canEdit || !isAdmin) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey)) return;
+      if (e.key === 'b' || e.key === 'B') {
+        e.preventDefault();
+        applyFormat('bold');
+      } else if (e.key === 'i' || e.key === 'I') {
+        e.preventDefault();
+        applyFormat('italic');
+      } else if (e.key === 'k' || e.key === 'K') {
+        e.preventDefault();
+        applyFormat('link');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [canEdit, isAdmin, content, viewMode]);
 
   const handleSave = async () => {
     if (!canEdit) return;
@@ -42,8 +118,66 @@ export default function FileEditor({
 
   const isMarkdown = file.name.endsWith('.md') || file.name.endsWith('.markdown');
 
+  const { openContextMenu } = useContextMenu();
+
+  const handleContextMenuEditor = (e: React.MouseEvent) => {
+    // If user right-clicks inside the textarea in source view, let native context menu work
+    const target = e.target as HTMLElement;
+    if (target && target.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const items: ContextMenuItem[] = [
+      {
+        id: 'ctx-editor-toggle-view',
+        label: viewMode === 'preview' ? 'Switch to Source View' : 'Switch to Formatted View',
+        action: () => setViewMode(viewMode === 'preview' ? 'source' : 'preview'),
+      },
+    ];
+
+    if (canEdit && isAdmin) {
+      items.push(
+        { id: 'ctx-div-fmt', label: '', isDivider: true },
+        {
+          id: 'ctx-editor-bold',
+          label: 'Bold (**text**)',
+          shortcut: '⌘B',
+          action: () => applyFormat('bold'),
+        },
+        {
+          id: 'ctx-editor-italic',
+          label: 'Italic (*text*)',
+          shortcut: '⌘I',
+          action: () => applyFormat('italic'),
+        },
+        {
+          id: 'ctx-editor-link',
+          label: 'Link ([text](url))',
+          shortcut: '⌘K',
+          action: () => applyFormat('link'),
+        },
+        {
+          id: 'ctx-editor-code',
+          label: 'Code (`code`)',
+          action: () => applyFormat('code'),
+        }
+      );
+    }
+
+    openContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      title: file.name,
+      items,
+    });
+  };
+
   return (
     <div
+      onContextMenu={handleContextMenuEditor}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -130,6 +264,167 @@ export default function FileEditor({
               </button>
             </div>
           )}
+
+          {/* Owner Document Formatting Toolbar: Bold, Italic, Link, Heading, List, Code with WarmTooltip & Shortcut Keycaps */}
+          {canEdit && isAdmin && (
+            <div
+              className="document-editor-formatting-toolbar"
+              id="doc-formatting-toolbar"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '2px',
+                background: 'rgba(255, 255, 255, 0.06)',
+                borderRadius: '6px',
+                padding: '2px 4px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+              }}
+            >
+              <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+                <WarmTooltip content="Bold" shortcut="⌘B" side="bottom">
+                  <button
+                    type="button"
+                    id="btn-format-bold"
+                    className="doc-format-btn"
+                    onClick={() => applyFormat('bold')}
+                    aria-label="Bold (⌘B)"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f3f4f6',
+                      padding: '3px 7px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '12px',
+                    }}
+                  >
+                    <b style={{ fontFamily: 'serif' }}>B</b>
+                  </button>
+                </WarmTooltip>
+                <WarmTooltip content="Italic" shortcut="⌘I" side="bottom">
+                  <button
+                    type="button"
+                    id="btn-format-italic"
+                    className="doc-format-btn"
+                    onClick={() => applyFormat('italic')}
+                    aria-label="Italic (⌘I)"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f3f4f6',
+                      padding: '3px 7px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '12px',
+                    }}
+                  >
+                    <i style={{ fontFamily: 'serif' }}>I</i>
+                  </button>
+                </WarmTooltip>
+                <WarmTooltip content="Link" shortcut="⌘K" side="bottom">
+                  <button
+                    type="button"
+                    id="btn-format-link"
+                    className="doc-format-btn"
+                    onClick={() => applyFormat('link')}
+                    aria-label="Link (⌘K)"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f3f4f6',
+                      padding: '3px 7px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '11px',
+                    }}
+                  >
+                    🔗
+                  </button>
+                </WarmTooltip>
+                <WarmTooltip content="Heading" side="bottom">
+                  <button
+                    type="button"
+                    id="btn-format-heading"
+                    className="doc-format-btn"
+                    onClick={() => applyFormat('heading')}
+                    aria-label="Heading"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f3f4f6',
+                      padding: '3px 7px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                    }}
+                  >
+                    H
+                  </button>
+                </WarmTooltip>
+                <WarmTooltip content="Bullet List" side="bottom">
+                  <button
+                    type="button"
+                    id="btn-format-list"
+                    className="doc-format-btn"
+                    onClick={() => applyFormat('list')}
+                    aria-label="Bullet List"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f3f4f6',
+                      padding: '3px 7px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '14px',
+                      lineHeight: 1,
+                    }}
+                  >
+                    •
+                  </button>
+                </WarmTooltip>
+                <WarmTooltip content="Code Block" side="bottom">
+                  <button
+                    type="button"
+                    id="btn-format-code"
+                    className="doc-format-btn"
+                    onClick={() => applyFormat('code')}
+                    aria-label="Code"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f3f4f6',
+                      padding: '3px 7px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: 'monospace',
+                      fontSize: '11px',
+                    }}
+                  >
+                    &lt;/&gt;
+                  </button>
+                </WarmTooltip>
+              </WarmTooltipGroup>
+            </div>
+          )}
         </div>
 
         {canEdit && (
@@ -179,6 +474,7 @@ export default function FileEditor({
       >
         {canEdit && viewMode === 'source' ? (
           <textarea
+            ref={textareaRef}
             id="file-content-editor"
             value={content}
             onChange={(e) => setContent(e.target.value)}

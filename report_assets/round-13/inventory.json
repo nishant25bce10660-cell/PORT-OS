@@ -1,0 +1,170 @@
+{
+  "tooltipsCount": 29,
+  "tooltips": [
+    {
+      "file": "components\\Dock.tsx",
+      "line": 548,
+      "text": "<span className=\"dock-tooltip\">{item.name}</span>"
+    },
+    {
+      "file": "components\\Dock.tsx",
+      "line": 580,
+      "text": "<span className=\"dock-tooltip\">{win.title}</span>"
+    },
+    {
+      "file": "components\\Dock.tsx",
+      "line": 612,
+      "text": "<span className=\"dock-tooltip\">Trash</span>"
+    },
+    {
+      "file": "components\\Dock.tsx",
+      "line": 637,
+      "text": "<span className=\"dock-tooltip\">Sign Out</span>"
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 393,
+      "text": "title=\"Back\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 412,
+      "text": "title=\"Forward\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 441,
+      "text": "title=\"Icons View\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 460,
+      "text": "title=\"List View\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 479,
+      "text": "title=\"Columns View\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 498,
+      "text": "title=\"Gallery View\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 891,
+      "text": "title=\"Delete Immediately\""
+    },
+    {
+      "file": "components\\FolderView.tsx",
+      "line": 979,
+      "text": "title={item.name}"
+    },
+    {
+      "file": "components\\MenuBar.tsx",
+      "line": 97,
+      "text": "title=\"PORT OS System Menu\""
+    },
+    {
+      "file": "components\\MenuBar.tsx",
+      "line": 244,
+      "text": "title=\"Spotlight Search (Ctrl+K / ⌘K)\""
+    },
+    {
+      "file": "components\\PowerOverlay.tsx",
+      "line": 95,
+      "text": "title=\"Turn on PORT OS\""
+    },
+    {
+      "file": "components\\QuickLookModal.tsx",
+      "line": 81,
+      "text": "title=\"Close (Esc or Space)\""
+    },
+    {
+      "file": "components\\ToastContainer.tsx",
+      "line": 125,
+      "text": "title=\"Dismiss\""
+    },
+    {
+      "file": "components\\WidgetGallery.tsx",
+      "line": 362,
+      "text": "title=\"Remove from Desktop\""
+    },
+    {
+      "file": "components\\Widgets.tsx",
+      "line": 361,
+      "text": "title=\"Remove widget\""
+    },
+    {
+      "file": "components\\Widgets.tsx",
+      "line": 378,
+      "text": "title=\"Edit label\""
+    },
+    {
+      "file": "components\\Widgets.tsx",
+      "line": 425,
+      "text": "title={canEdit ? 'Double-click to edit location label' : undefined}"
+    },
+    {
+      "file": "components\\Widgets.tsx",
+      "line": 835,
+      "text": "title=\"Open in Widget Studio\""
+    },
+    {
+      "file": "components\\WidgetStudio.tsx",
+      "line": 583,
+      "text": "title=\"Remove Block\""
+    },
+    {
+      "file": "components\\Window.tsx",
+      "line": 465,
+      "text": "title=\"Close\""
+    },
+    {
+      "file": "components\\Window.tsx",
+      "line": 481,
+      "text": "title=\"Minimize\""
+    },
+    {
+      "file": "components\\Window.tsx",
+      "line": 495,
+      "text": "title={"
+    },
+    {
+      "file": "app\\globals.css",
+      "line": 281,
+      "text": ".dock-tooltip {"
+    },
+    {
+      "file": "app\\globals.css",
+      "line": 301,
+      "text": ".dock-item-btn:hover .dock-tooltip {"
+    },
+    {
+      "file": "app\\page.tsx",
+      "line": 1983,
+      "text": "title={contextMenu.title}"
+    }
+  ],
+  "slidersCount": 3,
+  "sliders": [
+    {
+      "file": "components\\SystemSettings.tsx",
+      "line": 939,
+      "text": "type=\"range\""
+    },
+    {
+      "file": "components\\WidgetStudio.tsx",
+      "line": 763,
+      "text": "type=\"range\""
+    },
+    {
+      "file": "components\\WidgetStudio.tsx",
+      "line": 778,
+      "text": "type=\"range\""
+    }
+  ],
+  "dockItemsCount": 0,
+  "dockItems": []
+}

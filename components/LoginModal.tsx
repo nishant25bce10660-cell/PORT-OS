@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import GeometricLogo from './GeometricLogo';
 import { sound } from '@/lib/sound';
+import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
 
 interface LoginModalProps {
   onLoginSuccess: (user: { role: 'viewer' | 'admin'; name?: string; email?: string; username?: string }) => void;
@@ -215,31 +216,48 @@ export default function LoginModal({
         {/* Avatars Row */}
         <div
           className="lock-screen-avatars"
+          role="radiogroup"
+          aria-label="Select User Role"
           style={{
-            display: 'flex',
-            gap: '36px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            width: '320px',
+            padding: '3px',
+            border: '1px solid transparent',
             marginBottom: '28px',
-            alignItems: 'center',
-            justifyContent: 'center',
+            boxSizing: 'border-box',
           }}
         >
-          {/* Owner Avatar */}
+          {/* Owner Avatar (Left) */}
           <div
             id="avatar-select-owner"
-            role="button"
-            tabIndex={0}
+            role="radio"
+            aria-checked={selectedUser === 'owner'}
+            aria-label="Select Owner role"
+            tabIndex={selectedUser === 'owner' ? 0 : -1}
             onClick={() => {
               setSelectedUser('owner');
               setErrorMessage(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSelectedUser('guest');
+                document.getElementById('avatar-select-guest')?.focus();
+              } else if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                setSelectedUser('owner');
+              }
             }}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'flex-start',
               cursor: 'pointer',
-              opacity: selectedUser === 'owner' ? 1 : 0.55,
-              transform: selectedUser === 'owner' ? 'scale(1.05)' : 'scale(0.95)',
-              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              opacity: selectedUser === 'owner' ? 1 : 0.6,
+              transition: 'opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+              outline: 'none',
             }}
           >
             <div
@@ -254,6 +272,7 @@ export default function LoginModal({
                 boxShadow: selectedUser === 'owner'
                   ? '0 0 24px rgba(124, 108, 255, 0.45)'
                   : 'none',
+                transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <div
@@ -278,6 +297,8 @@ export default function LoginModal({
                 fontWeight: 600,
                 color: '#FFFFFF',
                 letterSpacing: '-0.2px',
+                lineHeight: '20px',
+                height: '20px',
               }}
             >
               Nishant Singh
@@ -285,33 +306,48 @@ export default function LoginModal({
             <div
               style={{
                 fontSize: '11px',
-                color: 'rgba(255, 255, 255, 0.55)',
+                color: 'rgba(255, 255, 255, 0.6)',
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
                 marginTop: '2px',
+                lineHeight: '14px',
+                height: '14px',
               }}
             >
               Owner
             </div>
           </div>
 
-          {/* Guest Avatar */}
+          {/* Guest Avatar (Right) */}
           <div
             id="avatar-select-guest"
-            role="button"
-            tabIndex={0}
+            role="radio"
+            aria-checked={selectedUser === 'guest'}
+            aria-label="Select Guest role"
+            tabIndex={selectedUser === 'guest' ? 0 : -1}
             onClick={() => {
               setSelectedUser('guest');
               setErrorMessage(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSelectedUser('owner');
+                document.getElementById('avatar-select-owner')?.focus();
+              } else if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                setSelectedUser('guest');
+              }
             }}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'flex-start',
               cursor: 'pointer',
-              opacity: selectedUser === 'guest' ? 1 : 0.55,
-              transform: selectedUser === 'guest' ? 'scale(1.05)' : 'scale(0.95)',
-              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              opacity: selectedUser === 'guest' ? 1 : 0.6,
+              transition: 'opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+              outline: 'none',
             }}
           >
             <div
@@ -326,6 +362,7 @@ export default function LoginModal({
                 boxShadow: selectedUser === 'guest'
                   ? '0 0 24px rgba(53, 208, 186, 0.45)'
                   : 'none',
+                transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <div
@@ -353,6 +390,8 @@ export default function LoginModal({
                 fontWeight: 600,
                 color: '#FFFFFF',
                 letterSpacing: '-0.2px',
+                lineHeight: '20px',
+                height: '20px',
               }}
             >
               Guest Explorer
@@ -360,70 +399,135 @@ export default function LoginModal({
             <div
               style={{
                 fontSize: '11px',
-                color: 'rgba(255, 255, 255, 0.55)',
+                color: 'rgba(255, 255, 255, 0.6)',
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
                 marginTop: '2px',
+                lineHeight: '14px',
+                height: '14px',
               }}
             >
-              Viewer
+              Guest
             </div>
           </div>
         </div>
 
         {/* Segmented Role Switcher Tabs */}
         <div
+          id="login-role-switch"
           className="login-tabs-container"
+          role="radiogroup"
+          aria-label="Role Switch"
           style={{
-            display: 'flex',
+            position: 'relative',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            width: '320px',
             background: 'rgba(255, 255, 255, 0.08)',
             borderRadius: '20px',
             padding: '3px',
             marginBottom: '14px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxSizing: 'border-box',
           }}
         >
-          <button
-            id="tab-btn-viewer"
-            type="button"
-            onClick={() => {
-              setSelectedUser('guest');
-              setErrorMessage(null);
-            }}
+          {/* Sliding Spring Thumb */}
+          <div
+            id="login-switch-thumb"
+            aria-hidden="true"
             style={{
-              padding: '5px 16px',
+              position: 'absolute',
+              top: '3px',
+              bottom: '3px',
+              left: '3px',
+              width: 'calc(50% - 4px)',
+              background: 'rgba(255, 255, 255, 0.22)',
               borderRadius: '16px',
-              border: 'none',
-              backgroundColor: selectedUser === 'guest' ? 'rgba(255, 255, 255, 0.22)' : 'transparent',
-              color: selectedUser === 'guest' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.6)',
-              fontSize: '12px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+              transform: selectedUser === 'owner' ? 'translate3d(0, 0, 0)' : 'translate3d(calc(100% + 2px), 0, 0)',
+              transition: 'transform 220ms cubic-bezier(0.16, 1, 0.3, 1)',
+              willChange: 'transform',
+              pointerEvents: 'none',
+              zIndex: 0,
             }}
-          >
-            Viewer
-          </button>
+          />
+
+          {/* Owner Segment (Left) */}
           <button
             id="tab-btn-admin"
+            data-testid="tab-btn-owner"
             type="button"
+            role="radio"
+            aria-checked={selectedUser === 'owner'}
+            aria-label="Owner"
+            tabIndex={selectedUser === 'owner' ? 0 : -1}
             onClick={() => {
               setSelectedUser('owner');
               setErrorMessage(null);
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSelectedUser('guest');
+                document.getElementById('tab-btn-viewer')?.focus();
+              }
+            }}
             style={{
-              padding: '5px 16px',
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              padding: '6px 16px',
               borderRadius: '16px',
               border: 'none',
-              backgroundColor: selectedUser === 'owner' ? 'rgba(255, 255, 255, 0.22)' : 'transparent',
+              backgroundColor: 'transparent',
               color: selectedUser === 'owner' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.6)',
               fontSize: '12px',
-              fontWeight: 500,
+              fontWeight: selectedUser === 'owner' ? 600 : 500,
               cursor: 'pointer',
-              transition: 'all 0.15s ease',
+              transition: 'color 220ms ease',
+              textAlign: 'center',
             }}
           >
-            Admin
+            Owner
+          </button>
+
+          {/* Guest Segment (Right) */}
+          <button
+            id="tab-btn-viewer"
+            data-testid="tab-btn-guest"
+            type="button"
+            role="radio"
+            aria-checked={selectedUser === 'guest'}
+            aria-label="Guest"
+            tabIndex={selectedUser === 'guest' ? 0 : -1}
+            onClick={() => {
+              setSelectedUser('guest');
+              setErrorMessage(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSelectedUser('owner');
+                document.getElementById('tab-btn-admin')?.focus();
+              }
+            }}
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              padding: '6px 16px',
+              borderRadius: '16px',
+              border: 'none',
+              backgroundColor: 'transparent',
+              color: selectedUser === 'guest' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.6)',
+              fontSize: '12px',
+              fontWeight: selectedUser === 'guest' ? 600 : 500,
+              cursor: 'pointer',
+              transition: 'color 220ms ease',
+              textAlign: 'center',
+            }}
+          >
+            Guest
           </button>
         </div>
 
@@ -434,6 +538,7 @@ export default function LoginModal({
           style={{
             width: '100%',
             maxWidth: '360px',
+            minHeight: '232px',
             background: 'rgba(24, 28, 37, 0.75)',
             backdropFilter: 'blur(30px)',
             borderRadius: '16px',
@@ -443,6 +548,7 @@ export default function LoginModal({
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
+            boxSizing: 'border-box',
           }}
         >
           {errorMessage && (
@@ -464,7 +570,7 @@ export default function LoginModal({
           )}
 
           {selectedUser === 'owner' ? (
-            <form onSubmit={handleAdminSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <form onSubmit={handleAdminSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px', height: '168px', boxSizing: 'border-box' }}>
               <div className="floating-input-group">
                 <input
                   id="input-admin-username"
@@ -527,9 +633,11 @@ export default function LoginModal({
                 id="btn-login-admin"
                 type="submit"
                 disabled={loading}
+                aria-label="Sign in as Owner"
                 style={{
                   marginTop: '4px',
                   padding: '10px 16px',
+                  height: '40px',
                   borderRadius: '20px',
                   border: 'none',
                   backgroundColor: 'var(--accent, #7C6CFF)',
@@ -543,13 +651,14 @@ export default function LoginModal({
                   gap: '8px',
                   transition: 'opacity 0.2s',
                   opacity: loading ? 0.6 : 1,
+                  boxSizing: 'border-box',
                 }}
               >
-                <span>Sign In (Owner)</span>
+                <span>Sign in as Owner</span>
               </button>
             </form>
           ) : (
-            <form onSubmit={handleViewerSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <form onSubmit={handleViewerSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px', height: '168px', boxSizing: 'border-box' }}>
               <div className="floating-input-group">
                 <input
                   id="input-viewer-name"
@@ -584,9 +693,11 @@ export default function LoginModal({
                 id="btn-login-viewer"
                 type="submit"
                 disabled={loading}
+                aria-label="Enter as Guest"
                 style={{
                   marginTop: '4px',
                   padding: '10px 16px',
+                  height: '40px',
                   borderRadius: '20px',
                   border: 'none',
                   backgroundColor: 'var(--accent, #7C6CFF)',
@@ -600,9 +711,10 @@ export default function LoginModal({
                   gap: '8px',
                   transition: 'opacity 0.2s',
                   opacity: loading ? 0.6 : 1,
+                  boxSizing: 'border-box',
                 }}
               >
-                <span>Explore Portfolio</span>
+                <span>Enter as Guest</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
@@ -623,110 +735,121 @@ export default function LoginModal({
           justifyContent: 'center',
         }}
       >
-        <button
-          id="btn-footer-sleep"
-          data-testid="btn-login-sleep"
-          onClick={onSleep}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'rgba(255, 255, 255, 0.6)',
-            fontSize: '12px',
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
-        >
-          <div
-            style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            🌙
-          </div>
-          <span>Sleep</span>
-        </button>
+        <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+          <WarmTooltip content="Put system to Sleep" side="top">
+            <button
+              id="btn-footer-sleep"
+              data-testid="btn-login-sleep"
+              onClick={onSleep}
+              aria-label="Sleep"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255, 255, 255, 0.6)',
+                fontSize: '12px',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '6px',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
+            >
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                🌙
+              </div>
+              <span>Sleep</span>
+            </button>
+          </WarmTooltip>
 
-        <button
-          id="btn-footer-restart"
-          data-testid="btn-login-restart"
-          onClick={onRestart}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'rgba(255, 255, 255, 0.6)',
-            fontSize: '12px',
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
-        >
-          <div
-            style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            🔄
-          </div>
-          <span>Restart</span>
-        </button>
+          <WarmTooltip content="Restart PORT OS" side="top">
+            <button
+              id="btn-footer-restart"
+              data-testid="btn-login-restart"
+              onClick={onRestart}
+              aria-label="Restart"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255, 255, 255, 0.6)',
+                fontSize: '12px',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '6px',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
+            >
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                🔄
+              </div>
+              <span>Restart</span>
+            </button>
+          </WarmTooltip>
 
-        <button
-          id="btn-footer-shutdown"
-          data-testid="btn-login-shutdown"
-          onClick={onShutdown}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'rgba(255, 255, 255, 0.6)',
-            fontSize: '12px',
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
-        >
-          <div
-            style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            ⏻
-          </div>
-          <span>Shut Down</span>
-        </button>
+          <WarmTooltip content="Power off PORT OS" side="top">
+            <button
+              id="btn-footer-shutdown"
+              data-testid="btn-login-shutdown"
+              onClick={onShutdown}
+              aria-label="Shut Down"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255, 255, 255, 0.6)',
+                fontSize: '12px',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '6px',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
+            >
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                ⏻
+              </div>
+              <span>Shut Down</span>
+            </button>
+          </WarmTooltip>
+        </WarmTooltipGroup>
       </div>
     </div>
   );

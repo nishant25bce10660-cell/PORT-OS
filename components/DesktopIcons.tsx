@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PortOSIcon from '@/components/icons/PortOSIcon';
-import { getIconKindForApp, PortOSIconKind } from '@/components/icons/iconRegistry';
+import { getIconKindForApp } from '@/components/icons/iconRegistry';
+import FolderFloat, { FolderFloatItem } from '@/components/FolderFloat';
 
 export interface DesktopIconItemData {
   id: string;
@@ -24,7 +25,29 @@ interface DesktopIconsProps {
   iconSize?: 'small' | 'medium' | 'large';
   extraIcons?: Array<{ id: string; label: string; type: string }>;
   onOpenExtraIcon?: (icon: { id: string; label: string; type: string }) => void;
+  folderItems?: Record<string, any[]>;
+  onOpenFile?: (file: any) => void;
+  onOpenFolder?: (folder: any) => void;
 }
+
+const DEFAULT_FOLDER_ITEMS: Record<string, any[]> = {
+  projects: [
+    { id: 'file-proj-1', name: 'Distributed-KV-Store.md', kind: 'file' },
+    { id: 'file-proj-2', name: 'Portfolio-OS.md', kind: 'file' },
+    { id: 'file-proj-3', name: 'Realtime-Voxel-Engine.md', kind: 'file' },
+    { id: 'file-proj-4', name: 'Micro-SaaS-Billing-Engine.md', kind: 'file' },
+  ],
+  'cert-education': [
+    { id: 'file-cert-aws', name: 'AWS-Solutions-Architect-Pro.md', kind: 'file' },
+    { id: 'file-cert-cka', name: 'CKA-Kubernetes-Administrator.md', kind: 'file' },
+    { id: 'file-cert-gcp', name: 'Google-Cloud-Professional-Data-Engineer.md', kind: 'file' },
+    { id: 'file-edu-degree', name: 'BS-Computer-Science.md', kind: 'file' },
+  ],
+  'owners-data': [
+    { id: 'file-about-me', name: 'About-Me.md', kind: 'file' },
+    { id: 'file-contact', name: 'Contact.md', kind: 'file' },
+  ],
+};
 
 const getDefaultPositions = (): Record<string, { x: number; y: number }> => {
   const rightX = typeof window !== 'undefined' ? Math.max(300, window.innerWidth - 108) : 1330;
@@ -47,6 +70,9 @@ export default function DesktopIcons({
   iconSize = 'medium',
   extraIcons = [],
   onOpenExtraIcon,
+  folderItems,
+  onOpenFile,
+  onOpenFolder,
 }: DesktopIconsProps) {
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>(() => {
     const defaults = getDefaultPositions();
@@ -71,7 +97,6 @@ export default function DesktopIcons({
   // Sync when screen resizes or initialPositions change
   useEffect(() => {
     const handleResize = () => {
-      // If no stored positions, keep aligned to right
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem('portos_desktop_icons');
         if (!stored) {
@@ -238,11 +263,30 @@ export default function DesktopIcons({
   ];
 
   return (
-    <div className="desktop-icons-container" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 25 }}>
+    <div
+      className="desktop-icons-container"
+      style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        zIndex: 25,
+      }}
+    >
       {allIcons.map((icon) => {
         const defaults = getDefaultPositions();
         const pos = positions[icon.id] || defaults[icon.id] || { x: 1200, y: 52 };
         const isSelected = selectedId === icon.id;
+
+        // Resolve files inside this folder for React Bits FolderFloat
+        const rawFiles = folderItems?.[icon.id] || DEFAULT_FOLDER_ITEMS[icon.id] || [];
+        const floatItems: FolderFloatItem[] = rawFiles.map((f: any) => ({
+          label: f.name || f.label || 'Document.md',
+          value: f.id || f.name,
+          file: f,
+          icon: <PortOSIcon kind={f.kind === 'folder' ? 'folder' : 'document'} size={13} />,
+        }));
+
+        const isRightHalf = typeof window !== 'undefined' ? pos.x > window.innerWidth / 2 : true;
 
         return (
           <div
@@ -300,7 +344,47 @@ export default function DesktopIcons({
               onContextMenuIcon?.(e, icon.id, icon.label);
             }}
           >
-            <div className="desktop-icon-graphic">{renderIconGraphic(icon.type, icon.label, isSelected)}</div>
+            {/* React Bits FolderFloat Physics Animation Integration */}
+            {floatItems.length > 0 ? (
+              <FolderFloat
+                items={floatItems}
+                label={icon.label}
+                sublabel={`${floatItems.length} files`}
+                trigger="hover"
+                physics={true}
+                drift={0.6}
+                align={isRightHalf ? 'left' : 'right'}
+                spread={Math.min(140, Math.max(100, pos.x - 24))}
+                lift={52}
+                openDuration={480}
+                bounce={0.28}
+                width={iconGraphicSize}
+                height={iconGraphicSize}
+                onSelect={(val, idx, item) => {
+                  if (item.file) {
+                    if (item.file.kind === 'folder' && onOpenFolder) {
+                      onOpenFolder(item.file);
+                    } else if (onOpenFile) {
+                      onOpenFile(item.file);
+                    }
+                  }
+                }}
+                onDoubleClickFolder={() => {
+                  icon.onOpen();
+                }}
+                className="desktop-folder-float"
+                customFolderGraphic={
+                  <div className="desktop-icon-graphic">
+                    {renderIconGraphic(icon.type, icon.label, isSelected)}
+                  </div>
+                }
+              />
+            ) : (
+              <div className="desktop-icon-graphic">
+                {renderIconGraphic(icon.type, icon.label, isSelected)}
+              </div>
+            )}
+
             <span
               className="desktop-icon-label"
               style={{

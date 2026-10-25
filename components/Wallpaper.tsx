@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { qualityGovernor, QualityTier } from '@/lib/qualityGovernor';
 
 interface WallpaperProps {
   wallpaper?: string;
@@ -295,18 +296,44 @@ export default function Wallpaper({ wallpaper = 'wave-shader', customImageUrl, h
 
       window.addEventListener('pointermove', handlePointerMove, { passive: true });
 
-      // Resize handler
+      // Resize handler (zero forced reflow by using window dimensions)
       const handleResize = () => {
-        if (!container || !renderer || !camera) return;
-        const w = container.clientWidth || window.innerWidth;
-        const h = container.clientHeight || window.innerHeight;
+        if (!renderer || !camera) return;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
-        material.uniforms.u_resolution.value.set(w, h);
+        if (material && material.uniforms.u_resolution) {
+          material.uniforms.u_resolution.value.set(w, h);
+        }
       };
 
       window.addEventListener('resize', handleResize);
+
+      // Quality Governor subscription
+      const handleTierChange = (tier: QualityTier) => {
+        if (!renderer || !container) return;
+        if (tier === 'low') {
+          isPausedRef.current = true;
+          if (renderer.domElement) renderer.domElement.style.display = 'none';
+        } else if (tier === 'medium') {
+          isPausedRef.current = false;
+          if (renderer.domElement) renderer.domElement.style.display = 'block';
+          if (material && material.uniforms.u_opacity) {
+            material.uniforms.u_opacity.value = 0.85;
+          }
+        } else {
+          isPausedRef.current = false;
+          if (renderer.domElement) renderer.domElement.style.display = 'block';
+          if (material && material.uniforms.u_opacity) {
+            material.uniforms.u_opacity.value = 1.0;
+          }
+        }
+      };
+
+      const unsubTier = qualityGovernor.onTierChange(handleTierChange);
+      handleTierChange(qualityGovernor.getTier());
 
       // Animation loop
       let lastTime = performance.now();
@@ -333,6 +360,7 @@ export default function Wallpaper({ wallpaper = 'wave-shader', customImageUrl, h
       animationFrameId = requestAnimationFrame(animate);
 
       return () => {
+        unsubTier();
         if (typeof window !== 'undefined') {
           delete (window as any).__portos_wallpaper;
         }

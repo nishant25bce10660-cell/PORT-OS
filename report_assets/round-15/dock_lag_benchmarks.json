@@ -1,0 +1,35 @@
+{
+  "test": "ROUND15_STEP7_DOCK_LAG",
+  "beforeOptimization": {
+    "avgFps": 60.8,
+    "p95DeltaMs": 30.3,
+    "longTasks": 7,
+    "pointerDelayMs": 14.6
+  },
+  "afterOptimization": {
+    "run1": {
+      "frameCount": 820,
+      "avgFps": 150.68266598063178,
+      "avgDeltaMs": 6.636463414634146,
+      "p95DeltaMs": 12.099999999999909,
+      "longTasksOver50ms": 0,
+      "avgPointerDelayMs": 2.00517241376313,
+      "bounceFrames": 132,
+      "bounceFps": 123.07692307692308,
+      "bounceAvgDeltaMs": 8.125
+    },
+    "run2": {
+      "frameCount": 841,
+      "avgFps": 154.88599948432721,
+      "avgDeltaMs": 6.456361474435197,
+      "p95DeltaMs": 12,
+      "longTasksOver50ms": 0,
+      "avgPointerDelayMs": 1.9454022988719843,
+      "bounceFrames": 137,
+      "bounceFps": 134.55116872912998,
+      "bounceAvgDeltaMs": 7.43211678832116
+    }
+  },
+  "passed": true,
+  "date": "2026-10-25T17:56:11.003Z"
+}

@@ -1,0 +1,87 @@
+Master looping prompt: use Prompts 1, 2 and 3, fix the bugs, revamp, remove what they replace, and optimize so nothing lags
+Give this prompt to the agent (Gemini 3.8 Flash with the Chrome DevTools skill). Prompts 1, 2 and 3 above are complete and final. Never edit, shorten, reinterpret or “improve” them, or the React Bits component sources, props tables and CSS inside them; execute them exactly as written. This prompt only tells the agent how to apply them to PORT OS, in which order, what to delete, and how to verify and loop until everything passes.
+ROLE
+You are a senior full-stack, QA, accessibility, performance and security engineer working inside the PORT OS project (Next.js 14 App Router, TypeScript, Three.js, JSON vault storage, Puppeteer test suites, PROGRESS.md tracker). You have the source code, a shell, and the Chrome DevTools skill commands /troubleshooting, /chrome-devtools, /a11y-debugging, /cookie-debugging, /debug-optimize-lcp and /memory-leak-debugging. A change is only done when it is implemented, the old objects it replaces are deleted, and it has been verified live in the browser.
+WHAT THIS PROMPT MUST ACHIEVE
+- Prompt 1 (“Warm toolkit for editing in document”, WarmTooltip): integrate <WarmTooltip /> and <WarmTooltipGroup /> and use them for every tooltip in the project, including the toolbar used when editing documents.
+- Prompt 2 (“Comet dial”, CometDial): integrate <CometDial /> for every appropriate dial in the project and remove the old controls it replaces.
+- Prompt 3 (“A bug from a new revamp”): remove from the bottom bar (the dock) the three items shown in the image: Projects (blue </> icon), Certification & Education (purple graduation-cap icon) and Owner’s Data (green person icon), and optimize the data and code that belonged to them.
+- Bugs: fix every bug found by the live checks below. Also re-check the earlier Round 11 and Round 12 work (Trash, Apple visual effects, Widget Gallery and Custom Widget Studio, dock) because tests have passed before while real bugs remained.
+- Revamp: delete every old object, style, script, test and data entry that Prompts 1, 2 and 3 replace.
+- Optimize: the finished app must feel instant. No lag, no jank, no memory leaks, no unnecessary bundle growth.
+RULES
+1. Do not modify this document.
+2. Copy the React Bits sources exactly as given in Prompts 1 and 2. Allowed adaptations only: keep the 'use client' line, make the files importable from TypeScript (allowJs or a small .d.ts file), and place them with the other components.
+3. Install only the dependency named in the prompts (motion), once. No other new package unless it is unavoidable and justified in the final record.
+4. Remove only what Prompts 1, 2 and 3 make obsolete. Keep the desktop folder icons, Finder sidebar, Spotlight, Terminal, widgets, effects, Trash and everything else the owner did not ask to remove.
+5. Work one step at a time. After each step run the build and the related tests and note a checkpoint. If a step fails 3 times, change the approach instead of patching again.
+6. Test only the local project on 127.0.0.1, in an isolated temporary Chrome profile, on a backup copy of data/. Never print or write passwords, tokens or cookie values anywhere.
+7. Every check needs a measured result (numbers, computed styles, status codes) and its own screenshot or trace under report_assets/round-13/. “The element exists” is never enough.
+8. Do not bend the UI to old tests. Update tests that refer to removed objects and list each one in the final record. Never delete a test just because it fails.
+9. Never claim the app is “secure” or “unhackable”. Report findings, fixes and residual risks honestly.
+STEP 0 — Prepare and baseline
+- Back up data/ and .env.local outside the repo. Run npm ci, npm run build, npm test and npm run security and record the results.
+- Start the app, connect with /chrome-devtools (use /troubleshooting if the connection fails).
+- Record BEFORE numbers with /debug-optimize-lcp and /chrome-devtools traces (4x CPU throttle): LCP of the lock screen, desktop after login, dock hover FPS, window drag FPS, JS heap size, and the First Load JS from the build output.
+STEP 1 — Inventory before changing anything
+- Tooltips: every title attribute used as a tooltip, the custom .dock-tooltip, any Tooltip component, every icon-only button, every hover label.
+- Dials: every input[type=range], custom slider or knob, and every control that sets one continuous number (sound volume, animation intensity, wallpaper speed / scale / brightness / vignette / blur / parallax, effect strength, dock size and magnification, clock size, widget opacity / corner radius / blur / background opacity in Widget Studio, UI scale).
+- Dock: every current dock item with its id, context menu, test ids, icon component and data entry.
+- Keep these three lists for the final record.
+STEP 2 — Prompt 3: remove the three dock items
+- Remove Projects, Certification & Education and Owner’s Data from the dock, together with their dock context-menu entries, dock-only data entries, dock-only styles and dock-only test selectors. Keep an icon component only if Finder, the desktop, Spotlight or another screen still uses it.
+- They must stay reachable from the desktop icons, the Finder sidebar and Spotlight for both guest and owner.
+- The dock must still be centered, magnify, bounce, show running dots and minimized windows, keep Finder, Widgets, System Settings, Terminal, Trash and Sign Out, and auto-fit narrow screens (check 640 px and 390 px).
+- Update the tests that clicked the removed items and list them.
+STEP 3 — Prompt 1: WarmTooltip everywhere
+- Install motion. Add WarmTooltip.jsx and WarmTooltip.css exactly as in Prompt 1.
+- Wrap each toolbar or region in one <WarmTooltipGroup> so tooltips warm up together: menu bar (N logo, Finder, Help, clock and status items), dock items (replace the old .dock-tooltip), Finder toolbar (back, forward, view switcher, Quick Look, Trash window buttons such as Put Back and Empty Trash), window title bars, System Settings icon buttons, Widget Gallery and Widget Studio buttons, widget handles, Terminal buttons, lock-screen Sleep / Restart / Shut Down.
+- Document editing: the owner’s document editor must have a formatting toolbar (Bold ⌘B, Italic ⌘I, Link ⌘K, Heading, List, Code) whose buttons use WarmTooltip with the shortcut keycap, exactly like the usage example in Prompt 1. If the toolbar does not exist yet, add a minimal one. Guests never see editing controls.
+- Style the tooltip from the design tokens (surfaceColor, inkColor, radius) with WCAG AA contrast. Keep aria-label on icon buttons. Tooltips must render above windows and context menus and never cause layout shift.
+- Then delete every legacy tooltip: the .dock-tooltip markup and CSS, custom hover-label code, and title attributes that were acting as tooltips.
+STEP 4 — Prompt 2: CometDial for every appropriate dial
+- Add CometDial.jsx and CometDial.css exactly as in Prompt 2.
+- Decide each inventory item with this rule: replace when the control sets ONE continuous number between a minimum and a maximum (volume, intensity, speed, size, opacity, radius, blur, scale). Keep text fields, selects, toggles, date and time pickers, colour pickers, scrollbars and two-handle ranges. Write the decision for each control in the final record.
+- Use the size prop for compact panels (about 72 to 120 px). Set accent and ink from the design tokens. Pass min, max and step from the single typed settings schema so UI, API and tests agree.
+- Use onChange for live preview and onChangeEnd for saving (debounced) so dragging never floods the API. Values persist across closing and reopening Settings, a hard reload and a fresh guest session (guest changes stay in the guest’s browser, owner changes become the default). The server clamps and validates every dial value.
+- Then delete the old slider markup, handlers and CSS for every replaced control.
+STEP 5 — Remove replaced objects (dead-code sweep)
+- Search the whole project for leftovers of the old tooltips, old sliders and the three dock items: ids, classes, imports, CSS selectors, data entries, tests, context-menu entries. Use unused-code tools (for example knip, ts-prune, depcheck) if they can be installed, plus DevTools CSS coverage.
+- Delete only what Prompts 1, 2 and 3 made obsolete. Rebuild. List every deleted file, selector and function in the final record.
+STEP 6 — Live bug hunt and fixes (/chrome-devtools)
+- As anonymous, guest and owner, at 1920×1080, 1366×768 and 390×844 (touch), walk every screen and every control. Capture console messages, failed requests and screenshots.
+- Re-verify: Trash (dock icon opens the Trash window, trashing updates instantly, Put Back works, Empty Trash asks for confirmation, Ctrl+Z restores); the six Apple effects in Settings (each toggle changes the real UI immediately, the Active badge tells the truth, state persists after reload); Widget Gallery and Custom Widget Studio (add, edit, auto-size, no overlap); menu bar (N, Finder, Help), double-click opening, context menus appearing at the pointer, no Control Center, no This PC or Desktop in Finder.
+- For each bug: reproduce live, fix the root cause, re-check live, add a regression test, run the full suite.
+STEP 7 — Optimize so nothing lags (/debug-optimize-lcp, /chrome-devtools, /memory-leak-debugging)
+- Budgets under 4x CPU throttle: LCP ≤ 2.5 s, CLS ≤ 0.02, INP ≤ 200 ms, average FPS ≥ 55 and p95 frame ≤ 20 ms during dock hover, window drag, dial drag, tooltip warm-up across 20 controls, and with all Apple effects on; no long task over 50 ms during these interactions.
+- Fix causes, for example: keep drag and magnification state in refs or motion values instead of React state; memoize heavy components; load motion-based panels (Settings, Widget Studio) with dynamic import; limit simultaneous backdrop-filter surfaces; use will-change only on elements that are animating; pause the WebGL wallpaper when hidden or covered; debounce saves; remove duplicate listeners; split heavy bundles. First Load JS may grow by at most 30 kB over the Step 0 value.
+- Memory: take heap snapshots before and after these scenarios: show and hide tooltips 200 times, drag a dial 100 times, open and close Settings 30 times, trash and restore 50 times, toggle each effect 30 times. Pass when JS heap growth is ≤ 15 % and ≤ 20 MB, detached DOM nodes grow by ≤ 50, listener counts stay flat and timers are cleared. Fix leaks and re-measure.
+STEP 8 — Accessibility (/a11y-debugging)
+- Tooltips open on keyboard focus, are linked with aria-describedby, close with Escape, and long-press works on touch. Dials expose slider role, name and value, respond to arrow keys, Home, End and the step size, and respect reduced motion. AA contrast for tooltips and dials in every state. Tap targets ≥ 44 px at 390 px width. Fix every critical and serious issue.
+STEP 9 — Cookies and sessions (/cookie-debugging)
+- Confirm nothing changed: HttpOnly, SameSite=Strict, rotation on login, invalidation on logout, no new cookies, no third-party cookie warnings.
+STEP 10 — Final security check with new-change verification
+- Run npm run security and npm audit --omit=dev (check the new motion dependency). Confirm zero third-party requests: motion must be bundled, not loaded from a CDN.
+- Re-run the API authorization matrix (SECURITY/authz-matrix.json) for anonymous, guest and owner on every route: zero mismatches. Removing dock items must not remove any server-side check.
+- Send hostile values: tooltip text built from user content (file names, notes, widget text) containing script and HTML payloads must render as plain text; dial values such as NaN, Infinity, negative, huge, strings and extra keys sent to the settings API must be rejected or clamped; 100 rapid dial saves must leave valid JSON and lose nothing.
+- Re-check headers and CSP (no new violations), path traversal, CSRF and Host/Origin guards, rate limits, and the four adversary goals: read a file outside the vault, become owner without credentials, make a script run in another visitor’s session, change owner content as a guest. All must fail.
+- Re-verify every [x] claim in PROGRESS.md for Rounds 10, 11 and 12 with one live check each. A claim that fails becomes a REGRESSION item, is fixed, and is re-verified.
+VERIFICATION CHECKLIST (all must pass, each with evidence)
+R-1 The dock no longer contains Projects, Certification & Education or Owner’s Data; they open from the desktop, Finder sidebar and Spotlight; the dock still fits at 640 px and 390 px.
+R-2 No dock-only leftovers remain (menu entries, styles, data, tests, ids).
+R-3 WarmTooltip and WarmTooltipGroup are installed exactly as in Prompt 1 and used in every region listed in Step 3; the first tooltip opens after the cold delay and neighbours then open almost instantly inside the warm window.
+R-4 No legacy tooltip remains (zero tooltip-style title attributes, no .dock-tooltip).
+R-5 The document editor toolbar works for the owner with shortcut keycaps; guests have no editing controls.
+R-6 CometDial is installed exactly as in Prompt 2 and replaces every control that passed the Step 4 rule; drag, tap, flick, keyboard, min, max and step all work; values persist across reopen, reload and fresh guest.
+R-7 No old slider code remains for replaced dials.
+R-8 Trash works end to end. R-9 All six Apple effects work live and persist. R-10 Widget Gallery and Custom Widget Studio work with auto-sizing and no overlap.
+R-11 Earlier fixes still hold: menu bar, double-click opening, context menu position, Finder sidebar, no Control Center, no PC routes, lock screen without pre-login data.
+R-12 Console has zero errors and warnings; zero failed requests; zero third-party requests.
+R-13 Performance budgets in Step 7 are met. R-14 Memory thresholds are met. R-15 Accessibility has zero critical or serious issues.
+R-16 Security results in Step 10 are clean. R-17 motion is the only added dependency and nothing unused remains. R-18 npm run build, npm test and npm run security all pass.
+LOOP AND STOP
+- After Step 10, if anything above fails, go back to the step that owns the failure and repeat every step after it. At most 8 loops.
+- Stop only when two consecutive full passes are clean, then do Step 11.
+STEP 11 — Record the work
+- Append (never rewrite) a “ROUND 13” section at the end of PROGRESS.md containing: a summary; the three inventories; every deleted file, selector and function; every new file; the dial decision table; the bug register with red and green evidence; before and after numbers for LCP, FPS, INP, heap and bundle size; accessibility, memory and security results; tests added, updated and retired; decisions and assumptions; open items. Include no secrets.
+- Final answer to the owner: what changed, what was removed, the measured speed improvement, and anything left undone.

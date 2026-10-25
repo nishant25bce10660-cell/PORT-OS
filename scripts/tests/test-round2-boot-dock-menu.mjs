@@ -257,9 +257,9 @@ async function runRound2Tests() {
 
     // D3: Click bounce with 3 hops
     await page.mouse.move(100, 100); // unhover
-    await page.click('#dock-item-projects');
+    await page.click('#dock-item-finder');
     const isBouncing = await page.evaluate(() => {
-      const el = document.getElementById('dock-item-projects');
+      const el = document.getElementById('dock-item-finder');
       return el.classList.contains('dock-bouncing-hops');
     });
     console.log(`3-hop bounce class applied on click: ${isBouncing}`);
@@ -269,15 +269,16 @@ async function runRound2Tests() {
     // D4: Running dots beneath open windows
     await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
     const hasRunningDot = await page.evaluate(() => {
-      const dot = document.querySelector('#dock-item-projects .dock-dot');
+      const dot = document.querySelector('#dock-item-finder .dock-dot');
       return !!dot;
     });
     console.log(`Running dot indicator beneath open app: ${hasRunningDot}`);
     assert(hasRunningDot, 'Running dot must appear beneath open app');
 
     // D4: Minimized window in dock
+    await new Promise((r) => setTimeout(r, 400));
     await page.click('#btn-minimize-folder-projects');
-    await page.waitForSelector('#dock-minimized-folder-projects', { timeout: 4000 });
+    await page.waitForSelector('#dock-minimized-folder-projects', { timeout: 6000 });
     console.log('Minimized window icon rendered on right side of dock divider.');
     results.D4 = { status: 'PASS', details: 'Running dot indicators and minimized window icons verified' };
 

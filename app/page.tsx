@@ -16,13 +16,14 @@ import LoginModal from '@/components/LoginModal';
 import BootScreen from '@/components/BootScreen';
 import PowerOverlay, { PowerState } from '@/components/PowerOverlay';
 import SpotlightModal from '@/components/SpotlightModal';
-import ContextMenu, { ContextMenuItem } from '@/components/ContextMenu';
+import { ContextMenuItem, ContextMenuProvider, useContextMenu } from '@/components/ContextMenu';
 import ToastContainer from '@/components/ToastContainer';
 import TerminalView from '@/components/TerminalView';
 import AboutModal from '@/components/AboutModal';
 import PortOSIcon from '@/components/icons/PortOSIcon';
 import { toastManager } from '@/lib/toast';
 import { sound } from '@/lib/sound';
+import { qualityGovernor } from '@/lib/qualityGovernor';
 import {
   PortfolioData,
   FolderItem,
@@ -54,7 +55,8 @@ type SystemPowerState = PowerState | 'booting';
 
 const getStorageKey = (role?: string) => `portfolio_os_windows_${role || 'viewer'}_v2`;
 
-export default function DesktopPage() {
+function DesktopContent() {
+  const { openContextMenu } = useContextMenu();
   const [user, setUser] = useState<{
     role: 'viewer' | 'admin';
     name?: string;
@@ -70,18 +72,6 @@ export default function DesktopPage() {
   const [spotlightOpen, setSpotlightOpen] = useState(false);
   const [brightness, setBrightness] = useState(100);
   const [volume, setVolume] = useState(80);
-  const [contextMenu, setContextMenu] = useState<{
-    isOpen: boolean;
-    x: number;
-    y: number;
-    title?: string;
-    items: ContextMenuItem[];
-  }>({
-    isOpen: false,
-    x: 0,
-    y: 0,
-    items: [],
-  });
 
   const handleVolumeChange = useCallback((val: number) => {
     setVolume(val);
@@ -104,25 +94,27 @@ export default function DesktopPage() {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  const [powerState, setPowerState] = useState<SystemPowerState>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        if (sessionStorage.getItem('portos_booted') === 'true') {
-          return 'running';
-        }
-      } catch {}
-    }
-    return 'booting';
-  });
+  const [powerState, setPowerState] = useState<SystemPowerState>('running');
   const portfolioDataRef = useRef<PortfolioData | null>(null);
 
-  // Check if session already booted
+  // Check if session needs initial boot sequence
   useEffect(() => {
     try {
-      if (sessionStorage.getItem('portos_booted') === 'true') {
-        setPowerState('running');
+      if (sessionStorage.getItem('portos_booted') !== 'true') {
+        setPowerState('booting');
       }
     } catch {}
+  }, []);
+
+  // Connect Quality Governor
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      (window as any).__qualityGovernor = qualityGovernor;
+    }
+    const unsub = qualityGovernor.onTierChange((tier) => {
+      console.log(`[QualityGovernor] Tier changed to: ${tier}`);
+    });
+    return () => unsub();
   }, []);
 
   // Fetch initial session & role from server
@@ -1271,8 +1263,7 @@ export default function DesktopPage() {
         return;
       }
       e.preventDefault();
-      setContextMenu({
-        isOpen: true,
+      openContextMenu({
         x: e.clientX,
         y: e.clientY,
         title: 'Desktop Options',
@@ -1360,8 +1351,7 @@ export default function DesktopPage() {
         else if (iconId === 'owners-data') handleOpenOwnersData();
       };
 
-      setContextMenu({
-        isOpen: true,
+      openContextMenu({
         x: e.clientX,
         y: e.clientY,
         title: label,
@@ -1512,22 +1502,20 @@ export default function DesktopPage() {
         }
       );
 
-      setContextMenu({
-        isOpen: true,
+      openContextMenu({
         x: e.clientX,
         y: e.clientY,
         title: `${widget.type.toUpperCase()} WIDGET`,
         items,
       });
     },
-    [handleOpenSettings, handleOpenWidgetsManager, handleSaveSettings, portfolioData, handleUpdateWidgetText, handleDeleteWidget]
+    [handleOpenSettings, handleOpenWidgetsManager, handleSaveSettings, portfolioData, handleUpdateWidgetText, handleDeleteWidget, openContextMenu]
   );
 
   const handleContextMenuMenuBar = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
-      setContextMenu({
-        isOpen: true,
+      openContextMenu({
         x: e.clientX,
         y: e.clientY,
         title: 'Menu Bar',
@@ -1560,67 +1548,14 @@ export default function DesktopPage() {
         ],
       });
     },
-    [handleOpenSettings, handleOpenTerminal, handleOpenAbout, handleSignOut]
-  );
-
-  const handleContextMenuDock = useCallback(
-    (e: React.MouseEvent, itemId?: string) => {
-      e.preventDefault();
-      if (itemId === 'trash') {
-        setContextMenu({
-          isOpen: true,
-          x: e.clientX,
-          y: e.clientY,
-          title: 'Trash Bin',
-          items: [
-            {
-              id: 'ctx-dock-open-trash',
-              label: 'Open Trash',
-              icon: <PortOSIcon kind="trash" size={14} />,
-              action: () => handleDockOpenApp('trash'),
-            },
-            { id: 'ctx-dock-div-trash', label: '', isDivider: true },
-            {
-              id: 'ctx-dock-empty-trash',
-              label: 'Empty Trash...',
-              icon: <PortOSIcon kind="trash" size={14} />,
-              action: () => handleEmptyTrash(),
-            },
-          ],
-        });
-        return;
-      }
-      setContextMenu({
-        isOpen: true,
-        x: e.clientX,
-        y: e.clientY,
-        title: itemId ? `Dock: ${itemId.toUpperCase()}` : 'Dock Options',
-        items: [
-          {
-            id: 'ctx-dock-open',
-            label: itemId ? `Open ${itemId}` : 'Open System Settings',
-            icon: <PortOSIcon kind="settings" size={14} />,
-            action: () => (itemId ? handleDockOpenApp(itemId) : handleOpenSettings()),
-          },
-          { id: 'ctx-dock-div-1', label: '', isDivider: true },
-          {
-            id: 'ctx-dock-settings',
-            label: 'System Settings...',
-            icon: <PortOSIcon kind="settings" size={14} />,
-            action: () => handleOpenSettings(),
-          },
-        ],
-      });
-    },
-    [handleDockOpenApp, handleOpenSettings, handleEmptyTrash]
+    [handleOpenSettings, handleOpenTerminal, handleOpenAbout, handleSignOut, openContextMenu]
   );
 
   const handleContextMenuWindow = useCallback(
     (e: React.MouseEvent, windowId: string) => {
       e.preventDefault();
       const win = windows.find((w) => w.id === windowId);
-      setContextMenu({
-        isOpen: true,
+      openContextMenu({
         x: e.clientX,
         y: e.clientY,
         title: win?.title || 'Window Options',
@@ -1641,7 +1576,7 @@ export default function DesktopPage() {
         ],
       });
     },
-    [windows, minimizeWindow, closeWindow]
+    [windows, minimizeWindow, closeWindow, openContextMenu]
   );
 
   const currentEffects = portfolioData?.settings?.customization?.effects || DEFAULT_EFFECTS_CONFIG;
@@ -1653,6 +1588,39 @@ export default function DesktopPage() {
     currentEffects.ambientGlow ? 'fx-ambient-glow' : '',
     currentEffects.auroraMesh ? 'fx-aurora-mesh' : '',
   ].filter(Boolean).join(' ');
+
+  // Map files for Desktop FolderFloat physics cloud
+  const folderItemsMap = useMemo(() => {
+    if (!portfolioData?.root) return {};
+    const map: Record<string, any[]> = {};
+
+    // 1. Projects folder items
+    const projectsFolder = portfolioData.root.find((r) => r.id === 'folder-projects');
+    if (projectsFolder && projectsFolder.children) {
+      map['projects'] = projectsFolder.children;
+    }
+
+    // 2. Cert & Education folder items (flatten files from subfolders if needed)
+    const certEduFolder = portfolioData.root.find((r) => r.id === 'folder-cert-edu');
+    if (certEduFolder && certEduFolder.children) {
+      const allCertFiles: any[] = [];
+      certEduFolder.children.forEach((child) => {
+        if (child.kind === 'file') allCertFiles.push(child);
+        else if (child.kind === 'folder' && child.children) {
+          allCertFiles.push(...child.children);
+        }
+      });
+      map['cert-education'] = allCertFiles;
+    }
+
+    // 3. Owners Data folder items
+    const ownersFolder = portfolioData.root.find((r) => r.id === 'folder-owners-data');
+    if (ownersFolder && ownersFolder.children) {
+      map['owners-data'] = ownersFolder.children;
+    }
+
+    return map;
+  }, [portfolioData]);
 
   return (
     <div
@@ -1680,7 +1648,7 @@ export default function DesktopPage() {
       />
 
       {/* Login Modal Overlay (shown when not logged in) */}
-      {!loadingSession && !user && powerState === 'running' && (
+      {!user && powerState === 'running' && (
         <LoginModal
           onLoginSuccess={handleLoginSuccess}
           onSleep={handleSleep}
@@ -1733,7 +1701,7 @@ export default function DesktopPage() {
             />
           )}
 
-          {/* Movable Desktop Icons */}
+          {/* Movable Desktop Icons with React Bits FolderFloat Physics Animation */}
           <DesktopIcons
             isAdmin={isAdmin}
             onOpenProjects={handleOpenProjects}
@@ -1751,6 +1719,15 @@ export default function DesktopPage() {
                 ? 'medium'
                 : portfolioData?.settings?.customization?.desktopIcons?.size || 'medium'
             }
+            folderItems={folderItemsMap}
+            onOpenFile={handleOpenFile}
+            onOpenFolder={(f) => {
+              openWindow(`folder-${f.id}`, f.name, {
+                type: 'folder',
+                itemId: f.id,
+                folderNavId: f.id,
+              });
+            }}
           />
 
           {/* Open Windows */}
@@ -1926,22 +1903,11 @@ export default function DesktopPage() {
           onSignOut={handleSignOut}
           minimizedWindows={minimizedWindows}
           activeWindowIds={activeWindowIds}
-          onContextMenu={handleContextMenuDock}
         />
       )}
 
       {/* Toast Notifications */}
       <ToastContainer />
-
-      {/* Object-Specific Context Menu */}
-      <ContextMenu
-        isOpen={contextMenu.isOpen}
-        x={contextMenu.x}
-        y={contextMenu.y}
-        title={contextMenu.title}
-        items={contextMenu.items}
-        onClose={() => setContextMenu((prev) => ({ ...prev, isOpen: false }))}
-      />
 
       {/* Brightness Dimmer Overlay */}
       {brightness < 100 && (
@@ -1987,5 +1953,13 @@ export default function DesktopPage() {
         onOpenAbout={handleOpenAbout}
       />
     </div>
+  );
+}
+
+export default function DesktopPage() {
+  return (
+    <ContextMenuProvider>
+      <DesktopContent />
+    </ContextMenuProvider>
   );
 }

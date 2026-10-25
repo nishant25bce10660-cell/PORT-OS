@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-10-25T16:30:28.866Z",
+  "throttle": "4x CPU",
+  "firstLoadJsKb": 87.2,
+  "dockSweep": {
+    "fps": 105,
+    "p95": 18.2,
+    "count": 345
+  },
+  "windowDrag": {
+    "fps": 136,
+    "p95": 12.2,
+    "count": 198
+  },
+  "folderFloatHover": {
+    "fps": 60,
+    "p95": 16.6
+  },
+  "idleMainThreadBusyPercent": 0.9,
+  "jsHeapUsedMB": 7.86,
+  "jsHeapTotalMB": 13.5
+}

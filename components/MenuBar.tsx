@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import GeometricLogo from './GeometricLogo';
+import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
 
 interface MenuBarProps {
   user: {
@@ -89,40 +90,54 @@ export default function MenuBar({
       }}
     >
       <div className="menu-bar-left">
-        {/* M1: Geometric "N" logo mark */}
-        <div
-          className="menu-apple-logo-wrap"
-          id="menu-btn-n-logo"
-          onClick={() => setActiveMenu(activeMenu === 'system' ? null : 'system')}
-          title="PORT OS System Menu"
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0 4px' }}
-        >
-          <GeometricLogo size={16} hasSpecularSweep={false} />
-        </div>
+        <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+          {/* M1: Geometric "N" logo mark */}
+          <WarmTooltip content="PORT OS System Menu" side="bottom">
+            <div
+              className="menu-apple-logo-wrap"
+              id="menu-btn-n-logo"
+              onClick={() => setActiveMenu(activeMenu === 'system' ? null : 'system')}
+              aria-label="PORT OS System Menu"
+              role="button"
+              tabIndex={0}
+              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0 4px' }}
+            >
+              <GeometricLogo size={16} hasSpecularSweep={false} />
+            </div>
+          </WarmTooltip>
 
-        {/* Clean macOS Menu Items: Finder and Help */}
-        <span
-          className="menu-item menu-app-name"
-          id="menu-item-top-finder"
-          onClick={() => {
-            setActiveMenu(null);
-            onFinderClick?.();
-          }}
-          style={{ cursor: 'pointer', fontWeight: 600 }}
-        >
-          Finder
-        </span>
-        <span
-          className="menu-item"
-          id="menu-item-top-help"
-          onClick={() => {
-            setActiveMenu(null);
-            onHelpClick?.();
-          }}
-          style={{ cursor: 'pointer' }}
-        >
-          Help
-        </span>
+          {/* Clean macOS Menu Items: Finder and Help */}
+          <WarmTooltip content="Open Finder File Browser" side="bottom">
+            <span
+              className="menu-item menu-app-name"
+              id="menu-item-top-finder"
+              onClick={() => {
+                setActiveMenu(null);
+                onFinderClick?.();
+              }}
+              role="button"
+              tabIndex={0}
+              style={{ cursor: 'pointer', fontWeight: 600 }}
+            >
+              Finder
+            </span>
+          </WarmTooltip>
+          <WarmTooltip content="About & Help" side="bottom">
+            <span
+              className="menu-item"
+              id="menu-item-top-help"
+              onClick={() => {
+                setActiveMenu(null);
+                onHelpClick?.();
+              }}
+              role="button"
+              tabIndex={0}
+              style={{ cursor: 'pointer' }}
+            >
+              Help
+            </span>
+          </WarmTooltip>
+        </WarmTooltipGroup>
       </div>
 
       {/* System "N" Dropdown Menu */}
@@ -236,58 +251,64 @@ export default function MenuBar({
 
       {/* Menu Bar Right Controls */}
       <div className="menu-bar-right">
-        {/* Spotlight Search Button */}
-        <button
-          type="button"
-          id="menu-btn-spotlight"
-          onClick={onSpotlightClick}
-          title="Spotlight Search (Ctrl+K / ⌘K)"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--tx-2)',
-            cursor: 'pointer',
-            padding: '2px 6px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#ffffff';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--tx-2)';
-          }}
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </button>
+        <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+          {/* Spotlight Search Button */}
+          <WarmTooltip content="Spotlight Search" shortcut="⌘K" side="bottom">
+            <button
+              type="button"
+              id="menu-btn-spotlight"
+              onClick={onSpotlightClick}
+              aria-label="Spotlight Search"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--tx-2)',
+                cursor: 'pointer',
+                padding: '2px 6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '4px',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#ffffff';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--tx-2)';
+              }}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </WarmTooltip>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '12px', color: 'var(--tx-2)', fontWeight: 500 }}>
-            {user?.role === 'admin'
-              ? `🛡️ ${user.username || 'Admin'}`
-              : user?.name
-              ? `👤 ${user.name}`
-              : 'Guest'}
-          </span>
-        </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '12px', color: 'var(--tx-2)', fontWeight: 500 }}>
+              {user?.role === 'admin'
+                ? `🛡️ ${user.username || 'Admin'}`
+                : user?.name
+                ? `👤 ${user.name}`
+                : 'Guest'}
+            </span>
+          </div>
 
-        <span style={{ fontSize: '12px', letterSpacing: '0.02em', minWidth: '130px', textAlign: 'right', fontWeight: 500 }}>
-          {timeString || 'Loading...'}
-        </span>
+          <WarmTooltip content="Date & Time" side="bottom">
+            <span style={{ fontSize: '12px', letterSpacing: '0.02em', minWidth: '130px', textAlign: 'right', fontWeight: 500, cursor: 'default' }}>
+              {timeString || 'Loading...'}
+            </span>
+          </WarmTooltip>
+        </WarmTooltipGroup>
       </div>
     </header>
   );

@@ -122,7 +122,7 @@ export default function ToastContainer() {
                 borderRadius: '4px',
                 lineHeight: 1,
               }}
-              title="Dismiss"
+              aria-label="Dismiss"
             >
               ✕
             </button>

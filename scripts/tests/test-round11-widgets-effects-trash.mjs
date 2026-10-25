@@ -280,8 +280,9 @@ async function runRound11TestSuite() {
     // TEST 4: Trash Lifecycle, Dock Integration, Restore & Undo
     // -------------------------------------------------------------
     console.log('\n--- TEST 4: Trash System End-to-End ---');
-    // Open Projects Finder
-    await page.click('#dock-item-projects');
+    // Open Projects Finder via Desktop Icon
+    const projectsIcon1 = await page.waitForSelector('#desktop-item-projects', { timeout: 5000 });
+    await projectsIcon1.click({ clickCount: 2 });
     await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
     await new Promise((r) => setTimeout(r, 600));
 
@@ -306,8 +307,9 @@ async function runRound11TestSuite() {
     await page.reload({ waitUntil: 'networkidle2' });
     await new Promise((r) => setTimeout(r, 800));
 
-    // Reopen projects folder
-    await page.click('#dock-item-projects');
+    // Reopen projects folder via Desktop Icon
+    const projectsIcon2 = await page.waitForSelector('#desktop-item-projects', { timeout: 5000 });
+    await projectsIcon2.click({ clickCount: 2 });
     await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
     await new Promise((r) => setTimeout(r, 600));
 

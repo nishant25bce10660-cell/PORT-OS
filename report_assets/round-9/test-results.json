@@ -1,6 +1,6 @@
 {
   "round": 9,
-  "timestamp": "2026-10-24T13:02:45.070Z",
+  "timestamp": "2026-10-25T19:01:43.599Z",
   "checks": {
     "M17.1_CSS_TOKENS": {
       "status": "PASS",
@@ -14,7 +14,7 @@
     },
     "M17.3_DOCK_ICONS": {
       "status": "PASS",
-      "details": "Dock application icons verified. 9 items rendered with SVG artwork and running dots.",
+      "details": "Dock application icons verified. 6 items rendered with SVG artwork and running dots.",
       "screenshot": "report_assets/round-9/03-dock-icons.png"
     },
     "M18.1_FINDER_ICONS_VIEW": {

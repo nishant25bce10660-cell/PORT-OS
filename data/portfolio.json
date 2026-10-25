@@ -16,22 +16,22 @@
     {
       "id": "widget-clock",
       "type": "clock",
-      "x": 512,
-      "y": 320,
+      "x": 64,
+      "y": 256,
       "text": "San Francisco, CA"
     },
     {
       "id": "widget-note",
       "type": "note",
-      "x": 352,
-      "y": 960,
+      "x": 432,
+      "y": 880,
       "text": "Welcome to PORT OS — Personal Portfolio Desktop"
     },
     {
       "id": "widget-counter",
       "type": "counter",
-      "x": 112,
-      "y": 336,
+      "x": 544,
+      "y": 304,
       "text": "Total Projects: 4 | Credentials: 4"
     }
   ],
@@ -193,11 +193,11 @@
       },
       "effects": {
         "preset": "liquid-glass",
-        "liquidGlass": true,
-        "glassmorphism": true,
+        "liquidGlass": false,
+        "glassmorphism": false,
         "magneticHover": false,
         "tiltEffect": false,
-        "ambientGlow": true,
+        "ambientGlow": false,
         "auroraMesh": false,
         "glassOpacity": 0.85,
         "blurAmount": 24,

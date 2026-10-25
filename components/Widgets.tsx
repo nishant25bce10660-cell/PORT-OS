@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Widget, WidgetType, ClockConfig, DEFAULT_CLOCK_CONFIG } from '@/lib/types';
 import { renderCustomWidgetBlocks } from './WidgetStudio';
+import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
 
 interface WidgetsProps {
   widgets: Widget[];
@@ -97,6 +98,84 @@ function NoteEditor({
   );
 }
 
+export interface WidgetControlsProps {
+  widget: Widget;
+  width: number;
+  height: number;
+  canEdit: boolean;
+  onDelete: (id: string) => void;
+  onEdit: (widget: Widget) => void;
+}
+
+export function WidgetControls({
+  widget,
+  width,
+  height,
+  canEdit,
+  onDelete,
+  onEdit,
+}: WidgetControlsProps) {
+  if (!canEdit) return null;
+
+  // Viewport clamping & corner flipping
+  const isNearTop = widget.y < 32;
+  const isNearLeft = widget.x < 16;
+  const isNearRight = typeof window !== 'undefined' ? widget.x + width > window.innerWidth - 16 : false;
+
+  const overlayClasses = [
+    'widget-controls-overlay',
+    isNearTop ? 'flip-top' : '',
+    isNearLeft ? 'flip-left' : '',
+    isNearRight ? 'flip-right' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <div className={overlayClasses}>
+      <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+        <div className="widget-remove-handle-box">
+          <WarmTooltip content="Remove widget" side={isNearTop ? 'bottom' : 'top'}>
+            <button
+              type="button"
+              className="widget-handle widget-remove-handle"
+              id={`btn-delete-widget-${widget.id}`}
+              data-action="remove"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(widget.id);
+              }}
+              aria-label="Remove widget"
+            >
+              ✕
+            </button>
+          </WarmTooltip>
+        </div>
+        <div className="widget-edit-handle-box">
+          <WarmTooltip
+            content={widget.type === 'custom' ? 'Edit in Widget Studio' : 'Edit label'}
+            side={isNearTop ? 'bottom' : 'top'}
+          >
+            <button
+              type="button"
+              className="widget-handle widget-edit-handle"
+              id={`btn-edit-widget-${widget.id}`}
+              data-action="edit"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(widget);
+              }}
+              aria-label="Edit widget"
+            >
+              ✎
+            </button>
+          </WarmTooltip>
+        </div>
+      </WarmTooltipGroup>
+    </div>
+  );
+}
+
 export default function Widgets({
   widgets,
   canEdit = true,
@@ -114,6 +193,16 @@ export default function Widgets({
 }: WidgetsProps) {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [editingWidgetId, setEditingWidgetId] = useState<string | null>(null);
+  const [touchActiveId, setTouchActiveId] = useState<string | null>(null);
+  const touchTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleTouchWidget = (widgetId: string) => {
+    setTouchActiveId(widgetId);
+    if (touchTimerRef.current) clearTimeout(touchTimerRef.current);
+    touchTimerRef.current = setTimeout(() => {
+      setTouchActiveId(null);
+    }, 3500);
+  };
 
   // Live ticking clock (seconds tick without triggering layout or collision logic)
   useEffect(() => {
@@ -310,13 +399,18 @@ export default function Widgets({
       {widgets.map((widget) => {
         const dims = getWidgetDimensions(widget.type, widget.sizeMode, widget.customWidth, widget.customHeight);
         const app = widget.appearance;
+        const screenW = typeof window !== 'undefined' ? window.innerWidth : 1440;
+        const screenH = typeof window !== 'undefined' ? window.innerHeight : 900;
+        const posX = Math.max(8, Math.min(widget.x, screenW - dims.w - 8));
+        const posY = Math.max(32, Math.min(widget.y, screenH - dims.h - 16));
 
         return (
           <div
             key={widget.id}
             id={`widget-${widget.id}`}
-            className={`desktop-widget ${widget.type === 'clock' ? 'widget-clock-glow' : ''} desktop-widget-editable`}
+            className={`desktop-widget ${widget.type === 'clock' ? 'widget-clock-glow' : ''} desktop-widget-editable ${touchActiveId === widget.id ? 'is-touch-active' : ''}`}
             tabIndex={0}
+            onTouchStart={() => handleTouchWidget(widget.id)}
             onPointerDown={(e) => handlePointerDown(e, widget)}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
@@ -330,7 +424,7 @@ export default function Widgets({
               position: 'absolute',
               top: 0,
               left: 0,
-              transform: `translate3d(${widget.x}px, ${widget.y}px, 0)`,
+              transform: `translate3d(${posX}px, ${posY}px, 0)`,
               width: `${dims.w}px`,
               minHeight: `${dims.h}px`,
               backgroundColor: app?.bgColor
@@ -347,41 +441,21 @@ export default function Widgets({
                   : undefined,
             }}
           >
-            {/* Widget contextual remove and edit handles */}
-            {canEdit && (
-              <>
-                <button
-                  type="button"
-                  className="widget-handle widget-remove-handle"
-                  id={`btn-delete-widget-${widget.id}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDeleteWidget(widget.id);
-                  }}
-                  title="Remove widget"
-                  aria-label="Remove widget"
-                >
-                  ✕
-                </button>
-                <button
-                  type="button"
-                  className="widget-handle widget-edit-handle"
-                  id={`btn-edit-widget-${widget.id}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (widget.type === 'custom') {
-                      onEditCustomWidget?.(widget);
-                    } else {
-                      setEditingWidgetId(editingWidgetId === widget.id ? null : widget.id);
-                    }
-                  }}
-                  title="Edit label"
-                  aria-label="Edit widget"
-                >
-                  ✎
-                </button>
-              </>
-            )}
+            {/* Shared WidgetControls component */}
+            <WidgetControls
+              widget={widget}
+              width={dims.w}
+              height={dims.h}
+              canEdit={canEdit}
+              onDelete={onDeleteWidget}
+              onEdit={(w) => {
+                if (w.type === 'custom') {
+                  onEditCustomWidget?.(w);
+                } else {
+                  setEditingWidgetId(editingWidgetId === w.id ? null : w.id);
+                }
+              }}
+            />
 
             {/* 1. CLOCK WIDGET */}
             {widget.type === 'clock' && (
@@ -422,7 +496,7 @@ export default function Widgets({
                       cursor: canEdit ? 'pointer' : 'default',
                     }}
                     onDoubleClick={() => setEditingWidgetId(widget.id)}
-                    title={canEdit ? 'Double-click to edit location label' : undefined}
+                    aria-label={canEdit ? 'Double-click to edit location label' : undefined}
                   >
                     {widget.text || clockConfig.locationLabel || 'SAN FRANCISCO, CA'}
                   </span>
@@ -812,30 +886,32 @@ export default function Widgets({
             {widget.type === 'custom' && (
               <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                 {canEdit && (
-                  <button
-                    type="button"
-                    className="widget-handle"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEditCustomWidget?.(widget);
-                    }}
-                    style={{
-                      position: 'absolute',
-                      top: '6px',
-                      right: '30px',
-                      width: '18px',
-                      height: '18px',
-                      fontSize: '10px',
-                      background: 'rgba(56, 189, 248, 0.25)',
-                      border: '1px solid rgba(56, 189, 248, 0.5)',
-                      color: '#38bdf8',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                    }}
-                    title="Open in Widget Studio"
-                  >
-                    ⚙
-                  </button>
+                  <WarmTooltip content="Open in Widget Studio" side="top">
+                    <button
+                      type="button"
+                      className="widget-handle"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditCustomWidget?.(widget);
+                      }}
+                      aria-label="Open in Widget Studio"
+                      style={{
+                        position: 'absolute',
+                        top: '6px',
+                        right: '30px',
+                        width: '18px',
+                        height: '18px',
+                        fontSize: '10px',
+                        background: 'rgba(56, 189, 248, 0.25)',
+                        border: '1px solid rgba(56, 189, 248, 0.5)',
+                        color: '#38bdf8',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ⚙
+                    </button>
+                  </WarmTooltip>
                 )}
                 {renderCustomWidgetBlocks(widget.blocks || [])}
               </div>

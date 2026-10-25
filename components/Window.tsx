@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
 
 export type SnapMode = 'normal' | 'left' | 'right' | 'max';
 
@@ -453,57 +454,65 @@ export default function Window({
           }}
         >
           <div className={`traffic-lights ${isActive ? 'is-active' : 'is-inactive'}`}>
-            {/* Close */}
-            <button
-              type="button"
-              className="traffic-light traffic-light-close"
-              id={`btn-close-${win.id}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose(win.id);
-              }}
-              title="Close"
-              aria-label="Close"
-            >
-              <span className="traffic-icon">✕</span>
-            </button>
+            <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+              {/* Close */}
+              <WarmTooltip content="Close" side="bottom">
+                <button
+                  type="button"
+                  className="traffic-light traffic-light-close"
+                  id={`btn-close-${win.id}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClose(win.id);
+                  }}
+                  aria-label="Close"
+                >
+                  <span className="traffic-icon">✕</span>
+                </button>
+              </WarmTooltip>
 
-            {/* Minimize (Hidden for utility/about modal sheets) */}
-            {!(win.id === 'about-portos' || win.id.includes('about')) && (
-              <button
-                type="button"
-                className="traffic-light traffic-light-minimize"
-                id={`btn-minimize-${win.id}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onMinimize(win.id);
-                }}
-                title="Minimize"
-                aria-label="Minimize"
-              >
-                <span className="traffic-icon">−</span>
-              </button>
-            )}
+              {/* Minimize (Hidden for utility/about modal sheets) */}
+              {!(win.id === 'about-portos' || win.id.includes('about')) && (
+                <WarmTooltip content="Minimize" side="bottom">
+                  <button
+                    type="button"
+                    className="traffic-light traffic-light-minimize"
+                    id={`btn-minimize-${win.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onMinimize(win.id);
+                    }}
+                    aria-label="Minimize"
+                  >
+                    <span className="traffic-icon">−</span>
+                  </button>
+                </WarmTooltip>
+              )}
 
-            {/* Maximize / Snap cycle (Hidden for utility/about modal sheets) */}
-            {!(win.id === 'about-portos' || win.id.includes('about')) && (
-              <button
-                type="button"
-                className="traffic-light traffic-light-maximize"
-                id={`btn-snap-${win.id}`}
-                onClick={handleSnapCycle}
-                title={
-                  win.snapMode === 'normal'
-                    ? 'Snap Left'
-                    : win.snapMode === 'left'
-                    ? 'Snap Right'
-                    : 'Restore'
-                }
-                aria-label="Zoom / Snap"
-              >
-                <span className="traffic-icon">⤢</span>
-              </button>
-            )}
+              {/* Maximize / Snap cycle (Hidden for utility/about modal sheets) */}
+              {!(win.id === 'about-portos' || win.id.includes('about')) && (
+                <WarmTooltip
+                  content={
+                    win.snapMode === 'normal'
+                      ? 'Snap Left'
+                      : win.snapMode === 'left'
+                      ? 'Snap Right'
+                      : 'Restore'
+                  }
+                  side="bottom"
+                >
+                  <button
+                    type="button"
+                    className="traffic-light traffic-light-maximize"
+                    id={`btn-snap-${win.id}`}
+                    onClick={handleSnapCycle}
+                    aria-label="Zoom / Snap"
+                  >
+                    <span className="traffic-icon">⤢</span>
+                  </button>
+                </WarmTooltip>
+              )}
+            </WarmTooltipGroup>
           </div>
 
           <div className="window-title">{win.title}</div>

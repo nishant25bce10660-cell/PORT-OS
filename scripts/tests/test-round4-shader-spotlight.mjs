@@ -170,7 +170,12 @@ async function runRound4Tests() {
     await new Promise(r => setTimeout(r, 400));
 
     // Right click on empty desktop workspace
-    await page.mouse.click(200, 400, { button: 'right' });
+    await page.evaluate(() => {
+      const ws = document.getElementById('desktop-workspace');
+      if (ws) {
+        ws.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: 500, clientY: 400 }));
+      }
+    });
     await new Promise(r => setTimeout(r, 400));
 
     const contextMenuState = await page.evaluate(() => {

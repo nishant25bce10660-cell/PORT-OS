@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { sound } from '@/lib/sound';
+import WarmTooltip from './WarmTooltip';
 
 export type PowerState = 'running' | 'shutdown' | 'restarting' | 'sleeping';
 
@@ -72,30 +73,32 @@ export default function PowerOverlay({
           userSelect: 'none',
         }}
       >
-        <button
-          type="button"
-          id="btn-power-on"
-          onClick={onPowerOn}
-          className="power-button-glow"
-          style={{
-            width: '68px',
-            height: '68px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03))',
-            border: '1px solid rgba(255, 255, 255, 0.25)',
-            color: '#ffffff',
-            fontSize: '28px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            boxShadow: '0 0 30px rgba(255, 255, 255, 0.15)',
-            transition: 'all 0.25s ease',
-          }}
-          title="Turn on PORT OS"
-        >
-          ⏻
-        </button>
+        <WarmTooltip content="Turn on PORT OS" side="top">
+          <button
+            type="button"
+            id="btn-power-on"
+            onClick={onPowerOn}
+            className="power-button-glow"
+            aria-label="Turn on PORT OS"
+            style={{
+              width: '68px',
+              height: '68px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03))',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              color: '#ffffff',
+              fontSize: '28px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 0 30px rgba(255, 255, 255, 0.15)',
+              transition: 'all 0.25s ease',
+            }}
+          >
+            ⏻
+          </button>
+        </WarmTooltip>
         <span
           style={{
             fontFamily: 'var(--font-mac)',

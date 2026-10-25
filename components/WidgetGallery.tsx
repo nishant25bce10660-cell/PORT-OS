@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Widget, WidgetType } from '@/lib/types';
 import WidgetStudio from './WidgetStudio';
+import WarmTooltip from './WarmTooltip';
 
 interface WidgetGalleryProps {
   widgets: Widget[];
@@ -347,22 +348,24 @@ export default function WidgetGallery({
                 >
                   Edit in Studio
                 </button>
-                <button
-                  type="button"
-                  onClick={() => onDeleteWidget(customW.id)}
-                  style={{
-                    padding: '5px 8px',
-                    fontSize: '11px',
-                    background: 'rgba(239, 68, 68, 0.15)',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
-                    borderRadius: '6px',
-                    color: '#f87171',
-                    cursor: 'pointer',
-                  }}
-                  title="Remove from Desktop"
-                >
-                  ✕
-                </button>
+                <WarmTooltip content="Remove from Desktop" side="top">
+                  <button
+                    type="button"
+                    onClick={() => onDeleteWidget(customW.id)}
+                    aria-label="Remove from Desktop"
+                    style={{
+                      padding: '5px 8px',
+                      fontSize: '11px',
+                      background: 'rgba(239, 68, 68, 0.15)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      borderRadius: '6px',
+                      color: '#f87171',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ✕
+                  </button>
+                </WarmTooltip>
               </div>
             </div>
           ))}

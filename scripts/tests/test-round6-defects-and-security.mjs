@@ -361,7 +361,8 @@ async function runRound6DefectsTest() {
     // D4: FORMATTED MARKDOWN RENDERING
     // -------------------------------------------------------------
     console.log('\n--- 11. Testing D4: Formatted Markdown Document Rendering ---');
-    await page.click('#dock-item-projects');
+    const projectsIcon = await page.waitForSelector('#desktop-item-projects', { timeout: 5000 });
+    await projectsIcon.click({ clickCount: 2 });
     await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
     await new Promise((r) => setTimeout(r, 400));
 

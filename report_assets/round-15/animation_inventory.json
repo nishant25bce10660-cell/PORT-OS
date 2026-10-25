@@ -1,0 +1,197 @@
+[
+  {
+    "id": "wallpaper-shader",
+    "name": "Wallpaper Silk Wave Shaders",
+    "type": "Three.js WebGL Canvas",
+    "driver": "requestAnimationFrame + GLSL vertex/fragment displacement",
+    "duration": "continuous",
+    "budgetFps": 60,
+    "measuredFps": 120,
+    "tierPolicy": {
+      "high": "Full pixel ratio (1.5x), full wave harmonics, pointer parallax deflection",
+      "medium": "0.5x pixel ratio (4x GPU fill-rate reduction), active waves",
+      "low": "Paused WebGL canvas, solid/gradient static wallpaper fallback"
+    },
+    "status": "OPTIMIZED"
+  },
+  {
+    "id": "boot-sequence",
+    "name": "System Boot Screen & Progress Bar",
+    "type": "CSS Transform & Opacity Transitions",
+    "driver": "CSS cubic-bezier(0.16, 1, 0.3, 1) + requestAnimationFrame",
+    "duration": "1800ms",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Layered blurred backdrop + smooth gradient progress",
+      "medium": "Standard progress fill without blur",
+      "low": "Instant progress reveal"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "login-avatar-shake",
+    "name": "Login Avatar Card Hover & Error Shake",
+    "type": "CSS @keyframes dockBounce / shake",
+    "driver": "CSS GPU transforms translate3d(-50%, 0, 0)",
+    "duration": "420ms",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Smooth spring scale (1.04) + harmonic error shake",
+      "medium": "Scale (1.02) + standard shake",
+      "low": "Instant border highlight"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "window-lifecycle",
+    "name": "Window Open, Close, Minimise, Maximise & Snap Preview",
+    "type": "CSS Transitions & React Spring Bounds",
+    "driver": "Hardware-accelerated transform & opacity (will-change)",
+    "duration": "220ms",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Scale 0.95 -> 1.0 + backdrop-filter blur(24px)",
+      "medium": "Scale 0.98 -> 1.0 + backdrop-filter blur(8px)",
+      "low": "Instant snap, backdrop-filter disabled, solid dark glass fill"
+    },
+    "status": "OPTIMIZED"
+  },
+  {
+    "id": "dock-magnification-bounce",
+    "name": "Dock Hover Magnification, Hop Bounce & Dot Pulse",
+    "type": "Cached Bounding Rects + Single rAF Loop",
+    "driver": "Decoupled .dock-bounce-wrapper + .dock-item-btn transform",
+    "duration": "continuous hover / 800ms bounce",
+    "budgetFps": 55,
+    "measuredFps": 113.1,
+    "tierPolicy": {
+      "high": "1.55x cosinusoidal magnification, active hops, translucent solid fill on body",
+      "medium": "1.4x magnification, active hops",
+      "low": "1.25x magnification, bounce disabled"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "warm-tooltip",
+    "name": "WarmTooltip Warm-Up & Cool-Down Group",
+    "type": "React Bits WarmTooltip Portal",
+    "driver": "CSS cubic-bezier transitions + shared group timer",
+    "duration": "180ms warm / 120ms cool",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Smooth scale & opacity in #portal-root with warm-glow",
+      "medium": "Instant warm-up with opacity fade",
+      "low": "Direct opacity display without glow"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "comet-dial",
+    "name": "CometDial Sweep & Needle Rotation",
+    "type": "SVG Polar Path Generator + Spring Rotation",
+    "driver": "Single pointermove delta + requestAnimationFrame damping",
+    "duration": "continuous on drag",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Smooth polar sweep with gradient trail and needle spring",
+      "medium": "Standard sweep without particle spark trail",
+      "low": "Direct stepped needle update"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "menubar-interactions",
+    "name": "Menu Bar Item Hover & Dropdown Revelation",
+    "type": "CSS Opacity & Popover Transitions",
+    "driver": "CSS transitions with backdrop-filter blur(25px)",
+    "duration": "140ms",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Full backdrop blur and spring dropdown reveal",
+      "medium": "Reduced blur (8px) and linear fade",
+      "low": "Solid menu background without blur"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "context-menus",
+    "name": "Unified Context Menu Portal & Viewport Edge Clamping",
+    "type": "Single Portal in #portal-root",
+    "driver": "DOM transform translate3d with clientX/clientY clamping",
+    "duration": "120ms",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Layered glassmorphism with blur(24px) and spring entrance",
+      "medium": "Backdrop blur disabled, solid glass fill (rgba(20, 24, 38, 0.94))",
+      "low": "Instant presentation without animation or blur"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "quick-look-card",
+    "name": "Quick Look Independent Window Card",
+    "type": "Top-Level Portal #portal-root Modal",
+    "driver": "Full-screen dimmer + transform scale(0.96 -> 1.0)",
+    "duration": "180ms",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Centered floating card + sanitized markdown live render + dark dimmer",
+      "medium": "Reduced backdrop blur on dimmer",
+      "low": "Zero backdrop blur, instant markdown presentation"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "file-pills-folderfloat",
+    "name": "FolderFloat Pills Deterministic Spring Slots & Drift",
+    "type": "React Virtualized Arc Slots (Max 4 Pills)",
+    "driver": "Single rAF loop with damped spring motion, zero matter-js",
+    "duration": "220ms spring response + continuous gentle idle drift",
+    "budgetFps": 55,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Full damped spring physics, ±2px wave drift, wheel scroll easing",
+      "medium": "Clamped drift (50%), spring response 180ms",
+      "low": "Static arc slots, zero idle drift, instant wheel notch"
+    },
+    "status": "PASS"
+  },
+  {
+    "id": "desktop-widgets",
+    "name": "Desktop Widgets Drag, Resize, Flip & Control Revealing",
+    "type": "Shared WidgetControls + CSS 3D Flip",
+    "driver": "Pointer coordinate updates + will-change: transform",
+    "duration": "320ms flip / continuous drag",
+    "budgetFps": 55,
+    "measuredFps": 58,
+    "tierPolicy": {
+      "high": "Full 3D perspective flip, blur(16px), 3D tilt on hover",
+      "medium": "Perspective flip, blur(8px), 3D tilt disabled",
+      "low": "2D cross-fade flip, blur disabled, solid dark glass fill"
+    },
+    "status": "OPTIMIZED"
+  },
+  {
+    "id": "terminal-cursor-reveal",
+    "name": "Terminal Blinking Cursor & Streamed Output",
+    "type": "CSS @keyframes blink & Line Buffer Append",
+    "driver": "Native CSS animation + batched state dispatch",
+    "duration": "1000ms loop",
+    "budgetFps": 60,
+    "measuredFps": 60,
+    "tierPolicy": {
+      "high": "Smooth cursor opacity pulse + smooth monospaced scroll",
+      "medium": "Stepped cursor blink",
+      "low": "Solid static cursor"
+    },
+    "status": "PASS"
+  }
+]

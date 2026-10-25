@@ -27,6 +27,37 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const data = getPortfolioData();
 
+    // Sanitize and clamp dial & appearance numerical inputs
+    if (body.appearance) {
+      if (body.appearance.volume !== undefined) {
+        const v = Number(body.appearance.volume);
+        if (Number.isNaN(v) || !Number.isFinite(v)) {
+          body.appearance.volume = 0.8;
+        } else {
+          body.appearance.volume = Math.max(0, Math.min(1, v));
+        }
+      }
+    }
+
+    if (body.customization) {
+      if (body.customization.bgOpacity !== undefined) {
+        const op = Number(body.customization.bgOpacity);
+        if (Number.isNaN(op) || !Number.isFinite(op)) {
+          body.customization.bgOpacity = 0.8;
+        } else {
+          body.customization.bgOpacity = Math.max(0.2, Math.min(1.0, op));
+        }
+      }
+      if (body.customization.borderRadius !== undefined) {
+        const br = Number(body.customization.borderRadius);
+        if (Number.isNaN(br) || !Number.isFinite(br)) {
+          body.customization.borderRadius = 14;
+        } else {
+          body.customization.borderRadius = Math.max(4, Math.min(24, Math.round(br)));
+        }
+      }
+    }
+
     // Deep merge settings
     data.settings = {
       general: {

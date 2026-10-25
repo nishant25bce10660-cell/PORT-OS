@@ -5,6 +5,8 @@ import { Item, FolderItem, FileItem, TrashedItem } from '@/lib/types';
 import QuickLookModal from './QuickLookModal';
 import PortOSIcon from '@/components/icons/PortOSIcon';
 import { getIconKindForFile, getIconKindForFolder } from '@/components/icons/iconRegistry';
+import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
+import { useContextMenu, ContextMenuItem } from './ContextMenu';
 
 export type ViewMode = 'icons' | 'list' | 'columns' | 'gallery';
 export type SortField = 'name' | 'date' | 'size' | 'kind';
@@ -116,14 +118,7 @@ export default function FolderView({
     }
   };
 
-  // Context Menu state
-  const [contextMenu, setContextMenu] = useState<{
-    visible: boolean;
-    x: number;
-    y: number;
-    item: Item | null;
-  }>({ visible: false, x: 0, y: 0, item: null });
-
+  const { openContextMenu } = useContextMenu();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Keyboard navigation & Quick Look on Spacebar
@@ -142,7 +137,6 @@ export default function FolderView({
         }
       } else if (e.key === 'Escape') {
         if (quickLookItem) setQuickLookItem(null);
-        if (contextMenu.visible) setContextMenu((prev) => ({ ...prev, visible: false }));
       } else if (e.key === 'Enter') {
         if (selectedItemId) {
           const item = folder.children?.find((c) => c.id === selectedItemId);
@@ -163,7 +157,7 @@ export default function FolderView({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedItemId, quickLookItem, editingItemId, folder, canEdit, onMoveToTrash, contextMenu]);
+  }, [selectedItemId, quickLookItem, editingItemId, folder, canEdit, onMoveToTrash]);
 
   // Filter & Sort Items
   const displayedItems = useMemo(() => {
@@ -269,31 +263,145 @@ export default function FolderView({
     setEditingItemId(null);
   };
 
-  // Right-Click Context Menu
+  // Right-Click Context Menu using Unified Provider
   const handleContextMenu = (e: React.MouseEvent, item: Item) => {
     e.preventDefault();
     e.stopPropagation();
     setSelectedItemId(item.id);
-    const menuW = 180;
-    const menuH = 180;
-    const screenW = typeof window !== 'undefined' ? window.innerWidth : 1200;
-    const screenH = typeof window !== 'undefined' ? window.innerHeight : 800;
-    const clampedX = Math.max(8, Math.min(e.clientX, screenW - menuW - 12));
-    const clampedY = Math.max(8, Math.min(e.clientY, screenH - menuH - 12));
-    setContextMenu({
-      visible: true,
-      x: clampedX,
-      y: clampedY,
-      item,
+
+    const isFolder = item.kind === 'folder';
+    const isImage = !isFolder && /\.(png|jpe?g|webp|gif|svg)$/i.test(item.name);
+
+    const items: ContextMenuItem[] = [
+      {
+        id: 'ctx-finder-open',
+        label: isFolder ? 'Open Folder' : 'Open',
+        icon: <PortOSIcon kind={isFolder ? 'folder' : 'file'} size={14} />,
+        action: () => {
+          if (isFolder) onNavigateFolder(item as FolderItem);
+          else onOpenFile(item as FileItem);
+        },
+      },
+      {
+        id: 'ctx-finder-quicklook',
+        label: 'Quick Look',
+        shortcut: 'Space',
+        icon: <PortOSIcon kind="spotlight" size={14} />,
+        action: () => setQuickLookItem(item),
+      },
+    ];
+
+    if (canEdit && !initialIsTrashView) {
+      items.push(
+        { id: 'ctx-div-1', label: '', isDivider: true },
+        {
+          id: 'ctx-finder-rename',
+          label: 'Rename',
+          icon: <PortOSIcon kind="settings" size={14} />,
+          action: () => {
+            setEditingItemId(item.id);
+            setEditingItemName(item.name);
+          },
+        },
+        {
+          id: 'ctx-finder-trash',
+          label: 'Move to Trash',
+          icon: <PortOSIcon kind="trash" size={14} />,
+          danger: true,
+          action: () => onMoveToTrash?.(item.id),
+        }
+      );
+    }
+
+    if (isImage && onSetWallpaper) {
+      items.push({ id: 'ctx-div-wp', label: '', isDivider: true });
+      items.push({
+        id: 'ctx-finder-wallpaper',
+        label: 'Set as Desktop Wallpaper',
+        icon: <PortOSIcon kind="settings" size={14} />,
+        action: () => onSetWallpaper(item as FileItem),
+      });
+    }
+
+    if (initialIsTrashView && onRestoreTrash) {
+      items.push({ id: 'ctx-div-trash', label: '', isDivider: true });
+      items.push({
+        id: 'ctx-finder-restore',
+        label: 'Put Back',
+        icon: <PortOSIcon kind="trash" size={14} />,
+        action: () => onRestoreTrash(item.id),
+      });
+    }
+
+    openContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      title: item.name,
+      items,
+    });
+  };
+
+  const handleContextMenuEmpty = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const items: ContextMenuItem[] = [
+      {
+        id: 'ctx-finder-new-folder',
+        label: 'New Folder',
+        disabled: !canEdit || initialIsTrashView,
+        action: () => {
+          if (canEdit && !initialIsTrashView) {
+            handleCreateNewFolder();
+          }
+        },
+      },
+      {
+        id: 'ctx-finder-import',
+        label: 'Import Files...',
+        disabled: !canEdit || initialIsTrashView,
+        action: () => {
+          if (canEdit && fileInputRef.current) {
+            fileInputRef.current.click();
+          }
+        },
+      },
+      { id: 'ctx-div-empty-1', label: '', isDivider: true },
+      {
+        id: 'ctx-finder-view-icons',
+        label: 'View as Icons',
+        action: () => setViewMode('icons'),
+      },
+      {
+        id: 'ctx-finder-view-list',
+        label: 'View as List',
+        action: () => setViewMode('list'),
+      },
+    ];
+
+    if (initialIsTrashView && onEmptyTrash) {
+      items.push({ id: 'ctx-div-empty-trash', label: '', isDivider: true });
+      items.push({
+        id: 'ctx-finder-empty-trash',
+        label: 'Empty Trash...',
+        danger: true,
+        disabled: !canEdit || (trashItems ? trashItems.length === 0 : true),
+        action: () => onEmptyTrash(),
+      });
+    }
+
+    openContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      title: folder.name || 'Finder',
+      items,
     });
   };
 
   return (
     <div
       className="finder-window-container"
-      onClick={() => {
-        if (contextMenu.visible) setContextMenu((prev) => ({ ...prev, visible: false }));
-      }}
+      onContextMenu={handleContextMenuEmpty}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -374,255 +482,308 @@ export default function FolderView({
           gap: '12px',
         }}
       >
-        {/* Left: History Nav + View Mode Switcher */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* History Navigation */}
-          <div
-            style={{
-              display: 'flex',
-              background: 'rgba(255, 255, 255, 0.06)',
-              borderRadius: '6px',
-              padding: '2px',
-            }}
-          >
-            <button
-              type="button"
-              id="btn-finder-back"
-              disabled={historyIndex <= 0}
-              onClick={handleNavBack}
-              title="Back"
+        <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+          {/* Left: History Nav + View Mode Switcher + Quick Look */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* History Navigation */}
+            <div
               style={{
-                background: 'transparent',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '4px 8px',
-                color: historyIndex > 0 ? '#fff' : 'rgba(255, 255, 255, 0.25)',
-                cursor: historyIndex > 0 ? 'pointer' : 'default',
-                fontSize: '12px',
-                fontWeight: 'bold',
+                display: 'flex',
+                background: 'rgba(255, 255, 255, 0.06)',
+                borderRadius: '6px',
+                padding: '2px',
               }}
             >
-              ‹
-            </button>
-            <button
-              type="button"
-              id="btn-finder-forward"
-              disabled={historyIndex >= navHistory.length - 1}
-              onClick={handleNavForward}
-              title="Forward"
+              <WarmTooltip content="Back" shortcut="⌘[" side="bottom">
+                <button
+                  type="button"
+                  id="btn-finder-back"
+                  disabled={historyIndex <= 0}
+                  onClick={handleNavBack}
+                  aria-label="Back"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 8px',
+                    color: historyIndex > 0 ? '#fff' : 'rgba(255, 255, 255, 0.25)',
+                    cursor: historyIndex > 0 ? 'pointer' : 'default',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  ‹
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="Forward" shortcut="⌘]" side="bottom">
+                <button
+                  type="button"
+                  id="btn-finder-forward"
+                  disabled={historyIndex >= navHistory.length - 1}
+                  onClick={handleNavForward}
+                  aria-label="Forward"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 8px',
+                    color: historyIndex < navHistory.length - 1 ? '#fff' : 'rgba(255, 255, 255, 0.25)',
+                    cursor: historyIndex < navHistory.length - 1 ? 'pointer' : 'default',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  ›
+                </button>
+              </WarmTooltip>
+            </div>
+
+            <div
               style={{
-                background: 'transparent',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '4px 8px',
-                color: historyIndex < navHistory.length - 1 ? '#fff' : 'rgba(255, 255, 255, 0.25)',
-                cursor: historyIndex < navHistory.length - 1 ? 'pointer' : 'default',
-                fontSize: '12px',
-                fontWeight: 'bold',
+                display: 'flex',
+                background: 'rgba(255, 255, 255, 0.06)',
+                borderRadius: '6px',
+                padding: '2px',
               }}
             >
-              ›
-            </button>
+              <WarmTooltip content="Icons View" shortcut="⌘1" side="bottom">
+                <button
+                  type="button"
+                  id="btn-view-icons"
+                  data-view="icons"
+                  className={`btn-view-icons ${viewMode === 'icons' ? 'is-active' : ''}`}
+                  aria-label="Icons View"
+                  onClick={() => setViewMode('icons')}
+                  style={{
+                    background: viewMode === 'icons' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 7px',
+                    color: viewMode === 'icons' ? '#fff' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                  }}
+                >
+                  ⊞
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="List View" shortcut="⌘2" side="bottom">
+                <button
+                  type="button"
+                  id="btn-view-list"
+                  data-view="list"
+                  className={`btn-view-list ${viewMode === 'list' ? 'is-active' : ''}`}
+                  aria-label="List View"
+                  onClick={() => setViewMode('list')}
+                  style={{
+                    background: viewMode === 'list' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 7px',
+                    color: viewMode === 'list' ? '#fff' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                  }}
+                >
+                  ☰
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="Columns View" shortcut="⌘3" side="bottom">
+                <button
+                  type="button"
+                  id="btn-view-columns"
+                  data-view="columns"
+                  className={`btn-view-columns ${viewMode === 'columns' ? 'is-active' : ''}`}
+                  aria-label="Columns View"
+                  onClick={() => setViewMode('columns')}
+                  style={{
+                    background: viewMode === 'columns' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 7px',
+                    color: viewMode === 'columns' ? '#fff' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                  }}
+                >
+                  ▥
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="Gallery View" shortcut="⌘4" side="bottom">
+                <button
+                  type="button"
+                  id="btn-view-gallery"
+                  data-view="gallery"
+                  className={`btn-view-gallery ${viewMode === 'gallery' ? 'is-active' : ''}`}
+                  aria-label="Gallery View"
+                  onClick={() => setViewMode('gallery')}
+                  style={{
+                    background: viewMode === 'gallery' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 7px',
+                    color: viewMode === 'gallery' ? '#fff' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <rect x="1" y="2" width="14" height="9" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+                    <rect x="2" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
+                    <rect x="6.5" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
+                    <rect x="11" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
+                  </svg>
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="Quick Look Preview" shortcut="Space" side="bottom">
+                <button
+                  type="button"
+                  id="btn-finder-quicklook"
+                  aria-label="Quick Look Preview"
+                  disabled={!selectedItemId}
+                  onClick={() => {
+                    if (selectedItemId) {
+                      const item = folder.children?.find((c) => c.id === selectedItemId);
+                      if (item) setQuickLookItem(item);
+                    }
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 7px',
+                    color: selectedItemId ? '#fff' : 'rgba(255, 255, 255, 0.25)',
+                    cursor: selectedItemId ? 'pointer' : 'default',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </WarmTooltip>
+            </div>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              background: 'rgba(255, 255, 255, 0.06)',
-              borderRadius: '6px',
-              padding: '2px',
-            }}
-          >
-            <button
-              type="button"
-              id="btn-view-icons"
-              data-view="icons"
-              className={`btn-view-icons ${viewMode === 'icons' ? 'is-active' : ''}`}
-              title="Icons View"
-              onClick={() => setViewMode('icons')}
-              style={{
-                background: viewMode === 'icons' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '4px 7px',
-                color: viewMode === 'icons' ? '#fff' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                fontSize: '12px',
-              }}
-            >
-              ⊞
-            </button>
-            <button
-              type="button"
-              id="btn-view-list"
-              data-view="list"
-              className={`btn-view-list ${viewMode === 'list' ? 'is-active' : ''}`}
-              title="List View"
-              onClick={() => setViewMode('list')}
-              style={{
-                background: viewMode === 'list' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '4px 7px',
-                color: viewMode === 'list' ? '#fff' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                fontSize: '12px',
-              }}
-            >
-              ☰
-            </button>
-            <button
-              type="button"
-              id="btn-view-columns"
-              data-view="columns"
-              className={`btn-view-columns ${viewMode === 'columns' ? 'is-active' : ''}`}
-              title="Columns View"
-              onClick={() => setViewMode('columns')}
-              style={{
-                background: viewMode === 'columns' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '4px 7px',
-                color: viewMode === 'columns' ? '#fff' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                fontSize: '12px',
-              }}
-            >
-              ▥
-            </button>
-            <button
-              type="button"
-              id="btn-view-gallery"
-              data-view="gallery"
-              className={`btn-view-gallery ${viewMode === 'gallery' ? 'is-active' : ''}`}
-              title="Gallery View"
-              onClick={() => setViewMode('gallery')}
-              style={{
-                background: viewMode === 'gallery' ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
-                border: 'none',
-                borderRadius: '4px',
-                padding: '4px 7px',
-                color: viewMode === 'gallery' ? '#fff' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                <rect x="1" y="2" width="14" height="9" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
-                <rect x="2" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
-                <rect x="6.5" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
-                <rect x="11" y="13" width="3" height="2" rx="0.5" fill="currentColor" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Center: Search input */}
-        <div style={{ flex: 1, maxWidth: '240px', position: 'relative' }}>
-          <input
-            type="text"
-            className="finder-search-input"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              width: '100%',
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              borderRadius: '6px',
-              padding: '4px 8px 4px 24px',
-              fontSize: '11px',
-              color: '#fff',
-              outline: 'none',
-            }}
-          />
-          <span
-            style={{
-              position: 'absolute',
-              left: '8px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-muted)',
-              pointerEvents: 'none',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="6.5" cy="6.5" r="4.5" />
-              <line x1="10" y1="10" x2="14.5" y2="14.5" strokeLinecap="round" />
-            </svg>
-          </span>
-        </div>
-
-        {/* Right: Admin Action Buttons */}
-        {canEdit && !isTrashView && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <button
-              type="button"
-              id="btn-add-file"
-              onClick={() => onAddItem(folder.id, 'file')}
-              style={{
-                padding: '4px 8px',
-                fontSize: '11px',
-                fontWeight: 500,
-                color: '#fff',
-                background: 'rgba(56, 189, 248, 0.2)',
-                border: '1px solid rgba(56, 189, 248, 0.4)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              + File
-            </button>
-            <button
-              type="button"
-              id="btn-add-folder"
-              onClick={() => onAddItem(folder.id, 'folder')}
-              style={{
-                padding: '4px 8px',
-                fontSize: '11px',
-                fontWeight: 500,
-                color: '#fff',
-                background: 'rgba(52, 211, 153, 0.2)',
-                border: '1px solid rgba(52, 211, 153, 0.4)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              + Folder
-            </button>
-            <button
-              type="button"
-              id="btn-upload-file"
-              onClick={() => fileInputRef.current?.click()}
-              style={{
-                padding: '4px 8px',
-                fontSize: '11px',
-                fontWeight: 500,
-                color: '#fff',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.16)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              Upload
-            </button>
+          {/* Center: Search input */}
+          <div style={{ flex: 1, maxWidth: '240px', position: 'relative' }}>
             <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  simulateUploadFile(e.target.files[0]);
-                }
+              type="text"
+              className="finder-search-input"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: '100%',
+                background: 'rgba(255, 255, 255, 0.06)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                borderRadius: '6px',
+                padding: '4px 8px 4px 24px',
+                fontSize: '11px',
+                color: '#fff',
+                outline: 'none',
               }}
             />
+            <span
+              style={{
+                position: 'absolute',
+                left: '8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'var(--text-muted)',
+                pointerEvents: 'none',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="6.5" cy="6.5" r="4.5" />
+                <line x1="10" y1="10" x2="14.5" y2="14.5" strokeLinecap="round" />
+              </svg>
+            </span>
           </div>
-        )}
+
+          {/* Right: Admin Action Buttons */}
+          {canEdit && !isTrashView && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <WarmTooltip content="Create New File" side="bottom">
+                <button
+                  type="button"
+                  id="btn-add-file"
+                  onClick={() => onAddItem(folder.id, 'file')}
+                  aria-label="Create New File"
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    color: '#fff',
+                    background: 'rgba(56, 189, 248, 0.2)',
+                    border: '1px solid rgba(56, 189, 248, 0.4)',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  + File
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="Create New Folder" side="bottom">
+                <button
+                  type="button"
+                  id="btn-add-folder"
+                  onClick={() => onAddItem(folder.id, 'folder')}
+                  aria-label="Create New Folder"
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    color: '#fff',
+                    background: 'rgba(52, 211, 153, 0.2)',
+                    border: '1px solid rgba(52, 211, 153, 0.4)',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  + Folder
+                </button>
+              </WarmTooltip>
+              <WarmTooltip content="Upload Local Files" side="bottom">
+                <button
+                  type="button"
+                  id="btn-upload-file"
+                  onClick={() => fileInputRef.current?.click()}
+                  aria-label="Upload Local Files"
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    color: '#fff',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.16)',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Upload
+                </button>
+              </WarmTooltip>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    simulateUploadFile(e.target.files[0]);
+                  }
+                }}
+              />
+            </div>
+          )}
+        </WarmTooltipGroup>
       </div>
 
       {/* Main Body: Sidebar + Viewport */}
@@ -730,23 +891,26 @@ export default function FolderView({
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>({trashItems.length} items)</span>
                 </div>
                 {canEdit && trashItems.length > 0 && (
-                  <button
-                    id="btn-empty-trash"
-                    type="button"
-                    onClick={() => setShowEmptyConfirm(true)}
-                    style={{
-                      padding: '4px 12px',
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      background: 'rgba(239, 68, 68, 0.2)',
-                      border: '1px solid rgba(239, 68, 68, 0.4)',
-                      color: '#f87171',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Empty Trash...
-                  </button>
+                  <WarmTooltip content="Permanently erase all items in Trash" side="bottom">
+                    <button
+                      id="btn-empty-trash"
+                      type="button"
+                      onClick={() => setShowEmptyConfirm(true)}
+                      aria-label="Empty Trash"
+                      style={{
+                        padding: '4px 12px',
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        background: 'rgba(239, 68, 68, 0.2)',
+                        border: '1px solid rgba(239, 68, 68, 0.4)',
+                        color: '#f87171',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Empty Trash...
+                    </button>
+                  </WarmTooltip>
                 )}
               </div>
 
@@ -858,40 +1022,45 @@ export default function FolderView({
                     </div>
                     {canEdit && (
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <button
-                          id={`btn-restore-${trashed.id}`}
-                          type="button"
-                          onClick={() => onRestoreTrash && onRestoreTrash(trashed.id)}
-                          style={{
-                            padding: '4px 10px',
-                            fontSize: '11px',
-                            fontWeight: 500,
-                            background: 'rgba(52, 211, 153, 0.18)',
-                            border: '1px solid rgba(52, 211, 153, 0.35)',
-                            color: '#34d399',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Put Back
-                        </button>
-                        <button
-                          id={`btn-delete-perm-${trashed.id}`}
-                          type="button"
-                          onClick={() => onDeleteItem && onDeleteItem(trashed.id)}
-                          style={{
-                            padding: '4px 8px',
-                            fontSize: '11px',
-                            background: 'rgba(239, 68, 68, 0.15)',
-                            border: '1px solid rgba(239, 68, 68, 0.3)',
-                            color: '#f87171',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                          }}
-                          title="Delete Immediately"
-                        >
-                          ✕
-                        </button>
+                        <WarmTooltip content="Put Back (Restore to original folder)" side="top">
+                          <button
+                            id={`btn-restore-${trashed.id}`}
+                            type="button"
+                            onClick={() => onRestoreTrash && onRestoreTrash(trashed.id)}
+                            aria-label="Put Back"
+                            style={{
+                              padding: '4px 10px',
+                              fontSize: '11px',
+                              fontWeight: 500,
+                              background: 'rgba(52, 211, 153, 0.18)',
+                              border: '1px solid rgba(52, 211, 153, 0.35)',
+                              color: '#34d399',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Put Back
+                          </button>
+                        </WarmTooltip>
+                        <WarmTooltip content="Delete Immediately" side="top">
+                          <button
+                            id={`btn-delete-perm-${trashed.id}`}
+                            type="button"
+                            onClick={() => onDeleteItem && onDeleteItem(trashed.id)}
+                            aria-label="Delete Immediately"
+                            style={{
+                              padding: '4px 8px',
+                              fontSize: '11px',
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              color: '#f87171',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </WarmTooltip>
                       </div>
                     )}
                   </div>
@@ -976,7 +1145,7 @@ export default function FolderView({
                     ) : (
                       <span
                         className="item-name-label"
-                        title={item.name}
+                        aria-label={item.name}
                         style={{
                           marginTop: '4px',
                           fontSize: '11.5px',
@@ -1069,6 +1238,12 @@ export default function FolderView({
                       if (item.kind === 'folder') onNavigateFolder(item as FolderItem);
                       else onOpenFile(item as FileItem);
                     }}
+                    onContextMenu={(e) => handleContextMenu(e, item)}
+                    onDoubleClick={() => {
+                      if (item.kind === 'folder') onNavigateFolder(item as FolderItem);
+                      else onOpenFile(item as FileItem);
+                    }}
+                    onContextMenu={(e) => handleContextMenu(e, item)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -1149,6 +1324,11 @@ export default function FolderView({
                     key={item.id}
                     className={`finder-item ${selectedItemId === item.id ? 'is-selected' : ''}`}
                     onClick={() => setSelectedItemId(item.id)}
+                    onDoubleClick={() => {
+                      if (item.kind === 'folder') onNavigateFolder(item as FolderItem);
+                      else onOpenFile(item as FileItem);
+                    }}
+                    onContextMenu={(e) => handleContextMenu(e, item)}
                     style={{
                       flexShrink: 0,
                       width: '64px',
@@ -1233,71 +1413,16 @@ export default function FolderView({
         <span>Portfolio Vault</span>
       </div>
 
-      {/* Context Menu */}
-      {contextMenu.visible && contextMenu.item && (
-        <div
-          className="finder-context-menu"
-          style={{
-            position: 'fixed',
-            top: `${contextMenu.y}px`,
-            left: `${contextMenu.x}px`,
-            background: 'rgba(28, 32, 44, 0.96)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            borderRadius: '8px',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-            padding: '4px',
-            zIndex: 9999,
-            minWidth: '150px',
-            fontSize: '12px',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            onClick={() => {
-              if (contextMenu.item?.kind === 'folder') onNavigateFolder(contextMenu.item as FolderItem);
-              else onOpenFile(contextMenu.item as FileItem);
-              setContextMenu((prev) => ({ ...prev, visible: false }));
-            }}
-            style={{ padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}
-          >
-            Open
-          </div>
-          <div
-            onClick={() => {
-              setQuickLookItem(contextMenu.item);
-              setContextMenu((prev) => ({ ...prev, visible: false }));
-            }}
-            style={{ padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}
-          >
-            Quick Look (Space)
-          </div>
-          {canEdit && (
-            <>
-              <div
-                onClick={(e) => handleStartRename(contextMenu.item!, e)}
-                style={{ padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Rename
-              </div>
-              <div
-                onClick={() => {
-                  if (onMoveToTrash) onMoveToTrash(contextMenu.item!.id);
-                  setContextMenu((prev) => ({ ...prev, visible: false }));
-                }}
-                style={{ padding: '6px 10px', borderRadius: '4px', cursor: 'pointer', color: '#f87171' }}
-              >
-                Move to Trash
-              </div>
-            </>
-          )}
-        </div>
-      )}
-
       {/* Quick Look Modal */}
       {quickLookItem && (
         <QuickLookModal
           item={quickLookItem}
+          allItems={displayedItems}
           onClose={() => setQuickLookItem(null)}
+          onNavigateItem={(next) => {
+            setQuickLookItem(next);
+            setSelectedItemId(next.id);
+          }}
           onSetWallpaper={(f) => {
             if (onSetWallpaper) onSetWallpaper(f);
             setQuickLookItem(null);

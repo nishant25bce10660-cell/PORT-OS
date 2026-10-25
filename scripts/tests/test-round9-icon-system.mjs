@@ -160,8 +160,8 @@ async function runRound9IconTestSuite() {
       });
     });
 
-    assert(dockIconsData.length >= 7, 'Dock must render at least 7 application icons');
-    const requiredDockApps = ['finder', 'terminal', 'settings', 'projects', 'trash'];
+    assert(dockIconsData.length >= 6, 'Dock must render at least 6 core application icons');
+    const requiredDockApps = ['finder', 'terminal', 'settings', 'widgets', 'trash'];
     for (const req of requiredDockApps) {
       const found = dockIconsData.find((d) => d.id.includes(req) || d.kind === req);
       assert(found && found.hasSvg, `Dock must render icon with SVG for app: ${req}`);

@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-10-24T22:46:41.623Z",
+  "testConditions": "CPU 4x Throttled (Emulation.setCPUThrottlingRate: 4), 1440x900 Viewport",
+  "metrics": {
+    "lcp": {
+      "step0": "1212 ms",
+      "step13": "1236.0 ms",
+      "target": "<= 2500 ms",
+      "pass": true
+    },
+    "cls": {
+      "step0": "0.000",
+      "step13": "0.0006",
+      "target": "<= 0.02",
+      "pass": true
+    },
+    "fpsDockHover": {
+      "step0": "137.9 fps",
+      "step13": "75.1 fps",
+      "target": ">= 55 fps",
+      "pass": true
+    },
+    "fpsWindowDrag": {
+      "step0": "134 fps",
+      "step13": "60.6 fps",
+      "target": ">= 55 fps",
+      "pass": true
+    },
+    "fpsTooltipWarmUp": {
+      "step0": "137.9 fps (Dock baseline)",
+      "step13": "64.7 fps",
+      "target": ">= 55 fps",
+      "pass": true
+    },
+    "jsHeapUsed": {
+      "step0": "6.39 MB",
+      "step13": "6.12 MB",
+      "growthDelta": "-0.53 MB",
+      "target": "<= 20 MB growth / <= 15%",
+      "pass": true
+    },
+    "bundleFirstLoadJs": {
+      "step0": "87.2 kB",
+      "step13": "87.2 kB",
+      "delta": "0.0 kB",
+      "target": "<= 117.2 kB (< +30 kB over baseline)",
+      "pass": true
+    }
+  }
+}

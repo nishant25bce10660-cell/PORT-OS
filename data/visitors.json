@@ -1,378 +1,314 @@
 [
   {
-    "id": "vis-1792846914317-34076e66",
+    "id": "vis-1792954839807-4303e7e0",
     "name": "Grace Hopper",
     "email": "grace@compiler.org",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:54.318Z"
+    "timestamp": "2026-10-25T19:00:39.807Z"
   },
   {
-    "id": "vis-1792846902417-0d41faf3",
+    "id": "vis-1792954826988-26fb748e",
     "name": "RBAC Checker",
     "email": "rbac@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:42.417Z"
+    "timestamp": "2026-10-25T19:00:26.988Z"
   },
   {
-    "id": "vis-1792846899331-fb719abf",
+    "id": "vis-1792954823853-8cc833bb",
     "name": "Wallpaper Verifier",
     "email": "wall@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:39.331Z"
+    "timestamp": "2026-10-25T19:00:23.853Z"
   },
   {
-    "id": "vis-1792846895738-7526bdee",
+    "id": "vis-1792954819775-e58b1f92",
     "name": "Alice Auditor",
     "email": "alice@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:35.739Z"
+    "timestamp": "2026-10-25T19:00:19.776Z"
   },
   {
-    "id": "vis-1792846887420-4dac07de",
+    "id": "vis-1792954809510-e3710f65",
     "name": "Dock Menu Auditor",
     "email": "auditor@dockmenu.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:27.420Z"
+    "timestamp": "2026-10-25T19:00:09.510Z"
   },
   {
-    "id": "vis-1792846876488-21adf386",
+    "id": "vis-1792954798446-71ff95aa",
     "name": "Widget Auditor Viewer",
     "email": "auditor@widgets.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:16.488Z"
+    "timestamp": "2026-10-25T18:59:58.446Z"
   },
   {
-    "id": "vis-1792846860204-f6383741",
+    "id": "vis-1792954780398-1e7fbec6",
     "name": "Auditor Viewer",
     "email": "viewer@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T13:01:00.204Z"
+    "timestamp": "2026-10-25T18:59:40.398Z"
   },
   {
-    "id": "vis-1792846638977-d0b093d0",
+    "id": "vis-1792954574165-b0fd7b24",
     "name": "Grace Hopper",
     "email": "grace@compiler.org",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:57:18.978Z"
+    "timestamp": "2026-10-25T18:56:14.165Z"
   },
   {
-    "id": "vis-1792846625580-e97f82f3",
+    "id": "vis-1792954560151-814b2352",
     "name": "RBAC Checker",
     "email": "rbac@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:57:05.580Z"
+    "timestamp": "2026-10-25T18:56:00.151Z"
   },
   {
-    "id": "vis-1792846622712-f1fe70ef",
+    "id": "vis-1792954556864-01922e99",
     "name": "Wallpaper Verifier",
     "email": "wall@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:57:02.712Z"
+    "timestamp": "2026-10-25T18:55:56.864Z"
   },
   {
-    "id": "vis-1792846619210-d3a5dc5f",
+    "id": "vis-1792954553132-b3b698cd",
     "name": "Alice Auditor",
     "email": "alice@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:56:59.210Z"
+    "timestamp": "2026-10-25T18:55:53.132Z"
   },
   {
-    "id": "vis-1792846610619-13d0d914",
+    "id": "vis-1792954542867-516c40b6",
     "name": "Dock Menu Auditor",
     "email": "auditor@dockmenu.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:56:50.619Z"
+    "timestamp": "2026-10-25T18:55:42.868Z"
   },
   {
-    "id": "vis-1792846600853-5692a15e",
+    "id": "vis-1792954531834-3a238a32",
     "name": "Widget Auditor Viewer",
     "email": "auditor@widgets.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:56:40.853Z"
+    "timestamp": "2026-10-25T18:55:31.834Z"
   },
   {
-    "id": "vis-1792846583316-c74a9de9",
+    "id": "vis-1792954514070-73bcc033",
     "name": "Auditor Viewer",
     "email": "viewer@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:56:23.316Z"
+    "timestamp": "2026-10-25T18:55:14.070Z"
   },
   {
-    "id": "vis-1792846562338-5a4eb624",
+    "id": "vis-1792954504187-60083d82",
+    "name": "Dock Menu Auditor",
+    "email": "auditor@dockmenu.internal",
+    "ip": "eff8e7ca506627fe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-25T18:55:04.187Z"
+  },
+  {
+    "id": "vis-1792954323129-72d9a9ee",
+    "name": "Dock Menu Auditor",
+    "email": "auditor@dockmenu.internal",
+    "ip": "eff8e7ca506627fe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-25T18:52:03.129Z"
+  },
+  {
+    "id": "vis-1792954311645-9128cee0",
+    "name": "Widget Auditor Viewer",
+    "email": "auditor@widgets.internal",
+    "ip": "eff8e7ca506627fe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-25T18:51:51.645Z"
+  },
+  {
+    "id": "vis-1792954293553-8feb1749",
+    "name": "Auditor Viewer",
+    "email": "viewer@auditor.internal",
+    "ip": "eff8e7ca506627fe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-25T18:51:33.553Z"
+  },
+  {
+    "id": "vis-1792948224465-856d249d",
+    "name": "Auditor Viewer",
+    "email": "viewer@auditor.internal",
+    "ip": "eff8e7ca506627fe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-25T17:10:24.465Z"
+  },
+  {
+    "id": "vis-1792945608171-268a51ca",
     "name": "Grace Hopper",
     "email": "grace@compiler.org",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:56:02.338Z"
+    "timestamp": "2026-10-25T16:26:48.172Z"
   },
   {
-    "id": "vis-1792846477487-acb52a48",
+    "id": "vis-1792945596501-a9577066",
     "name": "RBAC Checker",
     "email": "rbac@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:54:37.487Z"
+    "timestamp": "2026-10-25T16:26:36.501Z"
   },
   {
-    "id": "vis-1792846474622-7e0459f4",
+    "id": "vis-1792945593739-2287bed8",
     "name": "Wallpaper Verifier",
     "email": "wall@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:54:34.622Z"
+    "timestamp": "2026-10-25T16:26:33.739Z"
   },
   {
-    "id": "vis-1792846471135-575ec09f",
+    "id": "vis-1792945590120-642980e7",
     "name": "Alice Auditor",
     "email": "alice@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:54:31.135Z"
+    "timestamp": "2026-10-25T16:26:30.120Z"
   },
   {
-    "id": "vis-1792846462817-9443e9ba",
+    "id": "vis-1792945581056-5cc08d5d",
     "name": "Dock Menu Auditor",
     "email": "auditor@dockmenu.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:54:22.817Z"
+    "timestamp": "2026-10-25T16:26:21.056Z"
   },
   {
-    "id": "vis-1792846452920-6d8ece6c",
+    "id": "vis-1792945571125-8c2bd9c0",
     "name": "Widget Auditor Viewer",
     "email": "auditor@widgets.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:54:12.920Z"
+    "timestamp": "2026-10-25T16:26:11.125Z"
   },
   {
-    "id": "vis-1792846436408-2be981f5",
+    "id": "vis-1792945554350-3385fff3",
     "name": "Auditor Viewer",
     "email": "viewer@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:53:56.408Z"
+    "timestamp": "2026-10-25T16:25:54.351Z"
   },
   {
-    "id": "vis-1792846423936-157a2100",
+    "id": "vis-1792945275290-f2918e8c",
+    "name": "Grace Hopper",
+    "email": "grace@compiler.org",
+    "ip": "eff8e7ca506627fe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-25T16:21:15.290Z"
+  },
+  {
+    "id": "vis-1792945263631-82ef3031",
     "name": "RBAC Checker",
     "email": "rbac@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:53:43.936Z"
+    "timestamp": "2026-10-25T16:21:03.631Z"
   },
   {
-    "id": "vis-1792846421084-1170c624",
+    "id": "vis-1792945260735-1c63676c",
     "name": "Wallpaper Verifier",
     "email": "wall@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:53:41.084Z"
+    "timestamp": "2026-10-25T16:21:00.735Z"
   },
   {
-    "id": "vis-1792846417503-f2828837",
+    "id": "vis-1792945257029-c870a7e8",
     "name": "Alice Auditor",
     "email": "alice@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:53:37.503Z"
+    "timestamp": "2026-10-25T16:20:57.029Z"
   },
   {
-    "id": "vis-1792846405122-3fd3c0d9",
+    "id": "vis-1792945246985-c12ea697",
     "name": "Dock Menu Auditor",
     "email": "auditor@dockmenu.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:53:25.122Z"
+    "timestamp": "2026-10-25T16:20:46.985Z"
   },
   {
-    "id": "vis-1792846385624-b44f81ea",
+    "id": "vis-1792945236806-78450346",
     "name": "Widget Auditor Viewer",
     "email": "auditor@widgets.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:53:05.624Z"
+    "timestamp": "2026-10-25T16:20:36.806Z"
   },
   {
-    "id": "vis-1792846299916-20c4c285",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:51:39.916Z"
-  },
-  {
-    "id": "vis-1792846280082-6a7e8292",
+    "id": "vis-1792945220170-cfe9acaa",
     "name": "Auditor Viewer",
     "email": "viewer@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:51:20.082Z"
+    "timestamp": "2026-10-25T16:20:20.170Z"
   },
   {
-    "id": "vis-1792846270427-25faa50d",
-    "name": "Dock Menu Auditor",
-    "email": "auditor@dockmenu.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:51:10.427Z"
-  },
-  {
-    "id": "vis-1792846182018-d6b2bd89",
-    "name": "Dock Menu Auditor",
-    "email": "auditor@dockmenu.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:49:42.018Z"
-  },
-  {
-    "id": "vis-1792846017389-54baa203",
-    "name": "Dock Menu Auditor",
-    "email": "auditor@dockmenu.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:46:57.389Z"
-  },
-  {
-    "id": "vis-1792846006963-06d3cbe7",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:46:46.963Z"
-  },
-  {
-    "id": "vis-1792845988108-52f03a8d",
-    "name": "Auditor Viewer",
-    "email": "viewer@auditor.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:46:28.108Z"
-  },
-  {
-    "id": "vis-1792845946008-fe7b5b6d",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:45:46.008Z"
-  },
-  {
-    "id": "vis-1792845846846-4e69e173",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:44:06.846Z"
-  },
-  {
-    "id": "vis-1792845830547-77932bdd",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:43:50.547Z"
-  },
-  {
-    "id": "vis-1792845810248-dbce6ac2",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:43:30.248Z"
-  },
-  {
-    "id": "vis-1792845751016-a9128e46",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:42:31.016Z"
-  },
-  {
-    "id": "vis-1792845556874-30fbc66b",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:39:16.874Z"
-  },
-  {
-    "id": "vis-1792845243335-290aa45a",
-    "name": "Widget Auditor Viewer",
-    "email": "auditor@widgets.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:34:03.335Z"
-  },
-  {
-    "id": "vis-1792845226422-197c05f6",
-    "name": "Auditor Viewer",
-    "email": "viewer@auditor.internal",
-    "ip": "eff8e7ca506627fe",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T12:33:46.422Z"
-  },
-  {
-    "id": "vis-1792841380222-0abb42f0",
+    "id": "vis-1792945147620-10cc6bb4",
     "name": "RBAC Checker",
     "email": "rbac@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T11:29:40.222Z"
+    "timestamp": "2026-10-25T16:19:07.620Z"
   },
   {
-    "id": "vis-1792841377338-6e8e9499",
+    "id": "vis-1792945144510-311fb036",
     "name": "Wallpaper Verifier",
     "email": "wall@test.com",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T11:29:37.338Z"
+    "timestamp": "2026-10-25T16:19:04.510Z"
   },
   {
-    "id": "vis-1792841373889-cc2be172",
+    "id": "vis-1792945140990-70a0f4c9",
     "name": "Alice Auditor",
     "email": "alice@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T11:29:33.889Z"
+    "timestamp": "2026-10-25T16:19:00.991Z"
   },
   {
-    "id": "vis-1792841320160-1af64255",
+    "id": "vis-1792945131692-d6a684c0",
     "name": "Dock Menu Auditor",
     "email": "auditor@dockmenu.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T11:28:40.160Z"
+    "timestamp": "2026-10-25T16:18:51.692Z"
   },
   {
-    "id": "vis-1792841310472-27aafe37",
+    "id": "vis-1792945121195-550fa759",
     "name": "Widget Auditor Viewer",
     "email": "auditor@widgets.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T11:28:30.472Z"
+    "timestamp": "2026-10-25T16:18:41.195Z"
   },
   {
-    "id": "vis-1792841294391-1bedb1ba",
+    "id": "vis-1792945104630-e4c35a3b",
     "name": "Auditor Viewer",
     "email": "viewer@auditor.internal",
     "ip": "eff8e7ca506627fe",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-    "timestamp": "2026-10-24T11:28:14.392Z"
+    "timestamp": "2026-10-25T16:18:24.630Z"
   }
 ]
