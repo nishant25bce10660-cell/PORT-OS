@@ -1,0 +1,65 @@
+[
+  {
+    "step": "Step 1",
+    "name": "Icon Glitch Reproduction & Hypotheses H1-H5",
+    "status": "WORKING",
+    "durationSec": "0.1",
+    "error": null
+  },
+  {
+    "step": "Step 2",
+    "name": "Layer Architecture & Single Transform Writer",
+    "status": "WORKING",
+    "durationSec": "3.2",
+    "error": null
+  },
+  {
+    "step": "Step 3",
+    "name": "Glitch-Free Icon Interaction (3 Viewports)",
+    "status": "WORKING",
+    "durationSec": "102.0",
+    "error": null
+  },
+  {
+    "step": "Step 4",
+    "name": "Dock Pop-Out Magnification & WarmTooltip",
+    "status": "WORKING",
+    "durationSec": "9.2",
+    "error": null
+  },
+  {
+    "step": "Step 5",
+    "name": "Effects Catalog Cleanup & Wallpaper Context",
+    "status": "WORKING",
+    "durationSec": "19.3",
+    "error": null
+  },
+  {
+    "step": "Step 6",
+    "name": "Folder Zoom & File Emergence System",
+    "status": "WORKING",
+    "durationSec": "21.4",
+    "error": null
+  },
+  {
+    "step": "Step 7",
+    "name": "Deterministic Neighbour Displacement",
+    "status": "WORKING",
+    "durationSec": "63.9",
+    "error": null
+  },
+  {
+    "step": "Step 8",
+    "name": "All Folders on One Side & Auto-Adjusting",
+    "status": "WORKING",
+    "durationSec": "28.3",
+    "error": null
+  },
+  {
+    "step": "Step 9",
+    "name": "macOS-Style Window Minimise & Close Animation",
+    "status": "WORKING",
+    "durationSec": "69.2",
+    "error": null
+  }
+]

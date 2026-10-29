@@ -109,9 +109,9 @@ async function runRound4Tests() {
     });
 
     console.log(`[M7] Canvas metrics:`, shaderInfo);
-    assert(!shaderInfo.isWireframe, 'Wallpaper must NOT be wireframe grid (C6 resolution: soft flowing silk wave)');
-    assert(shaderInfo.hasShader, 'Wallpaper must use custom GLSL Silk Wave ShaderMaterial');
+    assert(canvasExists, 'Wallpaper canvas element must be present in DOM');
     assert(shaderInfo.isDprCapped, 'Canvas DPR must be capped at 1.5');
+    // Note: Silk Wave GLSL Shader retired in Round 19 per S12; replaced by Interactive Mirror Canvas (VW-01..33)
     results['M7_SHADER_WALLPAPER'] = 'PASS';
 
     // -------------------------------------------------------------
@@ -195,7 +195,7 @@ async function runRound4Tests() {
     console.log(`[M8.2] Context menu:`, contextMenuState);
     assert(contextMenuState.visible, 'Right-clicking on empty desktop must display #desktop-context-menu');
     assert(contextMenuState.items.some(i => i && i.includes('Settings')), 'Context menu must include Settings option');
-    assert(contextMenuState.items.some(i => i && i.includes('Wallpaper')), 'Context menu must include Wallpaper option');
+    assert(!contextMenuState.items.some(i => i && i.includes('Wallpaper')), 'Context menu must NOT include Wallpaper option (customization removed)');
     
     // Press Escape to dismiss
     await page.keyboard.press('Escape');

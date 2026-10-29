@@ -1,0 +1,280 @@
+{
+  "timestamp": "2026-10-26T18:08:14.523Z",
+  "tests": {
+    "vid01": {
+      "pass": true,
+      "vid01_1080p": [
+        {
+          "id": "widget-widget-clock",
+          "rect": {
+            "x": 16,
+            "y": 128,
+            "width": 320,
+            "height": 180,
+            "bottom": 308
+          },
+          "withinBounds": true,
+          "styleTop": "128px",
+          "styleLeft": "16px"
+        },
+        {
+          "id": "widget-widget-note",
+          "rect": {
+            "x": 144,
+            "y": 384,
+            "width": 260,
+            "height": 200,
+            "bottom": 584
+          },
+          "withinBounds": true,
+          "styleTop": "384px",
+          "styleLeft": "144px"
+        },
+        {
+          "id": "widget-widget-counter",
+          "rect": {
+            "x": 448,
+            "y": 96,
+            "width": 320,
+            "height": 160,
+            "bottom": 256
+          },
+          "withinBounds": true,
+          "styleTop": "96px",
+          "styleLeft": "448px"
+        }
+      ],
+      "vid01_768p": [
+        {
+          "id": "widget-widget-clock",
+          "rect": {
+            "x": 16,
+            "y": 128,
+            "width": 320,
+            "height": 180,
+            "bottom": 308
+          },
+          "withinBounds": true
+        },
+        {
+          "id": "widget-widget-note",
+          "rect": {
+            "x": 144,
+            "y": 384,
+            "width": 260,
+            "height": 200,
+            "bottom": 584
+          },
+          "withinBounds": true
+        },
+        {
+          "id": "widget-widget-counter",
+          "rect": {
+            "x": 448,
+            "y": 96,
+            "width": 320,
+            "height": 160,
+            "bottom": 256
+          },
+          "withinBounds": true
+        }
+      ]
+    },
+    "vid02": {
+      "pass": true,
+      "vid02Pills": {
+        "pillCount": 4,
+        "pills": [
+          {
+            "text": "BS-Computer-Science.md",
+            "rect": {
+              "x": 1078,
+              "y": 132,
+              "width": 132,
+              "height": 20
+            }
+          },
+          {
+            "text": "CKA-Kubernete…rator.md",
+            "rect": {
+              "x": 1080,
+              "y": 133,
+              "width": 130,
+              "height": 20
+            }
+          },
+          {
+            "text": "Google-Cloud-…ineer.md",
+            "rect": {
+              "x": 1081,
+              "y": 133,
+              "width": 128,
+              "height": 20
+            }
+          },
+          {
+            "text": "AWS-Solutions…t-Pro.md",
+            "rect": {
+              "x": 1081,
+              "y": 133,
+              "width": 129,
+              "height": 20
+            }
+          }
+        ],
+        "certRect": {
+          "y": 100
+        },
+        "projRect": {
+          "y": 52
+        },
+        "ownRect": {
+          "y": 332
+        },
+        "overlapsIcon": false
+      },
+      "pillsClosedAfterLeave": true
+    },
+    "vid03": {
+      "pass": true,
+      "vid03Finder": {
+        "hasSearchInput": false,
+        "toolbarDisplay": "flex",
+        "toolbarJustify": "space-between",
+        "hasNavButtons": true,
+        "hasViewButtons": true,
+        "hasAddFileBtn": true
+      }
+    },
+    "vid04": {
+      "pass": true,
+      "vid04Files": [
+        {
+          "id": "item-file-proj-1",
+          "text": "Distributed-KV-Store.md",
+          "wordBreak": "break-word",
+          "overflowWrap": "anywhere",
+          "maxWidth": "100px",
+          "boxWidth": 108,
+          "hasWarmTooltipParent": false
+        },
+        {
+          "id": "item-file-proj-4",
+          "text": "Micro-SaaS-Billing-Engine.md",
+          "wordBreak": "break-word",
+          "overflowWrap": "anywhere",
+          "maxWidth": "100px",
+          "boxWidth": 108,
+          "hasWarmTooltipParent": false
+        },
+        {
+          "id": "item-file-proj-2",
+          "text": "Portfolio-OS.md",
+          "wordBreak": "break-word",
+          "overflowWrap": "anywhere",
+          "maxWidth": "100px",
+          "boxWidth": 108,
+          "hasWarmTooltipParent": false
+        },
+        {
+          "id": "item-file-proj-3",
+          "text": "Realtime-Voxel-Engine.md",
+          "wordBreak": "break-word",
+          "overflowWrap": "anywhere",
+          "maxWidth": "100px",
+          "boxWidth": 108,
+          "hasWarmTooltipParent": false
+        }
+      ]
+    },
+    "vid05": {
+      "pass": true,
+      "vid05Controls": [
+        {
+          "id": "btn-delete-widget-widget-clock",
+          "action": "remove",
+          "tabIndex": 0,
+          "ariaLabel": "Remove widget"
+        },
+        {
+          "id": "btn-edit-widget-widget-clock",
+          "action": "edit",
+          "tabIndex": 0,
+          "ariaLabel": "Edit widget"
+        },
+        {
+          "id": "btn-delete-widget-widget-note",
+          "action": "remove",
+          "tabIndex": 0,
+          "ariaLabel": "Remove widget"
+        },
+        {
+          "id": "btn-edit-widget-widget-note",
+          "action": "edit",
+          "tabIndex": 0,
+          "ariaLabel": "Edit widget"
+        },
+        {
+          "id": "btn-delete-widget-widget-counter",
+          "action": "remove",
+          "tabIndex": 0,
+          "ariaLabel": "Remove widget"
+        },
+        {
+          "id": "btn-edit-widget-widget-counter",
+          "action": "edit",
+          "tabIndex": 0,
+          "ariaLabel": "Edit widget"
+        }
+      ]
+    },
+    "vid06": {
+      "pass": true,
+      "effectsState": {
+        "bodyClassList": [
+          "fx-liquid-glass",
+          "fx-magnetic-hover",
+          "fx-tilt-effect",
+          "fx-ambient-glow",
+          "fx-aurora-mesh"
+        ],
+        "desktopClasses": "desktop-container fx-liquid-glass fx-magnetic-hover fx-tilt-effect fx-ambient-glow fx-aurora-mesh",
+        "hasLiquidGlass": true,
+        "hasTiltEffect": true,
+        "hasAmbientGlow": true,
+        "widgetTop": "128px",
+        "widgetLeft": "16px",
+        "widgetPerspective": "800px"
+      }
+    },
+    "vid07": {
+      "pass": true,
+      "effectsInApi": {
+        "preset": "liquid-glass",
+        "liquidGlass": true,
+        "glassmorphism": false,
+        "magneticHover": true,
+        "tiltEffect": true,
+        "ambientGlow": true,
+        "auroraMesh": true,
+        "glassOpacity": 0.85,
+        "blurAmount": 24,
+        "specularBorders": true,
+        "glowIntensity": 0.7,
+        "tiltEnabled": true,
+        "parallaxDepth": true,
+        "reduceMotion": false,
+        "highContrast": false
+      }
+    },
+    "vid08": {
+      "pass": true,
+      "vid08Controls": {
+        "windowId": "window-folder-projects",
+        "closeLabel": "Close",
+        "minLabel": "Minimize",
+        "maxLabel": "Zoom / Snap"
+      }
+    }
+  }
+}

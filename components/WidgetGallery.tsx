@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Widget, WidgetType } from '@/lib/types';
 import WidgetStudio from './WidgetStudio';
 import WarmTooltip from './WarmTooltip';
+import SpringCheck from './SpringCheck';
 
 interface WidgetGalleryProps {
   widgets: Widget[];
@@ -412,6 +413,33 @@ export default function WidgetGallery({
                 <p style={{ fontSize: '11px', color: 'var(--tx-2, #94a3b8)', lineHeight: 1.45, margin: '0 0 14px 0' }}>
                   {item.description}
                 </p>
+                {item.type === 'todo' && (
+                  <div
+                    style={{
+                      marginBottom: '12px',
+                      padding: '8px 10px',
+                      background: 'rgba(0,0,0,0.25)',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    <SpringCheck
+                      label="Ship the build"
+                      defaultChecked={false}
+                      color="#ffffff"
+                      fillColor="#34d399"
+                      checkColor="#052e16"
+                      boxSize={18}
+                      boxRadius={5}
+                      fontSize={12}
+                      rowHeight={24}
+                      bounce={0.2}
+                      strikeLag={0.12}
+                      doneOpacity={0.42}
+                      strike="left"
+                    />
+                  </div>
+                )}
               </div>
 
               <button

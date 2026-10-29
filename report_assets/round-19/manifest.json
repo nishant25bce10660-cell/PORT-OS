@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-10-28T23:16:44.665Z",
+  "results": {
+    "VW_01_FRAME_SET": {
+      "pass": true,
+      "count": 300,
+      "hiFiles": 300,
+      "medFiles": 300,
+      "bytesHiMB": "68.50",
+      "bytesMedMB": "40.81"
+    },
+    "VW_02_LOCK_SCREEN_FRAME0": {
+      "pass": true,
+      "preLoginFrames": 0,
+      "noPortfolioLeak": true
+    },
+    "VW_03_POST_LOGIN_CACHE": {
+      "pass": true,
+      "cacheSize": 1
+    },
+    "VW_05_EMPTY_DESKTOP_WAKE": {
+      "pass": true,
+      "state": "WAKE"
+    },
+    "VW_06_UI_EXCLUSION": {
+      "pass": true
+    },
+    "VW_09_SYNTHETIC_N": {
+      "pass": true,
+      "finalFrame": 214
+    },
+    "VW_10_NEGATIVE_SET": {
+      "pass": true,
+      "state": "WAKE"
+    },
+    "VW_16_TRAIL_ACTIVE": {
+      "pass": true,
+      "points": 3
+    },
+    "VW_19_FIVE_SEC_RESET": {
+      "pass": true,
+      "state": "IDLE",
+      "frame": 0
+    },
+    "VW_24_API_REJECTION": {
+      "pass": true,
+      "status1": 400,
+      "status2": 400
+    },
+    "VW_32_MOBILE_VIEWPORT": {
+      "pass": true,
+      "width": 390,
+      "height": 844
+    }
+  },
+  "evidenceFiles": [
+    "01_lock_screen_frame0.png",
+    "02_mobile_viewport_390x844.png",
+    "03_desktop_home_complete.png",
+    "contact_sheet.png"
+  ]
+}

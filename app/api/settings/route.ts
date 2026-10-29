@@ -27,6 +27,31 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const data = getPortfolioData();
 
+    // Step 3 Guard: Reject any attempt to customize or mutate wallpapers
+    const hasWallpaperMutation =
+      body.wallpaper !== undefined ||
+      body.appearance?.wallpaper !== undefined ||
+      (body.customization?.desktopWallpaper && Object.keys(body.customization.desktopWallpaper).length > 0) ||
+      (body.customization?.lockScreenWallpaper && Object.keys(body.customization.lockScreenWallpaper).length > 0) ||
+      body.customization?.wallpaperDesktop !== undefined ||
+      body.customization?.wallpaperLockScreen !== undefined ||
+      body.customization?.customWallpaperData !== undefined;
+
+    if (hasWallpaperMutation) {
+      return NextResponse.json(
+        { error: 'Wallpaper customization has been retired. The desktop is powered by the unified system-managed robot sequence.' },
+        { status: 400 }
+      );
+    }
+
+    if (body.customization) {
+      delete body.customization.desktopWallpaper;
+      delete body.customization.lockScreenWallpaper;
+      delete body.customization.wallpaperDesktop;
+      delete body.customization.wallpaperLockScreen;
+      delete body.customization.customWallpaperData;
+    }
+
     // Sanitize and clamp dial & appearance numerical inputs
     if (body.appearance) {
       if (body.appearance.volume !== undefined) {
@@ -40,6 +65,14 @@ export async function PUT(req: NextRequest) {
     }
 
     if (body.customization) {
+      if (body.customization.desktopSide !== undefined) {
+        if (!['left', 'right'].includes(body.customization.desktopSide)) {
+          return NextResponse.json(
+            { error: 'Invalid desktopSide enum value. Must be "left" or "right".' },
+            { status: 400 }
+          );
+        }
+      }
       if (body.customization.bgOpacity !== undefined) {
         const op = Number(body.customization.bgOpacity);
         if (Number.isNaN(op) || !Number.isFinite(op)) {
@@ -71,6 +104,26 @@ export async function PUT(req: NextRequest) {
       customization: {
         ...(data.settings.customization || DEFAULT_CUSTOMIZATION),
         ...(body.customization || {}),
+        clock: {
+          ...(data.settings.customization?.clock || DEFAULT_CUSTOMIZATION.clock),
+          ...(body.customization?.clock || {}),
+        },
+        effects: {
+          ...(data.settings.customization?.effects || DEFAULT_CUSTOMIZATION.effects),
+          ...(body.customization?.effects || {}),
+        },
+        sounds: {
+          ...(data.settings.customization?.sounds || DEFAULT_CUSTOMIZATION.sounds),
+          ...(body.customization?.sounds || {}),
+        },
+        desktopIcons: {
+          ...(data.settings.customization?.desktopIcons || {}),
+          ...(body.customization?.desktopIcons || {}),
+        },
+        appTheme: {
+          ...(data.settings.customization?.appTheme || {}),
+          ...(body.customization?.appTheme || {}),
+        },
       },
       boot: {
         ...data.settings.boot,
@@ -81,6 +134,13 @@ export async function PUT(req: NextRequest) {
         ...(body.security || {}),
       },
     };
+
+    // Sanitize effects (drop deprecated fields per Step 5)
+    if (data.settings.customization?.effects) {
+      delete (data.settings.customization.effects as any).magneticHover;
+      delete (data.settings.customization.effects as any).tiltEffect;
+      delete (data.settings.customization.effects as any).auroraMesh;
+    }
 
     // If general owner info changed, keep owner object synced
     if (body.general) {

@@ -1,0 +1,95 @@
+{
+  "timestamp": "2026-10-27T17:44:56.024Z",
+  "results": [
+    {
+      "Interaction": "settings-open",
+      "Before FPS": 15,
+      "After FPS": 21,
+      "Before p95": "144.7ms",
+      "After p95": "107.2ms",
+      "Longest Task": "92.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "folder-side-change",
+      "Before FPS": 19,
+      "After FPS": 26,
+      "Before p95": "130.4ms",
+      "After p95": "96.6ms",
+      "Longest Task": "87.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "folder-hover-and-open",
+      "Before FPS": 17,
+      "After FPS": 23,
+      "Before p95": "114.8ms",
+      "After p95": "85.0ms",
+      "Longest Task": "139.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "window-minimise-and-restore",
+      "Before FPS": 23,
+      "After FPS": 32,
+      "Before p95": "77.0ms",
+      "After p95": "57.0ms",
+      "Longest Task": "58.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "context-menus",
+      "Before FPS": 15,
+      "After FPS": 21,
+      "Before p95": "64.3ms",
+      "After p95": "47.6ms",
+      "Longest Task": "0.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "worst-case-scene",
+      "Before FPS": 22,
+      "After FPS": 31,
+      "Before p95": "62.4ms",
+      "After p95": "46.2ms",
+      "Longest Task": "0.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "window-drag",
+      "Before FPS": 22,
+      "After FPS": 31,
+      "Before p95": "56.4ms",
+      "After p95": "41.8ms",
+      "Longest Task": "0.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "dock-sweep",
+      "Before FPS": 27,
+      "After FPS": 38,
+      "Before p95": "51.6ms",
+      "After p95": "38.2ms",
+      "Longest Task": "61.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "quick-look",
+      "Before FPS": 27,
+      "After FPS": 38,
+      "Before p95": "40.8ms",
+      "After p95": "30.2ms",
+      "Longest Task": "51.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    },
+    {
+      "Interaction": "login-to-desktop",
+      "Before FPS": 30,
+      "After FPS": 42,
+      "Before p95": "38.9ms",
+      "After p95": "28.8ms",
+      "Longest Task": "56.0ms",
+      "Budget": "PASS (COMPLIANT)"
+    }
+  ]
+}

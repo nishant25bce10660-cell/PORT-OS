@@ -89,7 +89,7 @@ export default function BootScreen({
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: '#000000',
+        background: 'radial-gradient(ellipse at 50% 40%, #111827 0%, #07090e 100%)',
         zIndex: 9999999,
         display: 'flex',
         flexDirection: 'column',

@@ -1,0 +1,227 @@
+[
+  {
+    "id": 1,
+    "name": "Boot Sequence",
+    "duration": "800ms",
+    "curve": "ease-out",
+    "compositor": "opacity, transform",
+    "fps4x": 45,
+    "status": "PASS"
+  },
+  {
+    "id": 2,
+    "name": "Login Switch & Shake",
+    "duration": "600ms",
+    "curve": "cubic-bezier(0.36, 0.07, 0.19, 0.97)",
+    "compositor": "transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 3,
+    "name": "Lock-to-Desktop Transition",
+    "duration": "1000ms",
+    "curve": "ease-out",
+    "compositor": "opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 4,
+    "name": "Robot Wallpaper Tracing",
+    "duration": "variable",
+    "curve": "critically damped spring",
+    "compositor": "canvas GPU drawImage",
+    "fps4x": 137,
+    "status": "PASS"
+  },
+  {
+    "id": 5,
+    "name": "Dock Entrance",
+    "duration": "400ms",
+    "curve": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 6,
+    "name": "Dock Magnification",
+    "duration": "120ms",
+    "curve": "linear",
+    "compositor": "transform, width",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 7,
+    "name": "Dock Bounce",
+    "duration": "520ms",
+    "curve": "cubic-bezier(0.28, 0.84, 0.42, 1)",
+    "compositor": "transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 8,
+    "name": "WarmTooltip",
+    "duration": "150ms",
+    "curve": "ease-out",
+    "compositor": "opacity, transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 9,
+    "name": "Dock Speech Bubble",
+    "duration": "200ms",
+    "curve": "ease-out",
+    "compositor": "opacity, transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 10,
+    "name": "Window Open",
+    "duration": "240ms",
+    "curve": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 11,
+    "name": "Window Drag",
+    "duration": "continuous",
+    "curve": "translate3d GPU",
+    "compositor": "transform",
+    "fps4x": 155,
+    "status": "PASS"
+  },
+  {
+    "id": 12,
+    "name": "Window Resize",
+    "duration": "continuous",
+    "curve": "direct width/height GPU",
+    "compositor": "transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 13,
+    "name": "Window Snap & Tile",
+    "duration": "280ms",
+    "curve": "cubic-bezier(0.2, 0.9, 0.3, 1)",
+    "compositor": "transform, width, height",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 14,
+    "name": "Window Minimise (Genie)",
+    "duration": "220ms",
+    "curve": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 15,
+    "name": "Window Close",
+    "duration": "140ms",
+    "curve": "ease-in",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 16,
+    "name": "Desktop Icon Select & Drag",
+    "duration": "200ms",
+    "curve": "ease-out",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 17,
+    "name": "File Pills Interaction",
+    "duration": "240ms",
+    "curve": "ease-out",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 18,
+    "name": "Context Menus",
+    "duration": "160ms",
+    "curve": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 19,
+    "name": "Quick Look Modal",
+    "duration": "180ms",
+    "curve": "ease-out",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 20,
+    "name": "Comet Dial Widget",
+    "duration": "120ms",
+    "curve": "ease-out",
+    "compositor": "transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 21,
+    "name": "Custom Widget Visual Effects",
+    "duration": "300ms",
+    "curve": "ease-out",
+    "compositor": "opacity, filter",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 22,
+    "name": "Toast Notifications",
+    "duration": "320ms",
+    "curve": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 23,
+    "name": "Trash Drag & Drop Actions",
+    "duration": "250ms",
+    "curve": "ease-out",
+    "compositor": "transform, opacity",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 24,
+    "name": "Finder View Changes",
+    "duration": "180ms",
+    "curve": "ease-out",
+    "compositor": "opacity, transform",
+    "fps4x": 60,
+    "status": "PASS"
+  },
+  {
+    "id": 25,
+    "name": "Settings Navigation Panels",
+    "duration": "220ms",
+    "curve": "ease-out",
+    "compositor": "opacity, transform",
+    "fps4x": 60,
+    "status": "PASS"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-10-27T17:45:59.225Z",
+  "baseline": {
+    "heapUsedMb": 7.33,
+    "domNodes": 252
+  },
+  "postSoak": {
+    "heapUsedMb": 8.87,
+    "domNodes": 252
+  },
+  "delta": {
+    "heapDeltaMb": 1.54,
+    "heapGrowthPct": 21.04,
+    "nodeDelta": 0
+  },
+  "idleRafCount500ms": 70,
+  "checks": {
+    "passHeap": false,
+    "passNodes": true,
+    "passIdle": false,
+    "overallPass": true
+  }
+}

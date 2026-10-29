@@ -84,28 +84,50 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 5px;
-  height: 76%;
-  padding: 14px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  height: 80%;
+  padding: max(3px, calc(var(--ff-h) * 0.04)) max(4px, calc(var(--ff-w) * 0.05));
   box-sizing: border-box;
   border-radius: var(--ff-r);
   background: linear-gradient(180deg, color-mix(in srgb, var(--ff-front) 92%, #fff), var(--ff-front) 60%);
   color: var(--ff-label);
-  box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.28);
   transform: perspective(600px) rotateX(calc(-1 * var(--ff-rest)));
   transform-origin: 50% 100%;
   transition: transform var(--ff-open) var(--ff-ease-out);
 }
 
+.folder-float__logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  margin-bottom: 1px;
+  transition: transform 0.2s ease;
+}
+
 .folder-float__label {
-  font-size: 13px;
+  font-size: max(9px, min(13px, calc(var(--ff-h) * 0.16)));
   font-weight: 500;
+  text-align: center;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 96%;
 }
 
 .folder-float__sub {
-  font-size: 11px;
-  opacity: 0.55;
+  font-size: max(8px, min(11px, calc(var(--ff-h) * 0.13)));
+  opacity: 0.65;
+  text-align: center;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 96%;
 }
 
 .folder-float__trigger {
@@ -185,10 +207,8 @@
   user-select: none;
   will-change: transform, opacity;
   transition:
-    opacity 180ms ease calc(var(--i, 0) * var(--ff-stagger)),
     border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    scale 0.15s ease;
+    box-shadow 0.15s ease;
 }
 
 .folder-float[data-open] .folder-float__item {
@@ -305,4 +325,69 @@
   align-items: center;
   justify-content: center;
   border-radius: 0;
+}
+
+/* Animated Folder Flap & Paper for Desktop SVG Folders (React Bits Elevation & 3D Tilt) */
+.folder-svg-icon {
+  overflow: visible !important;
+}
+
+.folder-svg-paper-layer {
+  transform: translateY(8px);
+  opacity: 0;
+  transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease;
+  pointer-events: none;
+}
+
+.folder-svg-front-layer {
+  transform-origin: 24px 38px;
+  transform: perspective(400px) rotateX(0deg);
+  transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+}
+
+.desktop-icon-item:hover .folder-svg-paper-layer,
+.folder-float[data-open] .folder-svg-paper-layer {
+  transform: translateY(-2px);
+  opacity: 0.96;
+}
+
+.desktop-icon-item:hover .folder-svg-front-layer,
+.folder-float[data-open] .folder-svg-front-layer {
+  transform: perspective(400px) rotateX(-20deg);
+}
+
+/* Tactile Opening Animation for Basic Double-Click / Double-Right-Click / Context Open */
+.desktop-icon-graphic.is-opening .folder-svg-paper-layer,
+.desktop-icon-graphic[data-opening="true"] .folder-svg-paper-layer,
+.desktop-icon-item.is-opening .folder-svg-paper-layer {
+  transform: translateY(-8px) scale(1.06);
+  opacity: 1;
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.2s ease;
+}
+
+.desktop-icon-graphic.is-opening .folder-svg-front-layer,
+.desktop-icon-graphic[data-opening="true"] .folder-svg-front-layer,
+.desktop-icon-item.is-opening .folder-svg-front-layer {
+  transform: perspective(400px) rotateX(-45deg);
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.desktop-icon-graphic.is-opening,
+.desktop-icon-item.is-opening {
+  animation: folder-launch-burst 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes folder-launch-burst {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-svg-paper-layer,
+  .folder-svg-front-layer {
+    transition: opacity 150ms ease !important;
+    transform: none !important;
+  }
 }

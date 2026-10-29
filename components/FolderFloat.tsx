@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import Matter from 'matter-js';
 import WarmTooltip from '@/components/WarmTooltip';
-import { qualityGovernor } from '@/lib/qualityGovernor';
 import './FolderFloat.css';
 
 export interface FolderFloatItem {
@@ -45,6 +45,16 @@ export interface FolderFloatProps {
   className?: string;
   customFolderGraphic?: React.ReactNode;
   children?: React.ReactNode;
+  forceClose?: boolean;
+  isOpen?: boolean;
+  progress?: number;
+  onItemPointerEnter?: () => void;
+  onItemPointerLeave?: () => void;
+  onEscape?: () => void;
+  // Logo Adjustability Props
+  logo?: React.ReactNode;
+  logoSize?: number;
+  logoAdjust?: { scale?: number; x?: number; y?: number };
 }
 
 const DEFAULT_ITEMS: FolderFloatItem[] = [
@@ -111,9 +121,22 @@ export default function FolderFloat({
   className = '',
   customFolderGraphic,
   children,
+  forceClose = false,
+  isOpen: controlledOpen,
+  progress: progressProp,
+  onItemPointerEnter,
+  onItemPointerLeave,
+  onEscape,
+  logo,
+  logoSize,
+  logoAdjust,
 }: FolderFloatProps) {
-  const [open, setOpen] = useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isControlled = typeof controlledOpen === 'boolean';
+  const open = isControlled ? controlledOpen : internalOpen;
   const [poppedIndex, setPoppedIndex] = useState<number | null>(null);
+  const [hoveredSlot, setHoveredSlot] = useState<number | null>(null);
+  const hoveredSlotRef = useRef<number | null>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [edgeFlip, setEdgeFlip] = useState<{ horizontal: 'left' | 'right' | 'center'; vertical: 'up' | 'down' }>({
     horizontal: align,
@@ -123,6 +146,52 @@ export default function FolderFloat({
   const containerRef = useRef<HTMLDivElement>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Matter.js Zero-Gravity Float Simulation
+  const matterEngineRef = useRef<Matter.Engine | null>(null);
+  const matterBodiesRef = useRef<Matter.Body[]>([]);
+
+  useEffect(() => {
+    if (!open || !physics || typeof window === 'undefined') {
+      if (matterEngineRef.current) {
+        try {
+          Matter.Composite.clear(matterEngineRef.current.world, false);
+          Matter.Engine.clear(matterEngineRef.current);
+        } catch {}
+        matterEngineRef.current = null;
+        matterBodiesRef.current = [];
+      }
+      return;
+    }
+
+    try {
+      const engine = Matter.Engine.create({
+        gravity: { x: 0, y: 0, scale: 0 },
+      });
+
+      const bodies = Array.from({ length: Math.min(MAX_VISIBLE_PILLS, items.length) }, () => {
+        return Matter.Bodies.rectangle(0, 0, 160, 28, {
+          frictionAir: 0.08,
+          restitution: Math.max(0, Math.min(1, bounce)),
+        });
+      });
+
+      Matter.Composite.add(engine.world, bodies);
+      matterEngineRef.current = engine;
+      matterBodiesRef.current = bodies;
+    } catch {}
+
+    return () => {
+      if (matterEngineRef.current) {
+        try {
+          Matter.Composite.clear(matterEngineRef.current.world, false);
+          Matter.Engine.clear(matterEngineRef.current);
+        } catch {}
+        matterEngineRef.current = null;
+        matterBodiesRef.current = [];
+      }
+    };
+  }, [open, physics, bounce, items.length]);
 
   // Raw file list normalized
   const list: FolderFloatItem[] = items.map((item) =>
@@ -170,11 +239,10 @@ export default function FolderFloat({
   // Handle open state change
   const setOpenState = useCallback(
     (next: boolean) => {
-      setOpen((prev) => {
-        if (prev === next) return prev;
-        onOpenChange?.(next);
-        return next;
-      });
+      if (!isControlled) {
+        setInternalOpen(next);
+      }
+      onOpenChange?.(next);
       if (next) {
         // Reset scroll position on fresh open
         targetScrollRef.current = 0;
@@ -182,7 +250,7 @@ export default function FolderFloat({
         setStartIndex(0);
       }
     },
-    [onOpenChange]
+    [isControlled, onOpenChange]
   );
 
   // Viewport Edge Clamping & Flipping
@@ -192,10 +260,10 @@ export default function FolderFloat({
     const screenW = window.innerWidth;
     const screenH = window.innerHeight;
 
-    // Horizontal flipping: if within 260px of right edge, flip left; if near left edge, flip right
-    const isNearRight = r.right > screenW - 260;
-    const isNearLeft = r.left < 260;
-    const horiz: 'left' | 'right' | 'center' = isNearRight ? 'left' : isNearLeft ? 'right' : align;
+    // Horizontal flipping: if explicitly provided ('left' or 'right'), strictly honor it (nothing chosen from pointer position)
+    const horiz: 'left' | 'right' | 'center' = (align === 'left' || align === 'right')
+      ? align
+      : (isNearRight ? 'left' : isNearLeft ? 'right' : align);
 
     // Vertical flipping: pills float ~240px upwards. If top edge is too close to window top (< 250px), flip downwards
     const isNearTop = r.top < 250;
@@ -203,6 +271,18 @@ export default function FolderFloat({
 
     setEdgeFlip({ horizontal: horiz, vertical: vert });
   }, [align]);
+
+  useEffect(() => {
+    if (forceClose && open) {
+      setOpenState(false);
+    }
+  }, [forceClose, open, setOpenState]);
+
+  useEffect(() => {
+    if (isControlled && controlledOpen) {
+      checkEdgeFlip();
+    }
+  }, [isControlled, controlledOpen, checkEdgeFlip]);
 
   // Handle Wheel Scroll (1 notch = 1 file with 180-260ms smooth spring)
   useEffect(() => {
@@ -314,7 +394,30 @@ export default function FolderFloat({
         currentScrollRef.current = targetScrollRef.current;
       }
 
-      // 2. Drag velocity & spring return for thrown pills
+      // 2. Step Matter.js zero-gravity simulation
+      if (physics && matterEngineRef.current) {
+        try {
+          Matter.Engine.update(matterEngineRef.current, 1000 / 60);
+          matterBodiesRef.current.forEach((body, i) => {
+            if (!body) return;
+            const isPillHovered = hoveredSlotRef.current === i;
+            if (!isPillHovered && (!d.active || d.slot !== i)) {
+              const fx = Math.sin(t * 1.5 + i * 1.6) * 0.00015 * drift;
+              const fy = Math.cos(t * 1.2 + i * 1.3) * 0.00012 * drift;
+              Matter.Body.applyForce(body, body.position, { x: fx, y: fy });
+
+              // Soft spring pull toward origin (0, 0)
+              const springK = 0.0018;
+              Matter.Body.applyForce(body, body.position, {
+                x: -body.position.x * springK,
+                y: -body.position.y * springK,
+              });
+            }
+          });
+        } catch {}
+      }
+
+      // 3. Drag velocity & spring return for thrown pills
       const d = dragRef.current;
       if (!d.active && (Math.abs(d.curX) > 0.1 || Math.abs(d.curY) > 0.1)) {
         // Damped spring return to slot
@@ -330,40 +433,65 @@ export default function FolderFloat({
         }
       }
 
-      // 3. Update slot positions directly via CSS transform for 60fps performance
+      // 4. Update slot positions directly via CSS transform for 60fps performance
       for (let s = 0; s < visibleCount; s++) {
         const el = pillRefs.current[s];
         if (!el) continue;
 
-        // Base slot coordinates along smooth deterministic curve
-        const isFlippedDown = edgeFlip.vertical === 'down';
-        const baseY = isFlippedDown ? lift + 44 + s * SLOT_PITCH : -lift - s * SLOT_PITCH;
+        // Pitch: 34px, Pills centered around folder icon without overlapping adjacent icons
+        const clusterCenter = ((visibleCount - 1) * 34) / 2;
+        const baseY = -clusterCenter + s * 34;
 
-        // Arc curve horizontal displacement: left edges on the same curve
-        const curveOffset = Math.sin((s / 3) * (Math.PI / 3)) * 14;
+        // Arc curve horizontal displacement: cleanly offset to the left/right of icon column
+        const curveOffset = Math.sin((s / 3) * (Math.PI / 3)) * 8;
         let baseX = 0;
         if (edgeFlip.horizontal === 'left') {
-          baseX = -spread * 0.45 - curveOffset;
+          baseX = -122 - curveOffset;
         } else if (edgeFlip.horizontal === 'right') {
-          baseX = spread * 0.45 + curveOffset;
+          baseX = 122 + curveOffset;
         } else {
           baseX = (s % 2 === 0 ? -6 : 6) + curveOffset;
         }
 
-        // Idle drift: gentle ±2-3px zero-gravity wave motion (tiered according to quality governor)
-        const currentTier = qualityGovernor.getTier();
-        const tierDriftFactor = currentTier === 'low' ? 0 : currentTier === 'medium' ? 0.5 : 1.0;
-        const idleDriftX = (physics && tierDriftFactor > 0) ? Math.sin(t * 1.3 + s * 1.6) * 2.2 * drift * tierDriftFactor : 0;
-        const idleDriftY = (physics && tierDriftFactor > 0) ? Math.cos(t * 1.1 + s * 1.4) * 1.8 * drift * tierDriftFactor : 0;
-        const idleDriftR = (physics && tierDriftFactor > 0) ? Math.sin(t * 0.9 + s * 1.9) * 0.6 * drift * tierDriftFactor : 0;
+        // Smooth emergence interpolation from folder anchor (duration ~240ms, synchronized with folder zoom)
+        const effectiveProgress = typeof progressProp === 'number' ? progressProp : Math.min(1, Math.max(0, (now - t0Ref.current) / 220));
+        // Staggered emergence: 40ms stagger in ~240ms duration (0.12 progress offset per pill)
+        const stagger = s * 0.12;
+        const pillProgress = Math.min(1, Math.max(0, (effectiveProgress - stagger) / (1 - (visibleCount - 1) * 0.12)));
+        // Ease out cubic
+        const ease = 1 - Math.pow(1 - pillProgress, 3);
+
+        const currentScale = 0.7 + 0.3 * ease;
+        const currentOpacity = Math.min(1, pillProgress * 3.5);
+
+        // Matter.js physics drift offset
+        let matterOffsetX = 0;
+        let matterOffsetY = 0;
+        if (physics && matterBodiesRef.current[s]) {
+          const body = matterBodiesRef.current[s];
+          const maxDrift = drift * 14;
+          matterOffsetX = Math.max(-maxDrift, Math.min(maxDrift, body.position.x));
+          matterOffsetY = Math.max(-maxDrift, Math.min(maxDrift, body.position.y));
+        }
+
+        // Idle drift: gentle ±1.2px wave motion when fully expanded (damped to 0 while hovered)
+        const isPillHovered = hoveredSlotRef.current === s;
+        const tierDriftFactor = isPillHovered ? 0 : 0.7;
+        const idleDriftX = (tierDriftFactor > 0 && effectiveProgress >= 0.95)
+          ? (physics ? matterOffsetX : Math.sin(t * 1.3 + s * 1.6) * 1.4 * drift) * tierDriftFactor
+          : 0;
+        const idleDriftY = (tierDriftFactor > 0 && effectiveProgress >= 0.95)
+          ? (physics ? matterOffsetY : Math.cos(t * 1.1 + s * 1.4) * 1.1 * drift) * tierDriftFactor
+          : 0;
+        const idleDriftR = (physics && tierDriftFactor > 0 && effectiveProgress >= 0.95) ? Math.sin(t * 0.9 + s * 1.9) * 0.4 * drift * tierDriftFactor : 0;
 
         // Add drag offset if this slot is dragged
         const dragX = d.slot === s ? d.curX : 0;
         const dragY = d.slot === s ? d.curY : 0;
 
-        let posX = baseX + idleDriftX + dragX;
-        let posY = baseY + idleDriftY + dragY;
-        const rot = SLOT_TILTS[s % SLOT_TILTS.length] + idleDriftR;
+        let posX = (baseX * ease) + idleDriftX + dragX;
+        let posY = (baseY * ease) + idleDriftY + dragY;
+        const rot = (SLOT_TILTS[s % SLOT_TILTS.length] * ease) + idleDriftR;
 
         // Viewport margin clamping (guarantees pills stay >= 8px inside screen boundaries, zero forced layout)
         if (cachedFolderCenterX > 0 && typeof window !== 'undefined') {
@@ -389,7 +517,8 @@ export default function FolderFloat({
           }
         }
 
-        el.style.transform = `translate3d(calc(-50% + ${posX.toFixed(1)}px), ${posY.toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+        el.style.transform = `translate3d(calc(-50% + ${posX.toFixed(1)}px), ${posY.toFixed(1)}px, 0) scale(${currentScale.toFixed(3)}) rotate(${rot.toFixed(2)}deg)`;
+        el.style.opacity = currentOpacity.toFixed(2);
       }
 
       rafIdRef.current = requestAnimationFrame(loop);
@@ -443,6 +572,12 @@ export default function FolderFloat({
       d.vy = dy - d.curY;
       d.curX = dx;
       d.curY = dy;
+      if (physics && matterBodiesRef.current[d.slot]) {
+        try {
+          Matter.Body.setPosition(matterBodiesRef.current[d.slot], { x: dx, y: dy });
+          Matter.Body.setVelocity(matterBodiesRef.current[d.slot], { x: d.vx, y: d.vy });
+        } catch {}
+      }
     }
   };
 
@@ -468,7 +603,13 @@ export default function FolderFloat({
     }
   };
 
+  const lastSelectedTimeRef = useRef<number>(0);
+
   const handleSelectPill = (fileIndex: number, item: FolderFloatItem) => {
+    const now = Date.now();
+    if (now - lastSelectedTimeRef.current < 150) return;
+    lastSelectedTimeRef.current = now;
+
     onSelect?.(item.value, fileIndex, item);
     setPoppedIndex(fileIndex);
     clearTimeout(popTimerRef.current);
@@ -495,7 +636,7 @@ export default function FolderFloat({
         if (!dragRef.current.active) {
           setOpenState(false);
         }
-      }, 200);
+      }, 260);
     }
   };
 
@@ -532,6 +673,8 @@ export default function FolderFloat({
       data-trigger={trigger}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
+      onMouseEnter={handlePointerEnter}
+      onMouseLeave={handlePointerLeave}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onKeyDown={handleKeyDown}
@@ -570,8 +713,18 @@ export default function FolderFloat({
             <span className="folder-float__back" aria-hidden="true" />
             <span className="folder-float__paper" aria-hidden="true" />
             <span className="folder-float__front" aria-hidden="true">
+              {logo && (
+                <span
+                  className="folder-float__logo-container"
+                  style={{
+                    transform: `translate(${logoAdjust?.x || 0}px, ${logoAdjust?.y || 0}px) scale(${logoAdjust?.scale || 1})`,
+                  }}
+                >
+                  {logo}
+                </span>
+              )}
               <span className="folder-float__label">{label}</span>
-              <span className="folder-float__sub">{sub}</span>
+              {sub && <span className="folder-float__sub">{sub}</span>}
             </span>
             <button
               type="button"
@@ -593,6 +746,31 @@ export default function FolderFloat({
 
       {/* Floating Virtualized Pills Container (At most 4 pill elements in DOM) */}
       <div ref={anchorRef} className="folder-float__items" aria-hidden={!open}>
+        {/* Visual connector stem linking folder to expanded pills */}
+        {open && (
+          <div
+            className="folder-float__connector"
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: '12px',
+              [edgeFlip.horizontal === 'left' ? 'right' : 'left']: '36px',
+              width: '52px',
+              height: '76px',
+              pointerEvents: 'none',
+              zIndex: 9990,
+              opacity: Math.min(1, (typeof progressProp === 'number' ? progressProp : 1) * 2.5),
+              transform: `scale(${0.7 + 0.3 * (typeof progressProp === 'number' ? progressProp : 1)})`,
+              transformOrigin: edgeFlip.horizontal === 'left' ? 'right center' : 'left center',
+              background: edgeFlip.horizontal === 'left'
+                ? 'linear-gradient(270deg, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0.04) 75%, transparent 100%)'
+                : 'linear-gradient(90deg, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0.04) 75%, transparent 100%)',
+              borderRadius: '12px',
+              border: '1px solid rgba(56, 189, 248, 0.18)',
+            }}
+          />
+        )}
+
         {/* Subtle top/bottom fade hints when more files exist */}
         {open && hasMoreAbove && (
           <div
@@ -623,10 +801,62 @@ export default function FolderFloat({
                   style={{
                     ['--i' as any]: slot,
                   }}
+                  onPointerEnter={() => {
+                    hoveredSlotRef.current = slot;
+                    setHoveredSlot(slot);
+                    handlePointerEnter();
+                    onItemPointerEnter?.();
+                  }}
+                  onMouseEnter={() => {
+                    hoveredSlotRef.current = slot;
+                    setHoveredSlot(slot);
+                    handlePointerEnter();
+                    onItemPointerEnter?.();
+                  }}
+                  onPointerLeave={() => {
+                    hoveredSlotRef.current = null;
+                    setHoveredSlot(null);
+                    handlePointerLeave();
+                    onItemPointerLeave?.();
+                  }}
+                  onMouseLeave={() => {
+                    hoveredSlotRef.current = null;
+                    setHoveredSlot(null);
+                    handlePointerLeave();
+                    onItemPointerLeave?.();
+                  }}
                   onPointerDown={(e) => handlePillPointerDown(e, slot)}
-                  onPointerMove={handlePillPointerMove}
+                  onPointerMove={(e) => {
+                    onItemPointerEnter?.();
+                    handlePillPointerMove(e);
+                  }}
                   onPointerUp={(e) => handlePillPointerUp(e, fileIndex, item)}
                   onPointerCancel={(e) => handlePillPointerUp(e, fileIndex, item)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectPill(fileIndex, item);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      const nextBtn = pillRefs.current[slot + 1];
+                      if (nextBtn) nextBtn.focus();
+                    } else if (e.key === 'ArrowUp') {
+                      e.preventDefault();
+                      const prevBtn = pillRefs.current[slot - 1];
+                      if (prevBtn) prevBtn.focus();
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handlePillPointerUp(e as any, fileIndex, item);
+                    } else if (
+                      e.key === 'Escape' ||
+                      (edgeFlip.horizontal === 'left' && e.key === 'ArrowRight') ||
+                      (edgeFlip.horizontal === 'right' && e.key === 'ArrowLeft')
+                    ) {
+                      e.preventDefault();
+                      onEscape?.();
+                    }
+                  }}
                 >
                   <span className="folder-float__pill-content">
                     {item.icon && (

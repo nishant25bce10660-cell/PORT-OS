@@ -12,7 +12,6 @@ export interface QuickLookModalProps {
   item: Item | null;
   allItems?: Item[];
   onClose: () => void;
-  onSetWallpaper?: (item: FileItem) => void;
   onNavigateItem?: (item: Item) => void;
 }
 
@@ -255,7 +254,6 @@ export default function QuickLookModal({
   item,
   allItems = [],
   onClose,
-  onSetWallpaper,
   onNavigateItem,
 }: QuickLookModalProps) {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -351,14 +349,7 @@ export default function QuickLookModal({
         },
       ];
 
-      if (isImage && onSetWallpaper && file) {
-        items.push({ id: 'ctx-div-wp', label: '', isDivider: true });
-        items.push({
-          id: 'ctx-ql-wallpaper',
-          label: 'Set as Desktop Wallpaper',
-          action: () => onSetWallpaper(file),
-        });
-      }
+
 
       openContextMenu({
         x: e.clientX,
@@ -367,7 +358,7 @@ export default function QuickLookModal({
         items,
       });
     },
-    [item, isImage, onSetWallpaper, file, onClose, openContextMenu]
+    [item, isImage, file, onClose, openContextMenu]
   );
 
   if (!mounted || !item || typeof document === 'undefined') return null;
@@ -622,26 +613,7 @@ export default function QuickLookModal({
             {allItems.length > 1 && ` · ${allItems.findIndex((i) => i.id === item.id) + 1} of ${allItems.length}`}
           </span>
 
-          {isFile && onSetWallpaper && file && isImage && (
-            <button
-              type="button"
-              className="btn-set-wallpaper"
-              id="btn-set-as-desktop-picture"
-              onClick={() => onSetWallpaper(file)}
-              style={{
-                padding: '4px 12px',
-                fontSize: '11px',
-                fontWeight: 500,
-                color: '#fff',
-                background: 'rgba(56, 189, 248, 0.2)',
-                border: '1px solid rgba(56, 189, 248, 0.4)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              Set as Desktop Picture
-            </button>
-          )}
+
         </div>
       </div>
     </div>,

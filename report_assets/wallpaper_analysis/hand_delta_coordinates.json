@@ -1,0 +1,2701 @@
+[
+  {
+    "frame": 1,
+    "isMoving": false,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 2,
+    "isMoving": true,
+    "motionWeight": 37994,
+    "handX": 901,
+    "handY": 483,
+    "fingertipX": 776,
+    "fingertipY": 232
+  },
+  {
+    "frame": 3,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 4,
+    "isMoving": true,
+    "motionWeight": 41523,
+    "handX": 915,
+    "handY": 481,
+    "fingertipX": 784,
+    "fingertipY": 220
+  },
+  {
+    "frame": 5,
+    "isMoving": true,
+    "motionWeight": 46817,
+    "handX": 919,
+    "handY": 477,
+    "fingertipX": 780,
+    "fingertipY": 216
+  },
+  {
+    "frame": 6,
+    "isMoving": true,
+    "motionWeight": 45186,
+    "handX": 919,
+    "handY": 467,
+    "fingertipX": 796,
+    "fingertipY": 192
+  },
+  {
+    "frame": 7,
+    "isMoving": true,
+    "motionWeight": 47507,
+    "handX": 926,
+    "handY": 462,
+    "fingertipX": 300,
+    "fingertipY": 56
+  },
+  {
+    "frame": 8,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 9,
+    "isMoving": true,
+    "motionWeight": 55497,
+    "handX": 926,
+    "handY": 457,
+    "fingertipX": 836,
+    "fingertipY": 112
+  },
+  {
+    "frame": 10,
+    "isMoving": true,
+    "motionWeight": 59927,
+    "handX": 914,
+    "handY": 443,
+    "fingertipX": 200,
+    "fingertipY": 44
+  },
+  {
+    "frame": 11,
+    "isMoving": true,
+    "motionWeight": 63204,
+    "handX": 911,
+    "handY": 436,
+    "fingertipX": 264,
+    "fingertipY": 48
+  },
+  {
+    "frame": 12,
+    "isMoving": true,
+    "motionWeight": 64358,
+    "handX": 911,
+    "handY": 438,
+    "fingertipX": 572,
+    "fingertipY": 48
+  },
+  {
+    "frame": 13,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 14,
+    "isMoving": true,
+    "motionWeight": 66260,
+    "handX": 919,
+    "handY": 437,
+    "fingertipX": 1624,
+    "fingertipY": 56
+  },
+  {
+    "frame": 15,
+    "isMoving": true,
+    "motionWeight": 65785,
+    "handX": 919,
+    "handY": 441,
+    "fingertipX": 60,
+    "fingertipY": 40
+  },
+  {
+    "frame": 16,
+    "isMoving": true,
+    "motionWeight": 67960,
+    "handX": 913,
+    "handY": 431,
+    "fingertipX": 192,
+    "fingertipY": 44
+  },
+  {
+    "frame": 17,
+    "isMoving": true,
+    "motionWeight": 68692,
+    "handX": 908,
+    "handY": 415,
+    "fingertipX": 576,
+    "fingertipY": 40
+  },
+  {
+    "frame": 18,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 19,
+    "isMoving": true,
+    "motionWeight": 77015,
+    "handX": 906,
+    "handY": 411,
+    "fingertipX": 1724,
+    "fingertipY": 44
+  },
+  {
+    "frame": 20,
+    "isMoving": true,
+    "motionWeight": 76772,
+    "handX": 881,
+    "handY": 401,
+    "fingertipX": 156,
+    "fingertipY": 40
+  },
+  {
+    "frame": 21,
+    "isMoving": true,
+    "motionWeight": 77221,
+    "handX": 890,
+    "handY": 402,
+    "fingertipX": 532,
+    "fingertipY": 40
+  },
+  {
+    "frame": 22,
+    "isMoving": true,
+    "motionWeight": 79989,
+    "handX": 900,
+    "handY": 389,
+    "fingertipX": 224,
+    "fingertipY": 40
+  },
+  {
+    "frame": 23,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 24,
+    "isMoving": true,
+    "motionWeight": 82976,
+    "handX": 904,
+    "handY": 391,
+    "fingertipX": 728,
+    "fingertipY": 40
+  },
+  {
+    "frame": 25,
+    "isMoving": true,
+    "motionWeight": 87485,
+    "handX": 871,
+    "handY": 390,
+    "fingertipX": 224,
+    "fingertipY": 44
+  },
+  {
+    "frame": 26,
+    "isMoving": true,
+    "motionWeight": 84461,
+    "handX": 886,
+    "handY": 392,
+    "fingertipX": 216,
+    "fingertipY": 40
+  },
+  {
+    "frame": 27,
+    "isMoving": true,
+    "motionWeight": 89502,
+    "handX": 888,
+    "handY": 385,
+    "fingertipX": 796,
+    "fingertipY": 40
+  },
+  {
+    "frame": 28,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 29,
+    "isMoving": true,
+    "motionWeight": 92711,
+    "handX": 900,
+    "handY": 387,
+    "fingertipX": 196,
+    "fingertipY": 40
+  },
+  {
+    "frame": 30,
+    "isMoving": true,
+    "motionWeight": 97819,
+    "handX": 873,
+    "handY": 376,
+    "fingertipX": 332,
+    "fingertipY": 40
+  },
+  {
+    "frame": 31,
+    "isMoving": true,
+    "motionWeight": 101724,
+    "handX": 848,
+    "handY": 369,
+    "fingertipX": 256,
+    "fingertipY": 40
+  },
+  {
+    "frame": 32,
+    "isMoving": true,
+    "motionWeight": 106655,
+    "handX": 912,
+    "handY": 373,
+    "fingertipX": 64,
+    "fingertipY": 40
+  },
+  {
+    "frame": 33,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 34,
+    "isMoving": true,
+    "motionWeight": 106591,
+    "handX": 902,
+    "handY": 374,
+    "fingertipX": 184,
+    "fingertipY": 40
+  },
+  {
+    "frame": 35,
+    "isMoving": true,
+    "motionWeight": 121549,
+    "handX": 870,
+    "handY": 372,
+    "fingertipX": 200,
+    "fingertipY": 40
+  },
+  {
+    "frame": 36,
+    "isMoving": true,
+    "motionWeight": 116035,
+    "handX": 887,
+    "handY": 367,
+    "fingertipX": 104,
+    "fingertipY": 40
+  },
+  {
+    "frame": 37,
+    "isMoving": true,
+    "motionWeight": 121466,
+    "handX": 917,
+    "handY": 359,
+    "fingertipX": 228,
+    "fingertipY": 40
+  },
+  {
+    "frame": 38,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 39,
+    "isMoving": true,
+    "motionWeight": 128784,
+    "handX": 924,
+    "handY": 355,
+    "fingertipX": 132,
+    "fingertipY": 40
+  },
+  {
+    "frame": 40,
+    "isMoving": true,
+    "motionWeight": 134715,
+    "handX": 930,
+    "handY": 344,
+    "fingertipX": 212,
+    "fingertipY": 40
+  },
+  {
+    "frame": 41,
+    "isMoving": true,
+    "motionWeight": 134111,
+    "handX": 933,
+    "handY": 346,
+    "fingertipX": 96,
+    "fingertipY": 40
+  },
+  {
+    "frame": 42,
+    "isMoving": true,
+    "motionWeight": 136102,
+    "handX": 953,
+    "handY": 351,
+    "fingertipX": 108,
+    "fingertipY": 40
+  },
+  {
+    "frame": 43,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 44,
+    "isMoving": true,
+    "motionWeight": 137461,
+    "handX": 926,
+    "handY": 337,
+    "fingertipX": 212,
+    "fingertipY": 40
+  },
+  {
+    "frame": 45,
+    "isMoving": true,
+    "motionWeight": 152084,
+    "handX": 907,
+    "handY": 419,
+    "fingertipX": 212,
+    "fingertipY": 40
+  },
+  {
+    "frame": 46,
+    "isMoving": true,
+    "motionWeight": 204280,
+    "handX": 776,
+    "handY": 579,
+    "fingertipX": 140,
+    "fingertipY": 40
+  },
+  {
+    "frame": 47,
+    "isMoving": true,
+    "motionWeight": 292784,
+    "handX": 693,
+    "handY": 678,
+    "fingertipX": 308,
+    "fingertipY": 40
+  },
+  {
+    "frame": 48,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 49,
+    "isMoving": true,
+    "motionWeight": 352237,
+    "handX": 677,
+    "handY": 721,
+    "fingertipX": 132,
+    "fingertipY": 40
+  },
+  {
+    "frame": 50,
+    "isMoving": true,
+    "motionWeight": 422829,
+    "handX": 638,
+    "handY": 728,
+    "fingertipX": 104,
+    "fingertipY": 40
+  },
+  {
+    "frame": 51,
+    "isMoving": true,
+    "motionWeight": 526553,
+    "handX": 608,
+    "handY": 733,
+    "fingertipX": 132,
+    "fingertipY": 40
+  },
+  {
+    "frame": 52,
+    "isMoving": true,
+    "motionWeight": 533659,
+    "handX": 615,
+    "handY": 714,
+    "fingertipX": 136,
+    "fingertipY": 40
+  },
+  {
+    "frame": 53,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 54,
+    "isMoving": true,
+    "motionWeight": 438507,
+    "handX": 642,
+    "handY": 666,
+    "fingertipX": 216,
+    "fingertipY": 40
+  },
+  {
+    "frame": 55,
+    "isMoving": true,
+    "motionWeight": 325433,
+    "handX": 706,
+    "handY": 574,
+    "fingertipX": 176,
+    "fingertipY": 40
+  },
+  {
+    "frame": 56,
+    "isMoving": true,
+    "motionWeight": 242283,
+    "handX": 825,
+    "handY": 501,
+    "fingertipX": 168,
+    "fingertipY": 40
+  },
+  {
+    "frame": 57,
+    "isMoving": true,
+    "motionWeight": 260967,
+    "handX": 836,
+    "handY": 488,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 58,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 59,
+    "isMoving": true,
+    "motionWeight": 241894,
+    "handX": 858,
+    "handY": 466,
+    "fingertipX": 220,
+    "fingertipY": 40
+  },
+  {
+    "frame": 60,
+    "isMoving": true,
+    "motionWeight": 225682,
+    "handX": 884,
+    "handY": 445,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 61,
+    "isMoving": true,
+    "motionWeight": 231355,
+    "handX": 866,
+    "handY": 439,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 62,
+    "isMoving": true,
+    "motionWeight": 227889,
+    "handX": 954,
+    "handY": 391,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 63,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 64,
+    "isMoving": true,
+    "motionWeight": 205324,
+    "handX": 996,
+    "handY": 355,
+    "fingertipX": 228,
+    "fingertipY": 40
+  },
+  {
+    "frame": 65,
+    "isMoving": true,
+    "motionWeight": 174778,
+    "handX": 1053,
+    "handY": 338,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 66,
+    "isMoving": true,
+    "motionWeight": 172305,
+    "handX": 1075,
+    "handY": 321,
+    "fingertipX": 76,
+    "fingertipY": 40
+  },
+  {
+    "frame": 67,
+    "isMoving": true,
+    "motionWeight": 226379,
+    "handX": 1052,
+    "handY": 371,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 68,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 69,
+    "isMoving": true,
+    "motionWeight": 271856,
+    "handX": 970,
+    "handY": 421,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 70,
+    "isMoving": true,
+    "motionWeight": 270715,
+    "handX": 962,
+    "handY": 438,
+    "fingertipX": 224,
+    "fingertipY": 40
+  },
+  {
+    "frame": 71,
+    "isMoving": true,
+    "motionWeight": 283161,
+    "handX": 881,
+    "handY": 472,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 72,
+    "isMoving": true,
+    "motionWeight": 335510,
+    "handX": 911,
+    "handY": 467,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 73,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 74,
+    "isMoving": true,
+    "motionWeight": 335658,
+    "handX": 894,
+    "handY": 472,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 75,
+    "isMoving": true,
+    "motionWeight": 353908,
+    "handX": 871,
+    "handY": 486,
+    "fingertipX": 224,
+    "fingertipY": 40
+  },
+  {
+    "frame": 76,
+    "isMoving": true,
+    "motionWeight": 380740,
+    "handX": 843,
+    "handY": 486,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 77,
+    "isMoving": true,
+    "motionWeight": 403746,
+    "handX": 829,
+    "handY": 484,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 78,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 79,
+    "isMoving": true,
+    "motionWeight": 443699,
+    "handX": 814,
+    "handY": 479,
+    "fingertipX": 308,
+    "fingertipY": 40
+  },
+  {
+    "frame": 80,
+    "isMoving": true,
+    "motionWeight": 494720,
+    "handX": 812,
+    "handY": 473,
+    "fingertipX": 1512,
+    "fingertipY": 40
+  },
+  {
+    "frame": 81,
+    "isMoving": true,
+    "motionWeight": 575881,
+    "handX": 787,
+    "handY": 467,
+    "fingertipX": 84,
+    "fingertipY": 40
+  },
+  {
+    "frame": 82,
+    "isMoving": true,
+    "motionWeight": 609331,
+    "handX": 767,
+    "handY": 458,
+    "fingertipX": 376,
+    "fingertipY": 40
+  },
+  {
+    "frame": 83,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 84,
+    "isMoving": true,
+    "motionWeight": 605794,
+    "handX": 763,
+    "handY": 448,
+    "fingertipX": 228,
+    "fingertipY": 40
+  },
+  {
+    "frame": 85,
+    "isMoving": true,
+    "motionWeight": 626032,
+    "handX": 723,
+    "handY": 446,
+    "fingertipX": 1480,
+    "fingertipY": 40
+  },
+  {
+    "frame": 86,
+    "isMoving": true,
+    "motionWeight": 636075,
+    "handX": 720,
+    "handY": 441,
+    "fingertipX": 228,
+    "fingertipY": 40
+  },
+  {
+    "frame": 87,
+    "isMoving": true,
+    "motionWeight": 634123,
+    "handX": 760,
+    "handY": 428,
+    "fingertipX": 324,
+    "fingertipY": 40
+  },
+  {
+    "frame": 88,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 89,
+    "isMoving": true,
+    "motionWeight": 666904,
+    "handX": 736,
+    "handY": 409,
+    "fingertipX": 156,
+    "fingertipY": 40
+  },
+  {
+    "frame": 90,
+    "isMoving": true,
+    "motionWeight": 674100,
+    "handX": 735,
+    "handY": 374,
+    "fingertipX": 84,
+    "fingertipY": 40
+  },
+  {
+    "frame": 91,
+    "isMoving": true,
+    "motionWeight": 676276,
+    "handX": 731,
+    "handY": 349,
+    "fingertipX": 220,
+    "fingertipY": 40
+  },
+  {
+    "frame": 92,
+    "isMoving": true,
+    "motionWeight": 680069,
+    "handX": 765,
+    "handY": 326,
+    "fingertipX": 1004,
+    "fingertipY": 40
+  },
+  {
+    "frame": 93,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 94,
+    "isMoving": true,
+    "motionWeight": 613615,
+    "handX": 787,
+    "handY": 309,
+    "fingertipX": 548,
+    "fingertipY": 40
+  },
+  {
+    "frame": 95,
+    "isMoving": true,
+    "motionWeight": 509902,
+    "handX": 818,
+    "handY": 298,
+    "fingertipX": 484,
+    "fingertipY": 40
+  },
+  {
+    "frame": 96,
+    "isMoving": true,
+    "motionWeight": 479719,
+    "handX": 787,
+    "handY": 275,
+    "fingertipX": 212,
+    "fingertipY": 40
+  },
+  {
+    "frame": 97,
+    "isMoving": true,
+    "motionWeight": 582955,
+    "handX": 763,
+    "handY": 261,
+    "fingertipX": 176,
+    "fingertipY": 40
+  },
+  {
+    "frame": 98,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 99,
+    "isMoving": true,
+    "motionWeight": 812853,
+    "handX": 724,
+    "handY": 253,
+    "fingertipX": 232,
+    "fingertipY": 40
+  },
+  {
+    "frame": 100,
+    "isMoving": true,
+    "motionWeight": 993941,
+    "handX": 707,
+    "handY": 248,
+    "fingertipX": 508,
+    "fingertipY": 40
+  },
+  {
+    "frame": 101,
+    "isMoving": true,
+    "motionWeight": 1081250,
+    "handX": 714,
+    "handY": 252,
+    "fingertipX": 224,
+    "fingertipY": 40
+  },
+  {
+    "frame": 102,
+    "isMoving": true,
+    "motionWeight": 959109,
+    "handX": 752,
+    "handY": 253,
+    "fingertipX": 376,
+    "fingertipY": 40
+  },
+  {
+    "frame": 103,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 104,
+    "isMoving": true,
+    "motionWeight": 931333,
+    "handX": 756,
+    "handY": 251,
+    "fingertipX": 224,
+    "fingertipY": 40
+  },
+  {
+    "frame": 105,
+    "isMoving": true,
+    "motionWeight": 944138,
+    "handX": 729,
+    "handY": 250,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 106,
+    "isMoving": true,
+    "motionWeight": 987381,
+    "handX": 743,
+    "handY": 252,
+    "fingertipX": 164,
+    "fingertipY": 40
+  },
+  {
+    "frame": 107,
+    "isMoving": true,
+    "motionWeight": 978962,
+    "handX": 779,
+    "handY": 253,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 108,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 109,
+    "isMoving": true,
+    "motionWeight": 945547,
+    "handX": 789,
+    "handY": 251,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 110,
+    "isMoving": true,
+    "motionWeight": 932472,
+    "handX": 812,
+    "handY": 255,
+    "fingertipX": 72,
+    "fingertipY": 40
+  },
+  {
+    "frame": 111,
+    "isMoving": true,
+    "motionWeight": 953188,
+    "handX": 802,
+    "handY": 259,
+    "fingertipX": 224,
+    "fingertipY": 40
+  },
+  {
+    "frame": 112,
+    "isMoving": true,
+    "motionWeight": 902232,
+    "handX": 835,
+    "handY": 276,
+    "fingertipX": 188,
+    "fingertipY": 40
+  },
+  {
+    "frame": 113,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 114,
+    "isMoving": true,
+    "motionWeight": 865580,
+    "handX": 838,
+    "handY": 293,
+    "fingertipX": 72,
+    "fingertipY": 40
+  },
+  {
+    "frame": 115,
+    "isMoving": true,
+    "motionWeight": 831414,
+    "handX": 823,
+    "handY": 309,
+    "fingertipX": 228,
+    "fingertipY": 40
+  },
+  {
+    "frame": 116,
+    "isMoving": true,
+    "motionWeight": 809772,
+    "handX": 828,
+    "handY": 335,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 117,
+    "isMoving": true,
+    "motionWeight": 756645,
+    "handX": 857,
+    "handY": 364,
+    "fingertipX": 180,
+    "fingertipY": 40
+  },
+  {
+    "frame": 118,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 119,
+    "isMoving": true,
+    "motionWeight": 746891,
+    "handX": 848,
+    "handY": 385,
+    "fingertipX": 72,
+    "fingertipY": 40
+  },
+  {
+    "frame": 120,
+    "isMoving": true,
+    "motionWeight": 717067,
+    "handX": 887,
+    "handY": 400,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 121,
+    "isMoving": true,
+    "motionWeight": 694566,
+    "handX": 900,
+    "handY": 417,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 122,
+    "isMoving": true,
+    "motionWeight": 731179,
+    "handX": 943,
+    "handY": 422,
+    "fingertipX": 44,
+    "fingertipY": 40
+  },
+  {
+    "frame": 123,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 124,
+    "isMoving": true,
+    "motionWeight": 743886,
+    "handX": 943,
+    "handY": 440,
+    "fingertipX": 44,
+    "fingertipY": 40
+  },
+  {
+    "frame": 125,
+    "isMoving": true,
+    "motionWeight": 763456,
+    "handX": 935,
+    "handY": 457,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 126,
+    "isMoving": true,
+    "motionWeight": 785396,
+    "handX": 928,
+    "handY": 473,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 127,
+    "isMoving": true,
+    "motionWeight": 822973,
+    "handX": 974,
+    "handY": 484,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 128,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 129,
+    "isMoving": true,
+    "motionWeight": 855484,
+    "handX": 992,
+    "handY": 493,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 130,
+    "isMoving": true,
+    "motionWeight": 859370,
+    "handX": 1016,
+    "handY": 503,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 131,
+    "isMoving": true,
+    "motionWeight": 893387,
+    "handX": 1025,
+    "handY": 514,
+    "fingertipX": 44,
+    "fingertipY": 40
+  },
+  {
+    "frame": 132,
+    "isMoving": true,
+    "motionWeight": 929215,
+    "handX": 1042,
+    "handY": 529,
+    "fingertipX": 84,
+    "fingertipY": 40
+  },
+  {
+    "frame": 133,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 134,
+    "isMoving": true,
+    "motionWeight": 931230,
+    "handX": 1037,
+    "handY": 546,
+    "fingertipX": 236,
+    "fingertipY": 40
+  },
+  {
+    "frame": 135,
+    "isMoving": true,
+    "motionWeight": 903585,
+    "handX": 1036,
+    "handY": 559,
+    "fingertipX": 168,
+    "fingertipY": 40
+  },
+  {
+    "frame": 136,
+    "isMoving": true,
+    "motionWeight": 929321,
+    "handX": 997,
+    "handY": 552,
+    "fingertipX": 72,
+    "fingertipY": 40
+  },
+  {
+    "frame": 137,
+    "isMoving": true,
+    "motionWeight": 870495,
+    "handX": 1024,
+    "handY": 571,
+    "fingertipX": 96,
+    "fingertipY": 40
+  },
+  {
+    "frame": 138,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 139,
+    "isMoving": true,
+    "motionWeight": 802805,
+    "handX": 1062,
+    "handY": 580,
+    "fingertipX": 84,
+    "fingertipY": 40
+  },
+  {
+    "frame": 140,
+    "isMoving": true,
+    "motionWeight": 743018,
+    "handX": 1090,
+    "handY": 590,
+    "fingertipX": 88,
+    "fingertipY": 40
+  },
+  {
+    "frame": 141,
+    "isMoving": true,
+    "motionWeight": 720202,
+    "handX": 1077,
+    "handY": 592,
+    "fingertipX": 148,
+    "fingertipY": 40
+  },
+  {
+    "frame": 142,
+    "isMoving": true,
+    "motionWeight": 733778,
+    "handX": 1073,
+    "handY": 603,
+    "fingertipX": 104,
+    "fingertipY": 40
+  },
+  {
+    "frame": 143,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 144,
+    "isMoving": true,
+    "motionWeight": 823067,
+    "handX": 1060,
+    "handY": 620,
+    "fingertipX": 128,
+    "fingertipY": 40
+  },
+  {
+    "frame": 145,
+    "isMoving": true,
+    "motionWeight": 878014,
+    "handX": 1047,
+    "handY": 644,
+    "fingertipX": 92,
+    "fingertipY": 40
+  },
+  {
+    "frame": 146,
+    "isMoving": true,
+    "motionWeight": 929776,
+    "handX": 1037,
+    "handY": 664,
+    "fingertipX": 160,
+    "fingertipY": 40
+  },
+  {
+    "frame": 147,
+    "isMoving": true,
+    "motionWeight": 934969,
+    "handX": 1060,
+    "handY": 668,
+    "fingertipX": 228,
+    "fingertipY": 40
+  },
+  {
+    "frame": 148,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 149,
+    "isMoving": true,
+    "motionWeight": 870182,
+    "handX": 1053,
+    "handY": 678,
+    "fingertipX": 108,
+    "fingertipY": 40
+  },
+  {
+    "frame": 150,
+    "isMoving": true,
+    "motionWeight": 822785,
+    "handX": 1076,
+    "handY": 687,
+    "fingertipX": 216,
+    "fingertipY": 40
+  },
+  {
+    "frame": 151,
+    "isMoving": true,
+    "motionWeight": 802265,
+    "handX": 1051,
+    "handY": 689,
+    "fingertipX": 192,
+    "fingertipY": 40
+  },
+  {
+    "frame": 152,
+    "isMoving": true,
+    "motionWeight": 779362,
+    "handX": 1059,
+    "handY": 701,
+    "fingertipX": 168,
+    "fingertipY": 40
+  },
+  {
+    "frame": 153,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 154,
+    "isMoving": true,
+    "motionWeight": 762642,
+    "handX": 1052,
+    "handY": 709,
+    "fingertipX": 108,
+    "fingertipY": 40
+  },
+  {
+    "frame": 155,
+    "isMoving": true,
+    "motionWeight": 738527,
+    "handX": 1044,
+    "handY": 717,
+    "fingertipX": 112,
+    "fingertipY": 40
+  },
+  {
+    "frame": 156,
+    "isMoving": true,
+    "motionWeight": 753525,
+    "handX": 1063,
+    "handY": 725,
+    "fingertipX": 116,
+    "fingertipY": 40
+  },
+  {
+    "frame": 157,
+    "isMoving": true,
+    "motionWeight": 738083,
+    "handX": 1080,
+    "handY": 737,
+    "fingertipX": 136,
+    "fingertipY": 40
+  },
+  {
+    "frame": 158,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 159,
+    "isMoving": true,
+    "motionWeight": 706479,
+    "handX": 1079,
+    "handY": 742,
+    "fingertipX": 136,
+    "fingertipY": 40
+  },
+  {
+    "frame": 160,
+    "isMoving": true,
+    "motionWeight": 655453,
+    "handX": 1125,
+    "handY": 751,
+    "fingertipX": 120,
+    "fingertipY": 40
+  },
+  {
+    "frame": 161,
+    "isMoving": true,
+    "motionWeight": 1057565,
+    "handX": 1105,
+    "handY": 581,
+    "fingertipX": 88,
+    "fingertipY": 40
+  },
+  {
+    "frame": 162,
+    "isMoving": true,
+    "motionWeight": 564896,
+    "handX": 1123,
+    "handY": 719,
+    "fingertipX": 412,
+    "fingertipY": 40
+  },
+  {
+    "frame": 163,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 164,
+    "isMoving": true,
+    "motionWeight": 575660,
+    "handX": 1137,
+    "handY": 693,
+    "fingertipX": 152,
+    "fingertipY": 40
+  },
+  {
+    "frame": 165,
+    "isMoving": true,
+    "motionWeight": 528276,
+    "handX": 1122,
+    "handY": 681,
+    "fingertipX": 144,
+    "fingertipY": 40
+  },
+  {
+    "frame": 166,
+    "isMoving": true,
+    "motionWeight": 518548,
+    "handX": 1132,
+    "handY": 637,
+    "fingertipX": 164,
+    "fingertipY": 40
+  },
+  {
+    "frame": 167,
+    "isMoving": true,
+    "motionWeight": 482450,
+    "handX": 1148,
+    "handY": 599,
+    "fingertipX": 352,
+    "fingertipY": 40
+  },
+  {
+    "frame": 168,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 169,
+    "isMoving": true,
+    "motionWeight": 413405,
+    "handX": 1153,
+    "handY": 553,
+    "fingertipX": 148,
+    "fingertipY": 40
+  },
+  {
+    "frame": 170,
+    "isMoving": true,
+    "motionWeight": 274337,
+    "handX": 1175,
+    "handY": 544,
+    "fingertipX": 96,
+    "fingertipY": 40
+  },
+  {
+    "frame": 171,
+    "isMoving": true,
+    "motionWeight": 286456,
+    "handX": 1122,
+    "handY": 468,
+    "fingertipX": 144,
+    "fingertipY": 40
+  },
+  {
+    "frame": 172,
+    "isMoving": true,
+    "motionWeight": 292912,
+    "handX": 1012,
+    "handY": 474,
+    "fingertipX": 152,
+    "fingertipY": 40
+  },
+  {
+    "frame": 173,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 174,
+    "isMoving": true,
+    "motionWeight": 340719,
+    "handX": 1033,
+    "handY": 547,
+    "fingertipX": 148,
+    "fingertipY": 40
+  },
+  {
+    "frame": 175,
+    "isMoving": true,
+    "motionWeight": 384549,
+    "handX": 1023,
+    "handY": 659,
+    "fingertipX": 108,
+    "fingertipY": 40
+  },
+  {
+    "frame": 176,
+    "isMoving": true,
+    "motionWeight": 518550,
+    "handX": 1034,
+    "handY": 710,
+    "fingertipX": 268,
+    "fingertipY": 40
+  },
+  {
+    "frame": 177,
+    "isMoving": true,
+    "motionWeight": 654830,
+    "handX": 1021,
+    "handY": 768,
+    "fingertipX": 128,
+    "fingertipY": 40
+  },
+  {
+    "frame": 178,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 179,
+    "isMoving": true,
+    "motionWeight": 921713,
+    "handX": 1037,
+    "handY": 786,
+    "fingertipX": 112,
+    "fingertipY": 40
+  },
+  {
+    "frame": 180,
+    "isMoving": true,
+    "motionWeight": 1070583,
+    "handX": 1037,
+    "handY": 790,
+    "fingertipX": 160,
+    "fingertipY": 40
+  },
+  {
+    "frame": 181,
+    "isMoving": true,
+    "motionWeight": 1240558,
+    "handX": 1057,
+    "handY": 728,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 182,
+    "isMoving": true,
+    "motionWeight": 1194833,
+    "handX": 1008,
+    "handY": 726,
+    "fingertipX": 128,
+    "fingertipY": 40
+  },
+  {
+    "frame": 183,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 184,
+    "isMoving": true,
+    "motionWeight": 1210621,
+    "handX": 994,
+    "handY": 686,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 185,
+    "isMoving": true,
+    "motionWeight": 1268713,
+    "handX": 1005,
+    "handY": 643,
+    "fingertipX": 44,
+    "fingertipY": 40
+  },
+  {
+    "frame": 186,
+    "isMoving": true,
+    "motionWeight": 1430070,
+    "handX": 1025,
+    "handY": 593,
+    "fingertipX": 136,
+    "fingertipY": 40
+  },
+  {
+    "frame": 187,
+    "isMoving": true,
+    "motionWeight": 1493030,
+    "handX": 1035,
+    "handY": 550,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 188,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 189,
+    "isMoving": true,
+    "motionWeight": 1429908,
+    "handX": 1032,
+    "handY": 522,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 190,
+    "isMoving": true,
+    "motionWeight": 1427601,
+    "handX": 1045,
+    "handY": 486,
+    "fingertipX": 144,
+    "fingertipY": 40
+  },
+  {
+    "frame": 191,
+    "isMoving": true,
+    "motionWeight": 1511852,
+    "handX": 1055,
+    "handY": 442,
+    "fingertipX": 96,
+    "fingertipY": 40
+  },
+  {
+    "frame": 192,
+    "isMoving": true,
+    "motionWeight": 1488170,
+    "handX": 1054,
+    "handY": 411,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 193,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 194,
+    "isMoving": true,
+    "motionWeight": 1356192,
+    "handX": 1046,
+    "handY": 380,
+    "fingertipX": 140,
+    "fingertipY": 40
+  },
+  {
+    "frame": 195,
+    "isMoving": true,
+    "motionWeight": 1227949,
+    "handX": 1044,
+    "handY": 358,
+    "fingertipX": 164,
+    "fingertipY": 40
+  },
+  {
+    "frame": 196,
+    "isMoving": true,
+    "motionWeight": 1125024,
+    "handX": 1040,
+    "handY": 337,
+    "fingertipX": 144,
+    "fingertipY": 40
+  },
+  {
+    "frame": 197,
+    "isMoving": true,
+    "motionWeight": 929650,
+    "handX": 1029,
+    "handY": 330,
+    "fingertipX": 160,
+    "fingertipY": 40
+  },
+  {
+    "frame": 198,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 199,
+    "isMoving": true,
+    "motionWeight": 717900,
+    "handX": 1025,
+    "handY": 320,
+    "fingertipX": 144,
+    "fingertipY": 40
+  },
+  {
+    "frame": 200,
+    "isMoving": true,
+    "motionWeight": 514517,
+    "handX": 1034,
+    "handY": 299,
+    "fingertipX": 72,
+    "fingertipY": 40
+  },
+  {
+    "frame": 201,
+    "isMoving": true,
+    "motionWeight": 490781,
+    "handX": 1008,
+    "handY": 294,
+    "fingertipX": 152,
+    "fingertipY": 40
+  },
+  {
+    "frame": 202,
+    "isMoving": true,
+    "motionWeight": 480950,
+    "handX": 995,
+    "handY": 323,
+    "fingertipX": 80,
+    "fingertipY": 40
+  },
+  {
+    "frame": 203,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 204,
+    "isMoving": true,
+    "motionWeight": 396048,
+    "handX": 980,
+    "handY": 334,
+    "fingertipX": 200,
+    "fingertipY": 40
+  },
+  {
+    "frame": 205,
+    "isMoving": true,
+    "motionWeight": 315083,
+    "handX": 959,
+    "handY": 380,
+    "fingertipX": 164,
+    "fingertipY": 40
+  },
+  {
+    "frame": 206,
+    "isMoving": true,
+    "motionWeight": 263725,
+    "handX": 927,
+    "handY": 440,
+    "fingertipX": 60,
+    "fingertipY": 40
+  },
+  {
+    "frame": 207,
+    "isMoving": true,
+    "motionWeight": 329806,
+    "handX": 931,
+    "handY": 445,
+    "fingertipX": 64,
+    "fingertipY": 40
+  },
+  {
+    "frame": 208,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 209,
+    "isMoving": true,
+    "motionWeight": 419892,
+    "handX": 939,
+    "handY": 425,
+    "fingertipX": 232,
+    "fingertipY": 40
+  },
+  {
+    "frame": 210,
+    "isMoving": true,
+    "motionWeight": 476542,
+    "handX": 948,
+    "handY": 416,
+    "fingertipX": 68,
+    "fingertipY": 40
+  },
+  {
+    "frame": 211,
+    "isMoving": true,
+    "motionWeight": 564062,
+    "handX": 942,
+    "handY": 406,
+    "fingertipX": 144,
+    "fingertipY": 40
+  },
+  {
+    "frame": 212,
+    "isMoving": true,
+    "motionWeight": 622123,
+    "handX": 955,
+    "handY": 428,
+    "fingertipX": 64,
+    "fingertipY": 40
+  },
+  {
+    "frame": 213,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 214,
+    "isMoving": true,
+    "motionWeight": 670992,
+    "handX": 961,
+    "handY": 423,
+    "fingertipX": 68,
+    "fingertipY": 40
+  },
+  {
+    "frame": 215,
+    "isMoving": true,
+    "motionWeight": 730982,
+    "handX": 967,
+    "handY": 427,
+    "fingertipX": 148,
+    "fingertipY": 40
+  },
+  {
+    "frame": 216,
+    "isMoving": true,
+    "motionWeight": 758256,
+    "handX": 977,
+    "handY": 431,
+    "fingertipX": 268,
+    "fingertipY": 40
+  },
+  {
+    "frame": 217,
+    "isMoving": true,
+    "motionWeight": 764580,
+    "handX": 982,
+    "handY": 448,
+    "fingertipX": 68,
+    "fingertipY": 40
+  },
+  {
+    "frame": 218,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 219,
+    "isMoving": true,
+    "motionWeight": 740324,
+    "handX": 980,
+    "handY": 463,
+    "fingertipX": 72,
+    "fingertipY": 40
+  },
+  {
+    "frame": 220,
+    "isMoving": true,
+    "motionWeight": 690564,
+    "handX": 988,
+    "handY": 486,
+    "fingertipX": 208,
+    "fingertipY": 40
+  },
+  {
+    "frame": 221,
+    "isMoving": true,
+    "motionWeight": 644142,
+    "handX": 972,
+    "handY": 494,
+    "fingertipX": 312,
+    "fingertipY": 40
+  },
+  {
+    "frame": 222,
+    "isMoving": true,
+    "motionWeight": 615604,
+    "handX": 970,
+    "handY": 522,
+    "fingertipX": 132,
+    "fingertipY": 40
+  },
+  {
+    "frame": 223,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 224,
+    "isMoving": true,
+    "motionWeight": 533294,
+    "handX": 948,
+    "handY": 557,
+    "fingertipX": 156,
+    "fingertipY": 40
+  },
+  {
+    "frame": 225,
+    "isMoving": true,
+    "motionWeight": 461302,
+    "handX": 937,
+    "handY": 600,
+    "fingertipX": 388,
+    "fingertipY": 40
+  },
+  {
+    "frame": 226,
+    "isMoving": true,
+    "motionWeight": 386031,
+    "handX": 915,
+    "handY": 632,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 227,
+    "isMoving": true,
+    "motionWeight": 396108,
+    "handX": 922,
+    "handY": 652,
+    "fingertipX": 164,
+    "fingertipY": 40
+  },
+  {
+    "frame": 228,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 229,
+    "isMoving": true,
+    "motionWeight": 398056,
+    "handX": 937,
+    "handY": 684,
+    "fingertipX": 60,
+    "fingertipY": 40
+  },
+  {
+    "frame": 230,
+    "isMoving": true,
+    "motionWeight": 424451,
+    "handX": 948,
+    "handY": 713,
+    "fingertipX": 44,
+    "fingertipY": 40
+  },
+  {
+    "frame": 231,
+    "isMoving": true,
+    "motionWeight": 436215,
+    "handX": 944,
+    "handY": 741,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 232,
+    "isMoving": true,
+    "motionWeight": 434947,
+    "handX": 955,
+    "handY": 797,
+    "fingertipX": 120,
+    "fingertipY": 40
+  },
+  {
+    "frame": 233,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 234,
+    "isMoving": true,
+    "motionWeight": 413221,
+    "handX": 938,
+    "handY": 825,
+    "fingertipX": 120,
+    "fingertipY": 40
+  },
+  {
+    "frame": 235,
+    "isMoving": true,
+    "motionWeight": 325394,
+    "handX": 914,
+    "handY": 836,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 236,
+    "isMoving": true,
+    "motionWeight": 179520,
+    "handX": 910,
+    "handY": 770,
+    "fingertipX": 124,
+    "fingertipY": 40
+  },
+  {
+    "frame": 237,
+    "isMoving": true,
+    "motionWeight": 88501,
+    "handX": 890,
+    "handY": 544,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 238,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 239,
+    "isMoving": true,
+    "motionWeight": 81861,
+    "handX": 942,
+    "handY": 524,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 240,
+    "isMoving": true,
+    "motionWeight": 78519,
+    "handX": 872,
+    "handY": 519,
+    "fingertipX": 40,
+    "fingertipY": 40
+  },
+  {
+    "frame": 241,
+    "isMoving": true,
+    "motionWeight": 81397,
+    "handX": 864,
+    "handY": 478,
+    "fingertipX": 84,
+    "fingertipY": 40
+  },
+  {
+    "frame": 242,
+    "isMoving": true,
+    "motionWeight": 81752,
+    "handX": 946,
+    "handY": 527,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 243,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 244,
+    "isMoving": true,
+    "motionWeight": 71702,
+    "handX": 883,
+    "handY": 500,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 245,
+    "isMoving": true,
+    "motionWeight": 71462,
+    "handX": 895,
+    "handY": 527,
+    "fingertipX": 52,
+    "fingertipY": 40
+  },
+  {
+    "frame": 246,
+    "isMoving": true,
+    "motionWeight": 71463,
+    "handX": 925,
+    "handY": 535,
+    "fingertipX": 328,
+    "fingertipY": 40
+  },
+  {
+    "frame": 247,
+    "isMoving": true,
+    "motionWeight": 68218,
+    "handX": 898,
+    "handY": 554,
+    "fingertipX": 568,
+    "fingertipY": 40
+  },
+  {
+    "frame": 248,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 249,
+    "isMoving": true,
+    "motionWeight": 66348,
+    "handX": 961,
+    "handY": 574,
+    "fingertipX": 56,
+    "fingertipY": 40
+  },
+  {
+    "frame": 250,
+    "isMoving": true,
+    "motionWeight": 64183,
+    "handX": 957,
+    "handY": 548,
+    "fingertipX": 44,
+    "fingertipY": 40
+  },
+  {
+    "frame": 251,
+    "isMoving": true,
+    "motionWeight": 62109,
+    "handX": 918,
+    "handY": 536,
+    "fingertipX": 348,
+    "fingertipY": 40
+  },
+  {
+    "frame": 252,
+    "isMoving": true,
+    "motionWeight": 70148,
+    "handX": 957,
+    "handY": 563,
+    "fingertipX": 132,
+    "fingertipY": 40
+  },
+  {
+    "frame": 253,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 254,
+    "isMoving": true,
+    "motionWeight": 68133,
+    "handX": 895,
+    "handY": 563,
+    "fingertipX": 136,
+    "fingertipY": 40
+  },
+  {
+    "frame": 255,
+    "isMoving": true,
+    "motionWeight": 64067,
+    "handX": 923,
+    "handY": 629,
+    "fingertipX": 1300,
+    "fingertipY": 40
+  },
+  {
+    "frame": 256,
+    "isMoving": true,
+    "motionWeight": 59867,
+    "handX": 935,
+    "handY": 618,
+    "fingertipX": 48,
+    "fingertipY": 40
+  },
+  {
+    "frame": 257,
+    "isMoving": true,
+    "motionWeight": 64680,
+    "handX": 962,
+    "handY": 610,
+    "fingertipX": 136,
+    "fingertipY": 40
+  },
+  {
+    "frame": 258,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 259,
+    "isMoving": true,
+    "motionWeight": 58362,
+    "handX": 950,
+    "handY": 637,
+    "fingertipX": 56,
+    "fingertipY": 40
+  },
+  {
+    "frame": 260,
+    "isMoving": true,
+    "motionWeight": 56755,
+    "handX": 962,
+    "handY": 579,
+    "fingertipX": 300,
+    "fingertipY": 40
+  },
+  {
+    "frame": 261,
+    "isMoving": true,
+    "motionWeight": 60583,
+    "handX": 934,
+    "handY": 574,
+    "fingertipX": 1600,
+    "fingertipY": 40
+  },
+  {
+    "frame": 262,
+    "isMoving": true,
+    "motionWeight": 58990,
+    "handX": 985,
+    "handY": 610,
+    "fingertipX": 232,
+    "fingertipY": 40
+  },
+  {
+    "frame": 263,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 264,
+    "isMoving": true,
+    "motionWeight": 43402,
+    "handX": 982,
+    "handY": 569,
+    "fingertipX": 184,
+    "fingertipY": 40
+  },
+  {
+    "frame": 265,
+    "isMoving": true,
+    "motionWeight": 51154,
+    "handX": 875,
+    "handY": 517,
+    "fingertipX": 312,
+    "fingertipY": 40
+  },
+  {
+    "frame": 266,
+    "isMoving": true,
+    "motionWeight": 38627,
+    "handX": 921,
+    "handY": 565,
+    "fingertipX": 444,
+    "fingertipY": 40
+  },
+  {
+    "frame": 267,
+    "isMoving": true,
+    "motionWeight": 40414,
+    "handX": 895,
+    "handY": 510,
+    "fingertipX": 304,
+    "fingertipY": 40
+  },
+  {
+    "frame": 268,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 269,
+    "isMoving": true,
+    "motionWeight": 35992,
+    "handX": 934,
+    "handY": 546,
+    "fingertipX": 356,
+    "fingertipY": 40
+  },
+  {
+    "frame": 270,
+    "isMoving": true,
+    "motionWeight": 38910,
+    "handX": 881,
+    "handY": 518,
+    "fingertipX": 308,
+    "fingertipY": 40
+  },
+  {
+    "frame": 271,
+    "isMoving": true,
+    "motionWeight": 42168,
+    "handX": 834,
+    "handY": 479,
+    "fingertipX": 332,
+    "fingertipY": 40
+  },
+  {
+    "frame": 272,
+    "isMoving": true,
+    "motionWeight": 36198,
+    "handX": 960,
+    "handY": 566,
+    "fingertipX": 316,
+    "fingertipY": 40
+  },
+  {
+    "frame": 273,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 274,
+    "isMoving": true,
+    "motionWeight": 32525,
+    "handX": 931,
+    "handY": 552,
+    "fingertipX": 384,
+    "fingertipY": 40
+  },
+  {
+    "frame": 275,
+    "isMoving": true,
+    "motionWeight": 42213,
+    "handX": 875,
+    "handY": 559,
+    "fingertipX": 316,
+    "fingertipY": 40
+  },
+  {
+    "frame": 276,
+    "isMoving": true,
+    "motionWeight": 38415,
+    "handX": 912,
+    "handY": 577,
+    "fingertipX": 1776,
+    "fingertipY": 40
+  },
+  {
+    "frame": 277,
+    "isMoving": true,
+    "motionWeight": 35370,
+    "handX": 906,
+    "handY": 608,
+    "fingertipX": 352,
+    "fingertipY": 40
+  },
+  {
+    "frame": 278,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 279,
+    "isMoving": true,
+    "motionWeight": 36893,
+    "handX": 944,
+    "handY": 595,
+    "fingertipX": 1756,
+    "fingertipY": 40
+  },
+  {
+    "frame": 280,
+    "isMoving": true,
+    "motionWeight": 34193,
+    "handX": 952,
+    "handY": 581,
+    "fingertipX": 312,
+    "fingertipY": 40
+  },
+  {
+    "frame": 281,
+    "isMoving": true,
+    "motionWeight": 44846,
+    "handX": 846,
+    "handY": 518,
+    "fingertipX": 180,
+    "fingertipY": 40
+  },
+  {
+    "frame": 282,
+    "isMoving": true,
+    "motionWeight": 41846,
+    "handX": 886,
+    "handY": 607,
+    "fingertipX": 336,
+    "fingertipY": 40
+  },
+  {
+    "frame": 283,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 284,
+    "isMoving": true,
+    "motionWeight": 37313,
+    "handX": 933,
+    "handY": 629,
+    "fingertipX": 404,
+    "fingertipY": 44
+  },
+  {
+    "frame": 285,
+    "isMoving": true,
+    "motionWeight": 42710,
+    "handX": 866,
+    "handY": 625,
+    "fingertipX": 316,
+    "fingertipY": 40
+  },
+  {
+    "frame": 286,
+    "isMoving": true,
+    "motionWeight": 37969,
+    "handX": 911,
+    "handY": 633,
+    "fingertipX": 356,
+    "fingertipY": 40
+  },
+  {
+    "frame": 287,
+    "isMoving": true,
+    "motionWeight": 41210,
+    "handX": 869,
+    "handY": 612,
+    "fingertipX": 1584,
+    "fingertipY": 40
+  },
+  {
+    "frame": 288,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 289,
+    "isMoving": true,
+    "motionWeight": 38790,
+    "handX": 904,
+    "handY": 642,
+    "fingertipX": 1304,
+    "fingertipY": 40
+  },
+  {
+    "frame": 290,
+    "isMoving": true,
+    "motionWeight": 39208,
+    "handX": 912,
+    "handY": 634,
+    "fingertipX": 1748,
+    "fingertipY": 44
+  },
+  {
+    "frame": 291,
+    "isMoving": true,
+    "motionWeight": 41247,
+    "handX": 880,
+    "handY": 596,
+    "fingertipX": 340,
+    "fingertipY": 40
+  },
+  {
+    "frame": 292,
+    "isMoving": true,
+    "motionWeight": 43007,
+    "handX": 934,
+    "handY": 636,
+    "fingertipX": 304,
+    "fingertipY": 40
+  },
+  {
+    "frame": 293,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 294,
+    "isMoving": true,
+    "motionWeight": 37798,
+    "handX": 917,
+    "handY": 663,
+    "fingertipX": 220,
+    "fingertipY": 40
+  },
+  {
+    "frame": 295,
+    "isMoving": true,
+    "motionWeight": 45392,
+    "handX": 902,
+    "handY": 658,
+    "fingertipX": 356,
+    "fingertipY": 40
+  },
+  {
+    "frame": 296,
+    "isMoving": true,
+    "motionWeight": 48100,
+    "handX": 893,
+    "handY": 634,
+    "fingertipX": 488,
+    "fingertipY": 40
+  },
+  {
+    "frame": 297,
+    "isMoving": true,
+    "motionWeight": 54156,
+    "handX": 923,
+    "handY": 614,
+    "fingertipX": 360,
+    "fingertipY": 40
+  },
+  {
+    "frame": 298,
+    "isMoving": false,
+    "motionWeight": 0,
+    "handX": 0,
+    "handY": 0,
+    "fingertipX": 0,
+    "fingertipY": 0
+  },
+  {
+    "frame": 299,
+    "isMoving": true,
+    "motionWeight": 59227,
+    "handX": 886,
+    "handY": 616,
+    "fingertipX": 1768,
+    "fingertipY": 40
+  },
+  {
+    "frame": 300,
+    "isMoving": true,
+    "motionWeight": 29088,
+    "handX": 911,
+    "handY": 723,
+    "fingertipX": 788,
+    "fingertipY": 48
+  }
+]

@@ -1,0 +1,179 @@
+{
+  "A1_DESKTOP_TIER_SIZE": {
+    "pass": true,
+    "measured": "15.36 MB",
+    "threshold": "<= 16.0 MB"
+  },
+  "A2_SMALL_TIER_SIZE": {
+    "pass": true,
+    "measured": "5.11 MB",
+    "threshold": "<= 6.0 MB"
+  },
+  "A3_MANIFEST_VALID": {
+    "pass": true
+  },
+  "A4_FRAME1_PRELOAD_EXISTS": {
+    "pass": true
+  },
+  "A7_NO_RAW_VIDEO_OR_JPEG_IN_PUBLIC": {
+    "pass": true,
+    "badFiles": []
+  },
+  "B1_POLYLINE_PATH_EXTRACTED": {
+    "pass": true,
+    "pointCount": 76
+  },
+  "E3_THREEJS_REMOVED": {
+    "pass": true
+  },
+  "A5_FRAMES_BEFORE_LOGIN": {
+    "pass": true,
+    "count": 1,
+    "requests": [
+      "http://localhost:3000/wallpaper/desktop/frame-001.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-006.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-012.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-018.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-025.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-032.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-040.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-047.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-054.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-060.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-068.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-076.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-002.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-003.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-004.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-005.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-007.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-008.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-009.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-010.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-011.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-012.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-013.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-014.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-015.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-016.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-017.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-018.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-019.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-020.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-021.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-022.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-023.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-024.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-025.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-026.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-027.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-028.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-029.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-030.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-031.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-032.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-033.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-034.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-035.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-036.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-037.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-038.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-039.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-040.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-041.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-042.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-043.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-044.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-045.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-046.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-047.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-048.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-049.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-050.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-051.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-052.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-053.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-054.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-055.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-056.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-057.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-058.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-059.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-060.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-061.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-062.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-063.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-064.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-065.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-066.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-067.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-069.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-070.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-071.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-072.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-073.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-074.webp",
+      "http://localhost:3000/wallpaper/desktop/frame-075.webp",
+      "http://localhost:3000/wallpaper/small/frame-001.webp",
+      "http://localhost:3000/wallpaper/small/frame-006.webp",
+      "http://localhost:3000/wallpaper/small/frame-012.webp",
+      "http://localhost:3000/wallpaper/small/frame-018.webp",
+      "http://localhost:3000/wallpaper/small/frame-025.webp",
+      "http://localhost:3000/wallpaper/small/frame-032.webp",
+      "http://localhost:3000/wallpaper/small/frame-040.webp",
+      "http://localhost:3000/wallpaper/small/frame-047.webp",
+      "http://localhost:3000/wallpaper/small/frame-054.webp",
+      "http://localhost:3000/wallpaper/small/frame-060.webp",
+      "http://localhost:3000/wallpaper/small/frame-068.webp",
+      "http://localhost:3000/wallpaper/small/frame-076.webp",
+      "http://localhost:3000/wallpaper/small/frame-002.webp",
+      "http://localhost:3000/wallpaper/small/frame-003.webp",
+      "http://localhost:3000/wallpaper/small/frame-004.webp",
+      "http://localhost:3000/wallpaper/small/frame-005.webp",
+      "http://localhost:3000/wallpaper/small/frame-007.webp",
+      "http://localhost:3000/wallpaper/small/frame-008.webp",
+      "http://localhost:3000/wallpaper/small/frame-009.webp",
+      "http://localhost:3000/wallpaper/small/frame-010.webp",
+      "http://localhost:3000/wallpaper/small/frame-011.webp",
+      "http://localhost:3000/wallpaper/small/frame-013.webp",
+      "http://localhost:3000/wallpaper/small/frame-014.webp",
+      "http://localhost:3000/wallpaper/small/frame-015.webp",
+      "http://localhost:3000/wallpaper/small/frame-016.webp",
+      "http://localhost:3000/wallpaper/small/frame-017.webp",
+      "http://localhost:3000/wallpaper/small/frame-019.webp",
+      "http://localhost:3000/wallpaper/small/frame-020.webp",
+      "http://localhost:3000/wallpaper/small/frame-021.webp",
+      "http://localhost:3000/wallpaper/small/frame-022.webp",
+      "http://localhost:3000/wallpaper/small/frame-023.webp",
+      "http://localhost:3000/wallpaper/small/frame-024.webp",
+      "http://localhost:3000/wallpaper/small/frame-026.webp",
+      "http://localhost:3000/wallpaper/small/frame-027.webp"
+    ]
+  },
+  "E2_API_REJECTS_WALLPAPER_MUTATION": {
+    "pass": true,
+    "status1": 400,
+    "status2": 400
+  },
+  "E1_SETTINGS_ZERO_WALLPAPER": {
+    "pass": true
+  },
+  "G1_CANVAS_ARIA_HIDDEN": {
+    "pass": true
+  },
+  "G2_CANVAS_NOT_FOCUSABLE": {
+    "pass": true
+  },
+  "F5_CANVAS_CONTAIN_STRICT": {
+    "pass": true
+  },
+  "D1_IDLE_RAF_RATE_ZERO": {
+    "pass": true
+  },
+  "C8_N_PATTERN_COMPLETION": {
+    "pass": true
+  },
+  "G5_MOBILE_TOUCH_FULL_COVERAGE": {
+    "pass": true
+  }
+}

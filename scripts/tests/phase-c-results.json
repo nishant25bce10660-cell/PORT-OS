@@ -1,0 +1,27 @@
+{
+  "trash": {
+    "created": true,
+    "trashed": true,
+    "inTrash": true,
+    "restored": true
+  },
+  "auth": {
+    "pass": true,
+    "putSettingsStatus": 403,
+    "postItemStatus": 403,
+    "delItemStatus": 403
+  },
+  "interactions": {
+    "pass": true,
+    "isSelected": true,
+    "openedDoc": true
+  },
+  "desktopDrag": {
+    "pass": true,
+    "dragOutcome": {
+      "left": 16,
+      "top": 256,
+      "hasGhostPills": false
+    }
+  }
+}

@@ -106,7 +106,7 @@ export default function SpotlightModal({
     items.push({
       id: 'app-settings',
       title: 'System Settings',
-      subtitle: 'Appearance, Wallpapers, Boot, and Fonts',
+      subtitle: 'Customization, Boot, and System Fonts',
       category: 'Applications',
       icon: <PortOSIcon kind="settings" size={22} />,
       onSelect: () => onOpenSettings(),
@@ -187,15 +187,6 @@ export default function SpotlightModal({
         onSelect: onNewFolder,
       });
     }
-
-    items.push({
-      id: 'action-wallpaper',
-      title: 'Change Wallpaper',
-      subtitle: 'Open System Settings Appearance tab',
-      category: 'System Actions',
-      icon: <PortOSIcon kind="settings" size={22} />,
-      onSelect: () => onOpenSettings('appearance'),
-    });
 
     items.push({
       id: 'action-sleep',

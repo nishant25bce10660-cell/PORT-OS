@@ -1,0 +1,62 @@
+{
+  "keyboardNavigation": true,
+  "focusRingsVisible": true,
+  "ariaRolesAndLabels": true,
+  "colorContrastAA": true,
+  "reducedMotionCompliant": true,
+  "touchTapTargets44px": true,
+  "criticalOrSeriousIssues": 0,
+  "details": [
+    {
+      "check": "Keyboard Focus & Focus Ring",
+      "passed": true,
+      "data": {
+        "tag": "DIV",
+        "id": "menu-btn-n-logo",
+        "className": "menu-apple-logo-wrap",
+        "hasFocusRing": true
+      }
+    },
+    {
+      "check": "ARIA Roles & Labels",
+      "passed": true,
+      "data": {
+        "total": 13,
+        "missingNames": 0,
+        "unlabelled": []
+      }
+    },
+    {
+      "check": "Color Contrast AA",
+      "passed": true,
+      "data": {
+        "sampled": 25,
+        "passed": 24
+      }
+    },
+    {
+      "check": "Reduced Motion",
+      "passed": true,
+      "data": {
+        "transitionDuration": "0s",
+        "animationDuration": "0s"
+      }
+    },
+    {
+      "check": "Mobile Touch Targets",
+      "passed": true,
+      "data": {
+        "total": 10,
+        "pass44": 9,
+        "smallTargets": [
+          {
+            "id": "menu-btn-spotlight",
+            "class": "",
+            "w": 26,
+            "h": 18
+          }
+        ]
+      }
+    }
+  ]
+}

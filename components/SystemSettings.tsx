@@ -11,7 +11,6 @@ import { toastManager } from '@/lib/toast';
 import { sound } from '@/lib/sound';
 import CometDial from './CometDial';
 import { useContextMenu, ContextMenuItem } from './ContextMenu';
-import { qualityGovernor, QualityMode } from '@/lib/qualityGovernor';
 
 interface SystemSettingsProps {
   settings: ISystemSettings;
@@ -38,29 +37,13 @@ export default function SystemSettings({
     }
     return s;
   });
+  const formDataRef = useRef<ISystemSettings>(formData);
+  formDataRef.current = formData;
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [fontUploadError, setFontUploadError] = useState<string | null>(null);
   const [fontUploadSuccess, setFontUploadSuccess] = useState<string | null>(null);
-  const [wallpaperUploadError, setWallpaperUploadError] = useState<string | null>(null);
-  const [wallpaperUploadSuccess, setWallpaperUploadSuccess] = useState<string | null>(null);
-  const [perfMode, setPerfMode] = useState<QualityMode>('auto');
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setPerfMode(qualityGovernor.getMode());
-    }
-  }, []);
-
-  const handlePerfModeChange = (mode: QualityMode) => {
-    setPerfMode(mode);
-    qualityGovernor.setMode(mode);
-    toastManager.show({
-      title: 'Performance Mode Updated',
-      message: `Governor set to ${mode.toUpperCase()} mode.`,
-      type: 'info',
-    });
-  };
   const [visitors, setVisitors] = useState<Array<{ id: string; name: string; email: string; ip: string; timestamp: string }>>([]);
   const [loadingVisitors, setLoadingVisitors] = useState(false);
   const [masterVolume, setMasterVolume] = useState<number>(0.8);
@@ -104,9 +87,21 @@ export default function SystemSettings({
   // Sync incoming settings
   useEffect(() => {
     if (initialSettings) {
-      setFormData({
-        ...initialSettings,
-        customization: initialSettings.customization || DEFAULT_CUSTOMIZATION,
+      setFormData((prev) => {
+        const nextState = {
+          ...initialSettings,
+          customization: {
+            ...DEFAULT_CUSTOMIZATION,
+            ...(initialSettings.customization || {}),
+            effects: prev.customization?.effects || initialSettings.customization?.effects || DEFAULT_CUSTOMIZATION.effects,
+          },
+        };
+        delete (nextState.customization as any).desktopWallpaper;
+        delete (nextState.customization as any).lockScreenWallpaper;
+        delete (nextState.customization as any).wallpaperDesktop;
+        delete (nextState.customization as any).wallpaperLockScreen;
+        formDataRef.current = nextState;
+        return nextState;
       });
     }
   }, [initialSettings]);
@@ -146,6 +141,11 @@ export default function SystemSettings({
         ...(prev.customization || DEFAULT_CUSTOMIZATION),
         [category]: nextCat,
       };
+      delete (nextCustomization as any).desktopWallpaper;
+      delete (nextCustomization as any).lockScreenWallpaper;
+      delete (nextCustomization as any).wallpaperDesktop;
+      delete (nextCustomization as any).wallpaperLockScreen;
+      delete (nextCustomization as any).customWallpaperData;
 
       // Also mirror to viewer local storage for instant personal persistence
       if (typeof window !== 'undefined') {
@@ -161,30 +161,47 @@ export default function SystemSettings({
         }).catch(() => {});
       }
 
-      return {
+      const nextState = {
         ...prev,
         customization: nextCustomization,
-        // Mirror wallpaper to legacy appearance field for compatibility
-        appearance: {
-          ...prev.appearance,
-          wallpaper: nextCustomization.desktopWallpaper.preset || 'wave-shader',
-        },
       };
+      formDataRef.current = nextState;
+      return nextState;
     });
   };
 
   const handleBootChange = (field: keyof ISystemSettings['boot'], value: string) => {
     if (!canEdit) return;
-    setFormData((prev) => ({
-      ...prev,
-      boot: { ...prev.boot, [field]: value },
-    }));
+    setFormData((prev) => {
+      const next = {
+        ...prev,
+        boot: { ...prev.boot, [field]: value },
+      };
+      formDataRef.current = next;
+      return next;
+    });
   };
 
   const handleSave = async () => {
+    const rawData = formDataRef.current;
+    const currentData: ISystemSettings = {
+      ...rawData,
+      customization: rawData.customization ? { ...rawData.customization } : DEFAULT_CUSTOMIZATION,
+      appearance: rawData.appearance ? { ...rawData.appearance } : DEFAULT_SETTINGS.appearance,
+    };
+    if (currentData.customization) {
+      delete (currentData.customization as any).desktopWallpaper;
+      delete (currentData.customization as any).lockScreenWallpaper;
+      delete (currentData.customization as any).wallpaperDesktop;
+      delete (currentData.customization as any).wallpaperLockScreen;
+      delete (currentData.customization as any).customWallpaperData;
+    }
+    if (currentData.appearance) {
+      delete (currentData.appearance as any).wallpaper;
+    }
     if (!canEdit) {
       if (typeof window !== 'undefined') {
-        localStorage.setItem('portos_customization', JSON.stringify(formData.customization));
+        localStorage.setItem('portos_customization', JSON.stringify(currentData.customization));
       }
       setSaveMessage('Preferences saved locally (Viewer Session)');
       toastManager.notify({
@@ -198,7 +215,7 @@ export default function SystemSettings({
     setSaving(true);
     setSaveMessage(null);
     try {
-      await onSaveSettings(formData);
+      await onSaveSettings(currentData);
       setSaveMessage('Settings saved successfully');
       toastManager.notify({
         type: 'success',
@@ -277,52 +294,7 @@ export default function SystemSettings({
     }
   };
 
-  // Local Wallpaper file upload with validation (PNG/JPG/WEBP < 5MB)
-  const handleWallpaperFileSelected = (e: React.ChangeEvent<HTMLInputElement>, target: 'desktop' | 'lockscreen') => {
-    if (!e.target.files || e.target.files.length === 0) return;
-    const file = e.target.files[0];
-    setWallpaperUploadError(null);
-    setWallpaperUploadSuccess(null);
 
-    // Validate size (< 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setWallpaperUploadError('Image too large. Maximum supported size is 5MB.');
-      return;
-    }
-
-    // Validate MIME type
-    const validMimes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
-    if (!validMimes.includes(file.type.toLowerCase())) {
-      setWallpaperUploadError('Unsupported image format. Please select a PNG, JPEG, or WebP file.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      // Validate image decoding
-      const img = new Image();
-      img.onload = () => {
-        if (target === 'desktop') {
-          handleCustomizationChange('desktopWallpaper', {
-            type: 'image',
-            imageUrl: dataUrl,
-          });
-        } else {
-          handleCustomizationChange('lockScreenWallpaper', {
-            type: 'image',
-            imageUrl: dataUrl,
-          });
-        }
-        setWallpaperUploadSuccess(`Imported personal wallpaper: ${file.name} (${img.width}x${img.height})`);
-      };
-      img.onerror = () => {
-        setWallpaperUploadError('Corrupted or malformed image file.');
-      };
-      img.src = dataUrl;
-    };
-    reader.readAsDataURL(file);
-  };
 
   // Font Upload with base64 conversion & validation
   const handleFontFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -709,145 +681,6 @@ export default function SystemSettings({
               System Customization & Personalization
             </h3>
 
-            {/* Section 10: Independent Desktop vs Lock Screen Wallpapers */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <label style={{ fontSize: '13px', fontWeight: 600 }}>1. Desktop Wallpaper</label>
-                <label
-                  style={{
-                    fontSize: '11px',
-                    padding: '3px 8px',
-                    background: 'rgba(56, 189, 248, 0.2)',
-                    color: '#38bdf8',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  📁 Select Local Image...
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleWallpaperFileSelected(e, 'desktop')}
-                  />
-                </label>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
-                {[
-                  { id: 'wave-shader', label: 'Silk Wave (GLSL)', bg: 'linear-gradient(135deg, #060913, #13274f, #2563eb)' },
-                  { id: 'silk-midnight', label: 'Midnight Blue', bg: 'linear-gradient(135deg, #040814, #0e2a56, #1d4ed8)' },
-                  { id: 'deep-space', label: 'Deep Space', bg: 'linear-gradient(135deg, #060514, #1d1145, #5b21b6)' },
-                  { id: 'obsidian', label: 'Obsidian Silk', bg: 'linear-gradient(135deg, #07080a, #161a22, #2f3644)' },
-                  { id: 'aurora', label: 'Aurora Teal', bg: 'linear-gradient(135deg, #021312, #064e43, #0d9488)' },
-                ].map((wp) => (
-                  <div
-                    key={wp.id}
-                    id={`wp-preset-${wp.id}`}
-                    onClick={() =>
-                      handleCustomizationChange('desktopWallpaper', {
-                        type: 'preset',
-                        preset: wp.id,
-                        imageUrl: undefined,
-                      })
-                    }
-                    style={{
-                      height: '75px',
-                      borderRadius: '8px',
-                      background: wp.bg,
-                      border:
-                        currentCustom.desktopWallpaper.preset === wp.id && !currentCustom.desktopWallpaper.imageUrl
-                          ? '2px solid #38bdf8'
-                          : '1px solid rgba(255, 255, 255, 0.1)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      padding: '6px',
-                      fontSize: '10px',
-                      fontWeight: 600,
-                      color: '#fff',
-                      boxShadow:
-                        currentCustom.desktopWallpaper.preset === wp.id
-                          ? '0 0 10px rgba(56, 189, 248, 0.3)'
-                          : 'none',
-                    }}
-                  >
-                    {wp.label}
-                  </div>
-                ))}
-              </div>
-
-              {/* Independent Lock Screen Wallpaper */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px' }}>
-                <label style={{ fontSize: '13px', fontWeight: 600 }}>2. Lock Screen Wallpaper</label>
-                <label
-                  style={{
-                    fontSize: '11px',
-                    padding: '3px 8px',
-                    background: 'rgba(124, 108, 255, 0.2)',
-                    color: '#a78bfa',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  📁 Select Local Lock Image...
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleWallpaperFileSelected(e, 'lockscreen')}
-                  />
-                </label>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
-                {[
-                  { id: 'wave-shader', label: 'Silk Wave (GLSL)', bg: 'linear-gradient(135deg, #060913, #13274f, #2563eb)' },
-                  { id: 'silk-midnight', label: 'Midnight Blue', bg: 'linear-gradient(135deg, #040814, #0e2a56, #1d4ed8)' },
-                  { id: 'deep-space', label: 'Deep Space', bg: 'linear-gradient(135deg, #060514, #1d1145, #5b21b6)' },
-                  { id: 'obsidian', label: 'Obsidian Silk', bg: 'linear-gradient(135deg, #07080a, #161a22, #2f3644)' },
-                  { id: 'aurora', label: 'Aurora Teal', bg: 'linear-gradient(135deg, #021312, #064e43, #0d9488)' },
-                ].map((wp) => (
-                  <div
-                    key={`lock-${wp.id}`}
-                    id={`lock-wp-preset-${wp.id}`}
-                    onClick={() =>
-                      handleCustomizationChange('lockScreenWallpaper', {
-                        type: 'preset',
-                        preset: wp.id,
-                        imageUrl: undefined,
-                      })
-                    }
-                    style={{
-                      height: '75px',
-                      borderRadius: '8px',
-                      background: wp.bg,
-                      border:
-                        currentCustom.lockScreenWallpaper.preset === wp.id && !currentCustom.lockScreenWallpaper.imageUrl
-                          ? '2px solid #a78bfa'
-                          : '1px solid rgba(255, 255, 255, 0.1)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      padding: '6px',
-                      fontSize: '10px',
-                      fontWeight: 600,
-                      color: '#fff',
-                    }}
-                  >
-                    {wp.label}
-                  </div>
-                ))}
-              </div>
-
-              {wallpaperUploadError && (
-                <div style={{ fontSize: '11px', color: '#ff5a52', marginTop: '4px' }}>{wallpaperUploadError}</div>
-              )}
-              {wallpaperUploadSuccess && (
-                <div style={{ fontSize: '11px', color: '#35d0ba', marginTop: '4px' }}>{wallpaperUploadSuccess}</div>
-              )}
-            </div>
-
             {/* Section 7: Advanced Clock Customization */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
               <label style={{ fontSize: '13px', fontWeight: 600 }}>3. Advanced Clock Customization</label>
@@ -984,18 +817,63 @@ export default function SystemSettings({
               </div>
             </div>
 
+            {/* Section: Desktop Folder Placement (Round 18 Step 8) */}
+            <div
+              id="settings-section-desktop-side"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                borderTop: '1px solid rgba(255,255,255,0.08)',
+                paddingTop: '14px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 600 }}>Desktop Folder Placement</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                    Position folders in a single column along chosen edge with auto-adjusting hover
+                  </div>
+                </div>
+                <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.06)', borderRadius: '6px', padding: '2px' }}>
+                  {(['left', 'right'] as const).map((side) => {
+                    const isCur = ((currentCustom as any).desktopSide || 'right') === side;
+                    return (
+                      <button
+                        key={side}
+                        type="button"
+                        id={`segmented-desktop-side-${side}`}
+                        className={`segmented-btn ${isCur ? 'is-selected' : ''}`}
+                        onClick={() => handleCustomizationChange('desktopSide' as any, side)}
+                        style={{
+                          padding: '5px 12px',
+                          borderRadius: '4px',
+                          border: 'none',
+                          background: isCur ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
+                          color: isCur ? '#38bdf8' : 'rgba(255, 255, 255, 0.7)',
+                          fontSize: '11.5px',
+                          fontWeight: isCur ? 600 : 500,
+                          cursor: 'pointer',
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {side === 'left' ? '◧ Left Side' : '◨ Right Side'}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
             {/* Section 6: Advanced Visual Effects Library */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
               <label style={{ fontSize: '13px', fontWeight: 600 }}>4. Apple & WebGL Visual Effects Library</label>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {[
+                  { key: 'glassmorphism', label: 'Glassmorphism Card', desc: 'Frosted backdrop blur & satin border' },
                   { key: 'liquidGlass', label: 'Liquid Glass', desc: 'Layered translucency & refractive sheen' },
-                  { key: 'glassmorphism', label: 'Glassmorphism Cards', desc: 'Frosted backdrop blur & satin border' },
-                  { key: 'magneticHover', label: 'Magnetic Hover', desc: 'Subtle magnetic pull toward pointer' },
-                  { key: 'tiltEffect', label: '3D Tilt Parallax', desc: 'Spatial 3D depth tilt on hover' },
                   { key: 'ambientGlow', label: 'Ambient Glow', desc: 'Volumetric color spill around active cards' },
-                  { key: 'auroraMesh', label: 'Aurora Mesh', desc: 'Organically blended flowing gradient orbs' },
                 ].map((eff) => {
                   const isEnabled = (currentCustom.effects as any)[eff.key];
                   return (
@@ -1005,7 +883,8 @@ export default function SystemSettings({
                       className="effect-toggle-card"
                       data-effect={eff.key}
                       onClick={() => {
-                        const isEn = !!(currentCustom.effects as any)[eff.key];
+                        const curEff = (formDataRef.current.customization?.effects || DEFAULT_CUSTOMIZATION.effects) as any;
+                        const isEn = !!curEff[eff.key];
                         handleCustomizationChange('effects', {
                           [eff.key]: !isEn,
                         } as any);
@@ -1030,40 +909,6 @@ export default function SystemSettings({
                       </div>
                       <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{eff.desc}</span>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Section 4b: Performance Mode (Quality Governor Auto / High / Low) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ fontSize: '13px', fontWeight: 600 }}>Performance Governor Mode</label>
-                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Auto / High / Low</span>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-                {(['auto', 'high', 'low'] as const).map((m) => {
-                  const isCur = perfMode === m;
-                  return (
-                    <button
-                      key={m}
-                      type="button"
-                      id={`btn-perf-mode-${m}`}
-                      onClick={() => handlePerfModeChange(m)}
-                      style={{
-                        padding: '8px 10px',
-                        borderRadius: '6px',
-                        border: isCur ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.12)',
-                        background: isCur ? 'rgba(56, 189, 248, 0.22)' : 'rgba(255, 255, 255, 0.04)',
-                        color: isCur ? '#38bdf8' : '#fff',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {m}
-                    </button>
                   );
                 })}
               </div>

@@ -1,0 +1,50 @@
+{
+  "step": "STEP 9",
+  "timestamp": "2026-10-27T17:42:59.729Z",
+  "tests": {
+    "minimise": {
+      "durationMs": 568,
+      "minDurationPass": false,
+      "opacityNeverIncreases": true,
+      "minimisedTileExists": true,
+      "sampleCount": 5,
+      "passed": false
+    },
+    "restore": {
+      "maxDelta": 0,
+      "restoreBoundsPass": true,
+      "restoreFocusPass": true,
+      "restoreZPass": true,
+      "passed": true
+    },
+    "close": {
+      "stillInDomAt90": true,
+      "unmountedAt210": true,
+      "passed": true
+    },
+    "rapidActions": {
+      "rapidRestored": true,
+      "intCleanlyUnmounted": true,
+      "passed": true
+    },
+    "reducedMotion": {
+      "rmUnmounted": true,
+      "rmTile": true,
+      "rmRestored": true,
+      "passed": true
+    },
+    "soakAndPerf": {
+      "domDelta": 0,
+      "soakPass": true,
+      "throttleMetrics": {
+        "count": 23,
+        "over20": 0,
+        "max": 0.3999999985098839,
+        "avg": 0.13913043442627657
+      },
+      "throttlePass": true,
+      "passed": true
+    }
+  },
+  "passed": false
+}

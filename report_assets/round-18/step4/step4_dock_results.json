@@ -1,0 +1,89 @@
+{
+  "ancestors": [
+    {
+      "tag": "SPAN",
+      "className": "warm-tooltip__trigger",
+      "overflow": "visible",
+      "contain": "none",
+      "clipPath": "none"
+    },
+    {
+      "tag": "DIV",
+      "className": "dock-bounce-wrapper ",
+      "overflow": "visible",
+      "contain": "none",
+      "clipPath": "none"
+    },
+    {
+      "tag": "DIV",
+      "id": "macos-dock",
+      "className": "dock dock-container",
+      "overflow": "visible",
+      "contain": "layout",
+      "clipPath": "none"
+    },
+    {
+      "tag": "DIV",
+      "className": "dock-wrapper",
+      "overflow": "visible",
+      "contain": "none",
+      "clipPath": "none"
+    },
+    {
+      "tag": "DIV",
+      "id": "portfolio-desktop-os",
+      "className": "desktop-container fx-liquid-glass",
+      "overflow": "hidden",
+      "contain": "none",
+      "clipPath": "none"
+    },
+    {
+      "tag": "BODY",
+      "className": "fx-liquid-glass",
+      "overflow": "hidden",
+      "contain": "none",
+      "clipPath": "none"
+    }
+  ],
+  "magnification": {
+    "resting": {
+      "dockHeight": 54,
+      "dockTop": 834,
+      "btnTop": 843,
+      "btnBottom": 883,
+      "btnHeight": 40
+    },
+    "magnified": {
+      "dockHeight": 54,
+      "dockTop": 834,
+      "btnTop": 819,
+      "btnBottom": 883,
+      "btnHeight": 64,
+      "neighbourHeight": 46.84002685546875
+    },
+    "topAboveBar": 15,
+    "topAbovePercent": 37.5,
+    "bottomDrift": 0,
+    "barHeightChange": 0
+  },
+  "performance": {
+    "fps": 155,
+    "p50": 6.1,
+    "p75": 6.1,
+    "p90": 6.2,
+    "p95": 12,
+    "sampleCount": 81,
+    "topDeltas": [
+      6.199999999999818,
+      6.199999999999818,
+      6.200000000000728,
+      6.200000000000728,
+      6.600000000000364,
+      12,
+      12.100000000000364,
+      12.100000000000364,
+      12.100000000000364,
+      12.100000000000364
+    ]
+  }
+}

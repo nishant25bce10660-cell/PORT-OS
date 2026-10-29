@@ -40,3 +40,7 @@ Thumbs.db
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Source Assets & Legacy Frame JPEGs
+assets-src/
+public/wallpaper-frames/

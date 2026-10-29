@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import GeometricLogo from './GeometricLogo';
 import { sound } from '@/lib/sound';
 import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
+import ReflectiveCard from './ReflectiveCard';
 
 interface LoginModalProps {
   onLoginSuccess: (user: { role: 'viewer' | 'admin'; name?: string; email?: string; username?: string }) => void;
@@ -267,10 +268,10 @@ export default function LoginModal({
                 borderRadius: '50%',
                 padding: '3px',
                 background: selectedUser === 'owner'
-                  ? 'linear-gradient(135deg, #7C6CFF, #35D0BA)'
+                  ? 'linear-gradient(135deg, #FFFFFF, #71717A)'
                   : 'rgba(255, 255, 255, 0.15)',
                 boxShadow: selectedUser === 'owner'
-                  ? '0 0 24px rgba(124, 108, 255, 0.45)'
+                  ? '0 0 22px rgba(255, 255, 255, 0.3)'
                   : 'none',
                 transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
@@ -357,10 +358,10 @@ export default function LoginModal({
                 borderRadius: '50%',
                 padding: '3px',
                 background: selectedUser === 'guest'
-                  ? 'linear-gradient(135deg, #35D0BA, #7C6CFF)'
+                  ? 'linear-gradient(135deg, #E4E4E7, #52525B)'
                   : 'rgba(255, 255, 255, 0.15)',
                 boxShadow: selectedUser === 'guest'
-                  ? '0 0 24px rgba(53, 208, 186, 0.45)'
+                  ? '0 0 22px rgba(255, 255, 255, 0.25)'
                   : 'none',
                 transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
@@ -412,7 +413,7 @@ export default function LoginModal({
           </div>
         </div>
 
-        {/* Segmented Role Switcher Tabs */}
+        {/* Segmented Role Switcher Tabs (Crisp Rectangular Geometry, White & Grey Palette) */}
         <div
           id="login-role-switch"
           className="login-tabs-container"
@@ -424,10 +425,10 @@ export default function LoginModal({
             gridTemplateColumns: '1fr 1fr',
             width: '320px',
             background: 'rgba(255, 255, 255, 0.08)',
-            borderRadius: '20px',
+            borderRadius: '8px',
             padding: '3px',
             marginBottom: '14px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
             boxSizing: 'border-box',
           }}
         >
@@ -442,8 +443,9 @@ export default function LoginModal({
               left: '3px',
               width: 'calc(50% - 4px)',
               background: 'rgba(255, 255, 255, 0.22)',
-              borderRadius: '16px',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+              borderRadius: '6px',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
               transform: selectedUser === 'owner' ? 'translate3d(0, 0, 0)' : 'translate3d(calc(100% + 2px), 0, 0)',
               transition: 'transform 220ms cubic-bezier(0.16, 1, 0.3, 1)',
               willChange: 'transform',
@@ -476,11 +478,11 @@ export default function LoginModal({
               position: 'relative',
               zIndex: 1,
               width: '100%',
-              padding: '6px 16px',
-              borderRadius: '16px',
+              padding: '7px 16px',
+              borderRadius: '6px',
               border: 'none',
               backgroundColor: 'transparent',
-              color: selectedUser === 'owner' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.6)',
+              color: selectedUser === 'owner' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.55)',
               fontSize: '12px',
               fontWeight: selectedUser === 'owner' ? 600 : 500,
               cursor: 'pointer',
@@ -515,11 +517,11 @@ export default function LoginModal({
               position: 'relative',
               zIndex: 1,
               width: '100%',
-              padding: '6px 16px',
-              borderRadius: '16px',
+              padding: '7px 16px',
+              borderRadius: '6px',
               border: 'none',
               backgroundColor: 'transparent',
-              color: selectedUser === 'guest' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.6)',
+              color: selectedUser === 'guest' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.55)',
               fontSize: '12px',
               fontWeight: selectedUser === 'guest' ? 600 : 500,
               cursor: 'pointer',
@@ -531,38 +533,83 @@ export default function LoginModal({
           </button>
         </div>
 
-        {/* Input Card with Shake */}
-        <div
+        {/* Input Card with Reflective Metallic Plate & Dynamic Physics (React Bits) */}
+        <ReflectiveCard
           id="login-card"
           className={`login-card ${isShaking ? 'login-card-shake' : ''}`}
+          theme="dark"
+          tint="#ffffff"
+          metalness={0.9}
+          roughness={0.24}
+          blurStrength={6}
+          shine={1.25}
+          glare={0.45}
+          warp={0.35}
+          warpScale={1.2}
+          bevel={2.5}
+          enableTilt={true}
+          tiltStrength={8}
+          intro={true}
+          radius={12}
+          width="100%"
+          height="auto"
           style={{
-            width: '100%',
             maxWidth: '360px',
-            minHeight: '232px',
-            background: 'rgba(24, 28, 37, 0.75)',
-            backdropFilter: 'blur(30px)',
-            borderRadius: '16px',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
-            padding: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
             boxSizing: 'border-box',
           }}
         >
+          {/* Card Sub-Header */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '14px',
+              paddingBottom: '10px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span
+                style={{
+                  fontSize: '11px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  fontWeight: 600,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                }}
+              >
+                {selectedUser === 'owner' ? 'Owner Authorization' : 'Guest Verification'}
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: selectedUser === 'owner' ? '#FFFFFF' : '#A1A1AA',
+                }}
+              />
+              <span style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.55)', letterSpacing: '0.5px' }}>
+                {selectedUser === 'owner' ? 'Administrator' : 'Read-Only'}
+              </span>
+            </div>
+          </div>
+
           {errorMessage && (
             <div
               id="login-error-message"
               style={{
                 background: 'rgba(255, 90, 82, 0.15)',
                 border: '1px solid rgba(255, 90, 82, 0.35)',
-                color: '#FF5A52',
+                color: '#FF8580',
                 padding: '8px 12px',
                 borderRadius: '8px',
                 fontSize: '12px',
                 textAlign: 'center',
                 lineHeight: 1.4,
+                marginBottom: '12px',
               }}
             >
               {errorMessage}
@@ -603,23 +650,32 @@ export default function LoginModal({
                   id="btn-submit-owner"
                   type="submit"
                   disabled={loading}
+                  aria-label="Submit Password"
                   style={{
                     position: 'absolute',
                     right: '6px',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%',
-                    border: 'none',
-                    backgroundColor: 'var(--accent, #7C6CFF)',
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.28)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.14)',
                     color: '#FFFFFF',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transition: 'opacity 0.2s',
+                    transition: 'all 0.18s ease',
                     opacity: loading ? 0.6 : 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.24)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.45)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.14)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
                   }}
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -637,11 +693,11 @@ export default function LoginModal({
                 style={{
                   marginTop: '4px',
                   padding: '10px 16px',
-                  height: '40px',
-                  borderRadius: '20px',
-                  border: 'none',
-                  backgroundColor: 'var(--accent, #7C6CFF)',
-                  color: '#FFFFFF',
+                  height: '42px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  backgroundColor: '#FFFFFF',
+                  color: '#12151C',
                   fontSize: '13px',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -649,9 +705,16 @@ export default function LoginModal({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  transition: 'opacity 0.2s',
+                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 #FFFFFF',
+                  transition: 'all 0.18s ease',
                   opacity: loading ? 0.6 : 1,
                   boxSizing: 'border-box',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#E4E4E7';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FFFFFF';
                 }}
               >
                 <span>Sign in as Owner</span>
@@ -697,11 +760,11 @@ export default function LoginModal({
                 style={{
                   marginTop: '4px',
                   padding: '10px 16px',
-                  height: '40px',
-                  borderRadius: '20px',
-                  border: 'none',
-                  backgroundColor: 'var(--accent, #7C6CFF)',
-                  color: '#FFFFFF',
+                  height: '42px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  backgroundColor: '#FFFFFF',
+                  color: '#12151C',
                   fontSize: '13px',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -709,9 +772,16 @@ export default function LoginModal({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  transition: 'opacity 0.2s',
+                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 #FFFFFF',
+                  transition: 'all 0.18s ease',
                   opacity: loading ? 0.6 : 1,
                   boxSizing: 'border-box',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#E4E4E7';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FFFFFF';
                 }}
               >
                 <span>Enter as Guest</span>
@@ -722,7 +792,7 @@ export default function LoginModal({
               </button>
             </form>
           )}
-        </div>
+        </ReflectiveCard>
       </div>
 
       {/* Footer Power Controls */}
@@ -745,7 +815,7 @@ export default function LoginModal({
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(255, 255, 255, 0.65)',
                 fontSize: '12px',
                 cursor: 'pointer',
                 display: 'flex',
@@ -755,14 +825,15 @@ export default function LoginModal({
                 transition: 'color 0.2s',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)')}
             >
               <div
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '50%',
+                  borderRadius: '8px',
                   backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.14)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -783,7 +854,7 @@ export default function LoginModal({
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(255, 255, 255, 0.65)',
                 fontSize: '12px',
                 cursor: 'pointer',
                 display: 'flex',
@@ -793,14 +864,15 @@ export default function LoginModal({
                 transition: 'color 0.2s',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)')}
             >
               <div
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '50%',
+                  borderRadius: '8px',
                   backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.14)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -821,7 +893,7 @@ export default function LoginModal({
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(255, 255, 255, 0.65)',
                 fontSize: '12px',
                 cursor: 'pointer',
                 display: 'flex',
@@ -831,14 +903,15 @@ export default function LoginModal({
                 transition: 'color 0.2s',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)')}
             >
               <div
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '50%',
+                  borderRadius: '8px',
                   backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.14)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

@@ -183,23 +183,25 @@ async function runRound5Tests() {
     const fpsMeasurement = await page.evaluate(async () => {
       return new Promise((resolve) => {
         let frameCount = 0;
-        let lastTime = performance.now();
+        let lastTime = null;
         const frameDeltas = [];
 
         function onFrame(now) {
-          const delta = now - lastTime;
+          if (lastTime !== null) {
+            const delta = now - lastTime;
+            frameDeltas.push(delta);
+          }
           lastTime = now;
-          frameDeltas.push(delta);
           frameCount++;
 
-          if (frameCount < 60) {
+          if (frameCount < 65) {
             requestAnimationFrame(onFrame);
           } else {
             const avgDelta = frameDeltas.reduce((a, b) => a + b, 0) / frameDeltas.length;
             const avgFps = 1000 / avgDelta;
             const sorted = [...frameDeltas].sort((a, b) => a - b);
             const p95 = sorted[Math.floor(sorted.length * 0.95)];
-            resolve({ avgFps, p95, totalFrames: frameCount });
+            resolve({ avgFps, p95, totalFrames: frameDeltas.length });
           }
         }
         requestAnimationFrame(onFrame);

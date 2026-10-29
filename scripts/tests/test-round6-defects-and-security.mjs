@@ -102,14 +102,17 @@ async function runRound6DefectsTest() {
   recordEvidence('SEC5_DNS_CSRF_GUARD', sec5Passed, sec5Details);
 
   // -------------------------------------------------------------
-  // D9: WALLPAPER LUMINANCE CLAMP IN SHADER
+  // D9: WALLPAPER ARCHITECTURE (RETIRED SILK WAVE / S12 AUDIT)
   // -------------------------------------------------------------
-  console.log('\n--- 3. Testing D9: Wallpaper Luminance Clamp (8% - 22%) ---');
+  console.log('\n--- 3. Testing D9: Wallpaper Architecture (S12 Compliance) ---');
   let d9Passed = true;
-  let d9Details = 'Silk Wave GLSL fragment shader clamps perceived luminance between 0.08 and 0.22';
+  let d9Details = 'Silk Wave shader retired per Round 19 S12; replaced by Interactive Mirror Canvas';
   try {
     const wpSource = fs.readFileSync('components/Wallpaper.tsx', 'utf-8');
-    if (!wpSource.includes('clamp(lum, 0.08, 0.22)') && !wpSource.includes('targetLum')) {
+    if (wpSource.includes('MirrorEngine') || wpSource.includes('wallpaper-surface')) {
+      d9Passed = true;
+      d9Details = 'Silk Wave shader retired per Round 19 S12; replaced by Interactive Mirror Canvas';
+    } else if (!wpSource.includes('clamp(lum, 0.08, 0.22)') && !wpSource.includes('targetLum')) {
       d9Passed = false;
       d9Details = 'Wallpaper GLSL shader missing Rec.709 luminance clamp logic';
     }

@@ -1,0 +1,19 @@
+{
+  "totalBytesTransferredMB": 17.78,
+  "frameRequestsBeforeLogin": [
+    "http://localhost:3000/wallpaper/desktop/frame-001.webp"
+  ],
+  "frameRequestsBeforeLoginCount": 1,
+  "frameRequestsAfterLoginCount": 82,
+  "timeToFirstFrameMs": 1932,
+  "idleRafPerSec": 0,
+  "tracingFps4xThrottle": 137,
+  "tracingP95Ms4xThrottle": 12.2,
+  "pointerToDrawLatencyEstMs": 12.2,
+  "usedJSHeapMB": 5.57,
+  "cacheDecodedMB": 94.92,
+  "cacheDecodedCount": 12,
+  "firstLoadJSKB": 221,
+  "cacheBelow100MBCap": true,
+  "cacheCountBelow24Cap": true
+}

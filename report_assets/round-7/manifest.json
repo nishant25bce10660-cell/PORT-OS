@@ -1,6 +1,6 @@
 {
   "round": 7,
-  "timestamp": "2026-10-25T19:01:16.601Z",
+  "timestamp": "2026-10-28T23:14:52.470Z",
   "checks": {
     "R7_NO_GLOBAL_EDIT_OR_SEARCH": {
       "status": "PASS",
@@ -19,17 +19,17 @@
     },
     "R7_CONTEXTUAL_MENU_SYSTEM": {
       "status": "PASS",
-      "details": "Context menu system handles object targeting, viewport clamping & Escape dismissal",
+      "details": "Context menu system handles object targeting, viewport clamping & Escape dismissal (wallpaper customization removed)",
       "screenshot": null
     },
     "R7_MOVABLE_DESKTOP_ICONS": {
       "status": "PASS",
-      "details": "Desktop icon moved smoothly from translate3d(24px, 52px, 0px) to translate3d(160px, 160px, 0px) with 16px snap",
+      "details": "Desktop icon moved smoothly from translate3d(var(--slot-x, 1336px), var(--slot-y, 48px), 0) to translate3d(var(--slot-x, 1336px), var(--slot-y, 256px), 0) with 16px snap",
       "screenshot": "report_assets/round-7/round7_movable_icons_evidence.png"
     },
     "R7_CONSOLIDATED_CUSTOMIZATION_SETTINGS": {
       "status": "PASS",
-      "details": "Settings contains consolidated Customization with Dual Wallpapers, Clock & Effects Library",
+      "details": "Settings contains consolidated Customization with Clock & Effects Library (Wallpapers completely retired per W8)",
       "screenshot": "report_assets/round-7/round7_customization_settings_evidence.png"
     },
     "R7_SILK_WAVE_SHADER_REPAIRED": {

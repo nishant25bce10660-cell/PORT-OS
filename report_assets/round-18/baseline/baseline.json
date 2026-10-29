@@ -1,0 +1,252 @@
+{
+  "boot_sequence": {
+    "trigger": "Initial page load with unbooted session",
+    "duration": 800,
+    "startTransform": "none",
+    "endTransform": "none",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 45,
+    "p95": 581.8
+  },
+  "login_switch_shake": {
+    "trigger": "Failed login click or tab switch",
+    "duration": 600,
+    "startTransform": "translateX(0px)",
+    "endTransform": "translateX(0px)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 128,
+    "p95": 12.1
+  },
+  "lock_to_desktop": {
+    "trigger": "Successful authentication",
+    "duration": 1000,
+    "startTransform": "scale(1)",
+    "endTransform": "scale(1)",
+    "startOpacity": 1,
+    "endOpacity": 0,
+    "fps": 128,
+    "p95": 12.1
+  },
+  "wallpaper": {
+    "trigger": "Silk Wave GLSL canvas rendering loop",
+    "duration": 1000,
+    "startTransform": "none",
+    "endTransform": "none",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 165,
+    "p95": 6.2
+  },
+  "dock_magnification": {
+    "trigger": "Pointer traversal over dock items",
+    "duration": 800,
+    "startTransform": "translateY(0px) scale(1)",
+    "endTransform": "translateY(-12.1px) scale(1.55)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 146,
+    "p95": 6.3
+  },
+  "dock_entrance": {
+    "trigger": "Desktop mount slide-up",
+    "duration": 400,
+    "startTransform": "translateY(40px)",
+    "endTransform": "translateY(0px)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "dock_bounce": {
+    "trigger": "Click on unopened dock icon",
+    "duration": 520,
+    "startTransform": "translateY(0px)",
+    "endTransform": "translateY(0px)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "warm_tooltip": {
+    "trigger": "Hover on dock icon with 80ms warm delay",
+    "duration": 150,
+    "startTransform": "scale(0.92)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "dock_speech_bubble": {
+    "trigger": "Right-click on dock item",
+    "duration": 200,
+    "startTransform": "scale(0.95)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "window_open": {
+    "trigger": "Dock icon click or desktop double click",
+    "duration": 240,
+    "startTransform": "scale(0.92)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "window_drag": {
+    "trigger": "Titlebar mousedown + pointermove",
+    "duration": 500,
+    "startTransform": "translate3d(0px, 0px, 0)",
+    "endTransform": "translate3d(60px, 40px, 0)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 155,
+    "p95": 6.2
+  },
+  "window_resize": {
+    "trigger": "8-handle pointer drag",
+    "duration": 400,
+    "startTransform": "none",
+    "endTransform": "none",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "window_snap": {
+    "trigger": "Window drag near screen edge",
+    "duration": 280,
+    "startTransform": "scale(0.98)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0.7,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "window_minimise": {
+    "trigger": "Traffic light yellow button click",
+    "duration": 220,
+    "startTransform": "scale(1)",
+    "endTransform": "scale(0.12)",
+    "startOpacity": 1,
+    "endOpacity": 0,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "window_close": {
+    "trigger": "Traffic light red button click",
+    "duration": 140,
+    "startTransform": "scale(1)",
+    "endTransform": "scale(0.95)",
+    "startOpacity": 1,
+    "endOpacity": 0,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "file_pills": {
+    "trigger": "Desktop folder icon hover",
+    "duration": 240,
+    "startTransform": "scale(0.7)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 118,
+    "p95": 12.2
+  },
+  "desktop_icon_select_drag": {
+    "trigger": "Desktop item single click / drag",
+    "duration": 200,
+    "startTransform": "scale(1)",
+    "endTransform": "scale(1)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "context_menus": {
+    "trigger": "Right-click on desktop/window/item",
+    "duration": 160,
+    "startTransform": "scale(0.95)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "quick_look": {
+    "trigger": "Spacebar press on selected item",
+    "duration": 180,
+    "startTransform": "scale(0.96)",
+    "endTransform": "scale(1)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "comet_dial": {
+    "trigger": "Rotary knob drag or keyboard arrow step",
+    "duration": 120,
+    "startTransform": "rotate(0deg)",
+    "endTransform": "rotate(45deg)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "widget_effects": {
+    "trigger": "Widget hover / drag snap / live clock pulse",
+    "duration": 300,
+    "startTransform": "scale(1)",
+    "endTransform": "scale(1.02)",
+    "startOpacity": 1,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "toasts": {
+    "trigger": "System action confirmation notification",
+    "duration": 320,
+    "startTransform": "translateY(-20px)",
+    "endTransform": "translateY(0px)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "trash_actions": {
+    "trigger": "Drop item on dock trash or click Put Back",
+    "duration": 250,
+    "startTransform": "scale(1)",
+    "endTransform": "scale(0.8)",
+    "startOpacity": 1,
+    "endOpacity": 0,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "finder_view_changes": {
+    "trigger": "Toolbar view segment switch (Icons/List/Cols/Gallery)",
+    "duration": 180,
+    "startTransform": "none",
+    "endTransform": "none",
+    "startOpacity": 0.6,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  },
+  "settings_panels": {
+    "trigger": "Sidebar category switch in System Settings",
+    "duration": 220,
+    "startTransform": "translateX(8px)",
+    "endTransform": "translateX(0px)",
+    "startOpacity": 0,
+    "endOpacity": 1,
+    "fps": 60,
+    "p95": 16.6
+  }
+}

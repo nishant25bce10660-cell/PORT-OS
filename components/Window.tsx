@@ -15,6 +15,7 @@ export interface WindowState {
   zIndex: number;
   isMinimized: boolean;
   isActive?: boolean;
+  isRestoring?: boolean;
   snapMode: SnapMode;
   prevBounds?: { x: number; y: number; width: number; height: number };
 }
@@ -56,6 +57,253 @@ export default function Window({
   const shellRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [animState, setAnimState] = useState<'idle' | 'minimizing' | 'closing'>('idle');
+  const animTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const phaseTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (animTimerRef.current) clearTimeout(animTimerRef.current);
+      if (phaseTimerRef.current) clearTimeout(phaseTimerRef.current);
+    };
+  }, []);
+
+  // Ensure animState and shell styles reset to idle on non-minimized idle state
+  useEffect(() => {
+    if (!win.isMinimized && !win.isRestoring) {
+      setAnimState('idle');
+      if (shellRef.current) {
+        shellRef.current.style.opacity = '1';
+        shellRef.current.style.pointerEvents = 'auto';
+        shellRef.current.style.transform = `translate3d(${win.x}px, ${win.y}px, 0)`;
+      }
+    }
+  }, [win.isMinimized, win.isRestoring, win.x, win.y]);
+
+  const handleMinimizeClick = useCallback((e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (animState === 'minimizing' || animState === 'closing') return;
+
+    if (animTimerRef.current) clearTimeout(animTimerRef.current);
+    if (phaseTimerRef.current) clearTimeout(phaseTimerRef.current);
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      if (shellRef.current) {
+        shellRef.current.style.transition = 'opacity 0.12s ease';
+        shellRef.current.style.opacity = '0';
+      }
+      animTimerRef.current = setTimeout(() => {
+        onMinimize(win.id);
+      }, 120);
+      return;
+    }
+
+    setAnimState('minimizing');
+
+    // Phase 1 (0–180 ms): Compresses slightly (scale ~0.97), starts fading, drifts down ~12 px
+    // Transform origin at its bottom centre; titlebar remains interactive for rapid interrupts
+    if (shellRef.current) {
+      shellRef.current.style.transformOrigin = '50% 100%';
+      shellRef.current.style.willChange = 'transform, opacity';
+      shellRef.current.style.transition = 'transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1)';
+      shellRef.current.style.transform = `translate3d(${win.x}px, ${win.y + 12}px, 0) scale(0.97)`;
+      shellRef.current.style.opacity = '0.75';
+    }
+
+    // Phase 2 (180–480 ms, duration 300ms): Glides along curve to dock target, shrinking to ~0.12, fading to 0
+    phaseTimerRef.current = setTimeout(() => {
+      if (!shellRef.current) return;
+
+      let destX = typeof window !== 'undefined' ? window.innerWidth / 2 : 720;
+      let destY = typeof window !== 'undefined' ? window.innerHeight - 28 : 850;
+
+      const targetEl =
+        document.getElementById(`dock-item-${win.id}`) ||
+        document.getElementById(`dock-minimized-${win.id}`) ||
+        document.getElementById('dock-item-finder') ||
+        document.getElementById('macos-dock');
+
+      if (targetEl) {
+        const rect = targetEl.getBoundingClientRect();
+        destX = rect.left + rect.width / 2;
+        destY = rect.top + rect.height / 2;
+      }
+
+      const winBottomCenterX = win.x + win.width / 2;
+      const winBottomCenterY = win.y + win.height;
+      const deltaX = destX - winBottomCenterX;
+      const deltaY = destY - winBottomCenterY;
+
+      shellRef.current.style.transformOrigin = '50% 100%';
+      shellRef.current.style.willChange = 'transform, opacity';
+      shellRef.current.style.transition = 'transform 0.30s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.30s cubic-bezier(0.4, 0, 0.2, 1)';
+      shellRef.current.style.transform = `translate3d(${win.x + deltaX}px, ${win.y + deltaY}px, 0) scale(0.12)`;
+      shellRef.current.style.opacity = '0';
+      shellRef.current.style.pointerEvents = 'none';
+    }, 180);
+
+    animTimerRef.current = setTimeout(() => {
+      setAnimState('idle');
+      onMinimize(win.id);
+    }, 470);
+  }, [animState, win.id, win.x, win.y, win.width, win.height, onMinimize]);
+
+  const handleCloseClick = useCallback((e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (animState === 'closing') return;
+
+    if (animTimerRef.current) clearTimeout(animTimerRef.current);
+    if (phaseTimerRef.current) clearTimeout(phaseTimerRef.current);
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      if (shellRef.current) {
+        shellRef.current.style.transition = 'opacity 0.12s ease';
+        shellRef.current.style.opacity = '0';
+      }
+      animTimerRef.current = setTimeout(() => {
+        onClose(win.id);
+      }, 120);
+      return;
+    }
+
+    setAnimState('closing');
+
+    // Close: 180 ms: scale 1 to 0.94, translate down 6 px, opacity to 0, then unmount
+    if (shellRef.current) {
+      shellRef.current.style.transformOrigin = 'center center';
+      shellRef.current.style.transition = 'transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.18s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      shellRef.current.style.transform = `translate3d(${win.x}px, ${win.y + 6}px, 0) scale(0.94)`;
+      shellRef.current.style.opacity = '0';
+      shellRef.current.style.pointerEvents = 'none';
+    }
+
+    animTimerRef.current = setTimeout(() => {
+      onClose(win.id);
+    }, 180);
+  }, [animState, win.id, win.x, win.y, onClose]);
+
+  // Handle Restore animation: 420 ms reverse glide from dock target to original rectangle
+  useEffect(() => {
+    if (win.isRestoring && shellRef.current) {
+      if (animTimerRef.current) clearTimeout(animTimerRef.current);
+      if (phaseTimerRef.current) clearTimeout(phaseTimerRef.current);
+      setAnimState('idle');
+      const el = shellRef.current;
+      const prefersReducedMotion =
+        typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion) {
+        el.style.transformOrigin = '50% 100%';
+        el.style.transform = `translate3d(${win.x}px, ${win.y}px, 0) scale(1)`;
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.12s ease';
+        const raf = requestAnimationFrame(() => {
+          el.style.opacity = '1';
+        });
+        const t = setTimeout(() => {
+          onUpdateBounds(win.id, { isRestoring: false });
+          onFocus(win.id);
+        }, 120);
+        return () => {
+          cancelAnimationFrame(raf);
+          clearTimeout(t);
+        };
+      }
+
+      let destX = typeof window !== 'undefined' ? window.innerWidth / 2 : 720;
+      let destY = typeof window !== 'undefined' ? window.innerHeight - 28 : 850;
+
+      const targetEl =
+        document.getElementById(`dock-minimized-${win.id}`) ||
+        document.getElementById(`dock-item-${win.id}`) ||
+        document.getElementById('dock-item-finder') ||
+        document.getElementById('macos-dock');
+
+      if (targetEl) {
+        const rect = targetEl.getBoundingClientRect();
+        destX = rect.left + rect.width / 2;
+        destY = rect.top + rect.height / 2;
+      }
+
+      const winBottomCenterX = win.x + win.width / 2;
+      const winBottomCenterY = win.y + win.height;
+      const deltaX = destX - winBottomCenterX;
+      const deltaY = destY - winBottomCenterY;
+
+      // Start frame at dock target
+      el.style.transformOrigin = '50% 100%';
+      el.style.transition = 'none';
+      el.style.transform = `translate3d(${win.x + deltaX}px, ${win.y + deltaY}px, 0) scale(0.12)`;
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+
+      // Force reflow so initial transform commits
+      void el.offsetWidth;
+
+      const raf = requestAnimationFrame(() => {
+        el.style.transition = 'transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        el.style.transform = `translate3d(${win.x}px, ${win.y}px, 0) scale(1)`;
+        el.style.opacity = '1';
+      });
+
+      const finishTimer = setTimeout(() => {
+        if (shellRef.current) {
+          shellRef.current.style.transition = '';
+          shellRef.current.style.transform = `translate3d(${win.x}px, ${win.y}px, 0)`;
+          shellRef.current.style.opacity = '1';
+          shellRef.current.style.pointerEvents = 'auto';
+        }
+        onUpdateBounds(win.id, { isRestoring: false });
+        onFocus(win.id);
+      }, 420);
+
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(finishTimer);
+      };
+    }
+  }, [win.isRestoring, win.id, win.x, win.y, win.width, win.height, onUpdateBounds, onFocus]);
+
+  // Support external programmatic trigger (e.g. from context menu or dock item click)
+  useEffect(() => {
+    const handleExtMinimize = (e: any) => {
+      if (e.detail?.id === win.id) {
+        handleMinimizeClick();
+      }
+    };
+    const handleExtClose = (e: any) => {
+      if (e.detail?.id === win.id) {
+        handleCloseClick();
+      }
+    };
+    const handleExtRestore = (e: any) => {
+      if (e.detail?.id === win.id) {
+        if (animTimerRef.current) clearTimeout(animTimerRef.current);
+        if (phaseTimerRef.current) clearTimeout(phaseTimerRef.current);
+        setAnimState('idle');
+        if (shellRef.current) {
+          shellRef.current.style.transition = 'transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+          shellRef.current.style.transform = `translate3d(${win.x}px, ${win.y}px, 0) scale(1)`;
+          shellRef.current.style.opacity = '1';
+          shellRef.current.style.pointerEvents = 'auto';
+        }
+        onUpdateBounds(win.id, { isRestoring: false, isMinimized: false });
+        onFocus(win.id);
+      }
+    };
+    window.addEventListener('portos-trigger-minimize', handleExtMinimize);
+    window.addEventListener('portos-trigger-close', handleExtClose);
+    window.addEventListener('portos-trigger-restore', handleExtRestore);
+    return () => {
+      window.removeEventListener('portos-trigger-minimize', handleExtMinimize);
+      window.removeEventListener('portos-trigger-close', handleExtClose);
+      window.removeEventListener('portos-trigger-restore', handleExtRestore);
+    };
+  }, [win.id, win.x, win.y, handleMinimizeClick, handleCloseClick, onUpdateBounds, onFocus]);
 
   const isDraggingRef = useRef(false);
   const dragDataRef = useRef({
@@ -83,14 +331,14 @@ export default function Window({
     currentH: 0,
   });
 
-  // Sync shell style when props change (if not actively dragging or resizing)
+  // Sync shell style when props change (if not actively dragging, resizing, or animating)
   useEffect(() => {
-    if (!shellRef.current || isDraggingRef.current || isResizingRef.current) return;
+    if (!shellRef.current || isDraggingRef.current || isResizingRef.current || animState !== 'idle') return;
     shellRef.current.style.transform = `translate3d(${win.x}px, ${win.y}px, 0)`;
     shellRef.current.style.width = `${win.width}px`;
     shellRef.current.style.height = `${win.height}px`;
     shellRef.current.style.zIndex = `${win.zIndex}`;
-  }, [win.x, win.y, win.width, win.height, win.zIndex]);
+  }, [win.x, win.y, win.width, win.height, win.zIndex, animState]);
 
   // Focus on outer container pointerdown
   const handleContainerPointerDown = useCallback(() => {
@@ -461,10 +709,7 @@ export default function Window({
                   type="button"
                   className="traffic-light traffic-light-close"
                   id={`btn-close-${win.id}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onClose(win.id);
-                  }}
+                  onClick={handleCloseClick}
                   aria-label="Close"
                 >
                   <span className="traffic-icon">✕</span>
@@ -478,10 +723,7 @@ export default function Window({
                     type="button"
                     className="traffic-light traffic-light-minimize"
                     id={`btn-minimize-${win.id}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onMinimize(win.id);
-                    }}
+                    onClick={handleMinimizeClick}
                     aria-label="Minimize"
                   >
                     <span className="traffic-icon">−</span>

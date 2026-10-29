@@ -1,0 +1,119 @@
+{
+  "allPassed": true,
+  "passConditions": {
+    "webglContextExactlyOne": true,
+    "zeroContextLosses": true,
+    "zeroCanvasResizes": true,
+    "monotonicTime": true,
+    "minLuminanceAbove3Pct": true,
+    "consecutiveFrameChangeBelow6Pct": true,
+    "hoverLuminanceVarianceBelow2Pct": true,
+    "exactlyThreeEffectCards": true,
+    "zeroDeprecatedFallbacks": true,
+    "realClassesApplied": true,
+    "maxThreeBackdropFilters": true,
+    "zeroGovernorRemnants": true
+  },
+  "wallpaperMetrics": {
+    "canvasExists": true,
+    "contextCount": 1,
+    "webglCalls": [
+      {
+        "type": "webgl2",
+        "time": 220.69999999925494,
+        "id": "unnamed",
+        "className": ""
+      }
+    ],
+    "contextLostCount": 0,
+    "canvasResizeCount": 0,
+    "programCount": 1,
+    "dpr": 1.0000000149011612,
+    "canvasStyle": {
+      "position": "fixed",
+      "inset": "0px",
+      "zIndex": "-1",
+      "contain": "strict",
+      "pointerEvents": "none"
+    },
+    "containerStyle": {
+      "position": "fixed",
+      "inset": "0px",
+      "zIndex": "-1",
+      "contain": "strict"
+    },
+    "currentTime": 11.308900000002982
+  },
+  "minLuminance": 0.0642545044934638,
+  "maxConsecutiveChange": 0.03030344338234904,
+  "dockLumDiff": 0.00026609174836543514,
+  "folderLumDiff": 0.0010700286764676742,
+  "effectsCatalog": {
+    "cardCount": 3,
+    "cardData": [
+      {
+        "key": "glassmorphism",
+        "id": "effect-card-glassmorphism",
+        "text": "Glassmorphism Card\n○ Off\nFrosted backdrop blur & satin border",
+        "active": false
+      },
+      {
+        "key": "liquidGlass",
+        "id": "effect-card-liquidGlass",
+        "text": "Liquid Glass\n● Active\nLayered translucency & refractive sheen",
+        "active": true
+      },
+      {
+        "key": "ambientGlow",
+        "id": "effect-card-ambientGlow",
+        "text": "Ambient Glow\n○ Off\nVolumetric color spill around active cards",
+        "active": false
+      }
+    ],
+    "deprecatedFallbacks": [
+      {
+        "selector": "#toggle-fx-magneticHover",
+        "exists": false
+      },
+      {
+        "selector": "#toggle-fx-tiltEffect",
+        "exists": false
+      },
+      {
+        "selector": "#toggle-fx-auroraMesh",
+        "exists": false
+      }
+    ]
+  },
+  "effectVerification": {
+    "glassmorphism": {
+      "key": "glassmorphism",
+      "isActive": true,
+      "expectedClass": "fx-glassmorphism",
+      "bodyHasClass": true,
+      "deskHasClass": true
+    },
+    "liquidGlass": {
+      "key": "liquidGlass",
+      "isActive": false,
+      "expectedClass": "fx-liquid-glass",
+      "bodyHasClass": false,
+      "deskHasClass": false
+    },
+    "ambientGlow": {
+      "key": "ambientGlow",
+      "isActive": true,
+      "expectedClass": "fx-ambient-glow",
+      "bodyHasClass": true,
+      "deskHasClass": true
+    }
+  },
+  "backdropFilterSurfacesCount": 2,
+  "perfModeCheck": {
+    "bodyTier": null,
+    "htmlTier": null,
+    "localPerfMode": null,
+    "hasQualityGovernorGlobal": false
+  },
+  "date": "2026-10-27T17:41:04.966Z"
+}

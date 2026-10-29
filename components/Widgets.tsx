@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Widget, WidgetType, ClockConfig, DEFAULT_CLOCK_CONFIG } from '@/lib/types';
 import { renderCustomWidgetBlocks } from './WidgetStudio';
 import WarmTooltip, { WarmTooltipGroup } from './WarmTooltip';
+import SpringCheck from './SpringCheck';
 
 interface WidgetsProps {
   widgets: Widget[];
@@ -19,6 +20,9 @@ interface WidgetsProps {
   onContextMenuWidget?: (e: React.MouseEvent, widget: Widget) => void;
   totalFiles: number;
   totalProjects: number;
+  widgetDisplacements?: Record<string, { x: number; y: number }>;
+  expansionProgress?: number;
+  desktopSide?: 'left' | 'right';
 }
 
 // 1. Quick Note Editor with 280-char counter and debounced autosave
@@ -98,6 +102,230 @@ function NoteEditor({
   );
 }
 
+// 2. Interactive To-Do Widget Content with SpringCheck physics
+function TodoWidgetContent({
+  widget,
+  canEdit = true,
+  onUpdateWidgetConfig,
+}: {
+  widget: Widget;
+  canEdit?: boolean;
+  onUpdateWidgetConfig?: (id: string, patch: Partial<Widget>) => void;
+}) {
+  const [newText, setNewText] = useState('');
+  const parseItems = useCallback(() => {
+    const rawList = widget.config?.items || widget.config?.todos || [
+      { id: '1', text: 'Refactor widget catalog', done: true },
+      { id: '2', text: 'Apple-inspired effects test', done: true },
+      { id: '3', text: 'End-to-end Trash validation', done: false },
+    ];
+    return rawList.map((it: any) => ({
+      id: String(it.id || it.text),
+      text: String(it.text || it.title || 'Untitled task'),
+      done: Boolean(it.done !== undefined ? it.done : it.completed),
+    }));
+  }, [widget.config?.items, widget.config?.todos]);
+
+  const [items, setItems] = useState(parseItems);
+
+  useEffect(() => {
+    setItems(parseItems());
+  }, [parseItems]);
+
+  const toggleItem = (itemId: string, nextChecked: boolean) => {
+    const nextItems = items.map((it) =>
+      it.id === itemId ? { ...it, done: nextChecked, completed: nextChecked } : it
+    );
+    setItems(nextItems);
+    onUpdateWidgetConfig?.(widget.id, {
+      config: {
+        ...widget.config,
+        items: nextItems,
+        todos: nextItems,
+      },
+    });
+  };
+
+  const handleAddItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newText.trim()) return;
+    const newItem = {
+      id: `todo-${Date.now()}`,
+      text: newText.trim(),
+      done: false,
+      completed: false,
+    };
+    const nextItems = [...items, newItem];
+    setItems(nextItems);
+    onUpdateWidgetConfig?.(widget.id, {
+      config: {
+        ...widget.config,
+        items: nextItems,
+        todos: nextItems,
+      },
+    });
+    setNewText('');
+  };
+
+  const handleRemoveItem = (itemId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const nextItems = items.filter((it) => it.id !== itemId);
+    setItems(nextItems);
+    onUpdateWidgetConfig?.(widget.id, {
+      config: {
+        ...widget.config,
+        items: nextItems,
+        todos: nextItems,
+      },
+    });
+  };
+
+  const completedCount = items.filter((i) => i.done).length;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', height: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ fontSize: '13px' }}>☑️</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: '#34d399' }}>{widget.title || 'Tasks'}</span>
+        </div>
+        <span style={{ fontSize: '10px', color: 'var(--tx-3)', fontWeight: 500 }}>
+          {completedCount}/{items.length} done
+        </span>
+      </div>
+
+      <div
+        className="custom-scrollbar"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2px',
+          maxHeight: '140px',
+          overflowY: 'auto',
+          paddingRight: '2px',
+        }}
+      >
+        {items.map((it) => (
+          <div
+            key={it.id}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              padding: '1px 4px',
+              borderRadius: '6px',
+              background: it.done ? 'rgba(52, 211, 153, 0.04)' : 'rgba(255,255,255,0.02)',
+              transition: 'background 0.15s ease',
+            }}
+          >
+            <SpringCheck
+              label={it.text}
+              checked={it.done}
+              disabled={!canEdit}
+              onChange={(checked) => toggleItem(it.id, checked)}
+              color="#f8fafc"
+              fillColor="#34d399"
+              checkColor="#052e16"
+              boxSize={18}
+              boxRadius={5}
+              fontSize={12}
+              rowHeight={26}
+              bounce={0.2}
+              strikeLag={0.12}
+              doneOpacity={0.42}
+              strike="left"
+            />
+            {canEdit && (
+              <button
+                type="button"
+                onClick={(e) => handleRemoveItem(it.id, e)}
+                title="Delete task"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'rgba(255,255,255,0.25)',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  padding: '2px 6px',
+                  borderRadius: '3px',
+                  transition: 'color 0.15s ease',
+                  flexShrink: 0,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.25)')}
+              >
+                ×
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {canEdit && (
+        <form onSubmit={handleAddItem} style={{ display: 'flex', gap: '4px', marginTop: 'auto', paddingTop: '4px' }}>
+          <input
+            type="text"
+            value={newText}
+            onChange={(e) => setNewText(e.target.value)}
+            placeholder="Add task..."
+            maxLength={60}
+            style={{
+              flex: 1,
+              background: 'rgba(0,0,0,0.3)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: '6px',
+              color: '#f8fafc',
+              fontSize: '11px',
+              padding: '4px 8px',
+              outline: 'none',
+            }}
+          />
+          <button
+            type="submit"
+            disabled={!newText.trim()}
+            style={{
+              background: newText.trim() ? '#34d399' : 'rgba(255,255,255,0.08)',
+              color: newText.trim() ? '#0a0e17' : 'rgba(255,255,255,0.3)',
+              border: 'none',
+              borderRadius: '6px',
+              padding: '4px 8px',
+              fontSize: '11px',
+              fontWeight: 600,
+              cursor: newText.trim() ? 'pointer' : 'default',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            +
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+export const MENUBAR_INSET = 32;
+export const DOCK_INSET = 72;
+export const DESKTOP_MARGIN = 8;
+
+export function clampWidgetPosition(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  viewportW: number,
+  viewportH: number
+): { x: number; y: number } {
+  const minX = DESKTOP_MARGIN;
+  const maxX = Math.max(minX, viewportW - width - DESKTOP_MARGIN);
+  const minY = MENUBAR_INSET;
+  const maxY = Math.max(minY, viewportH - height - DOCK_INSET);
+
+  const clampedX = Math.round(Math.max(minX, Math.min(x, maxX)) / 16) * 16;
+  const clampedY = Math.round(Math.max(minY, Math.min(y, maxY)) / 16) * 16;
+  return { x: clampedX, y: clampedY };
+}
+
 export interface WidgetControlsProps {
   widget: Widget;
   width: number;
@@ -141,6 +369,9 @@ export function WidgetControls({
               className="widget-handle widget-remove-handle"
               id={`btn-delete-widget-${widget.id}`}
               data-action="remove"
+              tabIndex={0}
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete(widget.id);
@@ -161,6 +392,9 @@ export function WidgetControls({
               className="widget-handle widget-edit-handle"
               id={`btn-edit-widget-${widget.id}`}
               data-action="edit"
+              tabIndex={0}
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
               onClick={(e) => {
                 e.stopPropagation();
                 onEdit(widget);
@@ -190,11 +424,28 @@ export default function Widgets({
   onContextMenuWidget,
   totalFiles,
   totalProjects,
+  widgetDisplacements,
+  expansionProgress,
+  desktopSide = 'right',
 }: WidgetsProps) {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [editingWidgetId, setEditingWidgetId] = useState<string | null>(null);
   const [touchActiveId, setTouchActiveId] = useState<string | null>(null);
   const touchTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Viewport tracking for centralized geometry & responsive boundary clamping
+  const [viewport, setViewport] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1440,
+    height: typeof window !== 'undefined' ? window.innerHeight : 900,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleTouchWidget = (widgetId: string) => {
     setTouchActiveId(widgetId);
@@ -283,7 +534,7 @@ export default function Widgets({
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>, widget: Widget) => {
     if (e.button !== 0) return; // Only main click drags
-    if ((e.target as HTMLElement).closest('.widget-handle, textarea, input, button')) return;
+    if ((e.target as HTMLElement).closest('.widget-handle, .widget-remove-handle-box, .widget-edit-handle-box, textarea, input, button')) return;
 
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
@@ -317,15 +568,27 @@ export default function Widgets({
       const rawX = dragRef.current.origX + dx;
       const rawY = dragRef.current.origY + dy;
 
-      // 16px Grid Snap
-      const snappedX = Math.round(rawX / 16) * 16;
-      const snappedY = Math.max(32, Math.round(rawY / 16) * 16);
+      const currentWidget = widgets.find((w) => w.id === dragRef.current?.id);
+      const dims = currentWidget
+        ? getWidgetDimensions(currentWidget.type, currentWidget.sizeMode, currentWidget.customWidth, currentWidget.customHeight)
+        : { w: 300, h: 180 };
 
-      dragRef.current.currentX = snappedX;
-      dragRef.current.currentY = snappedY;
+      // Centralized boundary clamping & 16px grid snap
+      const { x: clampedX, y: clampedY } = clampWidgetPosition(
+        rawX,
+        rawY,
+        dims.w,
+        dims.h,
+        window.innerWidth,
+        window.innerHeight
+      );
+
+      dragRef.current.currentX = clampedX;
+      dragRef.current.currentY = clampedY;
 
       if (dragRef.current.targetEl) {
-        dragRef.current.targetEl.style.transform = `translate3d(${snappedX}px, ${snappedY}px, 0)`;
+        dragRef.current.targetEl.style.left = `${clampedX}px`;
+        dragRef.current.targetEl.style.top = `${clampedY}px`;
       }
     }
   };
@@ -343,12 +606,20 @@ export default function Widgets({
 
     // Collision detection & resolution only after drag ends
     const currentWidget = widgets.find((w) => w.id === id);
-    let resolvedX = Math.round(currentX / 16) * 16;
-    let resolvedY = Math.max(32, Math.round(currentY / 16) * 16);
+    const dimA = currentWidget
+      ? getWidgetDimensions(currentWidget.type, currentWidget.sizeMode, currentWidget.customWidth, currentWidget.customHeight)
+      : { w: 300, h: 180 };
+
+    let { x: resolvedX, y: resolvedY } = clampWidgetPosition(
+      currentX,
+      currentY,
+      dimA.w,
+      dimA.h,
+      window.innerWidth,
+      window.innerHeight
+    );
 
     if (currentWidget) {
-      const dimA = getWidgetDimensions(currentWidget.type, currentWidget.sizeMode, currentWidget.customWidth, currentWidget.customHeight);
-
       // Check collision with all other widgets
       for (const other of widgets) {
         if (other.id === id) continue;
@@ -362,12 +633,29 @@ export default function Widgets({
         );
 
         if (overlaps) {
-          resolvedY = Math.max(32, Math.round((other.y + dimB.h + 16) / 16) * 16);
+          const candidateY = Math.round((other.y + dimB.h + 16) / 16) * 16;
+          if (candidateY + dimA.h <= window.innerHeight - DOCK_INSET) {
+            resolvedY = candidateY;
+          } else {
+            const candidateX = Math.round((other.x + dimB.w + 16) / 16) * 16;
+            if (candidateX + dimA.w <= window.innerWidth - DESKTOP_MARGIN) {
+              resolvedX = candidateX;
+            }
+          }
         }
       }
     }
 
-    onUpdateWidgetPosition(id, resolvedX, resolvedY);
+    const finalPos = clampWidgetPosition(
+      resolvedX,
+      resolvedY,
+      dimA.w,
+      dimA.h,
+      window.innerWidth,
+      window.innerHeight
+    );
+
+    onUpdateWidgetPosition(id, finalPos.x, finalPos.y);
   };
 
   // Time string formatting according to ClockConfig
@@ -396,19 +684,49 @@ export default function Widgets({
   return (
     <>
       {/* Render Desktop Widgets */}
-      {widgets.map((widget) => {
+      {widgets.map((widget, idx) => {
         const dims = getWidgetDimensions(widget.type, widget.sizeMode, widget.customWidth, widget.customHeight);
         const app = widget.appearance;
-        const screenW = typeof window !== 'undefined' ? window.innerWidth : 1440;
-        const screenH = typeof window !== 'undefined' ? window.innerHeight : 900;
-        const posX = Math.max(8, Math.min(widget.x, screenW - dims.w - 8));
-        const posY = Math.max(32, Math.min(widget.y, screenH - dims.h - 16));
+        const { x: posX, y: posY } = clampWidgetPosition(
+          widget.x,
+          widget.y,
+          dims.w,
+          dims.h,
+          viewport.width,
+          viewport.height
+        );
+
+        // Reserved folder zone: 0 to 280 on left, (viewport.width - 240) to viewport.width on right
+        let effectiveX = posX;
+        let effectiveY = posY;
+        if (viewport.width < 500) {
+          // On mobile, horizontal space cannot fit 320px widget alongside folder column.
+          // Place widgets vertically below the folder column (Y >= 392).
+          if (effectiveY < 392) {
+            effectiveY = 392 + idx * 16;
+          }
+          effectiveX = Math.max(16, Math.min(posX, viewport.width - dims.w - 16));
+        } else {
+          if (desktopSide === 'left') {
+            if (effectiveX < 280) effectiveX = 290;
+          } else {
+            if (effectiveX + dims.w > viewport.width - 240) {
+              effectiveX = Math.max(16, viewport.width - 240 - dims.w - 12);
+            }
+          }
+        }
+
+        const disp = widgetDisplacements?.[widget.id] || { x: 0, y: 0 };
+        const progress = expansionProgress || 0;
+        const pushX = disp.x * progress;
+        const pushY = disp.y * progress;
+        const isDisplaced = Math.abs(pushX) > 0.5 || Math.abs(pushY) > 0.5;
 
         return (
           <div
             key={widget.id}
             id={`widget-${widget.id}`}
-            className={`desktop-widget ${widget.type === 'clock' ? 'widget-clock-glow' : ''} desktop-widget-editable ${touchActiveId === widget.id ? 'is-touch-active' : ''}`}
+            className={`desktop-widget widget-push-layer ${widget.type === 'clock' ? 'widget-clock-glow' : ''} desktop-widget-editable ${touchActiveId === widget.id ? 'is-touch-active' : ''}`}
             tabIndex={0}
             onTouchStart={() => handleTouchWidget(widget.id)}
             onPointerDown={(e) => handlePointerDown(e, widget)}
@@ -422,11 +740,15 @@ export default function Widgets({
             }}
             style={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              transform: `translate3d(${posX}px, ${posY}px, 0)`,
+              top: `${effectiveY}px`,
+              left: `${effectiveX}px`,
               width: `${dims.w}px`,
               minHeight: `${dims.h}px`,
+              transform: `translate3d(var(--push-x, ${pushX.toFixed(2)}px), var(--push-y, ${pushY.toFixed(2)}px), 0)`,
+              ['--push-x' as any]: `${pushX.toFixed(2)}px`,
+              ['--push-y' as any]: `${pushY.toFixed(2)}px`,
+              pointerEvents: isDisplaced && progress > 0.05 ? 'none' : 'auto',
+              transition: dragRef.current?.id === widget.id ? 'none' : 'transform 0.24s cubic-bezier(0.16, 1, 0.3, 1)',
               backgroundColor: app?.bgColor
                 ? `${app.bgColor}${Math.round((app.bgOpacity ?? 0.8) * 255).toString(16).padStart(2, '0')}`
                 : undefined,
@@ -775,78 +1097,13 @@ export default function Widgets({
             })()}
 
             {/* 7. TO-DO LIST WIDGET */}
-            {widget.type === 'todo' && (() => {
-              const items: { id: string; text: string; done: boolean }[] = widget.config?.items || [
-                { id: '1', text: 'Refactor widget catalog', done: true },
-                { id: '2', text: 'Apple-inspired effects test', done: true },
-                { id: '3', text: 'End-to-end Trash validation', done: false },
-              ];
-
-              const toggleItem = (itemId: string) => {
-                if (!canEdit) return;
-                const nextItems = items.map((it) => (it.id === itemId ? { ...it, done: !it.done } : it));
-                onUpdateWidgetConfig?.(widget.id, { config: { ...widget.config, items: nextItems } });
-              };
-
-              return (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ fontSize: '13px' }}>☑️</span>
-                      <span style={{ fontSize: '12px', fontWeight: 600, color: '#34d399' }}>{widget.title || 'Tasks'}</span>
-                    </div>
-                    <span style={{ fontSize: '10px', color: 'var(--tx-3)' }}>
-                      {items.filter((i) => i.done).length}/{items.length} done
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '140px', overflowY: 'auto' }}>
-                    {items.map((it) => (
-                      <div
-                        key={it.id}
-                        onClick={() => toggleItem(it.id)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          padding: '3px 6px',
-                          borderRadius: '4px',
-                          cursor: canEdit ? 'pointer' : 'default',
-                          background: it.done ? 'rgba(52, 211, 153, 0.06)' : 'rgba(255,255,255,0.03)',
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: '13px',
-                            height: '13px',
-                            borderRadius: '3px',
-                            border: it.done ? '1px solid #34d399' : '1px solid rgba(255,255,255,0.25)',
-                            background: it.done ? '#34d399' : 'transparent',
-                            color: '#000',
-                            fontSize: '9px',
-                            fontWeight: 700,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          {it.done ? '✓' : ''}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '11px',
-                            color: it.done ? 'var(--tx-3)' : 'inherit',
-                            textDecoration: it.done ? 'line-through' : 'none',
-                          }}
-                        >
-                          {it.text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
+            {widget.type === 'todo' && (
+              <TodoWidgetContent
+                widget={widget}
+                canEdit={canEdit}
+                onUpdateWidgetConfig={onUpdateWidgetConfig}
+              />
+            )}
 
             {/* 8. CUSTOM METRIC CARD */}
             {widget.type === 'metric' && (

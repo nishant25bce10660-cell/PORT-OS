@@ -1,0 +1,1093 @@
+{
+  "version": "2.0.0",
+  "generatedAt": "2026-10-28T20:45:21.903Z",
+  "sourceFrameCount": 300,
+  "frameCount": 76,
+  "stride": 4,
+  "tiers": {
+    "desktop": {
+      "width": 1920,
+      "height": 1080,
+      "frameCount": 76,
+      "totalBytes": 16103942,
+      "totalBytesMB": 15.36,
+      "targetMB": 15,
+      "frames": [
+        {
+          "index": 0,
+          "sourceFrame": "ezgif-frame-001.jpg",
+          "path": "/wallpaper/desktop/frame-001.webp",
+          "bytes": 281380,
+          "sha256": "7b84d0f534bb850a172f0c42c16837272e65f24d71d354e54583d6c48a7ff024"
+        },
+        {
+          "index": 1,
+          "sourceFrame": "ezgif-frame-005.jpg",
+          "path": "/wallpaper/desktop/frame-002.webp",
+          "bytes": 271608,
+          "sha256": "5942a5ca8bccff6d660fa973827e341e6dd79602103ffa821ae538dd72787d73"
+        },
+        {
+          "index": 2,
+          "sourceFrame": "ezgif-frame-009.jpg",
+          "path": "/wallpaper/desktop/frame-003.webp",
+          "bytes": 231662,
+          "sha256": "25da294579b8cbeccb59e8550fa3f9bed4c08f3dfaf48508606ae359e1d0bfb0"
+        },
+        {
+          "index": 3,
+          "sourceFrame": "ezgif-frame-013.jpg",
+          "path": "/wallpaper/desktop/frame-004.webp",
+          "bytes": 225174,
+          "sha256": "9996228aef19e8e7b90dca525956114557789a0b1f99e5210ccdadfc9296d83a"
+        },
+        {
+          "index": 4,
+          "sourceFrame": "ezgif-frame-017.jpg",
+          "path": "/wallpaper/desktop/frame-005.webp",
+          "bytes": 228296,
+          "sha256": "a678cc6a7549d4a8c57eae16db9e877b3c7963d9542d54935e157fc8c9f1fd26"
+        },
+        {
+          "index": 5,
+          "sourceFrame": "ezgif-frame-021.jpg",
+          "path": "/wallpaper/desktop/frame-006.webp",
+          "bytes": 235226,
+          "sha256": "5d43291ad45713692c658696d518b5376c269c57d4eacf28b4e060398ac04774"
+        },
+        {
+          "index": 6,
+          "sourceFrame": "ezgif-frame-025.jpg",
+          "path": "/wallpaper/desktop/frame-007.webp",
+          "bytes": 232628,
+          "sha256": "5c5ea430cd87ebc80fa8c19477e365eb39de8ae56f651ecc6f424fb5f82d1579"
+        },
+        {
+          "index": 7,
+          "sourceFrame": "ezgif-frame-029.jpg",
+          "path": "/wallpaper/desktop/frame-008.webp",
+          "bytes": 241540,
+          "sha256": "e3d9481ffd287e28825e14c1dc27b04a38dd1b7a2ad9f477e74e2cc3595131ef"
+        },
+        {
+          "index": 8,
+          "sourceFrame": "ezgif-frame-033.jpg",
+          "path": "/wallpaper/desktop/frame-009.webp",
+          "bytes": 234884,
+          "sha256": "858af15b3b152c617524ff83e56060ea187beda9c3340c507a771c4a1ad329d9"
+        },
+        {
+          "index": 9,
+          "sourceFrame": "ezgif-frame-037.jpg",
+          "path": "/wallpaper/desktop/frame-010.webp",
+          "bytes": 237982,
+          "sha256": "920d5d5af46ea8768e282b796d86731065a0b4eda13220785890f506fcf1b89c"
+        },
+        {
+          "index": 10,
+          "sourceFrame": "ezgif-frame-041.jpg",
+          "path": "/wallpaper/desktop/frame-011.webp",
+          "bytes": 243628,
+          "sha256": "6965d0f3e14343a8be1662303319088aff7e3a694e5df7c4ae543b54b59abbac"
+        },
+        {
+          "index": 11,
+          "sourceFrame": "ezgif-frame-045.jpg",
+          "path": "/wallpaper/desktop/frame-012.webp",
+          "bytes": 243056,
+          "sha256": "93f80536e23f83652a3e12dbd4900de8fa0fad5f0f7e537302a6654e72ccb331"
+        },
+        {
+          "index": 12,
+          "sourceFrame": "ezgif-frame-049.jpg",
+          "path": "/wallpaper/desktop/frame-013.webp",
+          "bytes": 246040,
+          "sha256": "85eee30e476ab2d42473adbd86b53f50b01f2302e0f1310b1d9e3e237a3b9dd8"
+        },
+        {
+          "index": 13,
+          "sourceFrame": "ezgif-frame-053.jpg",
+          "path": "/wallpaper/desktop/frame-014.webp",
+          "bytes": 242234,
+          "sha256": "440855ff12e063c7e430bdf93efeda77159ecd264a92efee592d09e87438c1ed"
+        },
+        {
+          "index": 14,
+          "sourceFrame": "ezgif-frame-057.jpg",
+          "path": "/wallpaper/desktop/frame-015.webp",
+          "bytes": 241710,
+          "sha256": "ea7429acbc8271f7adf573935537b941227416564e9a3408757f036d3b198b3c"
+        },
+        {
+          "index": 15,
+          "sourceFrame": "ezgif-frame-061.jpg",
+          "path": "/wallpaper/desktop/frame-016.webp",
+          "bytes": 242226,
+          "sha256": "292deb34270a359f1ce7f1d115c5702d7547a12b387f56eee1b5b4f0c98536b5"
+        },
+        {
+          "index": 16,
+          "sourceFrame": "ezgif-frame-065.jpg",
+          "path": "/wallpaper/desktop/frame-017.webp",
+          "bytes": 242032,
+          "sha256": "794a20bfb0f8b1e449d5ab2824b5a9ea85087934fc46b577cd834e59b43c34d1"
+        },
+        {
+          "index": 17,
+          "sourceFrame": "ezgif-frame-069.jpg",
+          "path": "/wallpaper/desktop/frame-018.webp",
+          "bytes": 245316,
+          "sha256": "a8d55cde01f0ad3e1108810f6eea11b3d557b871294a699c8e0c6f6b5c3f6be2"
+        },
+        {
+          "index": 18,
+          "sourceFrame": "ezgif-frame-073.jpg",
+          "path": "/wallpaper/desktop/frame-019.webp",
+          "bytes": 240876,
+          "sha256": "4ec8c82101360dc885886369c3797fecb75641e5216392db452b0d7f695f0a5f"
+        },
+        {
+          "index": 19,
+          "sourceFrame": "ezgif-frame-077.jpg",
+          "path": "/wallpaper/desktop/frame-020.webp",
+          "bytes": 240486,
+          "sha256": "951d0d4e60dc34c620a3f20663765d16474ee3dcaa91ca027b890cf6dad574b0"
+        },
+        {
+          "index": 20,
+          "sourceFrame": "ezgif-frame-081.jpg",
+          "path": "/wallpaper/desktop/frame-021.webp",
+          "bytes": 240244,
+          "sha256": "03601633c6627629d503b558cdaea93348a8ae43cf782ea73b3af8b28687e25b"
+        },
+        {
+          "index": 21,
+          "sourceFrame": "ezgif-frame-085.jpg",
+          "path": "/wallpaper/desktop/frame-022.webp",
+          "bytes": 242966,
+          "sha256": "7dced89ae8f63b2d7583e8383802f1754c2e4766fb816f16b4d2cd572e7d2942"
+        },
+        {
+          "index": 22,
+          "sourceFrame": "ezgif-frame-089.jpg",
+          "path": "/wallpaper/desktop/frame-023.webp",
+          "bytes": 243092,
+          "sha256": "2427ceee8a1a5598a2d6dce728af827fbef034ef7abd0f16798e804e62149706"
+        },
+        {
+          "index": 23,
+          "sourceFrame": "ezgif-frame-093.jpg",
+          "path": "/wallpaper/desktop/frame-024.webp",
+          "bytes": 235708,
+          "sha256": "99ed6a0a4b9077ae0ad476302136b7cb81fca161678e6a40baf0be922ee3434b"
+        },
+        {
+          "index": 24,
+          "sourceFrame": "ezgif-frame-097.jpg",
+          "path": "/wallpaper/desktop/frame-025.webp",
+          "bytes": 235468,
+          "sha256": "bd287930570e3150176b5b929dc503105d83bbea28c2d391d32a86bf576eff3b"
+        },
+        {
+          "index": 25,
+          "sourceFrame": "ezgif-frame-101.jpg",
+          "path": "/wallpaper/desktop/frame-026.webp",
+          "bytes": 236204,
+          "sha256": "e6a295a1bb74bf125ca4f7f624b2de7ec3609a5cc3d49d8bc657ce156c824fc3"
+        },
+        {
+          "index": 26,
+          "sourceFrame": "ezgif-frame-105.jpg",
+          "path": "/wallpaper/desktop/frame-027.webp",
+          "bytes": 240168,
+          "sha256": "74a89163c5ed6599be55d5426bf2e214063b6ff19b2bca643c9f1e8c4cc4f6ca"
+        },
+        {
+          "index": 27,
+          "sourceFrame": "ezgif-frame-109.jpg",
+          "path": "/wallpaper/desktop/frame-028.webp",
+          "bytes": 241728,
+          "sha256": "1cb34cc9c10c32340dfc766d7675cd399ec40dff38b7d381484aa4f998937a0a"
+        },
+        {
+          "index": 28,
+          "sourceFrame": "ezgif-frame-113.jpg",
+          "path": "/wallpaper/desktop/frame-029.webp",
+          "bytes": 237860,
+          "sha256": "d0771be0482d5351cf617d2be4922afe43083c6b30cf513467211f69017aad03"
+        },
+        {
+          "index": 29,
+          "sourceFrame": "ezgif-frame-117.jpg",
+          "path": "/wallpaper/desktop/frame-030.webp",
+          "bytes": 243698,
+          "sha256": "a81904b447f1e89a3c0e42da1cd127d0f1a10425fd55a97b41e6d464a51420b6"
+        },
+        {
+          "index": 30,
+          "sourceFrame": "ezgif-frame-121.jpg",
+          "path": "/wallpaper/desktop/frame-031.webp",
+          "bytes": 241640,
+          "sha256": "71ee9349b6d0838ce540f964f6dffb01e454eed969c81d7eb7dbf35e994cb26e"
+        },
+        {
+          "index": 31,
+          "sourceFrame": "ezgif-frame-125.jpg",
+          "path": "/wallpaper/desktop/frame-032.webp",
+          "bytes": 245226,
+          "sha256": "c97c59191440c68621c1910063fdd16d6a3d209531e112ee991e102a4013d9bc"
+        },
+        {
+          "index": 32,
+          "sourceFrame": "ezgif-frame-129.jpg",
+          "path": "/wallpaper/desktop/frame-033.webp",
+          "bytes": 244936,
+          "sha256": "ac4e3c7cafa6ffa6630f258a83cdcd0826c1af9649358bc1a458c6750958da9a"
+        },
+        {
+          "index": 33,
+          "sourceFrame": "ezgif-frame-133.jpg",
+          "path": "/wallpaper/desktop/frame-034.webp",
+          "bytes": 233412,
+          "sha256": "cd4418ab28108ca6fad98b1c22155f345ee5f86cbbea7ce4b9479fd92e57c6b7"
+        },
+        {
+          "index": 34,
+          "sourceFrame": "ezgif-frame-137.jpg",
+          "path": "/wallpaper/desktop/frame-035.webp",
+          "bytes": 229536,
+          "sha256": "3d71e0fcfea91c47ee01235703e4aa6c6bb1d41b1b13fdea3158c9e95d5f4662"
+        },
+        {
+          "index": 35,
+          "sourceFrame": "ezgif-frame-141.jpg",
+          "path": "/wallpaper/desktop/frame-036.webp",
+          "bytes": 230862,
+          "sha256": "42e7c994f2c17fe3a80dfe7b85492cd235a8e97b42d9a90228f6ef934fe37ce6"
+        },
+        {
+          "index": 36,
+          "sourceFrame": "ezgif-frame-145.jpg",
+          "path": "/wallpaper/desktop/frame-037.webp",
+          "bytes": 238094,
+          "sha256": "c22de94b1093e1bc6cfdd82a3688d0b87d78fc64e427efe57e6c671039a582d8"
+        },
+        {
+          "index": 37,
+          "sourceFrame": "ezgif-frame-149.jpg",
+          "path": "/wallpaper/desktop/frame-038.webp",
+          "bytes": 242022,
+          "sha256": "56584029d740dbc928f4f723faff1b669d6682276b353ff3704bcf69183f747d"
+        },
+        {
+          "index": 38,
+          "sourceFrame": "ezgif-frame-153.jpg",
+          "path": "/wallpaper/desktop/frame-039.webp",
+          "bytes": 237696,
+          "sha256": "9f74958228d743e118d6b6ca316e10a2446bfb04a2d0d626c412fce4b36de23e"
+        },
+        {
+          "index": 39,
+          "sourceFrame": "ezgif-frame-157.jpg",
+          "path": "/wallpaper/desktop/frame-040.webp",
+          "bytes": 242228,
+          "sha256": "b30d03d1f52bb492154dbfbd77477179802c65798cefdf164b0ad951522ec6cb"
+        },
+        {
+          "index": 40,
+          "sourceFrame": "ezgif-frame-161.jpg",
+          "path": "/wallpaper/desktop/frame-041.webp",
+          "bytes": 215584,
+          "sha256": "d2806ee4eb5f020a1e7fb0798dc28cbad6c0747762c28d24e9978bcf95c2ecdd"
+        },
+        {
+          "index": 41,
+          "sourceFrame": "ezgif-frame-165.jpg",
+          "path": "/wallpaper/desktop/frame-042.webp",
+          "bytes": 222864,
+          "sha256": "51aa4c3f0b1d2c260b062ba3a38b253371747baa3222d714c748ae609854ab83"
+        },
+        {
+          "index": 42,
+          "sourceFrame": "ezgif-frame-169.jpg",
+          "path": "/wallpaper/desktop/frame-043.webp",
+          "bytes": 218946,
+          "sha256": "820a93f162bf46405c21da2209da0654d906f46607a2688f839898824e58efca"
+        },
+        {
+          "index": 43,
+          "sourceFrame": "ezgif-frame-173.jpg",
+          "path": "/wallpaper/desktop/frame-044.webp",
+          "bytes": 199390,
+          "sha256": "0341a3b0fc90ae46eeacb4627eb2984d350580164e226541743d8dca399383b5"
+        },
+        {
+          "index": 44,
+          "sourceFrame": "ezgif-frame-177.jpg",
+          "path": "/wallpaper/desktop/frame-045.webp",
+          "bytes": 182734,
+          "sha256": "d3fe6caada6639c457820715ad8111f6d23d4ae2f394d119df176ca83e6f98de"
+        },
+        {
+          "index": 45,
+          "sourceFrame": "ezgif-frame-181.jpg",
+          "path": "/wallpaper/desktop/frame-046.webp",
+          "bytes": 171462,
+          "sha256": "7a512fbc943afb1e020b7f06950407de669768158ee4d78af4775aa56599218e"
+        },
+        {
+          "index": 46,
+          "sourceFrame": "ezgif-frame-185.jpg",
+          "path": "/wallpaper/desktop/frame-047.webp",
+          "bytes": 177892,
+          "sha256": "9605d7939e1793e347f90a7f6d5f63b9b37c0f9bfcb9c6bac7f2eb35c4c7025d"
+        },
+        {
+          "index": 47,
+          "sourceFrame": "ezgif-frame-189.jpg",
+          "path": "/wallpaper/desktop/frame-048.webp",
+          "bytes": 181984,
+          "sha256": "65844f38c4b4e6262d6b1954424efb5401444e96594dd32026f524d380bc705b"
+        },
+        {
+          "index": 48,
+          "sourceFrame": "ezgif-frame-193.jpg",
+          "path": "/wallpaper/desktop/frame-049.webp",
+          "bytes": 177388,
+          "sha256": "688f04f2d84c010a6e500707e6bb7e62094763be1b3b1d3e5d5f185ff29571b7"
+        },
+        {
+          "index": 49,
+          "sourceFrame": "ezgif-frame-197.jpg",
+          "path": "/wallpaper/desktop/frame-050.webp",
+          "bytes": 178676,
+          "sha256": "4473f0f2c2c5a3cbe9542c6668ae1bf07a11dc5bc9120cdf3d735aa122c8181b"
+        },
+        {
+          "index": 50,
+          "sourceFrame": "ezgif-frame-201.jpg",
+          "path": "/wallpaper/desktop/frame-051.webp",
+          "bytes": 177500,
+          "sha256": "087de118ddd4b6817db1986ef5be052f313ab59e55e005a18c5456c41e91ec94"
+        },
+        {
+          "index": 51,
+          "sourceFrame": "ezgif-frame-205.jpg",
+          "path": "/wallpaper/desktop/frame-052.webp",
+          "bytes": 179780,
+          "sha256": "19c3c3dd42ed023918963b0453004bbb5f9c4e4d75856d23afa082cc9b2e8ad8"
+        },
+        {
+          "index": 52,
+          "sourceFrame": "ezgif-frame-209.jpg",
+          "path": "/wallpaper/desktop/frame-053.webp",
+          "bytes": 181536,
+          "sha256": "adcdf9ede44f46f9cdc6b50d7a6a4d6db1f8a8fa28c600259371a7e25026e720"
+        },
+        {
+          "index": 53,
+          "sourceFrame": "ezgif-frame-213.jpg",
+          "path": "/wallpaper/desktop/frame-054.webp",
+          "bytes": 177252,
+          "sha256": "d5dd0d701af92d0650cf479504fc752b8611d4bb26d8f3e665056489705861b1"
+        },
+        {
+          "index": 54,
+          "sourceFrame": "ezgif-frame-217.jpg",
+          "path": "/wallpaper/desktop/frame-055.webp",
+          "bytes": 177440,
+          "sha256": "01f8c8372ff6fff0b2767b5cbe54735819388376aa8f5390b7fbab003eb2ab01"
+        },
+        {
+          "index": 55,
+          "sourceFrame": "ezgif-frame-221.jpg",
+          "path": "/wallpaper/desktop/frame-056.webp",
+          "bytes": 176076,
+          "sha256": "b961f0ea5831f8eee1b963f6de863341aba1776911eefefd8641445cd1a14ece"
+        },
+        {
+          "index": 56,
+          "sourceFrame": "ezgif-frame-225.jpg",
+          "path": "/wallpaper/desktop/frame-057.webp",
+          "bytes": 174646,
+          "sha256": "1193f0b15b6685418cfd5d2ddc103944c6343896bb5bd3cc3e1b5e5a04dccdd7"
+        },
+        {
+          "index": 57,
+          "sourceFrame": "ezgif-frame-229.jpg",
+          "path": "/wallpaper/desktop/frame-058.webp",
+          "bytes": 177670,
+          "sha256": "9505173dbd6b3dac7c4f2149775fdd6187ff68b310cb587c90b7c829700c23b7"
+        },
+        {
+          "index": 58,
+          "sourceFrame": "ezgif-frame-233.jpg",
+          "path": "/wallpaper/desktop/frame-059.webp",
+          "bytes": 176820,
+          "sha256": "7e1225c62f7e8dfcab7f72a004ffc732e48362513232fdba10a875c2f0cd4c8c"
+        },
+        {
+          "index": 59,
+          "sourceFrame": "ezgif-frame-237.jpg",
+          "path": "/wallpaper/desktop/frame-060.webp",
+          "bytes": 177808,
+          "sha256": "e2aa83b81f5a5909cad73136939445f0f941589eac6ebb3fac2ec54a5307aacb"
+        },
+        {
+          "index": 60,
+          "sourceFrame": "ezgif-frame-241.jpg",
+          "path": "/wallpaper/desktop/frame-061.webp",
+          "bytes": 175474,
+          "sha256": "2eb7fae89a03b97fda7b7d1c5bbbb748cca48d70d8dfbcc2ede45b1086bef736"
+        },
+        {
+          "index": 61,
+          "sourceFrame": "ezgif-frame-245.jpg",
+          "path": "/wallpaper/desktop/frame-062.webp",
+          "bytes": 175722,
+          "sha256": "6fa08a315d1a7f6884cbd3f2d8dc6f7c90a68a66c629dfcb4701a74a20cb228e"
+        },
+        {
+          "index": 62,
+          "sourceFrame": "ezgif-frame-249.jpg",
+          "path": "/wallpaper/desktop/frame-063.webp",
+          "bytes": 178136,
+          "sha256": "1752ad081123e7df43fc103516939931f02d372cdd4f3d5361f2767b741d20ea"
+        },
+        {
+          "index": 63,
+          "sourceFrame": "ezgif-frame-253.jpg",
+          "path": "/wallpaper/desktop/frame-064.webp",
+          "bytes": 174548,
+          "sha256": "a7f724eed091fa17e11f4742b4b7c0f6bf0d17ee1f6d6dce7ae013bcde3126ed"
+        },
+        {
+          "index": 64,
+          "sourceFrame": "ezgif-frame-257.jpg",
+          "path": "/wallpaper/desktop/frame-065.webp",
+          "bytes": 174612,
+          "sha256": "34748baab07283bfc7c30eece58062446898a43e2b2b95c412960a5a4857ccfd"
+        },
+        {
+          "index": 65,
+          "sourceFrame": "ezgif-frame-261.jpg",
+          "path": "/wallpaper/desktop/frame-066.webp",
+          "bytes": 174048,
+          "sha256": "552872936fcbf9435c12bd2ca6231216091d52861ad583fc8ced9d13537ca7d2"
+        },
+        {
+          "index": 66,
+          "sourceFrame": "ezgif-frame-265.jpg",
+          "path": "/wallpaper/desktop/frame-067.webp",
+          "bytes": 173132,
+          "sha256": "2127b5cd1f1e6ec3c8b273ebd14b2b426409c607653e3d1fed4944a477cb192e"
+        },
+        {
+          "index": 67,
+          "sourceFrame": "ezgif-frame-269.jpg",
+          "path": "/wallpaper/desktop/frame-068.webp",
+          "bytes": 175654,
+          "sha256": "9c1a3bf5adb94d73692601118e51a6d4ddf205a169c142923f1fddb96fbff82f"
+        },
+        {
+          "index": 68,
+          "sourceFrame": "ezgif-frame-273.jpg",
+          "path": "/wallpaper/desktop/frame-069.webp",
+          "bytes": 171584,
+          "sha256": "3a3c3282537def98948e3bf08c76c3bf3d557b6c48c731a16cc6afe8fe59d8dd"
+        },
+        {
+          "index": 69,
+          "sourceFrame": "ezgif-frame-277.jpg",
+          "path": "/wallpaper/desktop/frame-070.webp",
+          "bytes": 171868,
+          "sha256": "b755f740eba8323f2ae4e48c02cb0ed2cf0113ca6725cf9747b6202d6ed64bc2"
+        },
+        {
+          "index": 70,
+          "sourceFrame": "ezgif-frame-281.jpg",
+          "path": "/wallpaper/desktop/frame-071.webp",
+          "bytes": 172330,
+          "sha256": "6bafc669af27174fc22033b41a677bc8a487191a1ed9915ecbb6ec7034f2528e"
+        },
+        {
+          "index": 71,
+          "sourceFrame": "ezgif-frame-285.jpg",
+          "path": "/wallpaper/desktop/frame-072.webp",
+          "bytes": 170858,
+          "sha256": "ab97b9da1a0e2b6d66998f7302edf99a7d9459fa6ab2fa9f75fb6dd1aec5c15e"
+        },
+        {
+          "index": 72,
+          "sourceFrame": "ezgif-frame-289.jpg",
+          "path": "/wallpaper/desktop/frame-073.webp",
+          "bytes": 173850,
+          "sha256": "c3f7f8d9ed349f77747b8466e0fb13cf40a10efcd79865f9e5651292e2b0a54d"
+        },
+        {
+          "index": 73,
+          "sourceFrame": "ezgif-frame-293.jpg",
+          "path": "/wallpaper/desktop/frame-074.webp",
+          "bytes": 169142,
+          "sha256": "3d40ce98520eaf1bed45b692f3548fbf04ee83cb61639971169713269e7d64d4"
+        },
+        {
+          "index": 74,
+          "sourceFrame": "ezgif-frame-297.jpg",
+          "path": "/wallpaper/desktop/frame-075.webp",
+          "bytes": 169620,
+          "sha256": "0c72bf8c54df5a2cf829b6135af778068de9b3cc66d007eac2cf5e80e57e4fd8"
+        },
+        {
+          "index": 75,
+          "sourceFrame": "ezgif-frame-300.jpg",
+          "path": "/wallpaper/desktop/frame-076.webp",
+          "bytes": 169144,
+          "sha256": "f431b04ad095402036e05bd8d5ea234f306eb4da5ba5c189cd602b2bf685860b"
+        }
+      ]
+    },
+    "small": {
+      "width": 960,
+      "height": 540,
+      "frameCount": 76,
+      "totalBytes": 5357566,
+      "totalBytesMB": 5.11,
+      "targetMB": 6,
+      "frames": [
+        {
+          "index": 0,
+          "sourceFrame": "ezgif-frame-001.jpg",
+          "path": "/wallpaper/small/frame-001.webp",
+          "bytes": 89684,
+          "sha256": "f20462183d5afefcdef159f542120fe3967705252baf8c1aa2e3a69913bf3b0a"
+        },
+        {
+          "index": 1,
+          "sourceFrame": "ezgif-frame-005.jpg",
+          "path": "/wallpaper/small/frame-002.webp",
+          "bytes": 90346,
+          "sha256": "615a3da9efe6f22e5b46025175b2296685659df07650e9304d6628f5be1ce684"
+        },
+        {
+          "index": 2,
+          "sourceFrame": "ezgif-frame-009.jpg",
+          "path": "/wallpaper/small/frame-003.webp",
+          "bytes": 75718,
+          "sha256": "186b14cdc1af053fd715385cf8cf5f29734c3c1201d92c2a0c78cd738ec028d1"
+        },
+        {
+          "index": 3,
+          "sourceFrame": "ezgif-frame-013.jpg",
+          "path": "/wallpaper/small/frame-004.webp",
+          "bytes": 75736,
+          "sha256": "453be6ce3364c315945679b7424a7a1bb9599791b0365852aa3acbf4d7750ca6"
+        },
+        {
+          "index": 4,
+          "sourceFrame": "ezgif-frame-017.jpg",
+          "path": "/wallpaper/small/frame-005.webp",
+          "bytes": 76248,
+          "sha256": "54dc492ad6d5e7ee8d600fe15a86826cfe4be7910a7b10941258c593171e5146"
+        },
+        {
+          "index": 5,
+          "sourceFrame": "ezgif-frame-021.jpg",
+          "path": "/wallpaper/small/frame-006.webp",
+          "bytes": 77738,
+          "sha256": "e525e5bf7c605a9f2e1c96042d7654dbfd40468e1ddfc7f85f71d273b3eac32b"
+        },
+        {
+          "index": 6,
+          "sourceFrame": "ezgif-frame-025.jpg",
+          "path": "/wallpaper/small/frame-007.webp",
+          "bytes": 77298,
+          "sha256": "220a7598794c0c239df3310caf0ea7be3ea7c686f198fa13ab883f0fdabb4bf4"
+        },
+        {
+          "index": 7,
+          "sourceFrame": "ezgif-frame-029.jpg",
+          "path": "/wallpaper/small/frame-008.webp",
+          "bytes": 78088,
+          "sha256": "1cddeddbf97fdd56b41b41c634d28fe6e8f1e1f5c65f170d3a1ebf229e7b522c"
+        },
+        {
+          "index": 8,
+          "sourceFrame": "ezgif-frame-033.jpg",
+          "path": "/wallpaper/small/frame-009.webp",
+          "bytes": 77700,
+          "sha256": "1e144478ab4b0c74db62c495be894f0eed155753233e0eb778f254a33798e9cc"
+        },
+        {
+          "index": 9,
+          "sourceFrame": "ezgif-frame-037.jpg",
+          "path": "/wallpaper/small/frame-010.webp",
+          "bytes": 78070,
+          "sha256": "c48bf9689fcf216e0a4cb616665b1c782561f280130cdeb6541b074801ff1484"
+        },
+        {
+          "index": 10,
+          "sourceFrame": "ezgif-frame-041.jpg",
+          "path": "/wallpaper/small/frame-011.webp",
+          "bytes": 78788,
+          "sha256": "f9348d9420f38091695bbe6c6ac973ca92bb1204e694a2c22a5674335e41b907"
+        },
+        {
+          "index": 11,
+          "sourceFrame": "ezgif-frame-045.jpg",
+          "path": "/wallpaper/small/frame-012.webp",
+          "bytes": 78662,
+          "sha256": "655f47cf063ea9f59cb76f2b73b5cd0fb8e2284a66951efacebf811debbe1e6e"
+        },
+        {
+          "index": 12,
+          "sourceFrame": "ezgif-frame-049.jpg",
+          "path": "/wallpaper/small/frame-013.webp",
+          "bytes": 79092,
+          "sha256": "30b26cc4e50c1477db30cb18081651aba7771a2333933be6d963b7aafff7b193"
+        },
+        {
+          "index": 13,
+          "sourceFrame": "ezgif-frame-053.jpg",
+          "path": "/wallpaper/small/frame-014.webp",
+          "bytes": 78616,
+          "sha256": "1829d8c215efdd83195492c7681d26436e648ed690b545e78bff7575a7d5a670"
+        },
+        {
+          "index": 14,
+          "sourceFrame": "ezgif-frame-057.jpg",
+          "path": "/wallpaper/small/frame-015.webp",
+          "bytes": 78062,
+          "sha256": "0e93cb75fb5740ae5d048701c5eba803b0740cf9a160296c07067825aa1af1bd"
+        },
+        {
+          "index": 15,
+          "sourceFrame": "ezgif-frame-061.jpg",
+          "path": "/wallpaper/small/frame-016.webp",
+          "bytes": 78028,
+          "sha256": "f857d20e5ed41a77d8d190648731151f9b92bdfb85af66f732757d9122fb04b3"
+        },
+        {
+          "index": 16,
+          "sourceFrame": "ezgif-frame-065.jpg",
+          "path": "/wallpaper/small/frame-017.webp",
+          "bytes": 78182,
+          "sha256": "dc8f9e6b2ce83a2f3da99e7f06e9f39fcd442dd2a4008473d6ec8a3f1a59fa2b"
+        },
+        {
+          "index": 17,
+          "sourceFrame": "ezgif-frame-069.jpg",
+          "path": "/wallpaper/small/frame-018.webp",
+          "bytes": 78068,
+          "sha256": "cc1c48f71243703eabf16d39dbbcf15627e988622ede9af658ac82ffbb203735"
+        },
+        {
+          "index": 18,
+          "sourceFrame": "ezgif-frame-073.jpg",
+          "path": "/wallpaper/small/frame-019.webp",
+          "bytes": 77364,
+          "sha256": "bc8192530fbecfd30c5e3c8c20a642e7a039deac0dfe6207b51125cea0ea049d"
+        },
+        {
+          "index": 19,
+          "sourceFrame": "ezgif-frame-077.jpg",
+          "path": "/wallpaper/small/frame-020.webp",
+          "bytes": 76834,
+          "sha256": "850db31f5138295c208d2a80ba8c534405dfc55cfdc07185dc3f7f32278bcdbd"
+        },
+        {
+          "index": 20,
+          "sourceFrame": "ezgif-frame-081.jpg",
+          "path": "/wallpaper/small/frame-021.webp",
+          "bytes": 76244,
+          "sha256": "2dc40da1b27e0b6cd5a27038bcffd879098c2df5bf8a1e8836abe49bd47d40f7"
+        },
+        {
+          "index": 21,
+          "sourceFrame": "ezgif-frame-085.jpg",
+          "path": "/wallpaper/small/frame-022.webp",
+          "bytes": 76428,
+          "sha256": "d8a1d75e95209514350dc48de6d55b664cf31c2a3ae71be4607d958611f605cf"
+        },
+        {
+          "index": 22,
+          "sourceFrame": "ezgif-frame-089.jpg",
+          "path": "/wallpaper/small/frame-023.webp",
+          "bytes": 76184,
+          "sha256": "ed5ad7e43d09a41e89f6713bb58019d7a59b125f613a6f111898c8405aaa9495"
+        },
+        {
+          "index": 23,
+          "sourceFrame": "ezgif-frame-093.jpg",
+          "path": "/wallpaper/small/frame-024.webp",
+          "bytes": 74542,
+          "sha256": "c42b7d9bd5acda90b603f13d7d44d7864df29501c447f099191a95612cf8a9f1"
+        },
+        {
+          "index": 24,
+          "sourceFrame": "ezgif-frame-097.jpg",
+          "path": "/wallpaper/small/frame-025.webp",
+          "bytes": 74460,
+          "sha256": "973f84ea7854686f76720fef1b7f3fefa0cc16856c2da40382f7215837dd8146"
+        },
+        {
+          "index": 25,
+          "sourceFrame": "ezgif-frame-101.jpg",
+          "path": "/wallpaper/small/frame-026.webp",
+          "bytes": 74502,
+          "sha256": "3e2aba83d8ef4a22ce83ee2a522fb5a49ff8caa51301ffb64a87fd2b34fbf81c"
+        },
+        {
+          "index": 26,
+          "sourceFrame": "ezgif-frame-105.jpg",
+          "path": "/wallpaper/small/frame-027.webp",
+          "bytes": 75312,
+          "sha256": "c2a6f34de67f3d9cc7ba9e7480ffc78e8546d286f807c377e5ece59c1e427ed0"
+        },
+        {
+          "index": 27,
+          "sourceFrame": "ezgif-frame-109.jpg",
+          "path": "/wallpaper/small/frame-028.webp",
+          "bytes": 74906,
+          "sha256": "3b8e5b78635081568ddebdec7cc5ea511f2ce987fa4be53701b0c8783cf4c02c"
+        },
+        {
+          "index": 28,
+          "sourceFrame": "ezgif-frame-113.jpg",
+          "path": "/wallpaper/small/frame-029.webp",
+          "bytes": 74704,
+          "sha256": "aa0d2cd80745c93f63fd6b36c4ec4e67adbb6967227595902142934201a87913"
+        },
+        {
+          "index": 29,
+          "sourceFrame": "ezgif-frame-117.jpg",
+          "path": "/wallpaper/small/frame-030.webp",
+          "bytes": 76462,
+          "sha256": "e244cbad9c9cb9c1ed10eb88c2965a1018d227c1b6848b5f2cf82045cf3968b9"
+        },
+        {
+          "index": 30,
+          "sourceFrame": "ezgif-frame-121.jpg",
+          "path": "/wallpaper/small/frame-031.webp",
+          "bytes": 76642,
+          "sha256": "c2a857f503c2bf94f6805c4494dbc88597518734aea58ad94df5fc1c6be938a0"
+        },
+        {
+          "index": 31,
+          "sourceFrame": "ezgif-frame-125.jpg",
+          "path": "/wallpaper/small/frame-032.webp",
+          "bytes": 77176,
+          "sha256": "183fd22f4acf09f255a2da765eda910cb295694c969f4b25c4a0f8415e8016c1"
+        },
+        {
+          "index": 32,
+          "sourceFrame": "ezgif-frame-129.jpg",
+          "path": "/wallpaper/small/frame-033.webp",
+          "bytes": 76854,
+          "sha256": "cb56bb15b417256b2877725d3c963d18ebe462012a8af9fcb8df1dcf888e7bd4"
+        },
+        {
+          "index": 33,
+          "sourceFrame": "ezgif-frame-133.jpg",
+          "path": "/wallpaper/small/frame-034.webp",
+          "bytes": 74664,
+          "sha256": "5a21b434322303132e300e07488d841a07c1d8bfdaf0870dd8ee3d0f6a61fea6"
+        },
+        {
+          "index": 34,
+          "sourceFrame": "ezgif-frame-137.jpg",
+          "path": "/wallpaper/small/frame-035.webp",
+          "bytes": 73510,
+          "sha256": "72be507653f74709366ec6bd3a4fbbe5c2e07811ccc29f1c879788dc76d8ec52"
+        },
+        {
+          "index": 35,
+          "sourceFrame": "ezgif-frame-141.jpg",
+          "path": "/wallpaper/small/frame-036.webp",
+          "bytes": 74120,
+          "sha256": "446de4feef46b166256b044d6514e368bc996f99bf228446dcb1c3b83713111a"
+        },
+        {
+          "index": 36,
+          "sourceFrame": "ezgif-frame-145.jpg",
+          "path": "/wallpaper/small/frame-037.webp",
+          "bytes": 75774,
+          "sha256": "c3840fb7f2b21609373f24339d28b8af2f203bb8544ecd8852f2ca69a95abbf7"
+        },
+        {
+          "index": 37,
+          "sourceFrame": "ezgif-frame-149.jpg",
+          "path": "/wallpaper/small/frame-038.webp",
+          "bytes": 75642,
+          "sha256": "fef8cf75a16c2ab60ef0a7da24bc2fc0177991c560a4ad75d0f3a8351e7758ab"
+        },
+        {
+          "index": 38,
+          "sourceFrame": "ezgif-frame-153.jpg",
+          "path": "/wallpaper/small/frame-039.webp",
+          "bytes": 75840,
+          "sha256": "0af2280d7f9e730c9f6e877e19a54de623d9b0f19af9225908c50c9f9efd8338"
+        },
+        {
+          "index": 39,
+          "sourceFrame": "ezgif-frame-157.jpg",
+          "path": "/wallpaper/small/frame-040.webp",
+          "bytes": 76834,
+          "sha256": "cc6c81e779187d0ef2b446d068aaad7347f7a752709b373b0e0b887ea7d56405"
+        },
+        {
+          "index": 40,
+          "sourceFrame": "ezgif-frame-161.jpg",
+          "path": "/wallpaper/small/frame-041.webp",
+          "bytes": 75134,
+          "sha256": "2f01ba3445707d5ed826d685334ae6bf9db802038b146c4d83c47f7f2d4a2f15"
+        },
+        {
+          "index": 41,
+          "sourceFrame": "ezgif-frame-165.jpg",
+          "path": "/wallpaper/small/frame-042.webp",
+          "bytes": 76022,
+          "sha256": "6a9a524f3f0bc3b1d9494e94fa3293a2752e1775db666a256b9054e1b1c39c26"
+        },
+        {
+          "index": 42,
+          "sourceFrame": "ezgif-frame-169.jpg",
+          "path": "/wallpaper/small/frame-043.webp",
+          "bytes": 74882,
+          "sha256": "c3a884a259e0bf0fefcf92457636bccfd8aee1bf23d5235422f2555db1026125"
+        },
+        {
+          "index": 43,
+          "sourceFrame": "ezgif-frame-173.jpg",
+          "path": "/wallpaper/small/frame-044.webp",
+          "bytes": 70414,
+          "sha256": "f33fef6c29ea2f8ee508fd340efe913aada85490e50871c77bc712024138d546"
+        },
+        {
+          "index": 44,
+          "sourceFrame": "ezgif-frame-177.jpg",
+          "path": "/wallpaper/small/frame-045.webp",
+          "bytes": 65368,
+          "sha256": "c32d27f8f631b01783da0ed6028f9f82409b7e5c199ccdbd8fa3312a6b2109da"
+        },
+        {
+          "index": 45,
+          "sourceFrame": "ezgif-frame-181.jpg",
+          "path": "/wallpaper/small/frame-046.webp",
+          "bytes": 62538,
+          "sha256": "13b3d0d036f0dfd7e54317d921def7e1826cdcf5a0a6bcc925da454d0c8be15d"
+        },
+        {
+          "index": 46,
+          "sourceFrame": "ezgif-frame-185.jpg",
+          "path": "/wallpaper/small/frame-047.webp",
+          "bytes": 63786,
+          "sha256": "fad91624a42624d6970fef0ae81ef34cf8614736a95052e15d55c8a4c2630660"
+        },
+        {
+          "index": 47,
+          "sourceFrame": "ezgif-frame-189.jpg",
+          "path": "/wallpaper/small/frame-048.webp",
+          "bytes": 64320,
+          "sha256": "0f8999461568e3f41115555f545ee48cbadf7ed78c48755d63d7dc76d2c2faa5"
+        },
+        {
+          "index": 48,
+          "sourceFrame": "ezgif-frame-193.jpg",
+          "path": "/wallpaper/small/frame-049.webp",
+          "bytes": 63676,
+          "sha256": "d2bd8a3ca7566d9ac0b5279364cb908a192974bd8b31b368e49ff88e16ee7524"
+        },
+        {
+          "index": 49,
+          "sourceFrame": "ezgif-frame-197.jpg",
+          "path": "/wallpaper/small/frame-050.webp",
+          "bytes": 63440,
+          "sha256": "95cd4ac0037582a8f5d84678c01e9083f039aea3be71c554304cdb6acb4f150a"
+        },
+        {
+          "index": 50,
+          "sourceFrame": "ezgif-frame-201.jpg",
+          "path": "/wallpaper/small/frame-051.webp",
+          "bytes": 63142,
+          "sha256": "46162a1bd0b5559241401c1320c3a2827d11ddc853626a67550f1d07b1b40956"
+        },
+        {
+          "index": 51,
+          "sourceFrame": "ezgif-frame-205.jpg",
+          "path": "/wallpaper/small/frame-052.webp",
+          "bytes": 64012,
+          "sha256": "49f20df0ffdb019965e7135f393c813459030cd0249074fa31264fcff1a512b1"
+        },
+        {
+          "index": 52,
+          "sourceFrame": "ezgif-frame-209.jpg",
+          "path": "/wallpaper/small/frame-053.webp",
+          "bytes": 63866,
+          "sha256": "c67740597c56eb0a8b0fb038c729333e3a0c29c10bd3c4354270a8d1b2f964fa"
+        },
+        {
+          "index": 53,
+          "sourceFrame": "ezgif-frame-213.jpg",
+          "path": "/wallpaper/small/frame-054.webp",
+          "bytes": 63480,
+          "sha256": "c59f8aa8e36f6539d6c4d8c87a40fe7f43ad04cdd5c9efde1b4395a5c73f2e40"
+        },
+        {
+          "index": 54,
+          "sourceFrame": "ezgif-frame-217.jpg",
+          "path": "/wallpaper/small/frame-055.webp",
+          "bytes": 63074,
+          "sha256": "102b047988d7a6176f81cbfdc2bd88ba3d4ef1cce1f0229dee98fbab09d28720"
+        },
+        {
+          "index": 55,
+          "sourceFrame": "ezgif-frame-221.jpg",
+          "path": "/wallpaper/small/frame-056.webp",
+          "bytes": 62308,
+          "sha256": "5901f7b29a60d3e0dce6f03c9c7fa6054a8d36632f5e96c879326b987c3d45e5"
+        },
+        {
+          "index": 56,
+          "sourceFrame": "ezgif-frame-225.jpg",
+          "path": "/wallpaper/small/frame-057.webp",
+          "bytes": 61854,
+          "sha256": "588392a5a402480b023b7fd1fbc3202382ba10a47b493e2032eb06b1ccdfe8b1"
+        },
+        {
+          "index": 57,
+          "sourceFrame": "ezgif-frame-229.jpg",
+          "path": "/wallpaper/small/frame-058.webp",
+          "bytes": 61930,
+          "sha256": "42f08af839ed0ffe7a0b8a529f17a56da5c677cc56b503e0b3449fac8211a541"
+        },
+        {
+          "index": 58,
+          "sourceFrame": "ezgif-frame-233.jpg",
+          "path": "/wallpaper/small/frame-059.webp",
+          "bytes": 61882,
+          "sha256": "940d4fc78695744df396f056ea6db4915510feeba7c2728ee722c7a6f126a509"
+        },
+        {
+          "index": 59,
+          "sourceFrame": "ezgif-frame-237.jpg",
+          "path": "/wallpaper/small/frame-060.webp",
+          "bytes": 61796,
+          "sha256": "c0b0ab4d263b3e32ede0ccc32f47c866250e077b27083a334a36d2a2b6c39bef"
+        },
+        {
+          "index": 60,
+          "sourceFrame": "ezgif-frame-241.jpg",
+          "path": "/wallpaper/small/frame-061.webp",
+          "bytes": 61258,
+          "sha256": "0d2a88e0325770cdf87d14d5d57379e0dbfc36288044ef88ab0a728715c3814c"
+        },
+        {
+          "index": 61,
+          "sourceFrame": "ezgif-frame-245.jpg",
+          "path": "/wallpaper/small/frame-062.webp",
+          "bytes": 61292,
+          "sha256": "21acdbc934732879748d9a03d9bdf5ff8357fc55c2864a59b9ed3a9056a5929b"
+        },
+        {
+          "index": 62,
+          "sourceFrame": "ezgif-frame-249.jpg",
+          "path": "/wallpaper/small/frame-063.webp",
+          "bytes": 61442,
+          "sha256": "83bc4b523f808ed2b4d3a958b3e48c4edd138f1d0d1ba2b8b9a8dc65083d0938"
+        },
+        {
+          "index": 63,
+          "sourceFrame": "ezgif-frame-253.jpg",
+          "path": "/wallpaper/small/frame-064.webp",
+          "bytes": 60800,
+          "sha256": "e5a6c31d3d82399745f11d6e76cce190d59fa88da1a58d596d1c3b4bd950ef4d"
+        },
+        {
+          "index": 64,
+          "sourceFrame": "ezgif-frame-257.jpg",
+          "path": "/wallpaper/small/frame-065.webp",
+          "bytes": 60808,
+          "sha256": "fc8b8f149ba23759ed5324fbac55e5e5a0669f600a3cdbf2de7322e9ea8f408e"
+        },
+        {
+          "index": 65,
+          "sourceFrame": "ezgif-frame-261.jpg",
+          "path": "/wallpaper/small/frame-066.webp",
+          "bytes": 60582,
+          "sha256": "ecce421f6e36356abc7cb832632fafe44f645575377c5d236318bb1d7171b24b"
+        },
+        {
+          "index": 66,
+          "sourceFrame": "ezgif-frame-265.jpg",
+          "path": "/wallpaper/small/frame-067.webp",
+          "bytes": 60446,
+          "sha256": "ec28b94661203f3ac3996766371fcdbfe04180b2f8c63e05edcd85c8295782d4"
+        },
+        {
+          "index": 67,
+          "sourceFrame": "ezgif-frame-269.jpg",
+          "path": "/wallpaper/small/frame-068.webp",
+          "bytes": 60310,
+          "sha256": "d048073c554dd87cc26fbc713f6a30fe2a2ef2a01ad9aa910cc6ff2e8c1ce1e9"
+        },
+        {
+          "index": 68,
+          "sourceFrame": "ezgif-frame-273.jpg",
+          "path": "/wallpaper/small/frame-069.webp",
+          "bytes": 59770,
+          "sha256": "04d3700198070c31c5358090dd2e69f1b0cb95b331b1552e88e95bd27cf74075"
+        },
+        {
+          "index": 69,
+          "sourceFrame": "ezgif-frame-277.jpg",
+          "path": "/wallpaper/small/frame-070.webp",
+          "bytes": 59710,
+          "sha256": "5d04c71c9b3abb1655d71b3b498ddea23c55abd8288c1266e43bf20b88ca11be"
+        },
+        {
+          "index": 70,
+          "sourceFrame": "ezgif-frame-281.jpg",
+          "path": "/wallpaper/small/frame-071.webp",
+          "bytes": 59800,
+          "sha256": "0352ffe7c1da2fc5ac7fcd1f2e07bef80577b27e03822850bdf478d457c759d7"
+        },
+        {
+          "index": 71,
+          "sourceFrame": "ezgif-frame-285.jpg",
+          "path": "/wallpaper/small/frame-072.webp",
+          "bytes": 59302,
+          "sha256": "07db53a2daab5d0ab11c65d5b5fdb1eb6444d166483258a2c098a5be94523c7b"
+        },
+        {
+          "index": 72,
+          "sourceFrame": "ezgif-frame-289.jpg",
+          "path": "/wallpaper/small/frame-073.webp",
+          "bytes": 59438,
+          "sha256": "05ced6978be1d19e66c53047ceaf28f860e68a10d30e2c46ed5f4efe01ceb8db"
+        },
+        {
+          "index": 73,
+          "sourceFrame": "ezgif-frame-293.jpg",
+          "path": "/wallpaper/small/frame-074.webp",
+          "bytes": 58958,
+          "sha256": "5ef4488a480753eaa94db1252d880eb74bf34f447107cd0f78ee1bb7be0ff3ae"
+        },
+        {
+          "index": 74,
+          "sourceFrame": "ezgif-frame-297.jpg",
+          "path": "/wallpaper/small/frame-075.webp",
+          "bytes": 59012,
+          "sha256": "91d78dd9b39291f8bcf9d4d02163027139fd5349c55c604dbb3e12018b153f7b"
+        },
+        {
+          "index": 75,
+          "sourceFrame": "ezgif-frame-300.jpg",
+          "path": "/wallpaper/small/frame-076.webp",
+          "bytes": 58592,
+          "sha256": "f37a2c52f7562399fd08d3466873959631a6810ba2abd210fada18c2a4835c43"
+        }
+      ]
+    }
+  }
+}

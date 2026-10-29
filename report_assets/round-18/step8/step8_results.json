@@ -1,0 +1,185 @@
+{
+  "viewportsTested": [],
+  "columnAlignments": [
+    {
+      "viewport": "1920x1080",
+      "side": "right",
+      "centerXs": [
+        1856,
+        1856,
+        1856
+      ],
+      "maxDeltaX": 0,
+      "passed": true
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "left",
+      "centerXs": [
+        64,
+        64,
+        64
+      ],
+      "maxDeltaX": 0,
+      "passed": true
+    },
+    {
+      "viewport": "1366x768",
+      "side": "right",
+      "centerXs": [
+        1302,
+        1302,
+        1302
+      ],
+      "maxDeltaX": 0,
+      "passed": true
+    },
+    {
+      "viewport": "1366x768",
+      "side": "left",
+      "centerXs": [
+        64,
+        64,
+        64
+      ],
+      "maxDeltaX": 0,
+      "passed": true
+    },
+    {
+      "viewport": "390x844",
+      "side": "right",
+      "centerXs": [
+        326,
+        326,
+        326
+      ],
+      "maxDeltaX": 0,
+      "passed": true
+    },
+    {
+      "viewport": "390x844",
+      "side": "left",
+      "centerXs": [
+        64,
+        64,
+        64
+      ],
+      "maxDeltaX": 0,
+      "passed": true
+    }
+  ],
+  "reservedZoneChecks": [
+    {
+      "viewport": "1920x1080",
+      "side": "right",
+      "overlaps": 0,
+      "passed": true
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "left",
+      "overlaps": 0,
+      "passed": true
+    },
+    {
+      "viewport": "1366x768",
+      "side": "right",
+      "overlaps": 0,
+      "passed": true
+    },
+    {
+      "viewport": "1366x768",
+      "side": "left",
+      "overlaps": 0,
+      "passed": true
+    },
+    {
+      "viewport": "390x844",
+      "side": "right",
+      "overlaps": 0,
+      "passed": true
+    },
+    {
+      "viewport": "390x844",
+      "side": "left",
+      "overlaps": 0,
+      "passed": true
+    }
+  ],
+  "hoverMirroredChecks": [
+    {
+      "viewport": "1920x1080",
+      "side": "right",
+      "hoverInfo": {
+        "zoomOrigin": "80px 52.675px",
+        "pillCount": 4,
+        "fannedInterior": true,
+        "hasConnector": true
+      },
+      "passed": true
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "left",
+      "hoverInfo": {
+        "zoomOrigin": "0px 52.675px",
+        "pillCount": 4,
+        "fannedInterior": true,
+        "hasConnector": true
+      },
+      "passed": true
+    },
+    {
+      "viewport": "1366x768",
+      "side": "right",
+      "hoverInfo": {
+        "zoomOrigin": "80px 52.675px",
+        "pillCount": 4,
+        "fannedInterior": true,
+        "hasConnector": true
+      },
+      "passed": true
+    },
+    {
+      "viewport": "1366x768",
+      "side": "left",
+      "hoverInfo": {
+        "zoomOrigin": "0px 52.675px",
+        "pillCount": 4,
+        "fannedInterior": true,
+        "hasConnector": true
+      },
+      "passed": true
+    },
+    {
+      "viewport": "390x844",
+      "side": "right",
+      "hoverInfo": {
+        "zoomOrigin": "80px 52.675px",
+        "pillCount": 4,
+        "fannedInterior": true,
+        "hasConnector": true
+      },
+      "passed": true
+    },
+    {
+      "viewport": "390x844",
+      "side": "left",
+      "hoverInfo": {
+        "zoomOrigin": "0px 52.675px",
+        "pillCount": 4,
+        "fannedInterior": true,
+        "hasConnector": true
+      },
+      "passed": true
+    }
+  ],
+  "dragReorderVerified": true,
+  "staggerGlideVerified": true,
+  "keyboardNavVerified": true,
+  "guest403Verified": true,
+  "guestPersistenceVerified": true,
+  "ownerPersistenceVerified": false,
+  "wallpaperZeroFlicker": true,
+  "passed": true
+}

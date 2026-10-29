@@ -11,7 +11,6 @@ interface TerminalViewProps {
   userName?: string;
   onClose?: () => void;
   onOpenWindow?: (id: string, title: string, meta: any) => void;
-  onSetWallpaper?: (wp: string) => void;
   initialCommand?: string;
 }
 
@@ -27,7 +26,6 @@ export default function TerminalView({
   userName = 'owner',
   onClose,
   onOpenWindow,
-  onSetWallpaper,
   initialCommand,
 }: TerminalViewProps) {
   const [inputVal, setInputVal] = useState('');
@@ -93,7 +91,6 @@ export default function TerminalView({
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>vault</span> - Show vault storage and file statistics</div>
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>uname -a</span> - Display system architecture & kernel</div>
             <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>date</span> - Display current ISO timestamp</div>
-            <div><span style={{ color: '#7c6cff', width: '130px', display: 'inline-block' }}>theme &lt;name&gt;</span> - Switch wallpaper theme</div>
             {userRole === 'admin' && (
               <>
                 <div><span style={{ color: '#f59e0b', width: '130px', display: 'inline-block' }}>edit &lt;file&gt;</span> - Open markdown document in FileEditor (Owner)</div>
@@ -149,7 +146,7 @@ export default function TerminalView({
               PID&nbsp;&nbsp;TTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME&nbsp;&nbsp;&nbsp;&nbsp;CMD
             </div>
             <div>&nbsp;&nbsp;1&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0:01.42&nbsp;window-manager (Zustand v5)</div>
-            <div>&nbsp;&nbsp;2&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0:04.18&nbsp;threejs-wallpaper-daemon (GLSL)</div>
+            <div>&nbsp;&nbsp;2&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0:04.18&nbsp;robot-wallpaper-daemon (Canvas2D)</div>
             <div>&nbsp;&nbsp;3&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0:00.32&nbsp;webaudio-engine (Synthesizer)</div>
             <div>&nbsp;&nbsp;4&nbsp;&nbsp;ttys000&nbsp;&nbsp;0:00.08&nbsp;portsh (Terminal 2.0)</div>
           </div>
@@ -253,26 +250,13 @@ export default function TerminalView({
         output = <div>{new Date().toISOString()}</div>;
         break;
 
-      case 'theme': {
-        const themeName = args[0]?.toLowerCase();
-        const validThemes = ['wave-shader', 'silk-midnight', 'deep-space', 'obsidian', 'aurora'];
-        if (!themeName || !validThemes.includes(themeName)) {
-          output = (
-            <div style={{ color: '#f87171' }}>
-              usage: theme &lt;name&gt;<br />
-              valid options: {validThemes.join(', ')}
-            </div>
-          );
-        } else {
-          if (onSetWallpaper) {
-            onSetWallpaper(themeName);
-            output = <div style={{ color: '#34d399' }}>Wallpaper theme updated to {themeName}</div>;
-          } else {
-            output = <div>Setting theme not available in current window</div>;
-          }
-        }
+      case 'theme':
+        output = (
+          <div style={{ color: '#9ca3af' }}>
+            portsh: theme command retired. Desktop wallpaper is system-managed.
+          </div>
+        );
         break;
-      }
 
       case 'edit':
         if (userRole !== 'admin') {

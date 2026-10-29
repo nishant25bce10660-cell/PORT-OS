@@ -208,14 +208,15 @@ async function runRound11TestSuite() {
     assert(effectsSectionExists, 'Settings Customization tab must contain Apple-Inspired Visual Effects section');
 
     // Toggle all effects ON if not already on
-    const effectKeys = ['liquidGlass', 'glassmorphism', 'magneticHover', 'tiltEffect', 'ambientGlow', 'auroraMesh'];
+    const effectKeys = ['liquidGlass', 'glassmorphism', 'ambientGlow'];
     for (const key of effectKeys) {
       const card = await page.$(`#effect-card-${key}`);
       if (card) {
         const text = await page.evaluate((el) => el.innerText, card);
         if (text.includes('○ Off')) {
+          await page.evaluate((el) => el.scrollIntoView({ block: 'nearest' }), card);
           await card.click();
-          await new Promise((r) => setTimeout(r, 150));
+          await new Promise((r) => setTimeout(r, 250));
         }
       }
     }
@@ -223,7 +224,7 @@ async function runRound11TestSuite() {
     if (saveBtn) {
       await saveBtn.click();
     }
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 1000));
 
     // Check desktop container classes and computed styles
     const effectClassesAndStyles = await page.evaluate(() => {
@@ -255,10 +256,16 @@ async function runRound11TestSuite() {
     console.log('Applied effects:', effectClassesAndStyles);
     assert(effectClassesAndStyles?.hasLiquid, 'Desktop must have .fx-liquid-glass class');
     assert(effectClassesAndStyles?.hasGlass, 'Desktop must have .fx-glassmorphism class');
-    assert(effectClassesAndStyles?.hasMagnetic, 'Desktop must have .fx-magnetic-hover class');
-    assert(effectClassesAndStyles?.hasTilt, 'Desktop must have .fx-tilt-effect class');
     assert(effectClassesAndStyles?.hasGlow, 'Desktop must have .fx-ambient-glow class');
-    assert(effectClassesAndStyles?.hasAurora, 'Desktop must have .fx-aurora-mesh class');
+    if (await page.$('#effect-card-magneticHover')) {
+      assert(effectClassesAndStyles?.hasMagnetic, 'Desktop must have .fx-magnetic-hover class');
+    }
+    if (await page.$('#effect-card-tiltEffect')) {
+      assert(effectClassesAndStyles?.hasTilt, 'Desktop must have .fx-tilt-effect class');
+    }
+    if (await page.$('#effect-card-auroraMesh')) {
+      assert(effectClassesAndStyles?.hasAurora, 'Desktop must have .fx-aurora-mesh class');
+    }
 
     const shot4 = path.join(EVIDENCE_DIR, 'R11_04_apple_effects_active.png');
     await page.screenshot({ path: shot4 });
@@ -491,10 +498,7 @@ async function runRound11TestSuite() {
               preset: 'liquid-glass',
               liquidGlass: true,
               glassmorphism: false,
-              magneticHover: false,
-              tiltEffect: false,
               ambientGlow: false,
-              auroraMesh: false,
             },
           },
         }),

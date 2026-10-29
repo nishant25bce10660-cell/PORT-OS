@@ -1,0 +1,141 @@
+<USER_REQUEST>
+PORT OS — Round 18 Loop Prompt
+
+Desktop icon click glitch · folder hover system · remaining fixes first, additions after · full re-verification and lag hunt
+
+Give this whole file to the agent (Gemini 3.8 Flash with the Chrome DevTools skill) as ONE message. The agent's memory between rounds is PROGRESS.md. (The two unnamed sections after Round 15 in PROGRESS.md, "Continuous Engineering Loop" and "Folder-Hover Root-Cause Fix", are treated as Rounds 16 and 17, so this is Round 18.)
+
+<ROLE> You are a senior front-end, QA and performance engineer with the project's source code, a shell and the Chrome DevTools skill commands `/troubleshooting`, `/chrome-devtools`, `/a11y-debugging`, `/cookie-debugging`, `/debug-optimize-lcp` and `/memory-leak-debugging`. You find root causes by measuring, fix them without breaking neighbouring features, and prove every fix live as a real user would use it. </ROLE>
+
+<STRICT_SEQUENCE_RULE> Work in STEP 0 to STEP 12, in order. Fixes come first (Steps 1 to 5). Additions come only after every fix gate has passed (Steps 6 to 9). Verification of everything comes after the additions (Step 10).
+
+Do NOT start step N+1 until step N shows GATE PASSED with evidence.
+After every step append one line to PROGRESS.md: ROUND 18 · STEP n · PASSED · evidence files · date. If you cannot write it truthfully, the step is not finished.
+If a later step breaks an earlier gate, STOP, go back, re-run that gate's verification, fix it, then continue.
+If one step fails 5 attempts, stop patching. Write a root-cause note and change the approach (for example, replace the component).
+Never skip, merge or reorder steps. Never mark a gate passed from code reading alone. </STRICT_SEQUENCE_RULE>
+
+<GLOBAL_RULES>
+
+Test only the local project on 127.0.0.1, in an isolated temporary Chrome profile, on a temporary copy of data/. Never print or write passwords, tokens or cookie values. Tests must delete everything they create.
+Evidence rule: every check needs measured numbers (rectangles, computed transforms, event logs, FPS, status codes) and its own screenshot, trace or log under report_assets/round-18/, listed in manifest.json. "The element exists" is never a pass.
+Human-like input only. Old tests teleported the pointer in 3 or 4 jumps and never clicked. Every pointer test must move in many small steps (at least 15 steps over 300-600 ms, 16 ms apart), pause like a person, then click, double-click or drag. Also test with touch emulation at 390x844.
+DO NOT BREAK OTHER ANIMATIONS. Step 0 records an "animation contract" baseline; every later gate re-runs it. Only the animations this prompt intentionally changes (dock pop-out, folder zoom and file pills, neighbour displacement, window minimise and close) may differ.
+Remove replaced code completely (components, handlers, CSS, ids, tests). Never leave two implementations.
+Role rules stay: guests are read-only for owner content; guest customisation stays in the guest's browser; owner defaults are saved on the server; the server re-checks every write.
+Use WarmTooltip for any new tooltip. No new dependency unless unavoidable and justified.
+Never claim the app is "secure" or "unhackable". </GLOBAL_RULES>
+
+<CURRENT_STATE source="PROGRESS.md Rounds 11-17">
+
+Round 15: login alignment, widget buttons, one context menu in a portal, Quick Look, dock lag work, animation budget runner.
+Round 16 reports: dock icons pop upward (contain: layout plus translateY(-22px * fitRatio)), a transparent bridge hitbox between a folder and its file pills, wallpaper display: none toggle removed, performance mode removed from Settings, user-facing effects cut to three (Glassmorphism Card, Liquid Glass, Ambient Glow) BUT hidden fallback elements for magneticHover, tiltEffect, auroraMesh were kept "for legacy tests", folder zoom of only 1.08x, nearby desktop icons displaced by a fixed +56 px / -50 px, pills fan left on the right half of the screen and right on the left half, window minimise in about 220 ms, close in 140 ms.
+Round 17 reports: pills notify DesktopIcons on enter/leave, bridge hitbox 240x240 px, 280 ms close delay, CSS transitions removed from pills, wave drift damped on hover, "reversible icon collision displacement". Tests A-G and 12/12 suites pass.
+
+NEW BUG reported by the owner (top priority): whenever a desktop app/folder logo is clicked, the logos start moving to the other side and keep moving glitchily; they cannot be opened and the hover animation stops working because of it. (Check desktop folder icons first; also test dock icons and any other app logo.)
+
+Why the green tests did not catch it (inferred, verify): the hover tests moved the pointer in a few jumps, never clicked, and only checked that one neighbour returned to its y position. They did not watch the whole interaction over time, did not log which element is under the pointer, and did not check that the base positions stay fixed after a click.
+
+Hypotheses to CONFIRM or REFUTE with data in Step 1 (do not assume any of them):
+
+H1 Hover/displacement feedback loop: expanding a folder displaces neighbours (+56/-50 px); a displaced neighbour lands under the stationary pointer, fires its own pointerenter, expands, displaces the first one back, and so on, so icons ping-pong and drift.
+H2 Transform contention: drag, displacement, hover zoom and selection all write style.transform on the same desktop-item element, so the writers overwrite each other every frame (the same defect that Round 17 found in the pills).
+H3 Measurement feedback: displacement is computed from getBoundingClientRect() of elements that already carry a transform, so every recomputation adds to the previous offset (cumulative drift).
+H4 Drag state started by a click: pointerdown begins a drag, and pointerup or pointercancel or lostpointercapture does not clear it, so the icon follows the pointer or snaps to a wrong grid cell or side.
+H5 Side flip: the expansion side is chosen from "left half or right half of the screen" using the icon's current (displaced or dragged) position, so an icon near the centre or a displaced icon flips side during one interaction.
+
+Not yet complete from the owner's earlier 7-item list (verify, then finish): neighbours moving away covers desktop icons only (widgets do not move); all folders at one selectable side is NOT implemented (the code auto-detects the half of the screen instead); minimise should be slow and fade from the bottom (220 ms is too fast); hidden fallback effects and any governor leftovers must be deleted; wallpaper glitch must be re-verified on login and home with frame-level evidence. </CURRENT_STATE>
+
+STEP 0 — Prepare, baseline, animation contract
+Back up data/ and .env.local outside the repo. Run npm ci, npm run build, npm test, npm run security; record results. Start the app; connect with /chrome-devtools (use /troubleshooting if it fails). Create identities: anonymous, guest, owner (credentials from environment variables).
+Make tests safe: they run on a temporary data copy and clean up. Prove it: run the suite twice and show the vault file list is identical before and after.
+Animation contract baseline. For each existing animation record in report_assets/round-18/baseline/: trigger, duration, start and end transform/opacity, average FPS and p95 frame time at 4x CPU throttle, and a 3-frame screenshot strip. Include at least: wallpaper (boot, login, desktop), boot sequence, login switch and shake, lock-to-desktop, window open, drag, resize, snap, minimise, close, dock entrance, dock magnification, dock bounce, dock speech-bubble menu, WarmTooltip, CometDial, context menus, Quick Look open and close, file pills, desktop icon select and drag, widget effects, toasts, Trash actions, Finder view changes, Settings panels. Save it as a re-runnable script (scripts/tests/animation-contract.mjs) that compares against the baseline with these tolerances: duration ±15 %, end state exact, FPS not more than 5 below baseline, no new console error. GATE 0 PASSED when build, tests and security are green, tests no longer pollute the vault, and the baseline and the compare script exist.
+STEP 1 — Reproduce and instrument the click glitch (NO fixes yet)
+Add a probe (scripts/devtools/icon-glitch-probe.mjs, run through /chrome-devtools evaluate_script) that, for every desktop item, pill and bridge element, records every animation frame for 4 s after each action: layout position (offsetLeft, offsetTop of the untransformed slot), getBoundingClientRect(), computed transform, and elementFromPoint at the pointer position. It must also log every pointerenter, pointerleave, pointerdown, pointerup, pointercancel, lostpointercapture, click and dblclick with target, relatedTarget and a timestamp, and install a writer trace: wrap the CSSStyleDeclaration transform setter, setProperty, and setAttribute('style', ...) so each write logs a stack trace. Count distinct writers per element per second.
+Reproduce with real human-like input (each scenario at 1920x1080 and 1366x768, then touch at 390x844):
+S1 click an icon, keep the pointer still for 4 s.
+S2 click an icon, then move the pointer 20 px.
+S3 hover 1 s, then click.
+S4 click the three folders one after another.
+S5 quick double-click (open).
+S6 click an icon while another is expanded.
+S7 click a dock icon and wait 4 s; click each dock icon.
+S8 press and release without moving, with right button, and with a cancelled pointer (drag outside the window and release).
+For each scenario compute: base-position drift (slot offset change, must be 0), maximum transform amplitude, number of velocity sign changes (oscillation), hover-state transitions per second, number of side flips, and which element is under the pointer over time.
+Write the result into PROGRESS.md: a table of H1 to H5 with CONFIRMED or REFUTED and the data that proves it, plus any extra cause found. List every code path that writes transform, left, top or position CSS variables on desktop items. GATE 1 PASSED when the glitch is reproduced with numbers in at least one scenario, every hypothesis is marked confirmed or refuted with data, and the root cause(s) are named. Do not edit application code in this step.
+STEP 2 — Fix the root cause with a single-writer architecture
+
+Implement exactly this structure, replacing the current mix of writers:
+
+Four nested layers per desktop item, each owned by exactly one controller and never written by another:
+.di-slot: base position from the layout engine only (CSS variables set from saved or computed grid cell; never from transformed rectangles).
+.di-push: temporary displacement from the displacement controller (CSS variables --push-x, --push-y, applied with translate3d).
+.di-drag: drag offset from the drag controller only while a drag is active.
+.di-zoom: hover/selection scale from the hover controller.
+Pure displacement. Compute displacement only from cached BASE rectangles (read from .di-slot before any transform, or from stored layout numbers), never from getBoundingClientRect() of an element that may be transformed. Recompute only when the state changes (expand, collapse, resize, side change), not every frame. Same inputs give the same outputs (idempotent), so cycles cannot accumulate drift.
+One hover state machine for all folders: idle -> intent (60 ms) -> expanded(activeId) -> closing (280 ms grace) -> idle. Only one folder can be active. While expanded or closing, every other desktop item gets pointer-events: none so a displaced neighbour can never steal the pointer; the active folder, its pills, its connector and its bridge zone receive events. Moving back into the zone cancels closing. A click on the active folder only selects it (no collapse and re-expand, no side change). A drag start collapses the folder immediately and suspends displacement; after a drag ends no expansion starts until the pointer has left and re-entered.
+Click versus drag. A press that moves less than 5 px and ends within 300 ms is a click: it changes only the selection. pointerup, pointercancel and lostpointercapture all clear the drag state; setPointerCapture is released; a click right after a drag is swallowed; right-click never starts a drag.
+Expansion side comes from the configured side (Step 8), never from the icon's current position. Remove the "left half or right half" detection.
+Delete the old displacement code (shiftY +56 / -50), duplicate hover timers, and any code that writes transform on the item element outside its own layer. Keep FolderFloat's own pill loop untouched except for the wiring above. GATE 2 PASSED when the probe code path shows exactly one writer per layer, a code search finds no other writer, and the build passes.
+STEP 3 — Prove the glitch is gone and hover access works (all app logos)
+
+Re-run every scenario S1-S8 with the probe, plus:
+
+S9 human traversal: from the folder, move steadily toward each of the 4 file pills (at least 15 steps) and click the third pill: the file opens. Repeat for each folder.
+S10 100 cycles of hover, click, leave, in random order across the three folders. Pass numbers: base-position drift 0 (±0.5 px) after every scenario; zero oscillation (no sign change in velocity after the animation settles, settle time ≤ 400 ms); no more than 2 hover-state transitions per second; zero side flips; the element under the pointer never switches to a different folder during an interaction; the pointer-to-pill traversal never collapses the folder; double-click opens the correct window; right-click opens the menu without moving anything; dock icon clicks bounce and settle with no sideways movement. Then run the animation contract compare: nothing else changed. GATE 3 PASSED when all numbers pass at 1920x1080, 1366x768 and 390x844, two consecutive runs, with regression tests committed.
+STEP 4 — Dock pop-out re-verification (fix list item 1)
+
+The magnified dock icon must rise ABOVE the bar like macOS, not squash inside it.
+
+Peak magnification: the hovered icon's top is at least 35 % of its resting size above the bar's top edge; its bottom stays aligned with the bar's inner bottom padding (±2 px); neighbours scale with a smooth falloff; the bar height does not change.
+No ancestor of the icons has overflow: hidden | clip or contain: paint | strict | content or clip-path (walk the ancestor chain in DevTools and record each computed value).
+Icons stay crisp (vector at scale), running dots stay at the bottom, WarmTooltip appears above the popped icon, bounce after click is 3 hops and returns to rest, behaviour correct at 640 px and 390 px widths.
+AFTER numbers: dock sweep average ≥ 55 FPS, p95 frame ≤ 20 ms at 4x CPU throttle. GATE 4 PASSED when all of the above pass and the contract compare shows no unintended change.
+STEP 5 — Wallpaper glitch, effects cleanup, performance-mode cleanup (fix list items 4 and 5)
+Wallpaper glitch on login and home. Instrument before fixing: count getContext('webgl') calls and canvases; log webglcontextlost; observe canvas width and height changes; count shader programs; check the time uniform never resets to 0; capture a screenshot every 100 ms across boot, login, login-to-desktop, logout and login again, and compute the luminance of each frame. Likely causes to check: the Wallpaper component being unmounted and remounted between lock and home, a canvas resize on a setting change, display or visibility toggles, will-change or layer promotion changing at runtime, backdrop-filter surfaces above the canvas flickering, DPR changes. Fix: ONE persistent wallpaper instance mounted at the root behind both lock and home screens; switching presets crossfades uniforms (no remount, no resize); fixed DPR cap; the canvas is its own stable layer (position: fixed; inset: 0; z-index: -1; contain: strict). Pass: exactly 1 WebGL context for the wallpaper, 0 context losses, 0 canvas resizes except real viewport resizes, constant program count, monotonic time uniform, no frame with luminance below 3 %, consecutive-frame luminance change ≤ 6 % outside intended transitions, frame-to-frame luminance variance < 2 % with each of the three effects on, during dock hover and during folder hover.
+Effects cleanup. The Settings library has exactly three cards: Glassmorphism Card, Liquid Glass, Ambient Glow. Delete the hidden fallback elements and all code, CSS, schema fields and tests for magneticHover, tiltEffect and auroraMesh; old saved values are dropped safely by a migration. Each of the three toggles changes a real class or style on its target, the Active/Off badge reflects the real state, and the value persists across closing Settings, reload, and a fresh guest session. At most 3 backdrop-filter surfaces are visible at once.
+Performance-mode cleanup. Confirm by search and DevTools that no performance mode, quality governor, tier setting, schema key, CSS or DOM remnant exists. Nothing at runtime may resize the canvas, hide it, change DPR, or switch its frame rate in a visible way. Static optimisations stay. GATE 5 PASSED when all three parts pass and the contract compare is clean.
+===== ADDITIONS START HERE (only after Gates 0-5 passed) =====
+STEP 6 — ADD: folder zoom-out and files-out animation
+Hovering a folder (after the 60 ms intent delay) scales that folder up to 1.25x with a spring (stiffness about 300, damping about 24, about 240 ms) from its own centre, with the transform origin on the outer screen edge side so it grows toward the desktop. The label stays readable. When the pointer leaves (after the 280 ms grace) the folder shrinks back to EXACTLY its original size (computed transform returns to identity).
+Files come out of the folder along an arc toward the desktop interior, at most 4 pills visible (existing scrolling rule), staggered 40 ms, with the connector stem; on close they retract into the folder in reverse order.
+Everything runs from ONE controller progress value (0 to 1) so folder scale, pills and neighbour displacement are in sync; no CSS transition on any property the controller writes; opening and closing are interruptible and reversible mid-animation without a jump larger than 2 px between frames.
+Reduced motion: opacity only. Verify: sample every frame during open, close and a reversal at 120 ms; progress is monotonic; final transforms equal identity; 100 cycles with no drift; pills never intersect neighbours (Step 7). GATE 6 PASSED with these measurements and a clean contract compare.
+STEP 7 — ADD: other icons AND widgets move out of the way
+Build the expansion zone as the union of the scaled folder rectangle, the pill cluster (up to 4 pills) and the bridge zone, plus 16 px margin. Every neighbour that intersects it (desktop icons and widgets) is displaced by a spring on its .di-push or widget push layer: along the axis away from the zone, up to 140 px, always inside the viewport and below the menu bar and above the dock, resolving chains with at most 5 relaxation passes. For widgets near the zone, move vertically around it if there is no room horizontally.
+The displacement is purely visual: saved positions and the saved JSON must be byte-identical before and after. Displaced neighbours have pointer-events: none while the zone is active.
+It runs in the same progress timeline as Step 6, and returns exactly to the base positions on collapse. Verify: 3 folders x 2 sides x 3 viewports: after expansion settles no pill rectangle intersects any neighbour rectangle (gap ≥ 8 px); neighbours stay inside the viewport; after collapse all neighbour rectangles are within 0.5 px of base; 50 cycles produce zero drift; saved data unchanged. GATE 7 PASSED with these measurements.
+STEP 8 — ADD: all folders on one side, selectable, with auto-adjusting hover
+New setting desktopSide: right (default) or left, defined in the typed settings schema, validated by the server (enum only), owner default saved on the server, guest override saved locally.
+All desktop folders sit in ONE column along the chosen edge, starting under the menu bar with a fixed spacing; if the viewport is too short the column wraps into a second column toward the interior. Widgets may not overlap the folder column (reserved zone; this also keeps widgets inside the visible area).
+Free-form dragging of folders is replaced by reordering inside the column (drag to a new slot with an insertion indicator, release snaps into the slot). Log this decision in PROGRESS.md.
+Changing the side: Customize > Desktop (segmented control Left | Right) and desktop right-click "Place Folders on Left / Right". On change, the folders glide across with a 40 ms stagger (about 400 ms) with no glitch.
+Hover behaviour adapts automatically to the side: files fan toward the interior, zoom origin on the outer edge, neighbour displacement axis follows, the bridge zone and the connector are mirrored. Nothing is chosen from the pointer position.
+Keyboard: roving tab focus between folders, arrow keys move, Enter opens, focusing a folder shows its files, Right or Left arrow (toward the interior) moves into the files, Esc collapses. Verify: both sides x 3 viewports: column alignment (all x centres equal ±1 px), reserved-zone rule, hover animation mirrored correctly, no pill intersects any neighbour, side change persists after reload (owner default; guest local), a guest cannot change the owner default (server returns 403), the side change causes no wallpaper flicker. GATE 8 PASSED.
+STEP 9 — ADD: macOS-style minimise and close animation
+Minimise (slow and soft, about 520 ms, two phases): phase 1 (0-200 ms) the window compresses slightly (scale about 0.97), starts fading and drifts down about 12 px; phase 2 (200-520 ms) it glides along a curve to its dock target (its dock icon, otherwise a minimised slot at the bottom centre), shrinking to about 0.12 and fading to 0 with the transform origin at its bottom centre. When it arrives, the minimised tile pops into the dock (scale 0.6 to 1.08 to 1, about 220 ms).
+Restore: the reverse, about 420 ms, ending exactly on the original rectangle (±1 px); the window gets focus and the right z-order.
+Close: about 180 ms: scale 1 to 0.94, translate down 6 px, opacity to 0, then unmount.
+Only transform and opacity; no layout animation. Rapid actions (minimise then restore, close while minimising, double-click) are safe. Works for maximised and snapped windows, windows partly off-screen, and when the target icon is hidden. Reduced motion: 120 ms fade only. Verify: sample frames at 16 ms: total minimise duration 480-560 ms, opacity never increases, the minimised tile exists afterwards, restore returns within ±1 px, close finishes in 150-220 ms and leaves no DOM; 50 cycles with no leak; no frame longer than 20 ms at 4x CPU throttle. GATE 9 PASSED.
+STEP 10 — FULL verification after the additions, behaviour review and lag hunt
+Re-run every earlier gate automatically (one command, for example npm run verify:round18): Steps 1 to 9. Report each fix as WORKING or NOT WORKING with its measured result. Anything NOT WORKING goes back to its step.
+Behaviour walkthrough with /chrome-devtools as anonymous, guest and owner at 1920x1080, 1366x768 and 390x844: boot, login (both roles), lock-to-desktop, hover each folder and open each file, click and double-click every icon, drag-reorder folders, change the folder side, move and resize windows, minimise and restore, close, Trash, widgets (move, edit buttons, Studio), the three effects, dock hover and bounce, Quick Look, context menus on every target, Settings save and reload, logout. For each flow write expected, actual and an evidence file. Fix every deviation and re-verify.
+Lag hunt. Record Performance traces at 4x CPU throttle for: dock sweep, folder hover and open, folder side change, window drag, window minimise and restore, Quick Look, context menus, login-to-desktop, Settings open, and a worst-case scene (wallpaper + 3 effects on + 3 windows + folder expanded + dock sweep). List the 10 slowest interactions by p95 frame time and by longest task. Fix each one above budget (average ≥ 55 FPS, p95 ≤ 20 ms, no task over 50 ms, INP ≤ 200 ms, LCP ≤ 2.5 s, CLS ≤ 0.02). Typical causes to check: layout reads inside animation loops, React state used for per-frame values, backdrop-filter count over the animated wallpaper, will-change overuse, many requestAnimationFrame loops instead of one, large repaint areas, work done in pointermove handlers. Write BEFORE and AFTER numbers.
+Animation contract compare against the Step 0 baseline: only the intentionally changed animations differ, and each of those meets its new specification.
+Memory (/memory-leak-debugging): 100 cycles each of folder hover, minimise and restore, close and reopen, side change, Settings open and close; 10-minute idle soak. Pass: heap growth ≤ 10 % and ≤ 15 MB, detached DOM nodes ≤ +50, listeners and timers flat, and at idle only the wallpaper and the clock own a running requestAnimationFrame.
+Accessibility (/a11y-debugging): keyboard operation of the folder column, pills, dock, minimise and restore, context menus; visible focus; names and roles; AA contrast; reduced motion; tap targets ≥ 44 px at 390 px; zero critical or serious issues. GATE 10 PASSED when items 1 to 6 pass in two consecutive complete runs.
+STEP 11 — Security and regression check for these changes
+Hostile file and folder names (<img src=x onerror=alert(1)>.md, "><svg onload=alert(1)>, very long names, bidi characters) in pills, tooltips, menus, Quick Look, Finder and the folder column render as plain text with no dialog, console error or CSP violation.
+Guest cannot change any owner default (folder side, order, settings) or owner content: the server returns 403 and nothing changes; editing local state or role flags in DevTools does not help. desktopSide and the folder order are validated by strict schemas (enum values only, unknown keys rejected); settings deep-merge cannot be used to inject other keys.
+Re-run the API authorisation matrix, cookie checks (/cookie-debugging: HttpOnly, SameSite=Strict, rotation, invalidation), CSP with zero violations, zero third-party requests; run npm audit --omit=dev if any dependency changed.
+Repeat the four adversary goals on a clean profile: read a file outside the vault, become owner without credentials, make script run in another visitor's session, change owner content as guest. All must fail.
+npm run build, npm test and npm run security all pass, and the full suite runs twice with identical results. GATE 11 PASSED.
+STEP 12 — Record the work in PROGRESS.md
+
+Append (never rewrite) a ROUND 18 section: summary; the Step 1 hypothesis table with data and the confirmed root cause of the click glitch; the new architecture (layers, controllers, state machine) in a short diagram; files created, changed and deleted (list the removed hidden effects, displacement code and any governor remnants); every test added or retired; the animation contract before and after; the lag-hunt table with BEFORE and AFTER numbers; the behaviour walkthrough results; security results and residual risks; decisions and assumptions (including the move from free folder dragging to column reordering); open items (write "none" only if true). Update the milestone table. No secrets.
+
+<FINAL_ANSWER_TO_OWNER> Reply with: the confirmed cause of the click glitch and how it was fixed, WORKING or NOT WORKING for each item of the owner's 7-item list, the slowest interactions found and their before and after frame rates, and anything left undone. </FINAL_ANSWER_TO_OWNER>
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-27T16:49:58+05:30.
+</ADDITIONAL_METADATA>

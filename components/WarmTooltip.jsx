@@ -43,6 +43,14 @@ const GRACE = 80;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 const horizontal = side => side === 'top' || side === 'bottom';
+const getTargetRect = el => {
+  if (!el) return { left: 0, top: 0, right: 0, bottom: 0, width: 0, height: 0 };
+  const child = el.firstElementChild;
+  if (child && typeof child.getBoundingClientRect === 'function') {
+    return child.getBoundingClientRect();
+  }
+  return el.getBoundingClientRect();
+};
 const anchorOf = (rect, side, gap) => {
   if (side === 'top') return [rect.left + rect.width / 2, rect.top - gap];
   if (side === 'bottom') return [rect.left + rect.width / 2, rect.bottom + gap];
@@ -155,8 +163,8 @@ export const WarmTooltipGroup = forwardRef(function WarmTooltipGroup(
     const prev = st.current.current;
     const fresh = st.current.state === 'closed';
     if (prev && prev.id !== payload.id) {
-      const [px, py] = anchorOf(prev.trigger.getBoundingClientRect(), prev.side, prev.gap);
-      const [nx, ny] = anchorOf(payload.trigger.getBoundingClientRect(), payload.side, payload.gap);
+      const [px, py] = anchorOf(getTargetRect(prev.trigger), prev.side, prev.gap);
+      const [nx, ny] = anchorOf(getTargetRect(payload.trigger), payload.side, payload.gap);
       const across = !horizontal(payload.side);
       st.current.swap = { dir: Math.sign(across ? ny - py : nx - px) || 1, across };
     } else {
@@ -221,7 +229,7 @@ export const WarmTooltipGroup = forwardRef(function WarmTooltipGroup(
     const c = st.current.current;
     const text = textRef.current;
     if (!c || !text || state !== 'open') return;
-    const [tx, ty] = anchorOf(c.trigger.getBoundingClientRect(), c.side, c.gap);
+    const [tx, ty] = anchorOf(getTargetRect(c.trigger), c.side, c.gap);
     const tw = text.offsetWidth + c.px * 2;
     const th = text.offsetHeight + c.py * 2;
     const mode = st.current.mode;
@@ -254,7 +262,7 @@ export const WarmTooltipGroup = forwardRef(function WarmTooltipGroup(
       raf = requestAnimationFrame(() => {
         const c = st.current.current;
         if (!c) return;
-        const [tx, ty] = anchorOf(c.trigger.getBoundingClientRect(), c.side, c.gap);
+        const [tx, ty] = anchorOf(getTargetRect(c.trigger), c.side, c.gap);
         ax.jump(tx);
         ay.jump(ty);
       });

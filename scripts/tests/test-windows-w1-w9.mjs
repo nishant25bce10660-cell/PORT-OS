@@ -345,7 +345,7 @@ async function runAcceptanceW1toW9() {
 
     // Yellow minimize
     await page.click('#btn-minimize-folder-projects');
-    await new Promise((r) => setTimeout(r, 400));
+    await page.waitForFunction(() => !document.querySelector('#window-folder-projects'), { timeout: 4000 });
     const isMinHidden = await page.$('#window-folder-projects') === null;
     console.log(`Window minimized and removed from active viewport: ${isMinHidden}`);
     assert(isMinHidden, 'Window should be hidden/minimized');
@@ -355,11 +355,12 @@ async function runAcceptanceW1toW9() {
     console.log('Dock minimized item found. Restoring from dock...');
     await page.click('#dock-minimized-folder-projects');
     await page.waitForSelector('#window-folder-projects', { timeout: 3000 });
+    await new Promise((r) => setTimeout(r, 480));
     console.log('Window restored successfully from dock.');
 
     // Red close
     await page.click('#btn-close-folder-projects');
-    await new Promise((r) => setTimeout(r, 300));
+    await page.waitForFunction(() => !document.querySelector('#window-folder-projects'), { timeout: 4000 });
     const isClosed = await page.$('#window-folder-projects') === null;
     console.log(`Window closed: ${isClosed}`);
     assert(isClosed, 'Window should close on red traffic light click');

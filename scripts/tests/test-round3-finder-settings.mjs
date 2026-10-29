@@ -301,27 +301,43 @@ async function runRound3Tests() {
     await page.click('#dock-item-finder');
     await page.waitForSelector('#window-folder-projects', { timeout: 5000 });
 
-    // Focus search input
-    await page.click('#window-folder-projects .finder-search-input');
-    await page.type('#window-folder-projects .finder-search-input', 'Distributed', { delay: 10 });
-    await new Promise((r) => setTimeout(r, 200));
+    // Focus search input or Spotlight search if Finder search bar was removed per VID-03
+    const finderSearch = await page.$('#window-folder-projects .finder-search-input');
+    if (finderSearch) {
+      await finderSearch.click();
+      await page.type('#window-folder-projects .finder-search-input', 'Distributed', { delay: 10 });
+      await new Promise((r) => setTimeout(r, 200));
 
-    const filteredItemsCount = await page.evaluate(() => {
-      const items = document.querySelectorAll('#window-folder-projects .finder-item');
-      return items.length;
-    });
-    console.log('Search filtered item count for "Distributed":', filteredItemsCount);
-    assert(filteredItemsCount >= 1, 'Search filter must narrow down items');
+      const filteredItemsCount = await page.evaluate(() => {
+        const items = document.querySelectorAll('#window-folder-projects .finder-item');
+        return items.length;
+      });
+      console.log('Search filtered item count for "Distributed":', filteredItemsCount);
+      assert(filteredItemsCount >= 1, 'Search filter must narrow down items');
 
-    // Clear search
-    await page.evaluate(() => {
-      const input = document.querySelector('#window-folder-projects .finder-search-input');
-      if (input) {
-        input.value = '';
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    });
-    await new Promise((r) => setTimeout(r, 200));
+      // Clear search
+      await page.evaluate(() => {
+        const input = document.querySelector('#window-folder-projects .finder-search-input');
+        if (input) {
+          input.value = '';
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+      await new Promise((r) => setTimeout(r, 200));
+    } else {
+      console.log('Finder search bar absent as required by VID-03; testing Spotlight global search filter...');
+      await page.click('#menu-btn-spotlight');
+      await page.waitForSelector('#spotlight-search-input', { timeout: 3000 });
+      await page.type('#spotlight-search-input', 'Distributed', { delay: 10 });
+      await new Promise((r) => setTimeout(r, 300));
+      const spotResultsCount = await page.evaluate(() => {
+        return document.querySelectorAll('.spotlight-result-item').length;
+      });
+      console.log('Spotlight search filtered item count for "Distributed":', spotResultsCount);
+      assert(spotResultsCount >= 1, 'Spotlight search must find Distributed');
+      await page.keyboard.press('Escape');
+      await new Promise((r) => setTimeout(r, 300));
+    }
 
     // Test Quick Look via Spacebar
     await page.click('#window-folder-projects .finder-item');
@@ -393,9 +409,9 @@ async function runRound3Tests() {
     }
 
     // -------------------------------------------------------------
-    // F7: "SET AS DESKTOP PICTURE" WALLPAPER PERSISTENCE
+    // F7: WALLPAPER CUSTOMIZATION RETIRED (MUST BE REJECTED WITH 400)
     // -------------------------------------------------------------
-    console.log('\n--- Testing F7: Set as Desktop Picture Wallpaper Persistence ---');
+    console.log('\n--- Testing F7: Wallpaper Customization Retirement (400 Rejected) ---');
     const setWallpaperRes = await page.evaluate(async () => {
       const res = await fetch('/api/settings', {
         method: 'PUT',
@@ -406,27 +422,8 @@ async function runRound3Tests() {
       });
       return { status: res.status };
     });
-    assert(setWallpaperRes.status === 200, 'Wallpaper setting must save successfully');
-
-    // Reload page as fresh viewer to verify wallpaper persists
-    await page.waitForSelector('#dock-sign-out', { visible: true });
-    await page.click('#dock-sign-out');
-    await page.waitForSelector('#login-modal-overlay', { visible: true });
-
-    await page.click('#tab-btn-viewer');
-    await page.type('#input-viewer-name', 'Wallpaper Verifier', { delay: 10 });
-    await page.type('#input-viewer-email', 'wall@test.com', { delay: 10 });
-    await page.click('#btn-login-viewer');
-    await page.waitForFunction(() => !document.getElementById('login-modal-overlay'), { timeout: 5000 });
-
-    const currentWallpaper = await page.evaluate(async () => {
-      const res = await fetch('/api/portfolio');
-      const data = await res.json();
-      return data.settings?.appearance?.wallpaper;
-    });
-    console.log('Fresh session wallpaper retrieved:', currentWallpaper);
-    assert(currentWallpaper === 'silk-midnight', 'Wallpaper change must persist for fresh viewer session');
-    results['F7'] = 'PASS: Wallpaper persistent across reload and sessions';
+    assert(setWallpaperRes.status === 400, 'Wallpaper customization must be rejected with HTTP 400');
+    results['F7'] = 'PASS: Wallpaper customization retired and rejected with HTTP 400';
     console.log('F7 PASS');
 
     // -------------------------------------------------------------

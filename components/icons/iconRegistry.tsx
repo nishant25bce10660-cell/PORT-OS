@@ -518,42 +518,53 @@ export function renderIconArtwork(kind: PortOSIconKind): React.ReactNode {
       const isCert = kind === 'folder-cert-edu';
       const isOwner = kind === 'folder-owner';
 
-      const backColor = isProjects ? '#1e40af' : isCert ? '#581c87' : isOwner ? '#065f46' : '#0284c7';
-      const flapColor = isProjects ? '#3b82f6' : isCert ? '#8b5cf6' : isOwner ? '#10b981' : '#38bdf8';
+      const backColor = isProjects ? '#007aff' : isCert ? '#8b5cf6' : isOwner ? '#10b981' : '#0284c7';
+      const flapStart = isProjects ? '#38bdf8' : isCert ? '#a78bfa' : isOwner ? '#34d399' : '#38bdf8';
+      const flapEnd = isProjects ? '#0284c7' : isCert ? '#7c3aed' : isOwner ? '#059669' : '#0284c7';
       const gradId = `folderGrad_${kind}`;
 
       return (
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="folder-svg-icon">
           {/* Backplate tab */}
           <path
             d="M6 10C6 8.34315 7.34315 7 9 7H18.5858C19.3815 7 20.1446 7.31607 20.7071 7.87868L23.1213 10.2929C23.6839 10.8554 24.447 11.1716 25.2426 11.1716H39C40.6569 11.1716 42 12.5147 42 14.1716V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V10Z"
             fill={backColor}
+            fillOpacity={0.88}
           />
-          {/* Front pocket flap */}
-          <path
-            d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z"
-            fill={`url(#${gradId})`}
-          />
-          {/* Category-specific subtle foreground icon */}
-          {isProjects && (
-            <path d="M19 23L14 28L19 33M29 23L34 28L29 33M26 21L22 35" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          )}
-          {isCert && (
-            <>
-              <path d="M24 21L15 26L24 31L33 26L24 21Z" stroke="#ffffff" strokeWidth="2" strokeLinejoin="round" />
-              <path d="M18 27.5V32.5C18 34.5 20.5 35.5 24 35.5C27.5 35.5 30 34.5 30 32.5V27.5" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" />
-            </>
-          )}
-          {isOwner && (
-            <>
-              <circle cx="24" cy="24" r="4.2" stroke="#ffffff" strokeWidth="2" />
-              <path d="M17 34C17 31 20 29.5 24 29.5C28 29.5 31 31 31 34" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
-            </>
-          )}
+          {/* Rising paper sheet layer (React Bits Paper Elevation) */}
+          <g className="folder-svg-paper-layer">
+            <rect x="10" y="10" width="28" height="24" rx="2.5" fill="#f8fafc" />
+            <line x1="14" y1="14" x2="26" y2="14" stroke="#cbd5e1" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="14" y1="18" x2="32" y2="18" stroke="#cbd5e1" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="14" y1="22" x2="28" y2="22" stroke="#cbd5e1" strokeWidth="1.2" strokeLinecap="round" />
+          </g>
+          {/* Front pocket flap + Category Icon (React Bits 3D Flap Tilt) */}
+          <g className="folder-svg-front-layer">
+            <path
+              d="M6 16C6 14.3431 7.34315 13 9 13H39C40.6569 13 42 14.3431 42 16V37C42 38.6569 40.6569 40 39 40H9C7.34315 40 6 38.6569 6 37V16Z"
+              fill={`url(#${gradId})`}
+            />
+            {/* Category-specific subtle foreground icon */}
+            {isProjects && (
+              <path d="M19 23L14 28L19 33M29 23L34 28L29 33M26 21L22 35" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            )}
+            {isCert && (
+              <>
+                <path d="M24 21L14 26L24 31L34 26L24 21Z" stroke="#ffffff" strokeWidth="2" strokeLinejoin="round" />
+                <path d="M17 27.5V33C17 35 20.134 36.5 24 36.5C27.866 36.5 31 35 31 33V27.5" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+              </>
+            )}
+            {isOwner && (
+              <>
+                <circle cx="24" cy="24" r="4.5" stroke="#ffffff" strokeWidth="2" />
+                <path d="M17 34C17 31 20 29.5 24 29.5C28 29.5 31 31 31 34" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+              </>
+            )}
+          </g>
           <defs>
             <linearGradient id={gradId} x1="24" y1="13" x2="24" y2="40" gradientUnits="userSpaceOnUse">
-              <stop stopColor={flapColor} />
-              <stop offset="1" stopColor={backColor} />
+              <stop stopColor={flapStart} />
+              <stop offset="1" stopColor={flapEnd} />
             </linearGradient>
           </defs>
         </svg>

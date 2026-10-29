@@ -414,12 +414,12 @@ async function runTest() {
     await page.click('#settings-tab-customization, [data-tab="customization"]');
     await new Promise((r) => setTimeout(r, 400));
 
-    const effects = ['liquidGlass', 'glassmorphism', 'magneticHover', 'tiltEffect', 'ambientGlow', 'auroraMesh'];
+    const effects = ['liquidGlass', 'glassmorphism', 'ambientGlow'];
     for (const fx of effects) {
-      const toggle = await page.$(`#effect-card-${fx}, #toggle-fx-${fx}`);
+      const toggle = await page.$(`#effect-card-${fx}`);
       assert(toggle, `Toggle for ${fx} must exist`);
     }
-    console.log('Confirmed: All 6 Apple visual effect toggles present and operational.');
+    console.log('Confirmed: Exactly 3 Apple visual effect cards present and operational.');
     await page.screenshot({ path: path.join(ASSETS_DIR, 'apple_effects_live.png') });
 
     // Close Settings

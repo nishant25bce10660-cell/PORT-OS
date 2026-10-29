@@ -1,5 +1,5 @@
 // lib/assetStorage.ts
-// Local IndexedDB storage for viewer assets (wallpapers, fonts, audio)
+// Local IndexedDB storage for viewer assets (fonts, audio, icons)
 // Strictly client-side: ZERO network upload or server writes (per VF-12)
 
 const DB_NAME = 'portos_viewer_vault';
@@ -9,7 +9,7 @@ const STORE_NAME = 'assets';
 export interface StoredAsset {
   id: string;
   name: string;
-  type: 'wallpaper-desktop' | 'wallpaper-lock' | 'font' | 'sound' | 'icon';
+  type: 'font' | 'sound' | 'icon';
   mimeType: string;
   blob: Blob;
   dataUrl?: string;

@@ -1,0 +1,199 @@
+{
+  "allPassed": true,
+  "passConditions": {
+    "noPillCollidesWithNeighbour": true,
+    "minimumGapAbove8px": true,
+    "neighboursStayInViewport": true,
+    "allNeighboursWithin0_5pxAfterCollapse": true,
+    "fiftyCyclesZeroDrift": true,
+    "savedDataUnchanged": true,
+    "displacementMax140px": true
+  },
+  "minObservedGap": 14.341449737548828,
+  "maxObservedDisplacement": 140.0789794921875,
+  "maxCollapseDrift": 0,
+  "max50CycleDrift": 0,
+  "testMatrixResults": [
+    {
+      "viewport": "1920x1080",
+      "side": "right",
+      "folderId": "projects",
+      "pillCount": 4,
+      "minGap": 14.356246948242188,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "right",
+      "folderId": "cert-education",
+      "pillCount": 4,
+      "minGap": 15.304458618164062,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "right",
+      "folderId": "owners-data",
+      "pillCount": 1,
+      "minGap": 34.57501220703125,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "left",
+      "folderId": "projects",
+      "pillCount": 4,
+      "minGap": 14.353294372558594,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "left",
+      "folderId": "cert-education",
+      "pillCount": 4,
+      "minGap": 15.744476318359375,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1920x1080",
+      "side": "left",
+      "folderId": "owners-data",
+      "pillCount": 1,
+      "minGap": 34.576568603515625,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1366x768",
+      "side": "right",
+      "folderId": "projects",
+      "pillCount": 4,
+      "minGap": 14.341449737548828,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1366x768",
+      "side": "right",
+      "folderId": "cert-education",
+      "pillCount": 4,
+      "minGap": 15.306249618530273,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1366x768",
+      "side": "right",
+      "folderId": "owners-data",
+      "pillCount": 1,
+      "minGap": 34.57501220703125,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1366x768",
+      "side": "left",
+      "folderId": "projects",
+      "pillCount": 4,
+      "minGap": 14.353294372558594,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1366x768",
+      "side": "left",
+      "folderId": "cert-education",
+      "pillCount": 4,
+      "minGap": 15.580606460571289,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "1366x768",
+      "side": "left",
+      "folderId": "owners-data",
+      "pillCount": 1,
+      "minGap": 34.575927734375,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "390x844",
+      "side": "right",
+      "folderId": "projects",
+      "pillCount": 4,
+      "minGap": 14.356246948242188,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "390x844",
+      "side": "right",
+      "folderId": "cert-education",
+      "pillCount": 4,
+      "minGap": 15.306249618530273,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "390x844",
+      "side": "right",
+      "folderId": "owners-data",
+      "pillCount": 1,
+      "minGap": 34.57501220703125,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "390x844",
+      "side": "left",
+      "folderId": "projects",
+      "pillCount": 4,
+      "minGap": 14.356246948242188,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "390x844",
+      "side": "left",
+      "folderId": "cert-education",
+      "pillCount": 4,
+      "minGap": 15.27238655090332,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    },
+    {
+      "viewport": "390x844",
+      "side": "left",
+      "folderId": "owners-data",
+      "pillCount": 1,
+      "minGap": 34.5833740234375,
+      "collisionDetected": false,
+      "anyOutOfBounds": false,
+      "collapseDrift": 0
+    }
+  ],
+  "date": "2026-10-29T00:10:27.676Z"
+}

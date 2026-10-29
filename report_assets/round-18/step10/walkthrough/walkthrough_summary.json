@@ -1,0 +1,131 @@
+{
+  "timestamp": "2026-10-27T17:44:34.197Z",
+  "flows": [
+    {
+      "name": "Boot Sequence",
+      "identity": "anonymous",
+      "viewport": "1920x1080",
+      "expected": "Boot screen displays and dismisses smoothly",
+      "actual": "Boot screen displayed",
+      "pass": true,
+      "evidence": "01_boot_1920.png"
+    },
+    {
+      "name": "Guest Login & Lock-to-Desktop",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Clean transition to desktop",
+      "actual": "Desktop items rendered, login overlay dismissed",
+      "pass": true,
+      "evidence": "02_guest_desktop_1920.png"
+    },
+    {
+      "name": "Folder Hover & Pill File Open",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "File window opens on pill click",
+      "actual": "File window mounted and active",
+      "pass": true,
+      "evidence": "04_file_window_1920.png"
+    },
+    {
+      "name": "Icon Single Click Selection",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Folder gets selected without opening",
+      "actual": "isSelected=true",
+      "pass": true,
+      "evidence": "05_icon_selected_1920.png"
+    },
+    {
+      "name": "Icon Double Click Window Open",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Folder window opens on double-click",
+      "actual": "Window opened cleanly",
+      "pass": true,
+      "evidence": "06_cert_window_opened_1920.png"
+    },
+    {
+      "name": "Window Minimise",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Soft two-phase minimise into dock",
+      "actual": "Minimised tile popped into dock",
+      "pass": true,
+      "evidence": "07_dock_tile_minimized_1920.png"
+    },
+    {
+      "name": "Window Restore",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Smooth 420ms reverse glide to original rect",
+      "actual": "isRestored=true",
+      "pass": true,
+      "evidence": "08_window_restored_1920.png"
+    },
+    {
+      "name": "Window Close",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "180ms smooth shrink and unmount",
+      "actual": "isClosed=true",
+      "pass": true,
+      "evidence": "09_window_closed_1920.png"
+    },
+    {
+      "name": "Change Folder Side to Left",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Folders glide to left edge with 40ms stagger",
+      "actual": "leftColX=24.0px",
+      "pass": true,
+      "evidence": "11_folders_on_left_1920.png"
+    },
+    {
+      "name": "Three Clean Visual Effect Cards",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Exactly 3 clean catalog cards",
+      "actual": "found=3",
+      "pass": true,
+      "evidence": "13_customize_tab_1920.png"
+    },
+    {
+      "name": "Dock WarmTooltip & Magnification",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "WarmTooltip positioned above popped item",
+      "actual": "Magnification verified with tooltip above item",
+      "pass": true,
+      "evidence": "14_dock_tooltip_1920.png"
+    },
+    {
+      "name": "Trash Window Open",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Trash opens cleanly showing discarded items",
+      "actual": "Trash opened successfully",
+      "pass": true,
+      "evidence": "15_trash_window_1920.png"
+    },
+    {
+      "name": "Logout to Lockscreen",
+      "identity": "guest",
+      "viewport": "1920x1080",
+      "expected": "Returns cleanly to lockscreen",
+      "actual": "Lockscreen rendered",
+      "pass": true,
+      "evidence": "16_logged_out_lockscreen.png"
+    },
+    {
+      "name": "Mobile Tap Targets & Responsive Layout",
+      "identity": "guest",
+      "viewport": "390x844",
+      "expected": "Responsive column layout and large touch targets",
+      "actual": "items=9, valid=true",
+      "pass": true,
+      "evidence": "17_mobile_desktop_390.png"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "count": 300,
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 10,
+  "keyframes": {
+    "ready": 0.25,
+    "stroke1End": 0.375,
+    "stroke2End": 0.52,
+    "stroke3End": 0.77,
+    "end": 1
+  },
+  "bytesHi": 71826780,
+  "bytesMed": 42797070,
+  "frame0Bytes": 290380,
+  "generatedAt": "2026-10-28T22:36:21.593Z"
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "phase": "boot_to_lock",
+    "elapsed": 2568,
+    "luminance": 0.0642545044934638,
+    "u_time": 0.5128000000029803
+  },
+  {
+    "phase": "boot_to_lock",
+    "elapsed": 3271,
+    "luminance": 0.0645729571895422,
+    "u_time": 1.0947000000029805
+  },
+  {
+    "phase": "boot_to_lock",
+    "elapsed": 3825,
+    "luminance": 0.06464411919934615,
+    "u_time": 1.648900000002981
+  },
+  {
+    "phase": "boot_to_lock",
+    "elapsed": 4390,
+    "luminance": 0.08787092810457253,
+    "u_time": 2.261000000002981
+  },
+  {
+    "phase": "login_to_desktop",
+    "elapsed": 5361,
+    "luminance": 0.07360706993463802,
+    "u_time": 3.048800000002981
+  },
+  {
+    "phase": "login_to_desktop",
+    "elapsed": 6259,
+    "luminance": 0.10391051331698706,
+    "u_time": 3.6308000000029796
+  },
+  {
+    "phase": "login_to_desktop",
+    "elapsed": 6737,
+    "luminance": 0.10419243276143145,
+    "u_time": 4.127800000002979
+  },
+  {
+    "phase": "login_to_desktop",
+    "elapsed": 7193,
+    "luminance": 0.10416215947711734,
+    "u_time": 4.6126000000029785
+  },
+  {
+    "phase": "login_to_desktop",
+    "elapsed": 7660,
+    "luminance": 0.10389248602940582,
+    "u_time": 5.054900000002975
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 8158,
+    "luminance": 0.06896071102940547,
+    "u_time": 5.570100000002974
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 8563,
+    "luminance": 0.0659625739379084,
+    "u_time": 5.994100000002973
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 8957,
+    "luminance": 0.0660907107026219,
+    "u_time": 6.388100000002977
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 9345,
+    "luminance": 0.06673981250000609,
+    "u_time": 6.775900000002975
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 9725,
+    "luminance": 0.06817229991830528,
+    "u_time": 7.157700000002976
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 10135,
+    "luminance": 0.06806621062091804,
+    "u_time": 7.551600000002975
+  },
+  {
+    "phase": "logout_to_lock",
+    "elapsed": 10521,
+    "luminance": 0.06805814419935022,
+    "u_time": 7.939600000002975
+  },
+  {
+    "phase": "second_login_to_desktop",
+    "elapsed": 11406,
+    "luminance": 0.06823488521242238,
+    "u_time": 8.824200000002971
+  },
+  {
+    "phase": "second_login_to_desktop",
+    "elapsed": 11844,
+    "luminance": 0.09021249803921606,
+    "u_time": 9.260700000002972
+  },
+  {
+    "phase": "second_login_to_desktop",
+    "elapsed": 12319,
+    "luminance": 0.09247085424836561,
+    "u_time": 9.715100000002973
+  },
+  {
+    "phase": "second_login_to_desktop",
+    "elapsed": 12814,
+    "luminance": 0.09231430326797242,
+    "u_time": 10.206100000002975
+  },
+  {
+    "phase": "second_login_to_desktop",
+    "elapsed": 13321,
+    "luminance": 0.09163617859476927,
+    "u_time": 10.702900000002975
+  },
+  {
+    "phase": "second_login_to_desktop",
+    "elapsed": 13769,
+    "luminance": 0.09134171258169556,
+    "u_time": 11.163700000002981
+  }
+]

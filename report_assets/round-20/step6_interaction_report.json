@@ -1,0 +1,23 @@
+{
+  "run1": {
+    "runIndex": 1,
+    "successfulNTraces": 30,
+    "rejectedNonNGestures": 30,
+    "windowExclusionPassed": true,
+    "idleResetPassed": true,
+    "postCompleteRearmPassed": true,
+    "mobileTouchPassed": true,
+    "slow4GPassed": true
+  },
+  "run2": {
+    "runIndex": 2,
+    "successfulNTraces": 30,
+    "rejectedNonNGestures": 30,
+    "windowExclusionPassed": true,
+    "idleResetPassed": true,
+    "postCompleteRearmPassed": true,
+    "mobileTouchPassed": true,
+    "slow4GPassed": true
+  },
+  "status": "CONSECUTIVE_PASS"
+}

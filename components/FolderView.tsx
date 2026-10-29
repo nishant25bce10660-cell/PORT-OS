@@ -26,7 +26,6 @@ interface FolderViewProps {
   onRestoreTrash?: (itemId: string) => void;
   onEmptyTrash?: () => void;
   initialIsTrashView?: boolean;
-  onSetWallpaper?: (file: FileItem) => void;
   onImportFromPC?: (fileData: { name: string; content?: string; base64?: string }) => void;
   breadcrumbs: { id: string; name: string }[];
   onBreadcrumbClick: (index: number) => void;
@@ -65,7 +64,6 @@ export default function FolderView({
   onRestoreTrash,
   onEmptyTrash,
   initialIsTrashView = false,
-  onSetWallpaper,
   onImportFromPC,
   breadcrumbs,
   onBreadcrumbClick,
@@ -313,15 +311,7 @@ export default function FolderView({
       );
     }
 
-    if (isImage && onSetWallpaper) {
-      items.push({ id: 'ctx-div-wp', label: '', isDivider: true });
-      items.push({
-        id: 'ctx-finder-wallpaper',
-        label: 'Set as Desktop Wallpaper',
-        icon: <PortOSIcon kind="settings" size={14} />,
-        action: () => onSetWallpaper(item as FileItem),
-      });
-    }
+
 
     if (initialIsTrashView && onRestoreTrash) {
       items.push({ id: 'ctx-div-trash', label: '', isDivider: true });
@@ -668,44 +658,6 @@ export default function FolderView({
                 </button>
               </WarmTooltip>
             </div>
-          </div>
-
-          {/* Center: Search input */}
-          <div style={{ flex: 1, maxWidth: '240px', position: 'relative' }}>
-            <input
-              type="text"
-              className="finder-search-input"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                width: '100%',
-                background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                borderRadius: '6px',
-                padding: '4px 8px 4px 24px',
-                fontSize: '11px',
-                color: '#fff',
-                outline: 'none',
-              }}
-            />
-            <span
-              style={{
-                position: 'absolute',
-                left: '8px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: 'var(--text-muted)',
-                pointerEvents: 'none',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <circle cx="6.5" cy="6.5" r="4.5" />
-                <line x1="10" y1="10" x2="14.5" y2="14.5" strokeLinecap="round" />
-              </svg>
-            </span>
           </div>
 
           {/* Right: Admin Action Buttons */}
@@ -1073,8 +1025,8 @@ export default function FolderView({
               className="finder-view-icons"
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))',
-                gap: '16px',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(104px, 1fr))',
+                gap: '12px',
                 alignContent: 'start',
               }}
             >
@@ -1110,6 +1062,8 @@ export default function FolderView({
                       background: isSelected ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
                       border: isSelected ? '1px solid rgba(56, 189, 248, 0.5)' : '1px solid transparent',
                       transition: 'background 0.12s ease',
+                      maxWidth: '108px',
+                      width: '100%',
                     }}
                   >
                     <div style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -1143,26 +1097,30 @@ export default function FolderView({
                         }}
                       />
                     ) : (
-                      <span
-                        className="item-name-label"
-                        aria-label={item.name}
-                        style={{
-                          marginTop: '4px',
-                          fontSize: '11.5px',
-                          textAlign: 'center',
-                          color: '#fff',
-                          lineHeight: '1.25',
-                          maxWidth: '92px',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          wordBreak: 'break-all',
-                        }}
-                      >
-                        {item.name}
-                      </span>
+                      <WarmTooltip content={item.name} side="bottom">
+                        <span
+                          className="item-name-label"
+                          aria-label={item.name}
+                          style={{
+                            marginTop: '4px',
+                            fontSize: '11px',
+                            textAlign: 'center',
+                            color: '#fff',
+                            lineHeight: '1.3',
+                            width: '100%',
+                            maxWidth: '100px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            wordBreak: 'break-word',
+                            overflowWrap: 'anywhere',
+                          }}
+                        >
+                          {item.name}
+                        </span>
+                      </WarmTooltip>
                     )}
                   </div>
                 );
@@ -1331,7 +1289,7 @@ export default function FolderView({
                     onContextMenu={(e) => handleContextMenu(e, item)}
                     style={{
                       flexShrink: 0,
-                      width: '64px',
+                      width: '76px',
                       padding: '8px 4px',
                       textAlign: 'center',
                       borderRadius: '6px',
@@ -1346,9 +1304,11 @@ export default function FolderView({
                     <div style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {renderFileGlyph(item, 28)}
                     </div>
-                    <div style={{ fontSize: '10px', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '56px' }}>
-                      {item.name}
-                    </div>
+                    <WarmTooltip content={item.name} side="bottom">
+                      <div style={{ fontSize: '10px', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '70px', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+                        {item.name}
+                      </div>
+                    </WarmTooltip>
                   </div>
                 ))}
               </div>
@@ -1422,10 +1382,6 @@ export default function FolderView({
           onNavigateItem={(next) => {
             setQuickLookItem(next);
             setSelectedItemId(next.id);
-          }}
-          onSetWallpaper={(f) => {
-            if (onSetWallpaper) onSetWallpaper(f);
-            setQuickLookItem(null);
           }}
         />
       )}

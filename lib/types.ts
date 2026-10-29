@@ -152,10 +152,7 @@ export interface EffectsConfig {
   preset?: 'liquid-glass' | 'frosted-glass' | 'deep-velvet' | 'aurora-flow' | 'spatial-minimal' | string;
   liquidGlass?: boolean;
   glassmorphism?: boolean;
-  magneticHover?: boolean;
-  tiltEffect?: boolean;
   ambientGlow?: boolean;
-  auroraMesh?: boolean;
   glassOpacity?: number;
   blurAmount?: number;
   specularBorders?: boolean;
@@ -176,8 +173,8 @@ export interface WallpaperConfig {
 export interface CustomizationSettings {
   wallpaperDesktop?: string;
   wallpaperLockScreen?: string;
-  desktopWallpaper: WallpaperConfig;
-  lockScreenWallpaper: WallpaperConfig;
+  desktopWallpaper?: WallpaperConfig;
+  lockScreenWallpaper?: WallpaperConfig;
   customWallpaperData?: string;
   theme?: 'dark' | 'midnight';
   accentColor?: string;
@@ -186,6 +183,7 @@ export interface CustomizationSettings {
   clock: ClockConfig;
   clockConfig?: ClockConfig;
   effects: EffectsConfig;
+  desktopSide?: 'left' | 'right';
   desktopIcons?: {
     positions?: Record<string, { x: number; y: number }>;
     size?: 'small' | 'medium' | 'large';
@@ -205,7 +203,7 @@ export interface SystemSettings {
   };
   appearance: {
     theme: 'dark' | 'midnight';
-    wallpaper: string; // 'wave-shader' | 'silk-midnight' | 'deep-space' | 'obsidian' | 'aurora'
+    wallpaper?: string;
     accentColor: string;
     font: string;
   };
@@ -266,10 +264,7 @@ export const DEFAULT_EFFECTS_CONFIG: EffectsConfig = {
   preset: 'liquid-glass',
   liquidGlass: true,
   glassmorphism: false,
-  magneticHover: false,
-  tiltEffect: false,
   ambientGlow: false,
-  auroraMesh: false,
   glassOpacity: 0.85,
   blurAmount: 24,
   specularBorders: true,
@@ -281,18 +276,6 @@ export const DEFAULT_EFFECTS_CONFIG: EffectsConfig = {
 };
 
 export const DEFAULT_CUSTOMIZATION: CustomizationSettings = {
-  wallpaperDesktop: 'wave-shader',
-  wallpaperLockScreen: 'silk-midnight',
-  desktopWallpaper: {
-    type: 'preset',
-    preset: 'wave-shader',
-    scaling: 'cover',
-  },
-  lockScreenWallpaper: {
-    type: 'preset',
-    preset: 'silk-midnight',
-    scaling: 'cover',
-  },
   theme: 'dark',
   accentColor: '#38bdf8',
   font: 'Inter',
@@ -300,6 +283,7 @@ export const DEFAULT_CUSTOMIZATION: CustomizationSettings = {
   clock: DEFAULT_CLOCK_CONFIG,
   clockConfig: DEFAULT_CLOCK_CONFIG,
   effects: DEFAULT_EFFECTS_CONFIG,
+  desktopSide: 'right',
   desktopIcons: {
     positions: {
       projects: { x: 24, y: 52 },
@@ -323,7 +307,6 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   },
   appearance: {
     theme: 'dark',
-    wallpaper: 'wave-shader',
     accentColor: '#38bdf8',
     font: 'Inter',
   },

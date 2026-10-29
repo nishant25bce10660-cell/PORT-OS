@@ -1,0 +1,14 @@
+{
+  "TIER_SIZES": {
+    "desktopMB": 15.36,
+    "smallMB": 5.11,
+    "pass": true
+  },
+  "NO_LEGACY_JPEGS": true,
+  "LOCK_SCREEN_SINGLE_REQUEST": true,
+  "CACHE_LIMITS": {
+    "count": 12,
+    "bytesMB": 94.92,
+    "pass": true
+  }
+}

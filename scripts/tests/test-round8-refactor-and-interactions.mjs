@@ -183,7 +183,7 @@ async function runRound8TestSuite() {
 
     await page.mouse.move(boundingBox.x + 20, boundingBox.y + 20);
     await page.mouse.down();
-    await page.mouse.move(boundingBox.x - 60, boundingBox.y + 30, { steps: 5 });
+    await page.mouse.move(boundingBox.x, boundingBox.y + 120, { steps: 8 });
     await page.mouse.up();
     await new Promise((r) => setTimeout(r, 400));
 

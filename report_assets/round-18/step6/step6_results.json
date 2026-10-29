@@ -1,0 +1,20 @@
+{
+  "allPassed": true,
+  "passConditions": {
+    "peakScaleAround1_25x": true,
+    "openProgressMonotonic": true,
+    "closeProgressMonotonic": true,
+    "closeReturnsToIdentity": true,
+    "maxFrameJumpBelow2px": true,
+    "reversalReturnsToIdentity": true,
+    "zeroDrift100Cycles": true,
+    "reducedMotionOpacityOnly": true
+  },
+  "peakScale": 1.2501,
+  "finalOpenScale": 1.25,
+  "transformOriginOpen": "80px 52.675px",
+  "maxFrameJump": 1.8000000000000007,
+  "totalDrift": 0,
+  "parsedReducedScale": 1,
+  "date": "2026-10-27T17:41:26.384Z"
+}

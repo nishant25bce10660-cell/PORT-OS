@@ -1,0 +1,1344 @@
+{
+  "1920x1080": {
+    "S1": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 0.49,
+      "sampleFramesCount": 433,
+      "tracesCount": 154,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.60000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6764.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6765
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6765.10000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 6765.199999999255
+        }
+      ]
+    },
+    "S2": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.57,
+      "sampleFramesCount": 128,
+      "tracesCount": 60,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.99339999998031px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10916.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.9939999999821px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10916.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2498",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10928.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.93687628979622px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10928.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.94261480890566px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10928.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.92506676776075px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10937.10000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.9318788797825px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10937.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.91841478817784px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10948.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.92583162561623px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10948.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.91741837816556px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 10957.5
+        }
+      ]
+    },
+    "S3": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "portfolio-menubar",
+        "desktop-workspace",
+        "desktop-icon-graphic",
+        "folder-float-bridge-hitbox"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 0.88,
+      "sampleFramesCount": 260,
+      "tracesCount": 251,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13020.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13021.39999999851
+        }
+      ]
+    },
+    "S4": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-workspace",
+        "di-zoom",
+        "folder-float desktop-folder-float",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.06,
+      "sampleFramesCount": 199,
+      "tracesCount": 408,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2497",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15361.10000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.89651200011018px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15361.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.90592000010017px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15361.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2506",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15370.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "88.22001791251148px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15371
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "80.20001628410135px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15371
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2508",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15379.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "88.28782604423925px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15379.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "80.26166004021749px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15379.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2509",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15388.60000000149
+        }
+      ]
+    },
+    "S6": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-workspace",
+        "folder-float desktop-folder-float",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.89,
+      "sampleFramesCount": 114,
+      "tracesCount": 208,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2501",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18837.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "88.0262758846939px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18837.60000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "80.02388716790355px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18837.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2500",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18846.10000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "88.01477424640373px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18846.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "80.0134311330943px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18846.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.9943716170922px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18864
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99488328826564px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18864
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.99141313556933px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18872.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99219375960848px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18872.39999999851
+        }
+      ]
+    }
+  },
+  "1366x768": {
+    "S1": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.25,
+      "sampleFramesCount": 658,
+      "tracesCount": 184,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0006",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7066.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "0.2111999998426821px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7066.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "0.19199999985698374px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7067.099999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0067",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7072.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "2.369246467854928px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7073
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "2.153860425322662px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7073.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0562",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7108.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "19.793577526324153px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7108.599999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "17.994161387567413px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7108.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0709",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 7114.5
+        }
+      ]
+    },
+    "S2": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.66,
+      "sampleFramesCount": 179,
+      "tracesCount": 96,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2498",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11202.599999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.94059999976403px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11202.79999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.94599999978549px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11202.79999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2495",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11210.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.83644918795781px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11210.599999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.85131744359802px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11210.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2494",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11216.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.79476461727764px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11216.599999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.81342237934331px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11216.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.77751607990962px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11222
+        }
+      ]
+    },
+    "S3": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "portfolio-menubar",
+        "desktop-workspace",
+        "desktop-icon-graphic",
+        "folder-float-bridge-hitbox"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 0.89,
+      "sampleFramesCount": 360,
+      "tracesCount": 289,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13124.79999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13124.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125.099999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125.099999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125.099999997765
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125.29999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 13125.29999999702
+        }
+      ]
+    },
+    "S4": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-workspace",
+        "desktop-item-cert-education",
+        "folder-float desktop-folder-float",
+        "desktop-icon-graphic",
+        "di-zoom",
+        "desktop-item-owners-data"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.13,
+      "sampleFramesCount": 284,
+      "tracesCount": 571,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2493",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15420.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.76239999988186px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15420.79999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.78399999989261px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15420.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2488",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15426.79999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.56308405223264px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15426.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.60280368384785px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15427
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2485",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15433.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.47646111003137px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15433.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.52405555457398px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15433.29999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2484",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15438.5
+        }
+      ]
+    },
+    "S6": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-workspace",
+        "desktop-item-cert-education",
+        "folder-float desktop-folder-float",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 2.04,
+      "sampleFramesCount": 158,
+      "tracesCount": 273,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.99690137713381px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18717.79999999702
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99718307012165px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18718
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.9937992412356px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18726.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99436294657782px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18726.39999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.9925050111685px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18731.89999999851
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99318637378956px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18732
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "88px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18736.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "80px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18736.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2496",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18810
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.84793599962225px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18810.099999997765
+        }
+      ]
+    }
+  },
+  "390x844_touch": {
+    "S1": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.25,
+      "sampleFramesCount": 619,
+      "tracesCount": 350,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0001",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6892.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "0.02639999992134108px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6892.800000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "0.02399999992849189px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6892.900000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0347",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6928.800000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "12.211015384536728px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6928.900000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "11.10092307685157px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6929
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "19.43px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6932.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "19.43px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6932.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.0499",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6937.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "17.574381017196323px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 6937.400000002235
+        }
+      ]
+    },
+    "S2": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.64,
+      "sampleFramesCount": 176,
+      "tracesCount": 152,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2498",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11024.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.93241600006297px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11024.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.93856000005725px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11024.800000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.89px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11026.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.89px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11026.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2495",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11030.900000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.82282222500984px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11031.10000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.8389292954635px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11031.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.72px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11033
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.72px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 11033.10000000149
+        }
+      ]
+    },
+    "S3": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        {},
+        "portfolio-menubar",
+        "desktop-workspace",
+        "di-zoom",
+        "desktop-icon-graphic",
+        "folder-float-bridge-hitbox"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 0.89,
+      "sampleFramesCount": 359,
+      "tracesCount": 466,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.60000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.699999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.800000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 12939.900000002235
+        }
+      ]
+    },
+    "S4": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-workspace",
+        "folder-float desktop-folder-float",
+        "desktop-icon-graphic",
+        "di-zoom",
+        "desktop-item-owners-data"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 1.12,
+      "sampleFramesCount": 264,
+      "tracesCount": 701,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.9934px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15212.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.994px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15212.400000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.99px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15213.800000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.99px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15213.800000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2499",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15218.400000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.95953804px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15218.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.9632164px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15218.60000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.94px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15220
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.94px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15220
+        },
+        {
+          "method": "setProperty",
+          "property": "--zoom-scale",
+          "value": "1.2498",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 15224.5
+        }
+      ]
+    },
+    "S6": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-workspace",
+        "desktop-item-cert-education",
+        "folder-float desktop-folder-float",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 2,
+      "writersPerSec": 2.04,
+      "sampleFramesCount": 163,
+      "tracesCount": 458,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "140.00px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18486.900000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "140.00px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18487
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.99375556531638px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18491.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99432324119671px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18491.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.99px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18493.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.99px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18493.60000000149
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "87.99049252494144px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18497.199999999255
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "79.99135684085586px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18497.300000000745
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.98px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18498.400000002235
+        },
+        {
+          "method": "setProperty",
+          "property": "--push-y",
+          "value": "139.98px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14187) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sZ (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:156274)",
+          "time": 18498.5
+        }
+      ]
+    }
+  }
+}

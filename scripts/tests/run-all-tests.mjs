@@ -17,6 +17,7 @@ const testSuites = [
   { name: 'M17 & M18: Layered Icon System & SVG Architecture', script: 'scripts/tests/test-round9-icon-system.mjs' },
   { name: 'M27–M31: Custom Widget Studio, Effects Engine & Trash Repair', script: 'scripts/tests/test-round11-widgets-effects-trash.mjs' },
   { name: 'M32–M34: WarmTooltip, CometDial & Dock Revamp', script: 'scripts/tests/test-round13-warmtooltip-cometdial.mjs' },
+  { name: 'R19: Interactive Mirror Wallpaper (VW-01..33)', script: 'scripts/tests/test-mirror-wallpaper.mjs' },
 ];
 
 function runScript(scriptPath) {
@@ -46,6 +47,9 @@ async function runAll() {
       try {
         await runScript(suite.script);
         summary.push({ name: suite.name, status: 'PASS' });
+        if (pristinePortfolio) {
+          fs.writeFileSync(PORTFOLIO_PATH, pristinePortfolio, 'utf8');
+        }
         await new Promise((r) => setTimeout(r, 1200));
       } catch (err) {
         summary.push({ name: suite.name, status: 'FAIL', error: err.message });

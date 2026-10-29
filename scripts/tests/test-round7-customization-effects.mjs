@@ -100,7 +100,7 @@ async function runRound7TestSuite() {
       const el = document.getElementById('desktop-context-menu');
       return el ? el.innerText : '';
     });
-    const hasWallpaperOption = desktopMenuHeader.includes('Change Wallpaper');
+    const hasNoWallpaperOption = !desktopMenuHeader.includes('Change Wallpaper');
     const hasEffectsOption = desktopMenuHeader.includes('Visual Effects');
 
     const ssCtxMenu = path.join(EVIDENCE_DIR, 'round7_contextual_menu_evidence.png');
@@ -160,8 +160,8 @@ async function runRound7TestSuite() {
 
     recordEvidence(
       'R7_CONTEXTUAL_MENU_SYSTEM',
-      hasWallpaperOption && hasEffectsOption && isDismissed,
-      'Context menu system handles object targeting, viewport clamping & Escape dismissal'
+      hasNoWallpaperOption && hasEffectsOption && isDismissed,
+      'Context menu system handles object targeting, viewport clamping & Escape dismissal (wallpaper customization removed)'
     );
 
     // -------------------------------------------------------------
@@ -176,12 +176,22 @@ async function runRound7TestSuite() {
       return transform;
     });
 
-    // Drag Projects icon from (40, 70) to (180, 180)
-    await page.mouse.move(40, 70);
-    await page.mouse.down();
-    await page.mouse.move(180, 180, { steps: 8 });
-    await page.mouse.up();
-    await new Promise((r) => setTimeout(r, 400));
+    // Dynamically locate Projects icon bounding box
+    const projectsBox = await page.evaluate(() => {
+      const el = document.getElementById('desktop-item-projects');
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    });
+
+    if (projectsBox) {
+      await page.mouse.move(projectsBox.x, projectsBox.y);
+      await page.mouse.down();
+      // Drag down by 120px to slot 1
+      await page.mouse.move(projectsBox.x, projectsBox.y + 120, { steps: 8 });
+      await page.mouse.up();
+      await new Promise((r) => setTimeout(r, 400));
+    }
 
     const finalPos = await page.evaluate(() => {
       const el = document.getElementById('desktop-item-projects');
@@ -228,18 +238,18 @@ async function runRound7TestSuite() {
     const customTabSections = await page.evaluate(() => {
       const text = document.getElementById('system-settings-root')?.innerText || '';
       return {
-        hasDesktopWallpaper: text.includes('1. Desktop Wallpaper'),
-        hasLockScreenWallpaper: text.includes('2. Lock Screen Wallpaper'),
-        hasClockCustomization: text.includes('3. Advanced Clock Customization'),
-        hasEffectsLibrary: text.includes('4. Apple & WebGL Visual Effects Library'),
+        noDesktopWallpaper: !text.includes('Desktop Wallpaper'),
+        noLockScreenWallpaper: !text.includes('Lock Screen Wallpaper'),
+        hasClockCustomization: text.includes('Clock Customization'),
+        hasEffectsLibrary: text.includes('Visual Effects Library'),
         hasLiquidGlass: text.includes('Liquid Glass'),
-        hasAuroraMesh: text.includes('Aurora Mesh'),
+        hasAmbientGlow: text.includes('Ambient Glow'),
       };
     });
 
     const allSectionsPresent =
-      customTabSections.hasDesktopWallpaper &&
-      customTabSections.hasLockScreenWallpaper &&
+      customTabSections.noDesktopWallpaper &&
+      customTabSections.noLockScreenWallpaper &&
       customTabSections.hasClockCustomization &&
       customTabSections.hasEffectsLibrary;
 
@@ -249,7 +259,7 @@ async function runRound7TestSuite() {
     recordEvidence(
       'R7_CONSOLIDATED_CUSTOMIZATION_SETTINGS',
       allSectionsPresent,
-      'Settings contains consolidated Customization with Dual Wallpapers, Clock & Effects Library',
+      'Settings contains consolidated Customization with Clock & Effects Library (Wallpapers completely retired per W8)',
       ssSettingsCustom
     );
 

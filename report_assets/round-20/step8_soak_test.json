@@ -1,0 +1,13 @@
+{
+  "windowCycles": 100,
+  "windowCyclesPassed": true,
+  "nTracingCycles": 20,
+  "nTracingCyclesPassed": true,
+  "initialHeapMB": 6.01,
+  "finalHeapMB": 6.99,
+  "heapDeltaMB": 0.98,
+  "heapLeaking": false,
+  "measuredLcpMs": 928,
+  "lcpPassed": true,
+  "allPassed": true
+}

@@ -337,6 +337,7 @@ export default function Dock({
   const cachedButtonsRef = useRef<HTMLButtonElement[]>([]);
   const cachedCentersRef = useRef<number[]>([]);
   const mouseXRef = useRef<number | null>(null);
+  const lastMouseXRef = useRef<number | null>(null);
   const rafIdRef = useRef<number | null>(null);
 
   const updateCachedCenters = useCallback(() => {
@@ -401,7 +402,6 @@ export default function Dock({
         getMenu: (): DockMenuItem[] => [
           { label: 'Open System Settings', onClick: () => handleClickItem('settings', true) },
           { label: 'Customization & Effects', onClick: () => handleClickItem('settings', true) },
-          { label: 'Wallpaper Settings', onClick: () => handleClickItem('settings', true) },
         ],
       },
       {
@@ -437,7 +437,8 @@ export default function Dock({
         const centers = cachedCentersRef.current;
         const influenceRadius = 78 * fitRatio;
 
-        if (mouseX !== null && buttons.length > 0 && buttons.length === centers.length) {
+        if (mouseX !== null && mouseX !== lastMouseXRef.current && buttons.length > 0 && buttons.length === centers.length) {
+          lastMouseXRef.current = mouseX;
           for (let i = 0; i < buttons.length; i++) {
             const btn = buttons[i];
             if (!btn) continue;
@@ -445,9 +446,8 @@ export default function Dock({
 
             if (distance < influenceRadius) {
               const factor = (Math.cos((distance / influenceRadius) * Math.PI) + 1) / 2;
-              const scale = 1 + factor * 0.55;
-              const translateY = -(scale - 1) * 16 * fitRatio;
-              const newTransform = `scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px) translateZ(0)`;
+              const scale = 1 + factor * 0.60;
+              const newTransform = `scale(${scale.toFixed(3)}) translateZ(0)`;
               if (btn.style.transform !== newTransform) {
                 btn.style.transform = newTransform;
               }
@@ -478,6 +478,7 @@ export default function Dock({
       rafIdRef.current = null;
     }
     mouseXRef.current = null;
+    lastMouseXRef.current = null;
     const buttons = cachedButtonsRef.current;
     for (let i = 0; i < buttons.length; i++) {
       const btn = buttons[i];
@@ -554,7 +555,7 @@ export default function Dock({
         }}
       >
         {/* Core Apps & Tools wrapped in WarmTooltipGroup */}
-        <WarmTooltipGroup delay={400} warmWindow={300} travel={320} lean={0}>
+        <WarmTooltipGroup delay={400} warmWindow={250} travel={0} lean={0}>
           {baseItems.map((item) => {
             const isOpen =
               activeWindowIds.includes(item.id) ||
@@ -590,10 +591,11 @@ export default function Dock({
                     aria-label={item.name}
                   >
                     <div className="dock-squircle">{item.icon}</div>
-                    {/* D4: Running dot indicator */}
                     {isOpen && <div className="dock-dot" />}
                   </button>
                 </WarmTooltip>
+                {/* D4: Running dot indicator anchored at bottom */}
+                {isOpen && <div className="dock-dot" />}
               </div>
             );
           })}
@@ -609,10 +611,11 @@ export default function Dock({
               <div
                 key={win.id}
                 className={`dock-bounce-wrapper ${isBouncing ? 'dock-bouncing-hops is-bouncing' : ''}`}
+                style={{ position: 'relative' }}
               >
                 <WarmTooltip content={win.title} side="top">
                   <button
-                    className={`dock-item-btn ${isBouncing ? 'dock-bouncing-hops is-bouncing' : ''}`}
+                    className={`dock-item-btn dock-minimized-tile-pop ${isBouncing ? 'dock-bouncing-hops is-bouncing' : ''}`}
                     id={`dock-minimized-${win.id}`}
                     onClick={() => handleClickItem(win.id, false)}
                     onContextMenu={(e) => {
@@ -643,9 +646,9 @@ export default function Dock({
                     <div className="dock-squircle">
                       <PortOSIcon kind={getIconKindForApp(win.id)} size={38} />
                     </div>
-                    <div className="dock-dot" style={{ background: '#ffbd2e' }} />
                   </button>
                 </WarmTooltip>
+                <div className="dock-dot" style={{ background: '#ffbd2e' }} />
               </div>
             );
           })}

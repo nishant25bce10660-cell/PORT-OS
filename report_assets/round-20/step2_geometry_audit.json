@@ -1,0 +1,114 @@
+{
+  "comparison": {
+    "leftCol": {
+      "round19": 580,
+      "measured": 537,
+      "delta": -43
+    },
+    "rightCol": {
+      "round19": 1120,
+      "measured": 1370,
+      "delta": 250
+    },
+    "topY": {
+      "round19": 160,
+      "measured": 50,
+      "delta": -110
+    },
+    "bottomY": {
+      "round19": 880,
+      "measured": 1029,
+      "delta": 149
+    }
+  },
+  "viewportResults": [
+    {
+      "viewport": "1080p Desktop",
+      "width": 1920,
+      "height": 1080,
+      "scale": 1,
+      "maxRoundTripError": 0,
+      "allReachable": true
+    },
+    {
+      "viewport": "1366x768 Laptop",
+      "width": 1366,
+      "height": 768,
+      "scale": 0.7114583333333333,
+      "maxRoundTripError": 1.1368683772161603e-13,
+      "allReachable": true
+    },
+    {
+      "viewport": "1440x900 Display",
+      "width": 1440,
+      "height": 900,
+      "scale": 0.8333333333333334,
+      "maxRoundTripError": 1.1368683772161603e-13,
+      "allReachable": true
+    },
+    {
+      "viewport": "2560x1080 Ultrawide",
+      "width": 2560,
+      "height": 1080,
+      "scale": 1.08,
+      "maxRoundTripError": 1.1368683772161603e-13,
+      "allReachable": true
+    },
+    {
+      "viewport": "390x844 Portrait Phone",
+      "width": 390,
+      "height": 844,
+      "scale": 0.4148936170212766,
+      "maxRoundTripError": 2.2737367544323206e-13,
+      "allReachable": true
+    },
+    {
+      "viewport": "844x390 Landscape Phone",
+      "width": 844,
+      "height": 390,
+      "scale": 0.39,
+      "maxRoundTripError": 5.084229945850415e-13,
+      "allReachable": true
+    }
+  ],
+  "overlaps": [
+    {
+      "viewport": "1920x1080",
+      "element": "Top Menu Bar (28px)",
+      "overlaps": false,
+      "details": "Top Y is 50px, menu bar is y=0-28px"
+    },
+    {
+      "viewport": "1920x1080",
+      "element": "Dock (bottom 80px)",
+      "overlaps": false,
+      "details": "Bottom Y is 1029px, dock is y=1000-1080px (z-index 9999 stops hit)"
+    },
+    {
+      "viewport": "1920x1080",
+      "element": "Clock Widget (x=112, y=352)",
+      "overlaps": false,
+      "details": "Left leg is at x=537px, clock is at x=112-320px"
+    },
+    {
+      "viewport": "1920x1080",
+      "element": "Stats Widget (x=144, y=144)",
+      "overlaps": false,
+      "details": "Left leg is at x=537px, stats widget is at x=144-360px"
+    },
+    {
+      "viewport": "1920x1080",
+      "element": "Desktop Folder Column (x=1336px)",
+      "overlaps": true,
+      "details": "Right leg is at x=1370px; folder column sits on bare wallpaper, hit layer naturally yields when pointer hovers icons"
+    },
+    {
+      "viewport": "390x844",
+      "element": "Mobile Dock & Menu Bar",
+      "overlaps": true,
+      "details": "Mobile vertical compaction places bottom of stroke 2/3 near dock zone; hit layer z-index 5 yields cleanly to dock"
+    }
+  ],
+  "contactSheetPath": "D:\\porfolio project 1\\report_assets\\round-20\\step2_contact_sheet.png",
+  "pass": true
+}

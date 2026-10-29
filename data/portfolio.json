@@ -12,29 +12,7 @@
     "github": "https://github.com/example",
     "linkedin": "https://linkedin.com/in/example"
   },
-  "widgets": [
-    {
-      "id": "widget-clock",
-      "type": "clock",
-      "x": 64,
-      "y": 256,
-      "text": "San Francisco, CA"
-    },
-    {
-      "id": "widget-note",
-      "type": "note",
-      "x": 432,
-      "y": 880,
-      "text": "Welcome to PORT OS — Personal Portfolio Desktop"
-    },
-    {
-      "id": "widget-counter",
-      "type": "counter",
-      "x": 544,
-      "y": 304,
-      "text": "Total Projects: 4 | Credentials: 4"
-    }
-  ],
+  "widgets": [],
   "root": [
     {
       "id": "folder-projects",
@@ -138,22 +116,11 @@
     },
     "appearance": {
       "theme": "dark",
-      "wallpaper": "wave-shader",
       "accentColor": "#10b981",
-      "font": "Inter"
+      "font": "Inter",
+      "volume": 0.85
     },
     "customization": {
-      "wallpaperDesktop": "wave-shader",
-      "wallpaperLockScreen": "silk-midnight",
-      "desktopWallpaper": {
-        "type": "preset",
-        "preset": "wave-shader"
-      },
-      "lockScreenWallpaper": {
-        "type": "preset",
-        "preset": "obsidian",
-        "scaling": "cover"
-      },
       "theme": "dark",
       "accentColor": "#38bdf8",
       "font": "Inter",
@@ -193,12 +160,9 @@
       },
       "effects": {
         "preset": "liquid-glass",
-        "liquidGlass": false,
-        "glassmorphism": false,
-        "magneticHover": false,
-        "tiltEffect": false,
+        "liquidGlass": true,
+        "glassmorphism": true,
         "ambientGlow": false,
-        "auroraMesh": false,
         "glassOpacity": 0.85,
         "blurAmount": 24,
         "specularBorders": true,
@@ -224,7 +188,10 @@
           }
         },
         "size": "medium"
-      }
+      },
+      "sounds": {},
+      "appTheme": {},
+      "desktopSide": "right"
     },
     "boot": {
       "bootAnimation": "cyber",

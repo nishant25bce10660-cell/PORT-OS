@@ -1,0 +1,1505 @@
+{
+  "1920x1080": {
+    "S1": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 632,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S2": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 322,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S3": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.32,
+      "sampleFramesCount": 433,
+      "tracesCount": 16,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.600000000559
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.900000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11321.900000000373
+        }
+      ]
+    },
+    "S4": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic",
+        "desktop-icon-label",
+        "desktop-item-projects",
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-item-cert-education"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.29,
+      "sampleFramesCount": 348,
+      "tracesCount": 20,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.600000000559
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.600000000559
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.600000000559
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15784.700000000186
+        }
+      ]
+    },
+    "S5": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 99,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S6": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic",
+        "desktop-icon-label",
+        "desktop-item-projects",
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.56,
+      "sampleFramesCount": 176,
+      "tracesCount": 16,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.60000000056
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.900000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.900000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21543.900000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21544
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 21544
+        }
+      ]
+    },
+    "S7": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "dock-squircle",
+        "warm-tooltip__trigger"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.49,
+      "sampleFramesCount": 201,
+      "tracesCount": 35,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24116.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24116.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24116.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24116.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24116.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24116.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24118.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24118.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24118.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 24118.5
+        }
+      ]
+    },
+    "S8": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 14.42,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-workspace",
+        "SPAN",
+        "widget-widget-clock",
+        "desktop-item-projects",
+        "folder-float__item",
+        "folder-float-bridge-hitbox",
+        "desktop-icon-graphic",
+        "portfolio-menubar",
+        "folder-float desktop-folder-float"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.49,
+      "sampleFramesCount": 196,
+      "tracesCount": 34,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.400000000373
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.60000000056
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.60000000056
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.60000000056
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26829.799999999814
+        }
+      ]
+    }
+  },
+  "1366x768": {
+    "S1": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 565,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S2": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 278,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S3": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.32,
+      "sampleFramesCount": 438,
+      "tracesCount": 16,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11065.899999999441
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066.099999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11066.399999999441
+        }
+      ]
+    },
+    "S4": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic",
+        "desktop-icon-label",
+        "desktop-item-projects",
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-item-cert-education"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.3,
+      "sampleFramesCount": 526,
+      "tracesCount": 20,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.099999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.099999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.099999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15454.399999999441
+        }
+      ]
+    },
+    "S5": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 161,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S6": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic",
+        "desktop-icon-label",
+        "desktop-item-projects",
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.56,
+      "sampleFramesCount": 281,
+      "tracesCount": 16,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20987.89999999944
+        }
+      ]
+    },
+    "S7": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "dock-squircle",
+        "warm-tooltip__trigger"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.49,
+      "sampleFramesCount": 263,
+      "tracesCount": 35,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23391.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23391.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23391.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23391.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23391.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23391.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23394.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23394.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23394.89999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23395
+        }
+      ]
+    },
+    "S8": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 14.42,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "widget-clock-display",
+        "SPAN",
+        "widget-widget-clock",
+        "desktop-item-projects",
+        "folder-float-bridge-hitbox",
+        "desktop-icon-graphic",
+        "portfolio-menubar",
+        "desktop-workspace",
+        "folder-float desktop-folder-float",
+        "folder-float__item"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.5,
+      "sampleFramesCount": 270,
+      "tracesCount": 34,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.39999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26044.799999999814
+        }
+      ]
+    }
+  },
+  "390x844_touch": {
+    "S1": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 671,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S2": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 334,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S3": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.32,
+      "sampleFramesCount": 523,
+      "tracesCount": 16,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11197.899999999441
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 11198
+        }
+      ]
+    },
+    "S4": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic",
+        "desktop-icon-label",
+        "desktop-item-projects",
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item",
+        "desktop-item-cert-education"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.31,
+      "sampleFramesCount": 542,
+      "tracesCount": 20,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.099999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.799999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 15550.799999999814
+        }
+      ]
+    },
+    "S5": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic"
+      ],
+      "writersCount": 0,
+      "writersPerSec": 0,
+      "sampleFramesCount": 168,
+      "tracesCount": 0,
+      "traces": []
+    },
+    "S6": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "desktop-icon-graphic",
+        "desktop-icon-label",
+        "desktop-item-projects",
+        "folder-float desktop-folder-float",
+        "folder-float-bridge-hitbox",
+        "folder-float__item"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.56,
+      "sampleFramesCount": 294,
+      "tracesCount": 16,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20949.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20949.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20949.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20949.700000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20949.89999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20949.89999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20950
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20950
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20950.099999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 20950.099999999627
+        }
+      ]
+    },
+    "S7": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "dock-squircle",
+        "dock-item-finder",
+        "warm-tooltip__trigger"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.49,
+      "sampleFramesCount": 332,
+      "tracesCount": 35,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23342.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23342.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23342.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23342.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23342.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23342.599999999627
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23345.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23345.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23345.200000000186
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 23345.299999999814
+        }
+      ]
+    },
+    "S8": {
+      "basePositionDrift": 0,
+      "maxTransformAmplitude": 0,
+      "velocitySignChanges": 0,
+      "hoverTransitionsPerSec": 0,
+      "sideFlips": 0,
+      "elementUnderPointer": [
+        "folder-float-bridge-hitbox",
+        "desktop-icon-graphic",
+        "menu-btn-n-logo",
+        "portfolio-menubar",
+        "menu-item-about",
+        "menu-item-settings",
+        "menu-system-dropdown",
+        "menu-dropdown-divider",
+        "menu-item-sleep"
+      ],
+      "writersCount": 1,
+      "writersPerSec": 0.5,
+      "sampleFramesCount": 333,
+      "tracesCount": 18,
+      "traces": [
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 0,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.299999999814
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.39999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 1,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.39999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-surface",
+          "value": "#f5f5f5",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.39999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--wt-fuse-ms",
+          "value": "400ms",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.39999999944
+        },
+        {
+          "method": "setProperty",
+          "property": "--portos-icon-size",
+          "value": "13px",
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.5
+        },
+        {
+          "method": "setProperty",
+          "property": "--i",
+          "value": 2,
+          "stack": "    at tc (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:13790) |     at tf (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:14238) |     at sY (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:147122) |     at sG (http://localhost:3000/_next/static/chunks/fd9d1056-9d086cf17accdc7b.js:1:153512)",
+          "time": 26008.5
+        }
+      ]
+    }
+  }
+}

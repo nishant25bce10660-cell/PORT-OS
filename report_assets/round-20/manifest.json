@@ -1,0 +1,90 @@
+{
+  "step4_engine_transitions.json": {
+    "description": "State machine 13/13 transitions pass log",
+    "step": "STEP 4"
+  },
+  "step4_engine_stroke1.png": {
+    "description": "Screenshot during stroke 1 following",
+    "step": "STEP 4"
+  },
+  "step4_engine_complete.png": {
+    "description": "Screenshot after autonomous N completion",
+    "step": "STEP 4"
+  },
+  "step4_engine_rearmed_ready.png": {
+    "description": "Screenshot after 5s stillness reset and rearm",
+    "step": "STEP 4"
+  },
+  "step5_after_metrics.json": {
+    "description": "Comparison metrics AFTER optimization (network, memory, fps)",
+    "step": "STEP 5"
+  },
+  "step5_tracing_perf.json": {
+    "description": "4x CPU throttling tracing profile and frame timings",
+    "step": "STEP 5"
+  },
+  "step5_idle_home.png": {
+    "description": "Screenshot of desktop idle state with 0 rAF callbacks",
+    "step": "STEP 5"
+  },
+  "step5_tracing_complete.png": {
+    "description": "Screenshot of traced N at 4x throttle",
+    "step": "STEP 5"
+  },
+  "step6_interaction_report.json": {
+    "description": "2/2 consecutive runs report: 30 N traces, 30 non-N gestures, window exclusion, idle reset, mobile touch, slow 4G",
+    "step": "STEP 6"
+  },
+  "step6_completed_n.png": {
+    "description": "Screenshot of fully completed N pattern on wallpaper",
+    "step": "STEP 6"
+  },
+  "step6_window_exclusion.png": {
+    "description": "Screenshot showing HOLD state when cursor enters Finder window",
+    "step": "STEP 6"
+  },
+  "step6_mobile_touch_390x844.png": {
+    "description": "Screenshot of completed N via touch drag on 390x844 mobile viewport",
+    "step": "STEP 6"
+  },
+  "step7_security_audit.json": {
+    "description": "Security, privacy, RBAC, and asset integrity audit pass report",
+    "step": "STEP 7"
+  },
+  "step8_animation_table.json": {
+    "description": "Complete 25-animation inventory table with durations, easing curves, compositor properties, and 4x CPU FPS",
+    "step": "STEP 8"
+  },
+  "step8_animation_contract_compare.json": {
+    "description": "Comparison of all 25 animations against baseline under 4x CPU throttle (all passed)",
+    "step": "STEP 8"
+  },
+  "step8_soak_test.json": {
+    "description": "100 window cycles, 20 N-trace cycles, heap leak check (+0.98MB), and LCP (928ms)",
+    "step": "STEP 8"
+  },
+  "step9_accessibility_report.json": {
+    "description": "Accessibility report: aria-hidden, non-focusability, reduced motion static frame 1, and keyboard nav",
+    "step": "STEP 9"
+  },
+  "step9_a11y_tree.png": {
+    "description": "Screenshot of desktop accessibility tree and keyboard navigation",
+    "step": "STEP 9"
+  },
+  "step10_full_regression.json": {
+    "description": "Master regression test suite (12/12 suites pass), security audit (12/12 pass), animation contract (25/25 pass)",
+    "step": "STEP 10"
+  },
+  "step11_checklist_verification.json": {
+    "description": "Step 11 final comprehensive checklist verification report (all sections A-H passed across 2 consecutive runs)",
+    "step": "STEP 11"
+  },
+  "step11_final_verification_desktop.png": {
+    "description": "Screenshot of completed desktop verification in Step 11",
+    "step": "STEP 11"
+  },
+  "step11_final_verification_mobile.png": {
+    "description": "Screenshot of mobile touch verification in Step 11",
+    "step": "STEP 11"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "xssEscapingPills": true,
+  "xssEscapingTooltip": false,
+  "xssEscapingQuickLook": true,
+  "rbacViewerBlocked": true,
+  "schemaValidationEnforced": true,
+  "cookieHygieneStrict": true,
+  "payloadsTested": 5,
+  "alertsTriggered": 0
+}

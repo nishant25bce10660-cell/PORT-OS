@@ -1,0 +1,8 @@
+{
+  "totalAnimations": 25,
+  "passed": 25,
+  "failed": 0,
+  "worstCaseFps4xThrottle": 45,
+  "worstCaseTarget": 45,
+  "contractMaintained": true
+}

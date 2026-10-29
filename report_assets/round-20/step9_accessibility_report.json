@@ -1,0 +1,8 @@
+{
+  "wallpaperAriaHidden": true,
+  "wallpaperNotFocusable": true,
+  "reducedMotionPreservesStaticFrame1": true,
+  "keyboardNavPasses": true,
+  "tapTargetSizesPass": true,
+  "contrastPass": true
+}

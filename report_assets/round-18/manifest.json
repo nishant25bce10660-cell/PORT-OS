@@ -1,0 +1,146 @@
+{
+  "round": 18,
+  "title": "PORT OS — Round 18 Desktop Icon Click Glitch Fix, Folder Hover & Full Re-verification",
+  "timestamp": "2026-10-27T18:18:02.294Z",
+  "gates": {
+    "gate0": {
+      "status": "PASSED",
+      "description": "Animation baseline contract recorded (25 animations)"
+    },
+    "gate1": {
+      "status": "PASSED",
+      "description": "Empirical click glitch root-cause confirmed with measured data (H1–H5)"
+    },
+    "gate2": {
+      "status": "PASSED",
+      "description": "Single transform writer 4-layer architecture implemented"
+    },
+    "gate3": {
+      "status": "PASSED",
+      "description": "Desktop click glitch elimination verified across 3 viewports"
+    },
+    "gate4": {
+      "status": "PASSED",
+      "description": "Dock icon pop-up verified without desktop clipping or hover glitch"
+    },
+    "gate5": {
+      "status": "PASSED",
+      "description": "Wallpaper display:none toggle eliminated; 3 visual effects"
+    },
+    "gate6": {
+      "status": "PASSED",
+      "description": "Folder zoom unified progress controller (1.25x with spring physics)"
+    },
+    "gate7": {
+      "status": "PASSED",
+      "description": "AABB collision & neighbour displacement verified"
+    },
+    "gate8": {
+      "status": "PASSED",
+      "description": "Column alignment on configured side (right/left) & auto-adjusting"
+    },
+    "gate9": {
+      "status": "PASSED",
+      "description": "Two-phase macOS-style window minimise, restore & close"
+    },
+    "gate10": {
+      "status": "PASSED",
+      "description": "Full system walkthrough (14 flows), lag hunt (4x throttle), memory soak & a11y"
+    },
+    "gate11": {
+      "status": "PASSED",
+      "description": "Hostile XSS fuzzing, RBAC enforcement, strict schema & regression suite"
+    },
+    "gate12": {
+      "status": "PASSED",
+      "description": "Final documentation in PROGRESS.md and deliverable answer to owner"
+    }
+  },
+  "evidenceFiles": [
+    "baseline/baseline.json",
+    "baseline/boot_sequence-frame-1.png",
+    "baseline/boot_sequence-frame-2.png",
+    "baseline/boot_sequence-frame-3.png",
+    "manifest.json",
+    "step1/s1_1366x768.png",
+    "step1/s1_1920x1080.png",
+    "step1/s1_390x844_touch.png",
+    "step1/s2_1366x768.png",
+    "step1/s2_1920x1080.png",
+    "step1/s2_390x844_touch.png",
+    "step1/s3_1366x768.png",
+    "step1/s3_1920x1080.png",
+    "step1/s3_390x844_touch.png",
+    "step1/s4_1366x768.png",
+    "step1/s4_1920x1080.png",
+    "step1/s4_390x844_touch.png",
+    "step1/s6_1366x768.png",
+    "step1/s6_1920x1080.png",
+    "step1/s6_390x844_touch.png",
+    "step1/step1_reproduction_metrics.json",
+    "step10/a11y/01_keyboard_focus.png",
+    "step10/a11y/02_mobile_tap_targets.png",
+    "step10/a11y/a11y_results.json",
+    "step10/gates_1_to_9_summary.json",
+    "step10/lag_hunt/lag_hunt_results.json",
+    "step10/soak/memory_soak_results.json",
+    "step10/soak/soak_completed.png",
+    "step10/walkthrough/01_boot_1920.png",
+    "step10/walkthrough/02_guest_desktop_1920.png",
+    "step10/walkthrough/03_folder_hover_1920.png",
+    "step10/walkthrough/04_file_window_1920.png",
+    "step10/walkthrough/05_icon_selected_1920.png",
+    "step10/walkthrough/06_cert_window_opened_1920.png",
+    "step10/walkthrough/07_dock_tile_minimized_1920.png",
+    "step10/walkthrough/08_window_restored_1920.png",
+    "step10/walkthrough/10_ctx_menu_desktop_1920.png",
+    "step10/walkthrough/11_folders_on_left_1920.png",
+    "step10/walkthrough/12_settings_opened_1920.png",
+    "step10/walkthrough/13_customize_tab_1920.png",
+    "step10/walkthrough/14_dock_tooltip_1920.png",
+    "step10/walkthrough/15_trash_window_1920.png",
+    "step10/walkthrough/16_logged_out_lockscreen.png",
+    "step10/walkthrough/17_mobile_desktop_390.png",
+    "step10/walkthrough/walkthrough_summary.json",
+    "step11/01_fuzz_folder_pills.png",
+    "step11/02_fuzz_window_opened.png",
+    "step11/step11_security_results.json",
+    "step3/step3_1366x768_verified.png",
+    "step3/step3_1920x1080_verified.png",
+    "step3/step3_390x844_touch_verified.png",
+    "step3/step3_results.json",
+    "step4/dock_magnification_verified.png",
+    "step4/dock_responsive_390.png",
+    "step4/dock_responsive_640.png",
+    "step4/dock_warmtooltip_above_popped.png",
+    "step4/step4_dock_results.json",
+    "step5/effects_catalog_3cards.png",
+    "step5/luminance_timeline.json",
+    "step5/step5_results.json",
+    "step5/wallpaper_persistent_context.png",
+    "step6/01_folder_expanded_1_25x.png",
+    "step6/02_folder_closed_identity.png",
+    "step6/03_reversal_verified.png",
+    "step6/step6_results.json",
+    "step7/displacement_1366x768_left.png",
+    "step7/displacement_1366x768_right.png",
+    "step7/displacement_1920x1080_left.png",
+    "step7/displacement_1920x1080_right.png",
+    "step7/displacement_390x844_left.png",
+    "step7/displacement_390x844_right.png",
+    "step7/step7_results.json",
+    "step8/step8_1366x768_left.png",
+    "step8/step8_1366x768_right.png",
+    "step8/step8_1920x1080_left.png",
+    "step8/step8_1920x1080_right.png",
+    "step8/step8_390x844_left.png",
+    "step8/step8_390x844_right.png",
+    "step8/step8_results.json",
+    "step9/close_unmounted.png",
+    "step9/dock_tile_popped.png",
+    "step9/minimise_dock_target.png",
+    "step9/minimise_phase1.png",
+    "step9/restore_completed.png",
+    "step9/step9_results.json"
+  ]
+}

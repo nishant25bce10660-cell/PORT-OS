@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Wallpaper from '@/components/Wallpaper';
+import CircularGallery from '@/components/CircularGallery';
 import MenuBar from '@/components/MenuBar';
 import DesktopIcons from '@/components/DesktopIcons';
 import Dock, { MinimizedWindowInfo } from '@/components/Dock';
@@ -23,7 +24,6 @@ import AboutModal from '@/components/AboutModal';
 import PortOSIcon from '@/components/icons/PortOSIcon';
 import { toastManager } from '@/lib/toast';
 import { sound } from '@/lib/sound';
-import { qualityGovernor } from '@/lib/qualityGovernor';
 import {
   PortfolioData,
   FolderItem,
@@ -72,6 +72,10 @@ function DesktopContent() {
   const [spotlightOpen, setSpotlightOpen] = useState(false);
   const [brightness, setBrightness] = useState(100);
   const [volume, setVolume] = useState(80);
+  const [folderExpansion, setFolderExpansion] = useState<{
+    displacements: Record<string, { x: number; y: number }>;
+    progress: number;
+  } | null>(null);
 
   const handleVolumeChange = useCallback((val: number) => {
     setVolume(val);
@@ -104,17 +108,6 @@ function DesktopContent() {
         setPowerState('booting');
       }
     } catch {}
-  }, []);
-
-  // Connect Quality Governor
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      (window as any).__qualityGovernor = qualityGovernor;
-    }
-    const unsub = qualityGovernor.onTierChange((tier) => {
-      console.log(`[QualityGovernor] Tier changed to: ${tier}`);
-    });
-    return () => unsub();
   }, []);
 
   // Fetch initial session & role from server
@@ -230,6 +223,9 @@ function DesktopContent() {
         const existing = prev.find((w) => w.id === id);
         if (existing) {
           // Restore and bring to front
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('portos-trigger-restore', { detail: { id } }));
+          }
           const newZ = topZ + 1;
           setTopZ(newZ);
           return prev.map((w) =>
@@ -237,6 +233,7 @@ function DesktopContent() {
               ? {
                   ...w,
                   isMinimized: false,
+                  isRestoring: true,
                   zIndex: newZ,
                   meta: { ...w.meta, ...meta },
                 }
@@ -314,12 +311,15 @@ function DesktopContent() {
   const restoreWindow = useCallback(
     (id: string) => {
       sound.playWindowOpenSound();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('portos-trigger-restore', { detail: { id } }));
+      }
       setTopZ((prevTop) => {
         const nextZ = prevTop + 1;
         setWindows((prev) =>
           prev.map((w) =>
             w.id === id
-              ? { ...w, isMinimized: false, zIndex: nextZ }
+              ? { ...w, isMinimized: false, isRestoring: true, zIndex: nextZ }
               : w
           )
         );
@@ -613,7 +613,15 @@ function DesktopContent() {
   const handleSaveSettings = useCallback(
     async (nextSettings: Partial<ISystemSettings>) => {
       if (user?.role !== 'admin') {
-        // Viewer: apply to local state so UI updates immediately
+        // Viewer: apply to local state and persist to localStorage so it survives reload
+        if (nextSettings.customization) {
+          try {
+            const stored = localStorage.getItem('portos_customization');
+            const prevCustom = stored ? JSON.parse(stored) : {};
+            const updated = { ...prevCustom, ...nextSettings.customization };
+            localStorage.setItem('portos_customization', JSON.stringify(updated));
+          } catch {}
+        }
         setPortfolioData((prev) => {
           if (!prev) return null;
           return {
@@ -663,54 +671,6 @@ function DesktopContent() {
       throw err;
     }
   }, [user]);
-
-  // Set Wallpaper
-  const handleSetWallpaper = useCallback(
-    async (wallpaperId: string) => {
-      if (user?.role !== 'admin') {
-        // Viewer: override locally
-        try {
-          const custom = {
-            ...DEFAULT_CUSTOMIZATION,
-            desktopWallpaper: { type: 'preset', preset: wallpaperId },
-          };
-          localStorage.setItem('portos_customization', JSON.stringify(custom));
-          toastManager.notify({
-            type: 'success',
-            title: 'Wallpaper Updated',
-            message: `Personal wallpaper changed to ${wallpaperId}`,
-          });
-        } catch {}
-        return;
-      }
-      try {
-        const res = await fetch('/api/settings', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            appearance: { wallpaper: wallpaperId },
-            customization: {
-              ...(portfolioData?.settings?.customization || DEFAULT_CUSTOMIZATION),
-              desktopWallpaper: { type: 'preset', preset: wallpaperId },
-            },
-          }),
-        });
-
-        if (res.ok) {
-          const json = await res.json();
-          setPortfolioData((prev) => (prev ? { ...prev, settings: json.settings } : null));
-          toastManager.notify({
-            type: 'success',
-            title: 'Wallpaper Updated',
-            message: `Wallpaper changed to ${wallpaperId}`,
-          });
-        }
-      } catch (err) {
-        console.error('Failed to set wallpaper:', err);
-      }
-    },
-    [user, portfolioData]
-  );
 
   // Import file from PC into Folder
   const handleImportFromPC = useCallback(
@@ -905,8 +865,8 @@ function DesktopContent() {
       if (!portfolioDataRef.current) return;
       const currentWidgets = portfolioDataRef.current.widgets;
       const widgetId = customWidget?.id || `widget-${Date.now()}`;
-      const defaultX = Math.max(30, Math.min(typeof window !== 'undefined' ? window.innerWidth - 260 : 800, 60 + currentWidgets.length * 30));
-      const defaultY = Math.max(60, Math.min(typeof window !== 'undefined' ? window.innerHeight - 240 : 600, 100 + currentWidgets.length * 40));
+      const defaultX = Math.max(30, Math.min(typeof window !== 'undefined' ? window.innerWidth - 340 : 800, 60 + currentWidgets.length * 30));
+      const defaultY = Math.max(60, Math.min(typeof window !== 'undefined' ? window.innerHeight - 280 : 500, 80 + currentWidgets.length * 40));
 
       let newWidget: Widget;
       if (customWidget) {
@@ -1210,45 +1170,24 @@ function DesktopContent() {
 
   const isAdmin = user?.role === 'admin';
 
-  // Dual Wallpaper selection: lock screen uses lockScreenWallpaper, desktop uses desktopWallpaper
-  const activeWallpaper = useMemo(() => {
-    if (!user) {
-      const lockConfig = portfolioData?.settings?.customization?.lockScreenWallpaper;
-      if (lockConfig?.type === 'image' && lockConfig.imageUrl) {
-        return { preset: 'wave-shader', customImageUrl: lockConfig.imageUrl };
-      }
-      return { preset: lockConfig?.preset || 'wave-shader', customImageUrl: undefined };
-    }
-
-    // Authenticated desktop: check viewer local override first
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('portos_customization');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed?.desktopWallpaper) {
-            if (parsed.desktopWallpaper.type === 'image' && parsed.desktopWallpaper.imageUrl) {
-              return { preset: 'wave-shader', customImageUrl: parsed.desktopWallpaper.imageUrl };
-            }
-            if (parsed.desktopWallpaper.preset) {
-              return { preset: parsed.desktopWallpaper.preset, customImageUrl: undefined };
-            }
-          }
-        }
-      } catch {}
-    }
-
-    const deskConfig = portfolioData?.settings?.customization?.desktopWallpaper;
-    if (deskConfig?.type === 'image' && deskConfig.imageUrl) {
-      return { preset: 'wave-shader', customImageUrl: deskConfig.imageUrl };
-    }
-    return {
-      preset: deskConfig?.preset || portfolioData?.settings?.appearance?.wallpaper || 'wave-shader',
-      customImageUrl: undefined,
-    };
-  }, [user, portfolioData]);
-
   // Object-Specific Context Menus
+  const handleToggleDesktopSide = useCallback(
+    async (side: 'left' | 'right') => {
+      await handleSaveSettings({
+        customization: {
+          ...(portfolioData?.settings?.customization || DEFAULT_CUSTOMIZATION),
+          desktopSide: side,
+        },
+      });
+      toastManager.notify({
+        type: 'info',
+        title: 'Folder Placement',
+        message: `Folders placed on ${side}`,
+      });
+    },
+    [handleSaveSettings, portfolioData]
+  );
+
   const handleContextMenuDesktop = useCallback(
     (e: React.MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -1275,13 +1214,19 @@ function DesktopContent() {
             disabled: !isAdmin,
             action: handleNewFolderOnDesktop,
           },
-          { id: 'ctx-div-1', label: '', isDivider: true },
           {
-            id: 'ctx-change-wallpaper',
-            label: 'Change Wallpaper...',
-            icon: <PortOSIcon kind="settings" size={14} />,
-            action: () => handleOpenSettings(),
+            id: 'ctx-desktop-side',
+            label: (portfolioData?.settings?.customization as any)?.desktopSide === 'left'
+              ? 'Place Folders on Right'
+              : 'Place Folders on Left',
+            icon: <PortOSIcon kind="finder" size={14} />,
+            action: () => {
+              const currentSide = (portfolioData?.settings?.customization as any)?.desktopSide || 'right';
+              const nextSide = currentSide === 'left' ? 'right' : 'left';
+              handleToggleDesktopSide(nextSide);
+            },
           },
+          { id: 'ctx-div-1', label: '', isDivider: true },
           {
             id: 'ctx-effects',
             label: 'Visual Effects Library...',
@@ -1564,14 +1509,22 @@ function DesktopContent() {
             id: 'ctx-win-minimize',
             label: 'Minimize Window',
             icon: <PortOSIcon kind="finder" size={14} />,
-            action: () => minimizeWindow(windowId),
+            action: () => {
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('portos-trigger-minimize', { detail: { id: windowId } }));
+              }
+            },
           },
           { id: 'ctx-win-div-1', label: '', isDivider: true },
           {
             id: 'ctx-win-close',
             label: 'Close Window',
             icon: <PortOSIcon kind="trash" size={14} />,
-            action: () => closeWindow(windowId),
+            action: () => {
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('portos-trigger-close', { detail: { id: windowId } }));
+              }
+            },
           },
         ],
       });
@@ -1583,11 +1536,26 @@ function DesktopContent() {
   const effectClasses = [
     currentEffects.liquidGlass ? 'fx-liquid-glass' : '',
     currentEffects.glassmorphism ? 'fx-glassmorphism' : '',
-    currentEffects.magneticHover ? 'fx-magnetic-hover' : '',
-    currentEffects.tiltEffect ? 'fx-tilt-effect' : '',
     currentEffects.ambientGlow ? 'fx-ambient-glow' : '',
-    currentEffects.auroraMesh ? 'fx-aurora-mesh' : '',
   ].filter(Boolean).join(' ');
+
+  // Synchronize active visual effect classes to document.body for portaled elements (ContextMenu, Modals)
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const fxClasses = [
+      'fx-liquid-glass',
+      'fx-glassmorphism',
+      'fx-ambient-glow',
+    ];
+    document.body.classList.remove(...fxClasses);
+    const active: string[] = [];
+    if (currentEffects.liquidGlass) active.push('fx-liquid-glass');
+    if (currentEffects.glassmorphism) active.push('fx-glassmorphism');
+    if (currentEffects.ambientGlow) active.push('fx-ambient-glow');
+    if (active.length > 0) {
+      document.body.classList.add(...active);
+    }
+  }, [currentEffects]);
 
   // Map files for Desktop FolderFloat physics cloud
   const folderItemsMap = useMemo(() => {
@@ -1628,11 +1596,10 @@ function DesktopContent() {
       id="portfolio-desktop-os"
       onContextMenu={handleContextMenuDesktop}
     >
-      {/* Three.js Silk Wave Shader Wallpaper (Dual Wallpaper Support) */}
+      {/* Frame-Based Interactive Robot Wallpaper */}
       <Wallpaper
-        wallpaper={activeWallpaper.preset}
-        customImageUrl={activeWallpaper.customImageUrl}
         hasMaximizedWindow={hasMaximizedWindow}
+        isLocked={!user}
       />
 
       {/* Boot Screen */}
@@ -1682,24 +1649,29 @@ function DesktopContent() {
           id="desktop-workspace"
           onContextMenu={handleContextMenuDesktop}
         >
-          {/* Desktop Widgets */}
-          {portfolioData && (
-            <Widgets
-              widgets={portfolioData.widgets}
-              canEdit={isAdmin}
-              isAdmin={isAdmin}
-              clockConfig={portfolioData.settings?.customization?.clock || DEFAULT_CLOCK_CONFIG}
-              onUpdateWidgetPosition={handleUpdateWidgetPosition}
-              onUpdateWidgetText={handleUpdateWidgetText}
-              onUpdateWidgetConfig={handleUpdateWidgetConfig}
-              onDeleteWidget={handleDeleteWidget}
-              onAddWidget={handleAddWidget}
-              onEditCustomWidget={() => handleOpenWidgetsManager()}
-              onContextMenuWidget={handleContextMenuWidget}
-              totalFiles={totalFiles}
-              totalProjects={totalProjects}
+          {/* Interactive Mid-Layer: React Bits <CircularGallery /> Component */}
+          <div
+            id="desktop-circular-gallery-layer"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 5,
+              pointerEvents: 'auto',
+            }}
+          >
+            <CircularGallery
+              bend={3}
+              textColor="#ffffff"
+              borderRadius={0.05}
+              scrollEase={0.05}
+              paused={hasMaximizedWindow}
+              onItemClick={(item, index) => {
+                console.log('[CircularGallery] Selected item:', item?.text || item?.alt, index);
+              }}
             />
-          )}
+          </div>
 
           {/* Movable Desktop Icons with React Bits FolderFloat Physics Animation */}
           <DesktopIcons
@@ -1707,6 +1679,8 @@ function DesktopContent() {
             onOpenProjects={handleOpenProjects}
             onOpenCertEducation={handleOpenCertEducation}
             onOpenOwnersData={handleOpenOwnersData}
+            onOpenTerminal={handleOpenTerminal}
+            onOpenSettings={handleOpenSettings}
             onNewFolder={handleNewFolderOnDesktop}
             onContextMenuIcon={handleContextMenuIcon}
             initialPositions={
@@ -1720,6 +1694,9 @@ function DesktopContent() {
                 : portfolioData?.settings?.customization?.desktopIcons?.size || 'medium'
             }
             folderItems={folderItemsMap}
+            widgets={portfolioData?.widgets}
+            desktopSide={(portfolioData?.settings?.customization as any)?.desktopSide || 'right'}
+            onExpansionChange={setFolderExpansion}
             onOpenFile={handleOpenFile}
             onOpenFolder={(f) => {
               openWindow(`folder-${f.id}`, f.name, {
@@ -1729,6 +1706,27 @@ function DesktopContent() {
               });
             }}
           />
+
+          {/* Active Desktop Widgets (rendered when user adds widgets) */}
+          {portfolioData?.widgets && portfolioData.widgets.length > 0 && (
+            <Widgets
+              widgets={portfolioData.widgets}
+              canEdit={true}
+              isAdmin={isAdmin}
+              clockConfig={portfolioData?.settings?.clock || DEFAULT_CLOCK_CONFIG}
+              onUpdateWidgetPosition={handleUpdateWidgetPosition}
+              onUpdateWidgetText={handleUpdateWidgetText}
+              onUpdateWidgetConfig={handleUpdateWidgetConfig}
+              onDeleteWidget={handleDeleteWidget}
+              onAddWidget={handleAddWidget}
+              onEditCustomWidget={() => handleOpenWidgetsManager()}
+              onContextMenuWidget={handleContextMenuWidget}
+              totalFiles={totalFiles}
+              totalProjects={totalProjects}
+              expansionProgress={folderExpansion}
+              desktopSide={(portfolioData?.settings?.customization as any)?.desktopSide || 'right'}
+            />
+          )}
 
           {/* Open Windows */}
           {windows.map((win) => {
@@ -1772,7 +1770,6 @@ function DesktopContent() {
                   onMoveToTrash={handleMoveToTrash}
                   onRestoreTrash={handleRestoreTrash}
                   onEmptyTrash={handleEmptyTrash}
-                  onSetWallpaper={() => handleSetWallpaper('wave-shader')}
                   onImportFromPC={(fileData) =>
                     handleImportFromPC(folder.id, {
                       name: fileData.name,
@@ -1840,7 +1837,6 @@ function DesktopContent() {
                   userRole={user.role}
                   userName={user.name || user.username || 'owner'}
                   onOpenWindow={(id, title, meta) => openWindow(id, title, meta)}
-                  onSetWallpaper={handleSetWallpaper}
                   initialCommand={win.meta.initialCommand}
                 />
               );

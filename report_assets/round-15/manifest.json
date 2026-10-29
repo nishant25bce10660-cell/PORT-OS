@@ -42,30 +42,30 @@
             "geometry": {
               "avOwner": {
                 "left": 804,
-                "top": 365.5,
+                "top": 361,
                 "width": 156,
                 "height": 142,
                 "centerX": 882
               },
               "avGuest": {
                 "left": 960,
-                "top": 365.5,
+                "top": 361,
                 "width": 156,
                 "height": 142,
                 "centerX": 1038
               },
               "segOwner": {
                 "left": 804,
-                "top": 543.5,
+                "top": 539,
                 "width": 156,
-                "height": 26,
+                "height": 28,
                 "centerX": 882
               },
               "segGuest": {
                 "left": 960,
-                "top": 543.5,
+                "top": 539,
                 "width": 156,
-                "height": 26,
+                "height": 28,
                 "centerX": 1038
               },
               "deltaOwnerX": 0,
@@ -81,30 +81,30 @@
             "geometry": {
               "avOwner": {
                 "left": 527,
-                "top": 209.5,
+                "top": 205,
                 "width": 156,
                 "height": 142,
                 "centerX": 605
               },
               "avGuest": {
                 "left": 683,
-                "top": 209.5,
+                "top": 205,
                 "width": 156,
                 "height": 142,
                 "centerX": 761
               },
               "segOwner": {
                 "left": 527,
-                "top": 387.5,
+                "top": 383,
                 "width": 156,
-                "height": 26,
+                "height": 28,
                 "centerX": 605
               },
               "segGuest": {
                 "left": 683,
-                "top": 387.5,
+                "top": 383,
                 "width": 156,
-                "height": 26,
+                "height": 28,
                 "centerX": 761
               },
               "deltaOwnerX": 0,
@@ -120,30 +120,30 @@
             "geometry": {
               "avOwner": {
                 "left": 39,
-                "top": 247.5,
+                "top": 243,
                 "width": 156,
                 "height": 142,
                 "centerX": 117
               },
               "avGuest": {
                 "left": 195,
-                "top": 247.5,
+                "top": 243,
                 "width": 156,
                 "height": 142,
                 "centerX": 273
               },
               "segOwner": {
                 "left": 39,
-                "top": 425.5,
+                "top": 421,
                 "width": 156,
-                "height": 26,
+                "height": 28,
                 "centerX": 117
               },
               "segGuest": {
                 "left": 195,
-                "top": 425.5,
+                "top": 421,
                 "width": 156,
-                "height": 26,
+                "height": 28,
                 "centerX": 273
               },
               "deltaOwnerX": 0,
@@ -156,7 +156,7 @@
         ]
       },
       "screenshot": "login_1920x1080.png",
-      "timestamp": "2026-10-25T16:41:54.435Z"
+      "timestamp": "2026-10-28T23:57:25.781Z"
     },
     {
       "id": "ROUND15_STEP2_WIDGET_BUTTONS",
@@ -444,7 +444,7 @@
       "description": "Comprehensive engineering documentation and work record appended to PROGRESS.md; final owner report prepared with measured before/after benchmarks",
       "metrics": {
         "gatesPassed": "10/10",
-        "dockFpsBefore": 105.0,
+        "dockFpsBefore": 105,
         "dockFpsAfter": 154.9,
         "worstCaseFps": 129.4,
         "p95DeltaMs": 12.2,

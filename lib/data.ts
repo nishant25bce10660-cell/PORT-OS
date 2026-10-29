@@ -31,7 +31,6 @@ export function getPortfolioData(): PortfolioData {
     } else if (!parsed.settings.customization) {
       parsed.settings.customization = {
         ...DEFAULT_SETTINGS.customization,
-        wallpaperDesktop: parsed.settings.appearance?.wallpaper || 'wave-shader',
         theme: parsed.settings.appearance?.theme || 'dark',
         accentColor: parsed.settings.appearance?.accentColor || '#38bdf8',
         font: parsed.settings.appearance?.font || 'Inter',
@@ -40,6 +39,25 @@ export function getPortfolioData(): PortfolioData {
 
     if (!Array.isArray(parsed.trash)) {
       parsed.trash = [];
+    }
+
+    // Migration: drop deprecated effects fields safely (Step 5)
+    if (parsed.settings?.customization?.effects) {
+      delete (parsed.settings.customization.effects as any).magneticHover;
+      delete (parsed.settings.customization.effects as any).tiltEffect;
+      delete (parsed.settings.customization.effects as any).auroraMesh;
+    }
+
+    // Migration: drop deprecated wallpaper fields safely (Step 3)
+    if (parsed.settings?.customization) {
+      delete (parsed.settings.customization as any).wallpaperDesktop;
+      delete (parsed.settings.customization as any).wallpaperLockScreen;
+      delete (parsed.settings.customization as any).desktopWallpaper;
+      delete (parsed.settings.customization as any).lockScreenWallpaper;
+      delete (parsed.settings.customization as any).customWallpaperData;
+    }
+    if (parsed.settings?.appearance) {
+      delete (parsed.settings.appearance as any).wallpaper;
     }
 
     return parsed as PortfolioData;
