@@ -24,6 +24,7 @@ export interface DockMenuItem {
 }
 
 interface DockProps {
+  isAdmin?: boolean;
   onOpenApp: (appId: string) => void;
   onRestoreWindow: (windowId: string) => void;
   onSignOut: () => void;
@@ -322,6 +323,7 @@ function DockMenuCallout({
 }
 
 export default function Dock({
+  isAdmin = false,
   onOpenApp,
   onRestoreWindow,
   onSignOut,
@@ -357,7 +359,7 @@ export default function Dock({
     const updateFit = () => {
       const parentWidth = typeof window !== 'undefined' ? window.innerWidth : 1440;
       // 4 core apps + 2 utility + 1 divider + minimized + magnification spread allowance
-      const itemCount = 6 + (minimizedWindows.length ? 1 + minimizedWindows.length : 0);
+      const itemCount = (isAdmin ? 6 : 5) + (minimizedWindows.length ? 1 + minimizedWindows.length : 0);
       const neededWidth = itemCount * 72 + 200;
       const available = parentWidth - 32;
       const ratio = Math.min(1, Math.max(0.55, available / neededWidth));
@@ -368,56 +370,66 @@ export default function Dock({
     updateFit();
     window.addEventListener('resize', updateFit);
     return () => window.removeEventListener('resize', updateFit);
-  }, [minimizedWindows.length, updateCachedCenters]);
+  }, [isAdmin, minimizedWindows.length, updateCachedCenters]);
 
   // Core Apple-inspired app specifications with zero external emojis and proprietary PORT OS vectors
   const baseItems = useMemo(
-    () => [
-      {
-        id: 'finder',
-        name: 'Finder',
-        icon: <PortOSIcon kind="finder" size={38} />,
-        getMenu: (): DockMenuItem[] => [
-          { label: 'Open Finder', onClick: () => handleClickItem('finder', true) },
-          { label: 'New Finder Window', onClick: () => handleClickItem('finder', true) },
-          { separator: true },
-          { label: 'Show All Windows', onClick: () => onOpenApp('finder') },
-        ],
-      },
-      {
-        id: 'widgets',
-        name: 'Widgets',
-        icon: <PortOSIcon kind="widgets" size={38} />,
-        getMenu: (): DockMenuItem[] => [
-          { label: 'Open Widget Studio', onClick: () => handleClickItem('widgets', true) },
-          { label: 'Widget Gallery', onClick: () => handleClickItem('widgets', true) },
-          { separator: true },
-          { label: 'Reset Widgets', onClick: () => handleClickItem('widgets', true) },
-        ],
-      },
-      {
-        id: 'settings',
-        name: 'System Settings',
-        icon: <PortOSIcon kind="settings" size={38} />,
-        getMenu: (): DockMenuItem[] => [
-          { label: 'Open System Settings', onClick: () => handleClickItem('settings', true) },
-          { label: 'Customization & Effects', onClick: () => handleClickItem('settings', true) },
-        ],
-      },
-      {
-        id: 'terminal',
-        name: 'Terminal',
-        icon: <PortOSIcon kind="terminal" size={38} />,
-        getMenu: (): DockMenuItem[] => [
-          { label: 'Open Terminal', onClick: () => handleClickItem('terminal', true) },
-          { label: 'New Terminal Window', onClick: () => handleClickItem('terminal', true) },
-          { separator: true },
-          { label: 'Clear History', onClick: () => handleClickItem('terminal', true) },
-        ],
-      },
-    ],
+    () => {
+      const items = [
+        {
+          id: 'finder',
+          name: 'Finder',
+          icon: <PortOSIcon kind="finder" size={38} />,
+          getMenu: (): DockMenuItem[] => [
+            { label: 'Open Finder', onClick: () => handleClickItem('finder', true) },
+            { label: 'New Finder Window', onClick: () => handleClickItem('finder', true) },
+            { separator: true },
+            { label: 'Show All Windows', onClick: () => onOpenApp('finder') },
+          ],
+        },
+      ];
+
+      if (isAdmin) {
+        items.push({
+          id: 'widgets',
+          name: 'Widgets',
+          icon: <PortOSIcon kind="widgets" size={38} />,
+          getMenu: (): DockMenuItem[] => [
+            { label: 'Open Widget Studio', onClick: () => handleClickItem('widgets', true) },
+            { label: 'Widget Gallery', onClick: () => handleClickItem('widgets', true) },
+            { separator: true },
+            { label: 'Reset Widgets', onClick: () => handleClickItem('widgets', true) },
+          ],
+        });
+      }
+
+      items.push(
+        {
+          id: 'settings',
+          name: 'System Settings',
+          icon: <PortOSIcon kind="settings" size={38} />,
+          getMenu: (): DockMenuItem[] => [
+            { label: 'Open System Settings', onClick: () => handleClickItem('settings', true) },
+            { label: 'Customization & Effects', onClick: () => handleClickItem('settings', true) },
+          ],
+        },
+        {
+          id: 'terminal',
+          name: 'Terminal',
+          icon: <PortOSIcon kind="terminal" size={38} />,
+          getMenu: (): DockMenuItem[] => [
+            { label: 'Open Terminal', onClick: () => handleClickItem('terminal', true) },
+            { label: 'New Terminal Window', onClick: () => handleClickItem('terminal', true) },
+            { separator: true },
+            { label: 'Clear History', onClick: () => handleClickItem('terminal', true) },
+          ],
+        }
+      );
+
+      return items;
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [isAdmin]
   );
 
   // React Bits Magnification Engine: Cached Centers + Single rAF Loop (Zero Forced Layout)

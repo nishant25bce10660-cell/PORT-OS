@@ -136,6 +136,20 @@ function DesktopContent() {
     checkSession();
   }, []);
 
+  // Global suppression of right click until entering the main screen
+  useEffect(() => {
+    const blockPreLoginContextMenu = (e: MouseEvent) => {
+      if (!user || powerState !== 'running') {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    window.addEventListener('contextmenu', blockPreLoginContextMenu, { capture: true });
+    return () => {
+      window.removeEventListener('contextmenu', blockPreLoginContextMenu, { capture: true });
+    };
+  }, [user, powerState]);
+
   // Sync portfolioDataRef
   useEffect(() => {
     portfolioDataRef.current = portfolioData;
@@ -1026,9 +1040,11 @@ function DesktopContent() {
     }, { width: 500, height: 420 });
   }, [openWindow]);
 
+  const isAdmin = user?.role === 'admin';
+
   // New folder directly on desktop (inside root)
   const handleNewFolderOnDesktop = useCallback(() => {
-    if (user?.role !== 'admin' || !portfolioData) return;
+    if (!isAdmin || !portfolioData) return;
     const name = prompt('Enter new desktop folder name:', 'New Folder');
     if (!name) return;
 
@@ -1056,7 +1072,67 @@ function DesktopContent() {
         }
       })
       .catch((err) => console.error('Failed to create desktop folder:', err));
-  }, [user, portfolioData, openWindow]);
+  }, [isAdmin, portfolioData, openWindow]);
+
+  // Move an item from Finder or subfolder to desktop root
+  const handleMoveItemToDesktop = useCallback(
+    async (itemId: string, dropX?: number, dropY?: number) => {
+      if (!isAdmin) return;
+      try {
+        const res = await fetch(`/api/items/${itemId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ parentId: 'root' }),
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+          setPortfolioData((prev) => (prev ? { ...prev, root: json.root } : null));
+
+          if (dropX !== undefined && dropY !== undefined && typeof window !== 'undefined') {
+            try {
+              const stored = localStorage.getItem('portos_desktop_icons');
+              const posMap = stored ? JSON.parse(stored) : {};
+              posMap[itemId] = { x: Math.max(16, dropX - 40), y: Math.max(48, dropY - 40) };
+              localStorage.setItem('portos_desktop_icons', JSON.stringify(posMap));
+            } catch {}
+          }
+
+          toastManager.notify({
+            type: 'success',
+            title: 'Moved to Home Screen',
+            message: 'Folder is now on your desktop',
+          });
+        }
+      } catch (err) {
+        console.error('Failed to move item to desktop:', err);
+      }
+    },
+    [isAdmin]
+  );
+
+  // Save desktop icon positions
+  const handleSaveDesktopPositions = useCallback(
+    (positions: Record<string, { x: number; y: number }>) => {
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('portos_desktop_icons', JSON.stringify(positions));
+        } catch {}
+      }
+      if (isAdmin && portfolioData) {
+        handleSaveSettings({
+          customization: {
+            ...(portfolioData?.settings?.customization || DEFAULT_CUSTOMIZATION),
+            desktopIcons: {
+              size: (portfolioData?.settings?.customization as any)?.desktopIcons?.size || 'medium',
+              positions,
+            },
+          },
+        });
+      }
+    },
+    [isAdmin, portfolioData, handleSaveSettings]
+  );
 
   // Dock click handler
   const handleDockOpenApp = useCallback(
@@ -1168,11 +1244,10 @@ function DesktopContent() {
     return windows.filter((w) => !w.isMinimized).map((w) => w.id);
   }, [windows]);
 
-  const isAdmin = user?.role === 'admin';
-
   // Object-Specific Context Menus
   const handleToggleDesktopSide = useCallback(
     async (side: 'left' | 'right') => {
+      if (!isAdmin) return;
       await handleSaveSettings({
         customization: {
           ...(portfolioData?.settings?.customization || DEFAULT_CUSTOMIZATION),
@@ -1185,11 +1260,16 @@ function DesktopContent() {
         message: `Folders placed on ${side}`,
       });
     },
-    [handleSaveSettings, portfolioData]
+    [isAdmin, handleSaveSettings, portfolioData]
   );
 
   const handleContextMenuDesktop = useCallback(
     (e: React.MouseEvent) => {
+      if (!user || powerState !== 'running') {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       const target = e.target as HTMLElement;
       if (
         target.closest('.window-shell') ||
@@ -1220,7 +1300,9 @@ function DesktopContent() {
               ? 'Place Folders on Right'
               : 'Place Folders on Left',
             icon: <PortOSIcon kind="finder" size={14} />,
+            disabled: !isAdmin,
             action: () => {
+              if (!isAdmin) return;
               const currentSide = (portfolioData?.settings?.customization as any)?.desktopSide || 'right';
               const nextSide = currentSide === 'left' ? 'right' : 'left';
               handleToggleDesktopSide(nextSide);
@@ -1231,7 +1313,11 @@ function DesktopContent() {
             id: 'ctx-effects',
             label: 'Visual Effects Library...',
             icon: <PortOSIcon kind="settings" size={14} />,
-            action: () => handleOpenSettings(),
+            disabled: !isAdmin,
+            action: () => {
+              if (!isAdmin) return;
+              handleOpenSettings();
+            },
           },
           {
             id: 'ctx-clean-up',
@@ -1244,7 +1330,9 @@ function DesktopContent() {
                 <rect x="10" y="10" width="4" height="4" rx="1" />
               </svg>
             ),
+            disabled: !isAdmin,
             action: () => {
+              if (!isAdmin) return;
               if (typeof window !== 'undefined') {
                 localStorage.removeItem('portos_desktop_icons');
               }
@@ -1282,7 +1370,7 @@ function DesktopContent() {
         ],
       });
     },
-    [isAdmin, handleNewFolderOnDesktop, handleOpenSettings, handleSignOut]
+    [user, powerState, isAdmin, handleNewFolderOnDesktop, handleOpenSettings, handleSignOut, portfolioData, handleToggleDesktopSide, openContextMenu]
   );
 
   const handleContextMenuIcon = useCallback(
@@ -1290,83 +1378,149 @@ function DesktopContent() {
       e.preventDefault();
       e.stopPropagation();
 
+      const isCustomFolder = !['projects', 'cert-education', 'owners-data'].includes(iconId);
+
       const openAction = () => {
         if (iconId === 'projects') handleOpenProjects();
         else if (iconId === 'cert-education') handleOpenCertEducation();
         else if (iconId === 'owners-data') handleOpenOwnersData();
+        else {
+          const item = findItemById(portfolioData?.root || [], iconId);
+          if (item) {
+            if (item.kind === 'folder') {
+              openWindow(`folder-${item.id}`, item.name, {
+                type: 'folder',
+                itemId: item.id,
+                folderNavId: item.id,
+              });
+            } else {
+              handleOpenFile(item as FileItem);
+            }
+          }
+        }
       };
+
+      const items: ContextMenuItem[] = [
+        {
+          id: 'ctx-icon-open',
+          label: 'Open',
+          icon: <PortOSIcon kind="folder" size={14} />,
+          action: openAction,
+        },
+      ];
+
+      if (isCustomFolder && isAdmin) {
+        items.push(
+          {
+            id: 'ctx-icon-rename',
+            label: 'Rename...',
+            icon: <PortOSIcon kind="edit" size={14} />,
+            action: () => {
+              const newName = prompt('Enter new folder name:', label);
+              if (newName && newName.trim() && newName.trim() !== label) {
+                handleRenameItem(iconId, newName.trim());
+              }
+            },
+          },
+          {
+            id: 'ctx-icon-trash',
+            label: 'Move to Trash',
+            icon: <PortOSIcon kind="trash" size={14} />,
+            action: () => {
+              handleMoveToTrash(iconId);
+            },
+          }
+        );
+      }
+
+      items.push(
+        {
+          id: 'ctx-icon-info',
+          label: 'Get Info',
+          icon: <PortOSIcon kind="about" size={14} />,
+          action: () => {
+            if (isCustomFolder) {
+              openAction();
+            } else {
+              handleOpenOwnersData();
+            }
+          },
+        },
+        { id: 'ctx-div-icon-1', label: '', isDivider: true },
+        {
+          id: 'ctx-icon-reset',
+          label: 'Reset Icon Position',
+          icon: (
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <path d="M4 7h7a3 3 0 0 1 3 3v2" strokeLinecap="round" />
+              <path d="M7 4L4 7l3 3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ),
+          disabled: !isAdmin,
+          action: () => {
+            if (!isAdmin) return;
+            if (typeof window !== 'undefined') {
+              try {
+                const stored = localStorage.getItem('portos_desktop_icons');
+                if (stored) {
+                  const parsed = JSON.parse(stored);
+                  delete parsed[iconId];
+                  localStorage.setItem('portos_desktop_icons', JSON.stringify(parsed));
+                }
+              } catch {}
+            }
+            toastManager.notify({
+              type: 'info',
+              title: 'Icon Reset',
+              message: `${label} position reset to default`,
+            });
+          },
+        },
+        {
+          id: 'ctx-icon-cleanup',
+          label: 'Align All Icons to Grid',
+          icon: (
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <rect x="2" y="2" width="4" height="4" rx="1" />
+              <rect x="10" y="2" width="4" height="4" rx="1" />
+              <rect x="2" y="10" width="4" height="4" rx="1" />
+              <rect x="10" y="10" width="4" height="4" rx="1" />
+            </svg>
+          ),
+          disabled: !isAdmin,
+          action: () => {
+            if (!isAdmin) return;
+            if (typeof window !== 'undefined') {
+              localStorage.removeItem('portos_desktop_icons');
+            }
+            toastManager.notify({
+              type: 'info',
+              title: 'Icons Aligned',
+              message: 'All desktop icons snapped to 16px grid',
+            });
+          },
+        }
+      );
 
       openContextMenu({
         x: e.clientX,
         y: e.clientY,
         title: label,
-        items: [
-          {
-            id: 'ctx-icon-open',
-            label: 'Open',
-            icon: <PortOSIcon kind="folder" size={14} />,
-            action: openAction,
-          },
-          {
-            id: 'ctx-icon-info',
-            label: 'Get Info',
-            icon: <PortOSIcon kind="about" size={14} />,
-            action: handleOpenOwnersData,
-          },
-          { id: 'ctx-div-icon-1', label: '', isDivider: true },
-          {
-            id: 'ctx-icon-reset',
-            label: 'Reset Icon Position',
-            icon: (
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M4 7h7a3 3 0 0 1 3 3v2" strokeLinecap="round" />
-                <path d="M7 4L4 7l3 3" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            ),
-            action: () => {
-              if (typeof window !== 'undefined') {
-                try {
-                  const stored = localStorage.getItem('portos_desktop_icons');
-                  if (stored) {
-                    const parsed = JSON.parse(stored);
-                    delete parsed[iconId];
-                    localStorage.setItem('portos_desktop_icons', JSON.stringify(parsed));
-                  }
-                } catch {}
-              }
-              toastManager.notify({
-                type: 'info',
-                title: 'Icon Reset',
-                message: `${label} position reset to default`,
-              });
-            },
-          },
-          {
-            id: 'ctx-icon-cleanup',
-            label: 'Align All Icons to Grid',
-            icon: (
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <rect x="2" y="2" width="4" height="4" rx="1" />
-                <rect x="10" y="2" width="4" height="4" rx="1" />
-                <rect x="2" y="10" width="4" height="4" rx="1" />
-                <rect x="10" y="10" width="4" height="4" rx="1" />
-              </svg>
-            ),
-            action: () => {
-              if (typeof window !== 'undefined') {
-                localStorage.removeItem('portos_desktop_icons');
-              }
-              toastManager.notify({
-                type: 'info',
-                title: 'Icons Aligned',
-                message: 'All desktop icons snapped to 16px grid',
-              });
-            },
-          },
-        ],
+        items,
       });
     },
-    [handleOpenProjects, handleOpenCertEducation, handleOpenOwnersData]
+    [
+      isAdmin,
+      handleOpenProjects,
+      handleOpenCertEducation,
+      handleOpenOwnersData,
+      portfolioData,
+      openWindow,
+      handleOpenFile,
+      handleRenameItem,
+      handleMoveToTrash,
+      openContextMenu,
+    ]
   );
 
   const handleContextMenuWidget = useCallback(
@@ -1557,6 +1711,22 @@ function DesktopContent() {
     }
   }, [currentEffects]);
 
+  // Custom desktop items (folders and files created on desktop outside the 3 fixed system hubs)
+  const customDesktopItems = useMemo(() => {
+    if (!portfolioData?.root) return [];
+    const fixedFolderIds = new Set(['folder-projects', 'folder-cert-edu', 'folder-owners-data']);
+    return portfolioData.root.filter((r) => !fixedFolderIds.has(r.id));
+  }, [portfolioData]);
+
+  const extraDesktopIcons = useMemo(() => {
+    return customDesktopItems.map((item) => ({
+      id: item.id,
+      label: item.name,
+      type: item.kind,
+      folder: item,
+    }));
+  }, [customDesktopItems]);
+
   // Map files for Desktop FolderFloat physics cloud
   const folderItemsMap = useMemo(() => {
     if (!portfolioData?.root) return {};
@@ -1587,6 +1757,13 @@ function DesktopContent() {
       map['owners-data'] = ownersFolder.children;
     }
 
+    // 4. Custom desktop items
+    portfolioData.root.forEach((r) => {
+      if (!['folder-projects', 'folder-cert-edu', 'folder-owners-data'].includes(r.id)) {
+        map[r.id] = r.children || [];
+      }
+    });
+
     return map;
   }, [portfolioData]);
 
@@ -1594,7 +1771,7 @@ function DesktopContent() {
     <div
       className={`desktop-container ${effectClasses}`}
       id="portfolio-desktop-os"
-      onContextMenu={handleContextMenuDesktop}
+      onContextMenu={user && powerState === 'running' ? handleContextMenuDesktop : (e) => { e.preventDefault(); e.stopPropagation(); }}
     >
       {/* Frame-Based Interactive Robot Wallpaper */}
       <Wallpaper
@@ -1648,6 +1825,26 @@ function DesktopContent() {
           className="desktop-workspace"
           id="desktop-workspace"
           onContextMenu={handleContextMenuDesktop}
+          onDragOver={(e) => {
+            if (e.dataTransfer.types.includes('application/json')) {
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+            }
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            try {
+              const raw = e.dataTransfer.getData('application/json');
+              if (raw) {
+                const data = JSON.parse(raw);
+                if (data && data.id) {
+                  handleMoveItemToDesktop(data.id, e.clientX, e.clientY);
+                }
+              }
+            } catch (err) {
+              console.error('Desktop drop error:', err);
+            }
+          }}
         >
           {/* Interactive Mid-Layer: React Bits <CircularGallery /> Component */}
           <div
@@ -1659,6 +1856,26 @@ function DesktopContent() {
               height: '100vh',
               zIndex: 5,
               pointerEvents: 'auto',
+            }}
+            onDragOver={(e) => {
+              if (e.dataTransfer.types.includes('application/json')) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+              }
+            }}
+            onDrop={(e) => {
+              e.preventDefault();
+              try {
+                const raw = e.dataTransfer.getData('application/json');
+                if (raw) {
+                  const data = JSON.parse(raw);
+                  if (data && data.id) {
+                    handleMoveItemToDesktop(data.id, e.clientX, e.clientY);
+                  }
+                }
+              } catch (err) {
+                console.error('Gallery drop error:', err);
+              }
             }}
           >
             <CircularGallery
@@ -1688,13 +1905,15 @@ function DesktopContent() {
                 ? undefined
                 : portfolioData?.settings?.customization?.desktopIcons?.positions
             }
+            onSavePositions={handleSaveDesktopPositions}
             iconSize={
               Array.isArray(portfolioData?.settings?.customization?.desktopIcons)
                 ? 'medium'
                 : portfolioData?.settings?.customization?.desktopIcons?.size || 'medium'
             }
+            extraIcons={extraDesktopIcons}
             folderItems={folderItemsMap}
-            widgets={portfolioData?.widgets}
+            widgets={isAdmin ? portfolioData?.widgets : []}
             desktopSide={(portfolioData?.settings?.customization as any)?.desktopSide || 'right'}
             onExpansionChange={setFolderExpansion}
             onOpenFile={handleOpenFile}
@@ -1707,8 +1926,8 @@ function DesktopContent() {
             }}
           />
 
-          {/* Active Desktop Widgets (rendered when user adds widgets) */}
-          {portfolioData?.widgets && portfolioData.widgets.length > 0 && (
+          {/* Active Desktop Widgets (rendered only for Admin) */}
+          {isAdmin && portfolioData?.widgets && portfolioData.widgets.length > 0 && (
             <Widgets
               widgets={portfolioData.widgets}
               canEdit={true}
@@ -1770,6 +1989,7 @@ function DesktopContent() {
                   onMoveToTrash={handleMoveToTrash}
                   onRestoreTrash={handleRestoreTrash}
                   onEmptyTrash={handleEmptyTrash}
+                  onMoveToDesktop={(itemId) => handleMoveItemToDesktop(itemId)}
                   onImportFromPC={(fileData) =>
                     handleImportFromPC(folder.id, {
                       name: fileData.name,
@@ -1894,6 +2114,7 @@ function DesktopContent() {
       {/* macOS Dock (Mounted only when authenticated) */}
       {user && (
         <Dock
+          isAdmin={isAdmin}
           onOpenApp={handleDockOpenApp}
           onRestoreWindow={restoreWindow}
           onSignOut={handleSignOut}

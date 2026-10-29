@@ -45,6 +45,10 @@ export default function PowerOverlay({
       <div
         id="sleep-overlay"
         onClick={onWakeFromSleep}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         style={{
           position: 'fixed',
           inset: 0,
@@ -61,6 +65,10 @@ export default function PowerOverlay({
     return (
       <div
         id="shutdown-screen"
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         style={{
           position: 'fixed',
           inset: 0,
@@ -121,6 +129,10 @@ export default function PowerOverlay({
     return (
       <div
         id="restart-screen"
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         style={{
           position: 'fixed',
           inset: 0,

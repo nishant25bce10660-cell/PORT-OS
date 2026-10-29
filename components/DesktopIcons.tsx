@@ -37,38 +37,7 @@ interface DesktopIconsProps {
   onExpansionChange?: (info: { displacements: Record<string, { x: number; y: number }>; progress: number } | null) => void;
 }
 
-const DEFAULT_FOLDER_ITEMS: Record<string, any[]> = {
-  projects: [
-    { id: 'file-proj-1', name: 'Distributed-KV-Store.md', kind: 'file' },
-    { id: 'file-proj-2', name: 'Portfolio-OS.md', kind: 'file' },
-    { id: 'file-proj-3', name: 'Realtime-Voxel-Engine.md', kind: 'file' },
-    { id: 'file-proj-4', name: 'Micro-SaaS-Billing-Engine.md', kind: 'file' },
-  ],
-  'cert-education': [
-    { id: 'file-cert-aws', name: 'AWS-Solutions-Architect-Pro.md', kind: 'file' },
-    { id: 'file-cert-cka', name: 'CKA-Kubernetes-Administrator.md', kind: 'file' },
-    { id: 'file-cert-gcp', name: 'Google-Cloud-Professional-Data-Engineer.md', kind: 'file' },
-    { id: 'file-edu-degree', name: 'BS-Computer-Science.md', kind: 'file' },
-  ],
-  'owners-data': [
-    { id: 'file-about-me', name: 'About-Me.md', kind: 'file' },
-    { id: 'file-contact', name: 'Contact.md', kind: 'file' },
-    { id: 'file-skills', name: 'Skills-Matrix.md', kind: 'file' },
-    { id: 'file-experience', name: 'Experience.md', kind: 'file' },
-  ],
-  terminal: [
-    { id: 'cmd-help', name: 'help', kind: 'code' },
-    { id: 'cmd-neofetch', name: 'neofetch', kind: 'code' },
-    { id: 'cmd-skills', name: 'skills', kind: 'code' },
-    { id: 'cmd-clear', name: 'clear', kind: 'code' },
-  ],
-  settings: [
-    { id: 'set-appearance', name: 'Appearance', kind: 'file' },
-    { id: 'set-customization', name: 'Customization', kind: 'file' },
-    { id: 'set-profile', name: 'Profile', kind: 'file' },
-    { id: 'set-security', name: 'Security', kind: 'file' },
-  ],
-};
+const DEFAULT_FOLDER_ITEMS: Record<string, any[]> = {};
 
 const ICON_THEMES: Record<string, {
   folderColor: string;
@@ -454,21 +423,21 @@ export default function DesktopIcons({
       {
         id: 'projects',
         label: 'Projects',
-        sublabel: '4 projects',
+        sublabel: folderItems?.['projects']?.length ? `${folderItems['projects'].length} items` : 'Empty',
         type: 'project' as const,
         onOpen: onOpenProjects,
       },
       {
         id: 'cert-education',
         label: 'Cert & Education',
-        sublabel: '4 credentials',
+        sublabel: folderItems?.['cert-education']?.length ? `${folderItems['cert-education'].length} items` : 'Empty',
         type: 'folder' as const,
         onOpen: onOpenCertEducation,
       },
       {
         id: 'owners-data',
         label: "Owner's Data",
-        sublabel: '4 profiles',
+        sublabel: folderItems?.['owners-data']?.length ? `${folderItems['owners-data'].length} items` : 'Empty',
         type: 'user' as const,
         onOpen: onOpenOwnersData,
       },
@@ -487,7 +456,7 @@ export default function DesktopIcons({
         onOpen: () => onOpenSettings?.(),
       },
     ],
-    [onOpenProjects, onOpenCertEducation, onOpenOwnersData, onOpenTerminal, onOpenSettings]
+    [onOpenProjects, onOpenCertEducation, onOpenOwnersData, onOpenTerminal, onOpenSettings, folderItems]
   );
 
   const allIcons = useMemo(
@@ -496,11 +465,18 @@ export default function DesktopIcons({
       ...extraIcons.map((ei) => ({
         id: ei.id,
         label: ei.label,
-        type: (ei.type as any) || 'document',
-        onOpen: () => onOpenExtraIcon?.(ei),
+        sublabel: folderItems?.[ei.id]?.length ? `${folderItems[ei.id].length} items` : 'Empty',
+        type: (ei.type as any) || 'folder',
+        onOpen: () => {
+          if (onOpenExtraIcon) {
+            onOpenExtraIcon(ei);
+          } else if (onOpenFolder && (ei as any).folder) {
+            onOpenFolder((ei as any).folder);
+          }
+        },
       })),
     ],
-    [defaultIcons, extraIcons, onOpenExtraIcon]
+    [defaultIcons, extraIcons, onOpenExtraIcon, onOpenFolder, folderItems]
   );
 
   const orderedIcons = useMemo(() => {

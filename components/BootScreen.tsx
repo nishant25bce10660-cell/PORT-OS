@@ -86,6 +86,10 @@ export default function BootScreen({
     <div
       id="boot-screen-overlay"
       className={`boot-screen-container ${isFadingOut ? 'fade-out' : ''}`}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
       style={{
         position: 'fixed',
         inset: 0,

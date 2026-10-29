@@ -4,7 +4,7 @@ import { createSessionCookie } from '@/lib/auth';
 import { getPortfolioData } from '@/lib/data';
 import { isShareModeActive } from '@/lib/pc-guard';
 import { recordVisitor } from '@/lib/telemetry';
-import { validateHostAndOrigin } from '@/lib/security';
+import { validateHostAndOrigin, isLoopbackHostname } from '@/lib/security';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -89,6 +89,16 @@ export async function POST(req: NextRequest) {
       response.cookies.set(sessionCookie);
       return response;
     } else if (tab === 'admin' || tab === 'owner') {
+      // Admin section is ONLY accessible through the localhost side of the website
+      const hostHeader = req.headers.get('x-forwarded-host') || req.headers.get('host') || '';
+      const hostname = hostHeader.split(':')[0].toLowerCase();
+      if (!isLoopbackHostname(hostname)) {
+        return NextResponse.json(
+          { error: 'Admin login is only accessible through localhost.' },
+          { status: 403 }
+        );
+      }
+
       // R2: In portfolio share mode, admin login is disabled
       if (isShareModeActive()) {
         return NextResponse.json(
@@ -119,7 +129,13 @@ export async function POST(req: NextRequest) {
 
       const data = getPortfolioData();
       const expectedUsername = process.env.ADMIN_USERNAME || data.admin?.username || 'admin';
-      const expectedHash = process.env.ADMIN_PASSWORD_HASH || data.admin?.passwordHash || '';
+      const fileHash = data.admin?.passwordHash || '';
+      const envHash = process.env.ADMIN_PASSWORD_HASH || '';
+      const expectedHash = fileHash.startsWith('$2')
+        ? fileHash
+        : envHash.startsWith('$2')
+        ? envHash
+        : fileHash || envHash;
       const envPassword = process.env.ADMIN_PASSWORD || '';
 
       // Check username if specified

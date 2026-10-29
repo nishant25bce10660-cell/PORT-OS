@@ -25,6 +25,7 @@ interface FolderViewProps {
   onMoveToTrash?: (itemId: string) => void;
   onRestoreTrash?: (itemId: string) => void;
   onEmptyTrash?: () => void;
+  onMoveToDesktop?: (itemId: string) => void;
   initialIsTrashView?: boolean;
   onImportFromPC?: (fileData: { name: string; content?: string; base64?: string }) => void;
   breadcrumbs: { id: string; name: string }[];
@@ -63,6 +64,7 @@ export default function FolderView({
   onMoveToTrash,
   onRestoreTrash,
   onEmptyTrash,
+  onMoveToDesktop,
   initialIsTrashView = false,
   onImportFromPC,
   breadcrumbs,
@@ -292,6 +294,12 @@ export default function FolderView({
     if (canEdit && !initialIsTrashView) {
       items.push(
         { id: 'ctx-div-1', label: '', isDivider: true },
+        {
+          id: 'ctx-finder-place-desktop',
+          label: 'Move to Home Screen',
+          icon: <PortOSIcon kind="finder" size={14} />,
+          action: () => onMoveToDesktop?.(item.id),
+        },
         {
           id: 'ctx-finder-rename',
           label: 'Rename',
@@ -1046,6 +1054,15 @@ export default function FolderView({
                     key={item.id}
                     className={`finder-item folder-item-card ${isSelected ? 'is-selected' : ''}`}
                     id={`item-${item.id}`}
+                    draggable={canEdit && !isTrashView}
+                    onDragStart={(e) => {
+                      if (!canEdit || isTrashView) return;
+                      e.dataTransfer.setData(
+                        'application/json',
+                        JSON.stringify({ type: 'finder-item', itemId: item.id, name: item.name, kind: item.kind, sourceParentId: folder.id })
+                      );
+                      e.dataTransfer.effectAllowed = 'move';
+                    }}
                     onClick={() => setSelectedItemId(item.id)}
                     onDoubleClick={() => {
                       if (isFolder) onNavigateFolder(item as FolderItem);
@@ -1152,6 +1169,15 @@ export default function FolderView({
                   <div
                     key={item.id}
                     className={`finder-item finder-list-row ${isSelected ? 'is-selected' : ''}`}
+                    draggable={canEdit && !isTrashView}
+                    onDragStart={(e) => {
+                      if (!canEdit || isTrashView) return;
+                      e.dataTransfer.setData(
+                        'application/json',
+                        JSON.stringify({ type: 'finder-item', itemId: item.id, name: item.name, kind: item.kind, sourceParentId: folder.id })
+                      );
+                      e.dataTransfer.effectAllowed = 'move';
+                    }}
                     onClick={() => setSelectedItemId(item.id)}
                     onDoubleClick={() => {
                       if (isFolder) onNavigateFolder(item as FolderItem);
@@ -1191,12 +1217,16 @@ export default function FolderView({
                   <div
                     key={item.id}
                     className={`finder-item ${selectedItemId === item.id ? 'is-selected' : ''}`}
-                    onClick={() => setSelectedItemId(item.id)}
-                    onDoubleClick={() => {
-                      if (item.kind === 'folder') onNavigateFolder(item as FolderItem);
-                      else onOpenFile(item as FileItem);
+                    draggable={canEdit && !isTrashView}
+                    onDragStart={(e) => {
+                      if (!canEdit || isTrashView) return;
+                      e.dataTransfer.setData(
+                        'application/json',
+                        JSON.stringify({ type: 'finder-item', itemId: item.id, name: item.name, kind: item.kind, sourceParentId: folder.id })
+                      );
+                      e.dataTransfer.effectAllowed = 'move';
                     }}
-                    onContextMenu={(e) => handleContextMenu(e, item)}
+                    onClick={() => setSelectedItemId(item.id)}
                     onDoubleClick={() => {
                       if (item.kind === 'folder') onNavigateFolder(item as FolderItem);
                       else onOpenFile(item as FileItem);
@@ -1281,6 +1311,15 @@ export default function FolderView({
                   <div
                     key={item.id}
                     className={`finder-item ${selectedItemId === item.id ? 'is-selected' : ''}`}
+                    draggable={canEdit && !isTrashView}
+                    onDragStart={(e) => {
+                      if (!canEdit || isTrashView) return;
+                      e.dataTransfer.setData(
+                        'application/json',
+                        JSON.stringify({ type: 'finder-item', itemId: item.id, name: item.name, kind: item.kind, sourceParentId: folder.id })
+                      );
+                      e.dataTransfer.effectAllowed = 'move';
+                    }}
                     onClick={() => setSelectedItemId(item.id)}
                     onDoubleClick={() => {
                       if (item.kind === 'folder') onNavigateFolder(item as FolderItem);

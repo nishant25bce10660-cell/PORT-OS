@@ -89,8 +89,8 @@ const SLOT_TILTS = [-3.2, 3.2, -3.2, 3.2]; // alternating within ±6°
 const MAX_VISIBLE_PILLS = 4;
 
 export default function FolderFloat({
-  items = DEFAULT_ITEMS,
-  label = 'Design feedback',
+  items = [],
+  label = 'Folder',
   sublabel = '',
   trigger = 'hover',
   defaultOpen = false,

@@ -92,7 +92,7 @@ export function addItemToTree(
   parentId: string | null,
   newItem: Item
 ): { added: boolean; items: Item[] } {
-  if (!parentId) {
+  if (!parentId || parentId === 'root') {
     return { added: true, items: [...items, newItem] };
   }
 
@@ -119,4 +119,17 @@ export function addItemToTree(
   });
 
   return { added, items: nextItems };
+}
+
+export function moveItemInTree(
+  items: Item[],
+  itemId: string,
+  targetParentId: string | null
+): { moved: boolean; items: Item[]; movedItem?: Item } {
+  const itemToMove = findItemById(items, itemId);
+  if (!itemToMove) return { moved: false, items };
+  const { removed, items: itemsWithoutTarget } = removeItemFromTree(items, itemId);
+  if (!removed) return { moved: false, items };
+  const { added, items: finalItems } = addItemToTree(itemsWithoutTarget, targetParentId, itemToMove);
+  return { moved: added, items: finalItems, movedItem: itemToMove };
 }

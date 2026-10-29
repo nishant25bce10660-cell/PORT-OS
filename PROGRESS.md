@@ -2361,3 +2361,205 @@ In this comprehensive cycle, the entire user-facing visual presentation, authent
 - **`scripts/tests/verify-basic-folder-interaction.mjs`**: Automated Puppeteer verification suite for basic folder interaction, double-click, and double-right-click.
 - **`scripts/tests/verify-springcheck-todo-widget.mjs`**: Automated Puppeteer verification suite for SpringCheck widget integration and task lifecycle.
 - **`package.json` & `package-lock.json`**: Added `matter-js`, `@types/matter-js`, and `@hugeicons/core-free-icons`.
+
+---
+
+## 🟢 ROUND 22 — PRODUCTION DEPLOYMENT ACCESS FIX, PRE-LOGIN RIGHT-CLICK SUPPRESSION & LOCALHOST-ONLY ADMIN ENFORCEMENT (COMPLETE)
+
+### 22.1 Context & Problem Statement
+
+1. **Vercel Access Outage (`https://portos-azure.vercel.app/`)**:
+   - Both Owner and Guest logins were failing on the deployed Vercel production environment with HTTP 400 Bad Request and HTTP 403 Forbidden.
+   - **Root Cause 1**: `lib/security.ts` previously checked `!ALLOWED_LOOPBACK_HOSTS.has(clean)`. Any non-loopback host (such as `portos-azure.vercel.app`) was rejected with HTTP 400 `Security violation: Host is not an allowlisted loopback interface`.
+   - **Root Cause 2**: In `validateHostAndOrigin`, mutating requests had `defaultPort` hardcoded to string `'3000'`, clashing with HTTPS port `443` on production deployments (`originPort: 443`), throwing HTTP 403 `Security violation: Cross-origin port mismatch`.
+2. **Pre-Login Right-Click Suppression**:
+   - Right click was opening the desktop context menu even when on the lock screen / login modal.
+   - Requirement: Right-click must be strictly inaccessible until the user successfully authenticates and enters the main desktop workspace.
+3. **Localhost-Only Admin Enforcement**:
+   - In production deployments, only the user (guest/visitor) perspective must be accessible.
+   - The admin section and credentials interface must be removed from the main files on production and must only be accessible when the app is run locally on `localhost`.
+
+---
+
+### 22.2 Architectural & Security Fixes
+
+#### 1. Production Host Allowlisting & Dynamic Port Normalization (`lib/security.ts`)
+- Added `isAllowedHost(hostname)` supporting loopback hosts (`localhost`, `127.0.0.1`, `::1`), all Vercel deployment domains (`*.vercel.app`), Vercel environment URLs (`VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL`), and custom domains via `NEXT_PUBLIC_SITE_URL`.
+- Normalized default ports dynamically based on request protocol (`x-forwarded-proto === 'https' ? '443' : '80'`), allowing standard web port pairs (`443`/`80`) to eliminate cross-origin port mismatch errors.
+- Exported `isLoopbackHostname` for granular route-level authorization.
+
+#### 2. Localhost-Only Admin Login Route (`app/api/auth/login/route.ts`)
+- When `tab === 'admin' || tab === 'owner'`, the route handler inspects the incoming request hostname.
+- If `!isLoopbackHostname(hostname)`, the request is immediately rejected with `HTTP 403 Forbidden` (`{ error: 'Admin login is only accessible through localhost.' }`).
+- Guest/visitor logins (`tab === 'guest' || tab === 'viewer'`) are fully permitted across all valid allowlisted domains.
+
+#### 3. Admin Session Invalidation on Non-Localhost Hosts (`app/api/session/route.ts`)
+- When validating active sessions via `/api/session`, if a session contains `role: 'admin'`, the server checks if the host is a loopback interface. If not, the session is invalidated and `{ user: null }` is returned, preventing session reuse across environments.
+
+#### 4. Adaptive Client Login Interface (`components/LoginModal.tsx`)
+- Detects `isLocalhost` dynamically on mount via client-side hostname inspection (`window.location.hostname`).
+- In production (`!isLocalhost`):
+  - Owner avatar (`#avatar-select-owner`) is completely omitted from the DOM.
+  - Role switcher tab bar (`#login-role-switch`) is completely omitted from the DOM.
+  - The ReflectiveCard sub-header and status chip strictly display "Guest Verification" and "Read-Only".
+  - The admin credentials form is completely omitted; only the guest name and email form is rendered.
+- On localhost (`isLocalhost`): Full Owner and Guest toggling, avatars, and authorization forms remain active for local administration.
+
+#### 5. Strict Pre-Login Right-Click Blocking (`app/page.tsx`, `components/BootScreen.tsx`, `components/PowerOverlay.tsx`)
+- Registered a window-level capture event listener in `app/page.tsx`:
+  ```tsx
+  useEffect(() => {
+    const blockPreLoginContextMenu = (e: MouseEvent) => {
+      if (!user || powerState !== 'running') {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    window.addEventListener('contextmenu', blockPreLoginContextMenu, { capture: true });
+    return () => window.removeEventListener('contextmenu', blockPreLoginContextMenu, { capture: true });
+  }, [user, powerState]);
+  ```
+- Guarded `handleContextMenuDesktop` with an early exit if `!user || powerState !== 'running'`.
+- Root container `#portfolio-desktop-os` prevents context menu unless authenticated (`user && powerState === 'running'`).
+- Added defense-in-depth right-click suppression to `BootScreen.tsx` and all states of `PowerOverlay.tsx` (`#sleep-overlay`, `#shutdown-screen`, `#restart-screen`).
+
+---
+
+### 22.3 Verification Gates & Measured Results
+
+| Verification Gate | Validation Criteria | Measured Result | Status |
+|---|---|---|---|
+| **Gate 1: Remote Vercel Host Allowlisting** | Valid `*.vercel.app` host accepted for guest login | `HTTP 200 OK`, user session issued | **PASS** |
+| **Gate 2: Remote Admin Login Blocked** | POST `/api/auth/login` with `tab: 'admin'` on Vercel host | `HTTP 403 Forbidden` | **PASS** |
+| **Gate 3: Attacker Domain Blocked** | DNS rebinding check with non-allowlisted host | `HTTP 400 Bad Request` | **PASS** |
+| **Gate 4: Pre-Login Right-Click Suppression** | Right click on lock screen / login modal | Exactly 0 context menus open | **PASS** |
+| **Gate 5: Post-Login Right-Click Accessibility** | Right click on desktop after guest login | Desktop context menu opens with options | **PASS** |
+| **Gate 6: Production UI Adaptation** | UI in production environment hides Owner controls | 0 Owner avatars, 0 Role switch tabs, 1 Guest avatar | **PASS** |
+| **Gate 7: Localhost UI Integrity** | UI in localhost retains Owner controls | Owner avatar present, Role switch present | **PASS** |
+| **Gate 8: Production Build** | `npm run build` compiles 15/15 routes with zero errors | `✓ Compiled successfully`, First Load JS: 248 kB | **PASS** |
+| **Gate 9: Security Audit** | `npm run security` static and dynamic attack suite | 12/12 security checks passed (H1 - H5) | **PASS** |
+
+---
+
+## 🟢 ROUND 23 — DUMMY DATA CLEANUP, VISITOR WIDGET & CUSTOMIZATION RESTRICTION, CUSTOM DESKTOP FOLDERS & DRAG-AND-DROP WORKSPACE (COMPLETE)
+
+### 23.1 Context & Objectives
+
+1. **Dummy Data Eradication**:
+   - Completely wipe all placeholder items, sample project markdown files, credentials, contact information, and dummy notes from `data/portfolio.json`.
+   - Clear hardcoded dummy items from `components/DesktopIcons.tsx` (`DEFAULT_FOLDER_ITEMS = {}`) and `components/FolderFloat.tsx` (`items = []`), replacing them with dynamic sublabels that reflect actual child counts (e.g. `Empty` or `N items`).
+2. **Visitor Widget Suppression**:
+   - Ensure desktop widgets are treated strictly as an owner prerogative. Regular visitors/guests see **zero desktop widgets** and the `Widgets` app icon is completely omitted from the Dock.
+3. **Custom Desktop Folders (Independent from the 3 Core Hubs)**:
+   - Provide seamless support for creating custom folders on the desktop that coexist alongside the 3 fixed system root folders (`Projects`, `Certification & Education`, `Owner's Data`).
+   - Custom folders must support arbitrary naming, custom icon placements, opening in Finder, rename, and moving to trash.
+4. **Multi-Modal Folder Creation & Drag-and-Drop Desktop Workspace**:
+   - **Desktop Right-Click**: Right-click on desktop workspace $\to$ "New Folder" creates a root folder and opens its window.
+   - **Finder Toolbar & Context Menu**: Create folders directly inside Finder using the `+ Folder` button or context menu.
+   - **"Move to Home Screen" Context Menu**: Right-click any folder inside Finder $\to$ "Move to Home Screen" updates its parent in the portfolio tree to `root` and assigns it to the desktop icon grid.
+   - **Direct Drag-and-Drop to Home Screen**: Drag any item from Finder and drop it directly onto the desktop workspace (`#desktop-workspace` or `#desktop-circular-gallery-layer`); the dropped folder is relocated to `root` and placed at the exact cursor drop coordinates (`portos_desktop_icons`).
+5. **Universal Customization Restriction**:
+   - Strictly prohibit non-admin users from modifying system customizations:
+     - **Desktop Context Menu**: "New Folder", "Place Folders on Left/Right", "Visual Effects Library", and "Clean Up Icons" are disabled (`disabled: true`).
+     - **System Settings**: Customization, Boot, and Font tabs display locked restriction banners for non-admin visitors; Save and Reset buttons are hidden; handler functions immediately reject unauthorized client mutations.
+     - **Backend RBAC**: All mutating endpoints (`PUT /api/settings`, `POST/PUT /api/items`, `PUT /api/widgets`, `POST /api/settings/font`) enforce server-side admin role verification (`HTTP 401/403`).
+
+---
+
+### 23.2 Architecture & Implementation Details
+
+#### 1. Data Store Cleanup (`data/portfolio.json`, `components/DesktopIcons.tsx`, `components/FolderFloat.tsx`)
+- Reset owner attributes: empty bio, empty title, empty email, empty location, empty github, empty linkedin.
+- Reset root system folders:
+  - `folder-projects`: `children: []`.
+  - `folder-cert-edu`: `Education: children: []`, `Certifications: children: []`.
+  - `folder-owners-data`: `children: []`.
+  - `widgets`: `[]`.
+- In `components/DesktopIcons.tsx`:
+  - Reset `DEFAULT_FOLDER_ITEMS = {}`.
+  - Dynamically compute icon sublabels based on real folder contents (`${count} items` or `Empty`).
+- In `components/FolderFloat.tsx`:
+  - Replaced fallback `DEFAULT_ITEMS` array with empty array `items = []`.
+
+#### 2. Tree Manipulation & API Relocation (`lib/tree.ts`, `app/api/items/[id]/route.ts`)
+- Fixed `addItemToTree` to recognize `parentId === 'root'` or empty `parentId`.
+- Added `moveItemInTree(items, itemId, targetParentId)`:
+  - Recursively removes the item from its current container and appends it to `targetParentId` (or root when `targetParentId === 'root'`).
+- In `app/api/items/[id]/route.ts`:
+  - Added support for `{ parentId: string }` payload to move items between folders or directly to root.
+
+#### 3. Finder Drag-and-Drop & Relocation Actions (`components/FolderView.tsx`)
+- Added `onMoveToDesktop?: (itemId: string) => void` callback prop.
+- Added "Move to Home Screen" option in the context menu for folders and files when `canEdit && !initialIsTrashView`.
+- Added HTML5 drag-and-drop source handlers across all 4 view modes (Icons, List, Columns, Gallery):
+  ```tsx
+  draggable={canEdit && !isTrashView}
+  onDragStart={(e) => {
+    e.dataTransfer.setData('application/json', JSON.stringify({
+      type: 'finder-item',
+      itemId: item.id,
+      name: item.name,
+      kind: item.kind,
+      sourceParentId: folder.id,
+    }));
+    e.dataTransfer.effectAllowed = 'move';
+  }}
+  ```
+
+#### 4. Desktop Orchestration, Dynamic Icons & Drop Zone (`app/page.tsx`)
+- Computed `customDesktopItems`: filters `portfolioData.root` excluding the 3 fixed system folder IDs.
+- Transformed `customDesktopItems` into `extraDesktopIcons` and wired them as `extraIcons` into `<DesktopIcons>`.
+- Updated `folderItemsMap` to index children of all custom desktop items.
+- Added `handleMoveItemToDesktop(itemId, dropX?, dropY?)`:
+  - Calls `PUT /api/items/${itemId}` with `{ parentId: 'root' }`.
+  - Saves drop coordinates to `localStorage` key `portos_desktop_icons`.
+- Configured `#desktop-workspace` and `#desktop-circular-gallery-layer` with `onDragOver` (`dropEffect = 'move'`) and `onDrop` handlers to extract dropped items and position them at `(e.clientX, e.clientY)`.
+- Wired `onSavePositions={handleSaveDesktopPositions}` to `<DesktopIcons>`: saves positions to `localStorage` and persists via `handleSaveSettings` for Admin.
+- Updated `handleContextMenuIcon` to support Open, Rename, and Move to Trash on custom desktop folders.
+- Mounted `<Widgets>` only when `isAdmin && portfolioData?.widgets?.length > 0`.
+- Passed `isAdmin={isAdmin}` to `<Dock>`: hides `Widgets` app icon from the Dock for visitors.
+
+#### 5. Customization Restrictions & Lock Banners (`components/SystemSettings.tsx`, `app/page.tsx`)
+- In `SystemSettings.tsx`:
+  - Injected locked restriction notices for non-admin viewers:
+    - Customization tab: `#customization-restricted-notice` ("Customization Restricted — Only the system administrator can modify desktop wallpapers, dock preferences, visual effects, and window themes.")
+    - Boot tab: `#boot-restricted-notice` ("Boot Customization Restricted — Only the system administrator can modify boot sequence timing, branding, and boot sound effects.")
+    - Fonts tab: `#fonts-restricted-notice` ("Font Management Restricted — Only the system administrator can install and configure system fonts.")
+  - Hidden footer Save and Reset buttons when `!isAdmin`.
+  - Client-side handlers (`handleCustomizationChange`, `handleBootChange`, `handleSave`, `handleReset`, `handleFontFileSelected`) immediately exit early if `!canEdit || !isAdmin`.
+- In `app/page.tsx`:
+  - Desktop context menu items (`ctx-new-folder`, `ctx-desktop-side`, `ctx-effects`, `ctx-clean-up`) are explicitly marked `disabled: !isAdmin`.
+
+---
+
+### 23.3 Verification Gates & Measured Results
+
+Automated end-to-end verification executed via `scripts/tests/verify-round23-complete.mjs` using Puppeteer across Guest and Admin perspectives:
+
+| Verification Gate | Validation Criteria | Measured Result | Status |
+|---|---|---|---|
+| **Gate 1: Guest Desktop Widgets** | No `.desktop-widget` rendered on desktop for guest | Exactly 0 widgets found | **PASS** |
+| **Gate 2: Guest Dock Widgets Icon** | Widgets icon hidden from Dock for guest | Omitted from DOM (`null`) | **PASS** |
+| **Gate 3: Desktop Menu "New Folder" Lock** | Desktop right-click "New Folder" disabled for guest | Element contains `.disabled` | **PASS** |
+| **Gate 4: Desktop Menu "Desktop Side" Lock** | Desktop right-click "Place Folders Left/Right" disabled for guest | Element contains `.disabled` | **PASS** |
+| **Gate 5: Desktop Menu "Visual Effects" Lock** | Desktop right-click "Visual Effects Library" disabled for guest | Element contains `.disabled` | **PASS** |
+| **Gate 6: Desktop Menu "Clean Up Icons" Lock** | Desktop right-click "Clean Up Icons" disabled for guest | Element contains `.disabled` | **PASS** |
+| **Gate 7: Projects Data Cleanliness** | Projects root folder has 0 placeholder files | `children.length === 0` | **PASS** |
+| **Gate 8: Cert & Education Cleanliness** | Education & Certifications folders have 0 placeholder files | Total children === 0 | **PASS** |
+| **Gate 9: Owner's Data Cleanliness** | Owner's Data root folder has 0 placeholder files | `children.length === 0` | **PASS** |
+| **Gate 10: Storage Widget Cleanliness** | Storage `widgets` array in portfolio.json is empty | `widgets.length === 0` | **PASS** |
+| **Gate 11: Admin Dock Widgets Icon** | Widgets icon visible in Dock for Admin | Present in DOM | **PASS** |
+| **Gate 12: Admin Desktop Menu "New Folder"** | Desktop right-click "New Folder" enabled for Admin | Enabled (`.disabled` absent) | **PASS** |
+| **Gate 13: Desktop Folder Creation** | Admin creates "Design Lab 2026" via desktop right-click | Rendered on desktop (`.desktop-icon-item`) | **PASS** |
+| **Gate 14: Finder Folder Creation** | Admin creates "Research & Notes" inside Finder | Created inside Finder (`.finder-item`) | **PASS** |
+| **Gate 15: Finder "Move to Home Screen" Menu** | Context menu on Finder item offers "Move to Home Screen" | Item `#context-menu-item-ctx-finder-place-desktop` present | **PASS** |
+| **Gate 16: Finder to Desktop Relocation** | Clicking "Move to Home Screen" relocates folder to desktop root | Folder rendered on desktop (`.desktop-icon-item`) | **PASS** |
+| **Gate 17: Custom Folder Rename Menu** | Right-click on custom desktop folder has "Rename..." | Present in context menu | **PASS** |
+| **Gate 18: Custom Folder Trash Menu** | Right-click on custom desktop folder has "Move to Trash" | Present in context menu | **PASS** |
+| **Gate 19: Custom Folder Rename Execution** | Admin renames custom folder to "Design Lab Approved" | Icon label updated on desktop and storage | **PASS** |
+| **Gate 20: Custom Folder Trash Execution** | Admin moves custom folder to Trash | Removed from desktop; moved to `trash` array | **PASS** |
+| **Gate 21: Desktop Drag & Drop Dispatch** | Item drop event dispatched onto `#desktop-workspace` | Drop event handled cleanly | **PASS** |
+| **Gate 22: Desktop Drag & Drop Coordinates** | Dropped folder appears on desktop at exact drop coordinates | Position stored; rendered on desktop | **PASS** |
+| **Gate 23: Production Compilation** | `npm run build` compiles 15/15 routes without errors | `✓ Compiled successfully`, First Load JS: 249 kB | **PASS** |
+| **Gate 24: Security Audit Scanner** | `npm run security` static and dynamic attack suite | 12/12 security checks passed (H1 - H5) | **PASS** |
+

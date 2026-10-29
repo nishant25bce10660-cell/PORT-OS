@@ -4,11 +4,30 @@ import { getSession, UserSession } from './auth';
 
 const ALLOWED_LOOPBACK_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
 
-function isLoopbackHostname(hostname: string): boolean {
-  if (ALLOWED_LOOPBACK_HOSTS.has(hostname)) return true;
-  if (hostname.startsWith('127.')) return true;
+export function isLoopbackHostname(hostname: string): boolean {
+  if (!hostname) return false;
+  const clean = hostname.split(':')[0].toLowerCase();
+  if (ALLOWED_LOOPBACK_HOSTS.has(clean)) return true;
+  if (clean.startsWith('127.')) return true;
   const customAllowedHost = process.env.ALLOWED_HOST?.toLowerCase();
-  if (customAllowedHost && hostname === customAllowedHost) return true;
+  if (customAllowedHost && clean === customAllowedHost) return true;
+  return false;
+}
+
+export function isAllowedHost(hostname: string): boolean {
+  if (!hostname) return false;
+  const clean = hostname.split(':')[0].toLowerCase();
+  if (isLoopbackHostname(clean)) return true;
+  // Allow Vercel deployment domains (*.vercel.app)
+  if (clean.endsWith('.vercel.app')) return true;
+  if (process.env.VERCEL_URL && clean === process.env.VERCEL_URL.toLowerCase().split(':')[0]) return true;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL && clean === process.env.VERCEL_PROJECT_PRODUCTION_URL.toLowerCase().split(':')[0]) return true;
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    try {
+      const u = new URL(process.env.NEXT_PUBLIC_SITE_URL);
+      if (clean === u.hostname.toLowerCase()) return true;
+    } catch {}
+  }
   return false;
 }
 
@@ -20,9 +39,9 @@ export function validateHostAndOrigin(req: NextRequest): NextResponse | null {
   const hostHeader = req.headers.get('x-forwarded-host') || req.headers.get('host') || '';
   const hostname = hostHeader.split(':')[0].toLowerCase();
 
-  if (!hostname || !isLoopbackHostname(hostname)) {
+  if (!hostname || !isAllowedHost(hostname)) {
     return NextResponse.json(
-      { error: 'Security violation: Host is not an allowlisted loopback interface' },
+      { error: 'Security violation: Host is not an allowlisted loopback interface or domain' },
       { status: 400 }
     );
   }
@@ -34,7 +53,9 @@ export function validateHostAndOrigin(req: NextRequest): NextResponse | null {
   if (isMutating) {
     const originHeader = req.headers.get('origin');
     const refererHeader = req.headers.get('referer');
-    const hostPort = hostHeader.includes(':') ? hostHeader.split(':')[1] : '3000';
+    const isHttps = req.headers.get('x-forwarded-proto') === 'https' || req.nextUrl.protocol === 'https:';
+    const defaultPort = isHttps ? '443' : (isLoopbackHostname(hostname) ? '3000' : '80');
+    const hostPort = hostHeader.includes(':') ? hostHeader.split(':')[1] : defaultPort;
 
     if (originHeader) {
       try {
@@ -42,9 +63,17 @@ export function validateHostAndOrigin(req: NextRequest): NextResponse | null {
         const originHost = originUrl.hostname.toLowerCase();
         const originPort = originUrl.port || (originUrl.protocol === 'https:' ? '443' : '80');
 
-        if (!isLoopbackHostname(originHost) || (originPort && hostPort && originPort !== hostPort)) {
+        if (!isAllowedHost(originHost) || originHost !== hostname) {
           return NextResponse.json(
             { error: 'Security violation: Cross-origin request rejected' },
+            { status: 403 }
+          );
+        }
+
+        const isStandardPortPair = (hostPort === '443' || hostPort === '80') && (originPort === '443' || originPort === '80');
+        if (hostPort && originPort && hostPort !== originPort && !isStandardPortPair) {
+          return NextResponse.json(
+            { error: 'Security violation: Cross-origin port mismatch' },
             { status: 403 }
           );
         }
@@ -60,9 +89,17 @@ export function validateHostAndOrigin(req: NextRequest): NextResponse | null {
         const refHost = refUrl.hostname.toLowerCase();
         const refPort = refUrl.port || (refUrl.protocol === 'https:' ? '443' : '80');
 
-        if (!isLoopbackHostname(refHost) || (refPort && hostPort && refPort !== hostPort)) {
+        if (!isAllowedHost(refHost) || refHost !== hostname) {
           return NextResponse.json(
             { error: 'Security violation: Untrusted Referer header rejected' },
+            { status: 403 }
+          );
+        }
+
+        const isStandardPortPair = (hostPort === '443' || hostPort === '80') && (refPort === '443' || refPort === '80');
+        if (hostPort && refPort && hostPort !== refPort && !isStandardPortPair) {
+          return NextResponse.json(
+            { error: 'Security violation: Untrusted Referer port mismatch' },
             { status: 403 }
           );
         }

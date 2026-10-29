@@ -134,6 +134,7 @@ export default function SystemSettings({
     category: K,
     patch: Partial<CustomizationSettings[K]> | CustomizationSettings[K]
   ) => {
+    if (!canEdit || !isAdmin) return;
     setFormData((prev) => {
       const curCat = (prev.customization?.[category] || DEFAULT_CUSTOMIZATION[category]) as any;
       const nextCat = typeof patch === 'object' && !Array.isArray(patch) ? { ...curCat, ...patch } : patch;
@@ -171,7 +172,7 @@ export default function SystemSettings({
   };
 
   const handleBootChange = (field: keyof ISystemSettings['boot'], value: string) => {
-    if (!canEdit) return;
+    if (!canEdit || !isAdmin) return;
     setFormData((prev) => {
       const next = {
         ...prev,
@@ -183,6 +184,14 @@ export default function SystemSettings({
   };
 
   const handleSave = async () => {
+    if (!canEdit || !isAdmin) {
+      toastManager.notify({
+        type: 'warning',
+        title: 'Customization Restricted',
+        message: 'Only the administrator/owner can modify system settings.',
+      });
+      return;
+    }
     const rawData = formDataRef.current;
     const currentData: ISystemSettings = {
       ...rawData,
@@ -198,19 +207,6 @@ export default function SystemSettings({
     }
     if (currentData.appearance) {
       delete (currentData.appearance as any).wallpaper;
-    }
-    if (!canEdit) {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('portos_customization', JSON.stringify(currentData.customization));
-      }
-      setSaveMessage('Preferences saved locally (Viewer Session)');
-      toastManager.notify({
-        type: 'info',
-        title: 'Local Preferences Saved',
-        message: 'Your personal preferences are saved in your browser with zero network requests.',
-      });
-      setTimeout(() => setSaveMessage(null), 3000);
-      return;
     }
     setSaving(true);
     setSaveMessage(null);
@@ -236,21 +232,7 @@ export default function SystemSettings({
   };
 
   const handleReset = async () => {
-    if (!canEdit) {
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('portos_customization');
-        localStorage.removeItem('portos_desktop_icons');
-      }
-      setFormData(initialSettings || DEFAULT_SETTINGS);
-      setSaveMessage('Preferences reset to defaults');
-      toastManager.notify({
-        type: 'info',
-        title: 'Preferences Reset',
-        message: 'Local viewer preferences reset to owner defaults.',
-      });
-      setTimeout(() => setSaveMessage(null), 3000);
-      return;
-    }
+    if (!canEdit || !isAdmin) return;
     if (confirm('Reset all settings to default values?')) {
       const def = { ...DEFAULT_SETTINGS, customization: DEFAULT_CUSTOMIZATION };
       setFormData(def);
@@ -676,10 +658,19 @@ export default function SystemSettings({
 
         {/* CONSOLIDATED CUSTOMIZATION TAB */}
         {isCustomizationTab && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-              System Customization & Personalization
-            </h3>
+          !isAdmin ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px', textAlign: 'center', gap: '16px' }}>
+              <PortOSIcon kind="lock" size={44} />
+              <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Customization Restricted</div>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.5, margin: 0 }}>
+                System personalization, themes, visual effects, and clock configurations can only be customized by the verified administrator.
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+                System Customization & Personalization
+              </h3>
 
             {/* Section 7: Advanced Clock Customization */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
@@ -1032,14 +1023,24 @@ export default function SystemSettings({
               </div>
             </div>
           </div>
+          )
         )}
 
         {/* BOOT TAB */}
         {activeTab === 'boot' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-              Boot Experience & Metal Finishes
-            </h3>
+          !isAdmin ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px', textAlign: 'center', gap: '16px' }}>
+              <PortOSIcon kind="lock" size={44} />
+              <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Boot Customization Restricted</div>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.5, margin: 0 }}>
+                Boot screen animations, custom text, and metal finishes can only be configured by the verified administrator.
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+                Boot Experience & Metal Finishes
+              </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label style={{ fontSize: '12px', fontWeight: 500 }}>Boot Text</label>
@@ -1114,35 +1115,46 @@ export default function SystemSettings({
               </div>
             </div>
           </div>
+          )
         )}
 
         {/* FONTS TAB */}
         {activeTab === 'fonts' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-              Typography & Custom Fonts
-            </h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '12px', fontWeight: 500 }}>Upload TTF/WOFF/WOFF2 Font File</label>
-              <input
-                type="file"
-                disabled={!canEdit}
-                accept=".ttf,.woff,.woff2,font/ttf,font/woff,font/woff2"
-                onChange={handleFontFileSelected}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: '6px',
-                  padding: '8px',
-                  color: '#fff',
-                  fontSize: '12px',
-                }}
-              />
-              {fontUploadError && <span style={{ fontSize: '11px', color: '#ff5a52' }}>{fontUploadError}</span>}
-              {fontUploadSuccess && <span style={{ fontSize: '11px', color: '#35d0ba' }}>{fontUploadSuccess}</span>}
+          !isAdmin ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px', textAlign: 'center', gap: '16px' }}>
+              <PortOSIcon kind="lock" size={44} />
+              <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Font Management Restricted</div>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.5, margin: 0 }}>
+                Installing and managing custom system fonts can only be performed by the verified administrator.
+              </p>
             </div>
-          </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+                Typography & Custom Fonts
+              </h3>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 500 }}>Upload TTF/WOFF/WOFF2 Font File</label>
+                <input
+                  type="file"
+                  disabled={!canEdit}
+                  accept=".ttf,.woff,.woff2,font/ttf,font/woff,font/woff2"
+                  onChange={handleFontFileSelected}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '6px',
+                    padding: '8px',
+                    color: '#fff',
+                    fontSize: '12px',
+                  }}
+                />
+                {fontUploadError && <span style={{ fontSize: '11px', color: '#ff5a52' }}>{fontUploadError}</span>}
+                {fontUploadSuccess && <span style={{ fontSize: '11px', color: '#35d0ba' }}>{fontUploadSuccess}</span>}
+              </div>
+            </div>
+          )
         )}
 
         {/* SECURITY TAB */}
@@ -1225,7 +1237,7 @@ export default function SystemSettings({
         )}
 
         {/* Footer Actions (Save / Reset) */}
-        {canEdit && (
+        {canEdit && isAdmin && (
           <div
             style={{
               display: 'flex',

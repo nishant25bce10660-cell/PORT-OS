@@ -20,6 +20,18 @@ export default function LoginModal({
   onShutdown,
 }: LoginModalProps) {
   const [selectedUser, setSelectedUser] = useState<'owner' | 'guest'>('guest');
+  const [isLocalhost, setIsLocalhost] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const h = ((window as any).__MOCK_HOSTNAME__ || window.location.hostname).toLowerCase();
+      const local = h === 'localhost' || h === '127.0.0.1' || h === '::1' || h.startsWith('127.');
+      setIsLocalhost(local);
+      if (!local) {
+        setSelectedUser('guest');
+      }
+    }
+  }, []);
 
   // Clock state for macOS lock screen
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -149,6 +161,10 @@ export default function LoginModal({
   return (
     <div
       id="login-modal-overlay"
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
       className={`lock-screen-container ${isSuccessFade ? 'lock-screen-fade-out' : ''}`}
       style={{
         position: 'fixed',
@@ -221,103 +237,105 @@ export default function LoginModal({
           aria-label="Select User Role"
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            width: '320px',
+            gridTemplateColumns: isLocalhost ? '1fr 1fr' : '1fr',
+            width: isLocalhost ? '320px' : '160px',
             padding: '3px',
             border: '1px solid transparent',
             marginBottom: '28px',
             boxSizing: 'border-box',
           }}
         >
-          {/* Owner Avatar (Left) */}
-          <div
-            id="avatar-select-owner"
-            role="radio"
-            aria-checked={selectedUser === 'owner'}
-            aria-label="Select Owner role"
-            tabIndex={selectedUser === 'owner' ? 0 : -1}
-            onClick={() => {
-              setSelectedUser('owner');
-              setErrorMessage(null);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                setSelectedUser('guest');
-                document.getElementById('avatar-select-guest')?.focus();
-              } else if (e.key === ' ' || e.key === 'Enter') {
-                e.preventDefault();
-                setSelectedUser('owner');
-              }
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              cursor: 'pointer',
-              opacity: selectedUser === 'owner' ? 1 : 0.6,
-              transition: 'opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
-              outline: 'none',
-            }}
-          >
+          {/* Owner Avatar (Left - Only on localhost) */}
+          {isLocalhost && (
             <div
+              id="avatar-select-owner"
+              role="radio"
+              aria-checked={selectedUser === 'owner'}
+              aria-label="Select Owner role"
+              tabIndex={selectedUser === 'owner' ? 0 : -1}
+              onClick={() => {
+                setSelectedUser('owner');
+                setErrorMessage(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  setSelectedUser('guest');
+                  document.getElementById('avatar-select-guest')?.focus();
+                } else if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault();
+                  setSelectedUser('owner');
+                }
+              }}
               style={{
-                width: '96px',
-                height: '96px',
-                borderRadius: '50%',
-                padding: '3px',
-                background: selectedUser === 'owner'
-                  ? 'linear-gradient(135deg, #FFFFFF, #71717A)'
-                  : 'rgba(255, 255, 255, 0.15)',
-                boxShadow: selectedUser === 'owner'
-                  ? '0 0 22px rgba(255, 255, 255, 0.3)'
-                  : 'none',
-                transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                cursor: 'pointer',
+                opacity: selectedUser === 'owner' ? 1 : 0.6,
+                transition: 'opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                outline: 'none',
               }}
             >
               <div
                 style={{
-                  width: '100%',
-                  height: '100%',
+                  width: '96px',
+                  height: '96px',
                   borderRadius: '50%',
-                  backgroundColor: '#12151C',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  padding: '3px',
+                  background: selectedUser === 'owner'
+                    ? 'linear-gradient(135deg, #FFFFFF, #71717A)'
+                    : 'rgba(255, 255, 255, 0.15)',
+                  boxShadow: selectedUser === 'owner'
+                    ? '0 0 22px rgba(255, 255, 255, 0.3)'
+                    : 'none',
+                  transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
-                <GeometricLogo size={48} />
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    backgroundColor: '#12151C',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
+                  <GeometricLogo size={48} />
+                </div>
+              </div>
+              <div
+                style={{
+                  marginTop: '10px',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  color: '#FFFFFF',
+                  letterSpacing: '-0.2px',
+                  lineHeight: '20px',
+                  height: '20px',
+                }}
+              >
+                Nishant Singh
+              </div>
+              <div
+                style={{
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  marginTop: '2px',
+                  lineHeight: '14px',
+                  height: '14px',
+                }}
+              >
+                Owner
               </div>
             </div>
-            <div
-              style={{
-                marginTop: '10px',
-                fontSize: '15px',
-                fontWeight: 600,
-                color: '#FFFFFF',
-                letterSpacing: '-0.2px',
-                lineHeight: '20px',
-                height: '20px',
-              }}
-            >
-              Nishant Singh
-            </div>
-            <div
-              style={{
-                fontSize: '11px',
-                color: 'rgba(255, 255, 255, 0.6)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                marginTop: '2px',
-                lineHeight: '14px',
-                height: '14px',
-              }}
-            >
-              Owner
-            </div>
-          </div>
+          )}
 
           {/* Guest Avatar (Right) */}
           <div
@@ -331,7 +349,7 @@ export default function LoginModal({
               setErrorMessage(null);
             }}
             onKeyDown={(e) => {
-              if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+              if (isLocalhost && (e.key === 'ArrowLeft' || e.key === 'ArrowUp')) {
                 e.preventDefault();
                 setSelectedUser('owner');
                 document.getElementById('avatar-select-owner')?.focus();
@@ -413,125 +431,127 @@ export default function LoginModal({
           </div>
         </div>
 
-        {/* Segmented Role Switcher Tabs (Crisp Rectangular Geometry, White & Grey Palette) */}
-        <div
-          id="login-role-switch"
-          className="login-tabs-container"
-          role="radiogroup"
-          aria-label="Role Switch"
-          style={{
-            position: 'relative',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            width: '320px',
-            background: 'rgba(255, 255, 255, 0.08)',
-            borderRadius: '8px',
-            padding: '3px',
-            marginBottom: '14px',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            boxSizing: 'border-box',
-          }}
-        >
-          {/* Sliding Spring Thumb */}
+        {/* Segmented Role Switcher Tabs (Only available on localhost) */}
+        {isLocalhost && (
           <div
-            id="login-switch-thumb"
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              top: '3px',
-              bottom: '3px',
-              left: '3px',
-              width: 'calc(50% - 4px)',
-              background: 'rgba(255, 255, 255, 0.22)',
-              borderRadius: '6px',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
-              transform: selectedUser === 'owner' ? 'translate3d(0, 0, 0)' : 'translate3d(calc(100% + 2px), 0, 0)',
-              transition: 'transform 220ms cubic-bezier(0.16, 1, 0.3, 1)',
-              willChange: 'transform',
-              pointerEvents: 'none',
-              zIndex: 0,
-            }}
-          />
-
-          {/* Owner Segment (Left) */}
-          <button
-            id="tab-btn-admin"
-            data-testid="tab-btn-owner"
-            type="button"
-            role="radio"
-            aria-checked={selectedUser === 'owner'}
-            aria-label="Owner"
-            tabIndex={selectedUser === 'owner' ? 0 : -1}
-            onClick={() => {
-              setSelectedUser('owner');
-              setErrorMessage(null);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                setSelectedUser('guest');
-                document.getElementById('tab-btn-viewer')?.focus();
-              }
-            }}
+            id="login-role-switch"
+            className="login-tabs-container"
+            role="radiogroup"
+            aria-label="Role Switch"
             style={{
               position: 'relative',
-              zIndex: 1,
-              width: '100%',
-              padding: '7px 16px',
-              borderRadius: '6px',
-              border: 'none',
-              backgroundColor: 'transparent',
-              color: selectedUser === 'owner' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.55)',
-              fontSize: '12px',
-              fontWeight: selectedUser === 'owner' ? 600 : 500,
-              cursor: 'pointer',
-              transition: 'color 220ms ease',
-              textAlign: 'center',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              width: '320px',
+              background: 'rgba(255, 255, 255, 0.08)',
+              borderRadius: '8px',
+              padding: '3px',
+              marginBottom: '14px',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              boxSizing: 'border-box',
             }}
           >
-            Owner
-          </button>
+            {/* Sliding Spring Thumb */}
+            <div
+              id="login-switch-thumb"
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                top: '3px',
+                bottom: '3px',
+                left: '3px',
+                width: 'calc(50% - 4px)',
+                background: 'rgba(255, 255, 255, 0.22)',
+                borderRadius: '6px',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
+                transform: selectedUser === 'owner' ? 'translate3d(0, 0, 0)' : 'translate3d(calc(100% + 2px), 0, 0)',
+                transition: 'transform 220ms cubic-bezier(0.16, 1, 0.3, 1)',
+                willChange: 'transform',
+                pointerEvents: 'none',
+                zIndex: 0,
+              }}
+            />
 
-          {/* Guest Segment (Right) */}
-          <button
-            id="tab-btn-viewer"
-            data-testid="tab-btn-guest"
-            type="button"
-            role="radio"
-            aria-checked={selectedUser === 'guest'}
-            aria-label="Guest"
-            tabIndex={selectedUser === 'guest' ? 0 : -1}
-            onClick={() => {
-              setSelectedUser('guest');
-              setErrorMessage(null);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault();
+            {/* Owner Segment (Left) */}
+            <button
+              id="tab-btn-admin"
+              data-testid="tab-btn-owner"
+              type="button"
+              role="radio"
+              aria-checked={selectedUser === 'owner'}
+              aria-label="Owner"
+              tabIndex={selectedUser === 'owner' ? 0 : -1}
+              onClick={() => {
                 setSelectedUser('owner');
-                document.getElementById('tab-btn-admin')?.focus();
-              }
-            }}
-            style={{
-              position: 'relative',
-              zIndex: 1,
-              width: '100%',
-              padding: '7px 16px',
-              borderRadius: '6px',
-              border: 'none',
-              backgroundColor: 'transparent',
-              color: selectedUser === 'guest' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.55)',
-              fontSize: '12px',
-              fontWeight: selectedUser === 'guest' ? 600 : 500,
-              cursor: 'pointer',
-              transition: 'color 220ms ease',
-              textAlign: 'center',
-            }}
-          >
-            Guest
-          </button>
-        </div>
+                setErrorMessage(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  setSelectedUser('guest');
+                  document.getElementById('tab-btn-viewer')?.focus();
+                }
+              }}
+              style={{
+                position: 'relative',
+                zIndex: 1,
+                width: '100%',
+                padding: '7px 16px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: selectedUser === 'owner' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.55)',
+                fontSize: '12px',
+                fontWeight: selectedUser === 'owner' ? 600 : 500,
+                cursor: 'pointer',
+                transition: 'color 220ms ease',
+                textAlign: 'center',
+              }}
+            >
+              Owner
+            </button>
+
+            {/* Guest Segment (Right) */}
+            <button
+              id="tab-btn-viewer"
+              data-testid="tab-btn-guest"
+              type="button"
+              role="radio"
+              aria-checked={selectedUser === 'guest'}
+              aria-label="Guest"
+              tabIndex={selectedUser === 'guest' ? 0 : -1}
+              onClick={() => {
+                setSelectedUser('guest');
+                setErrorMessage(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                  e.preventDefault();
+                  setSelectedUser('owner');
+                  document.getElementById('tab-btn-admin')?.focus();
+                }
+              }}
+              style={{
+                position: 'relative',
+                zIndex: 1,
+                width: '100%',
+                padding: '7px 16px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: selectedUser === 'guest' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.55)',
+                fontSize: '12px',
+                fontWeight: selectedUser === 'guest' ? 600 : 500,
+                cursor: 'pointer',
+                transition: 'color 220ms ease',
+                textAlign: 'center',
+              }}
+            >
+              Guest
+            </button>
+          </div>
+        )}
 
         {/* Input Card with Reflective Metallic Plate & Dynamic Physics (React Bits) */}
         <ReflectiveCard
@@ -579,7 +599,7 @@ export default function LoginModal({
                   color: 'rgba(255, 255, 255, 0.9)',
                 }}
               >
-                {selectedUser === 'owner' ? 'Owner Authorization' : 'Guest Verification'}
+                {isLocalhost && selectedUser === 'owner' ? 'Owner Authorization' : 'Guest Verification'}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -588,11 +608,11 @@ export default function LoginModal({
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  backgroundColor: selectedUser === 'owner' ? '#FFFFFF' : '#A1A1AA',
+                  backgroundColor: isLocalhost && selectedUser === 'owner' ? '#FFFFFF' : '#A1A1AA',
                 }}
               />
               <span style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.55)', letterSpacing: '0.5px' }}>
-                {selectedUser === 'owner' ? 'Administrator' : 'Read-Only'}
+                {isLocalhost && selectedUser === 'owner' ? 'Administrator' : 'Read-Only'}
               </span>
             </div>
           </div>
@@ -616,7 +636,7 @@ export default function LoginModal({
             </div>
           )}
 
-          {selectedUser === 'owner' ? (
+          {isLocalhost && selectedUser === 'owner' ? (
             <form onSubmit={handleAdminSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px', height: '168px', boxSizing: 'border-box' }}>
               <div className="floating-input-group">
                 <input
