@@ -194,7 +194,7 @@ async function main() {
       await new Promise((r) => setTimeout(r, 300));
     }
     await page.waitForSelector('#input-admin-password');
-    await page.type('#input-admin-password', 'MyAdminPass123!');
+    await page.type('#input-admin-password', 'Admin123');
     await page.click('#btn-login-admin');
 
     await page.waitForSelector('#desktop-workspace', { timeout: 10000 });

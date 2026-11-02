@@ -30,6 +30,13 @@ export default function SystemSettings({
   onResetDefaults,
 }: SystemSettingsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('general');
+
+  // Ensure non-admins are restricted from admin-only tabs
+  useEffect(() => {
+    if (!isAdmin && (activeTab === 'customization' || activeTab === 'appearance' || activeTab === 'boot' || activeTab === 'fonts')) {
+      setActiveTab('general');
+    }
+  }, [isAdmin, activeTab]);
   const [formData, setFormData] = useState<ISystemSettings>(() => {
     const s = initialSettings || DEFAULT_SETTINGS;
     if (!s.customization) {
@@ -355,22 +362,33 @@ export default function SystemSettings({
         label: 'General / System Info',
         action: () => setActiveTab('general'),
       },
-      {
-        id: 'ctx-settings-customization',
-        label: 'Customization & Effects',
-        action: () => setActiveTab('customization'),
-      },
-      {
-        id: 'ctx-settings-boot',
-        label: 'Boot Sequence Settings',
-        action: () => setActiveTab('boot'),
-      },
-      {
-        id: 'ctx-settings-security',
-        label: 'Security & Access Logs',
-        action: () => setActiveTab('security'),
-      },
     ];
+
+    if (isAdmin) {
+      items.push(
+        {
+          id: 'ctx-settings-customization',
+          label: 'Customization & Effects',
+          action: () => setActiveTab('customization'),
+        },
+        {
+          id: 'ctx-settings-boot',
+          label: 'Boot Sequence Settings',
+          action: () => setActiveTab('boot'),
+        },
+        {
+          id: 'ctx-settings-fonts',
+          label: 'Font Management',
+          action: () => setActiveTab('fonts'),
+        }
+      );
+    }
+
+    items.push({
+      id: 'ctx-settings-security',
+      label: 'Security & Access Logs',
+      action: () => setActiveTab('security'),
+    });
 
     if (canEdit && isAdmin) {
       items.push({ id: 'ctx-div-reset', label: '', isDivider: true });
@@ -445,74 +463,84 @@ export default function SystemSettings({
           <span>👤</span> General
         </button>
 
-        {/* Consolidated Customization Tab (Aliases Appearance for legacy checks) */}
-        <button
-          type="button"
-          data-tab="customization"
-          data-alias="appearance"
-          id="settings-tab-customization"
-          className={`settings-tab-btn ${isCustomizationTab ? 'is-active' : ''}`}
-          onClick={() => setActiveTab('customization')}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '7px 10px',
-            borderRadius: '6px',
-            border: 'none',
-            fontSize: '12px',
-            color: isCustomizationTab ? '#fff' : 'var(--text-secondary)',
-            background: isCustomizationTab ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
-            cursor: 'pointer',
-            textAlign: 'left',
-          }}
-        >
-          <span>🎨</span> Customization
-        </button>
+        {/* Consolidated Customization Tab (Aliases Appearance for legacy checks) - ADMIN ONLY */}
+        {isAdmin && (
+          <button
+            type="button"
+            data-tab="customization"
+            data-alias="appearance"
+            id="settings-tab-customization"
+            className={`settings-tab-btn ${isCustomizationTab ? 'is-active' : ''}`}
+            onClick={() => setActiveTab('customization')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '7px 10px',
+              borderRadius: '6px',
+              border: 'none',
+              fontSize: '12px',
+              color: isCustomizationTab ? '#fff' : 'var(--text-secondary)',
+              background: isCustomizationTab ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
+              cursor: 'pointer',
+              textAlign: 'left',
+            }}
+          >
+            <span>🎨</span> Customization
+          </button>
+        )}
 
-        <button
-          type="button"
-          data-tab="boot"
-          className={`settings-tab-btn ${activeTab === 'boot' ? 'is-active' : ''}`}
-          onClick={() => setActiveTab('boot')}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '7px 10px',
-            borderRadius: '6px',
-            border: 'none',
-            fontSize: '12px',
-            color: activeTab === 'boot' ? '#fff' : 'var(--text-secondary)',
-            background: activeTab === 'boot' ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
-            cursor: 'pointer',
-            textAlign: 'left',
-          }}
-        >
-          <span>⚡</span> Boot
-        </button>
+        {/* Boot Tab - ADMIN ONLY */}
+        {isAdmin && (
+          <button
+            type="button"
+            data-tab="boot"
+            id="settings-tab-boot"
+            className={`settings-tab-btn ${activeTab === 'boot' ? 'is-active' : ''}`}
+            onClick={() => setActiveTab('boot')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '7px 10px',
+              borderRadius: '6px',
+              border: 'none',
+              fontSize: '12px',
+              color: activeTab === 'boot' ? '#fff' : 'var(--text-secondary)',
+              background: activeTab === 'boot' ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
+              cursor: 'pointer',
+              textAlign: 'left',
+            }}
+          >
+            <span>⚡</span> Boot
+          </button>
+        )}
 
-        <button
-          type="button"
-          data-tab="fonts"
-          className={`settings-tab-btn ${activeTab === 'fonts' ? 'is-active' : ''}`}
-          onClick={() => setActiveTab('fonts')}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '7px 10px',
-            borderRadius: '6px',
-            border: 'none',
-            fontSize: '12px',
-            color: activeTab === 'fonts' ? '#fff' : 'var(--text-secondary)',
-            background: activeTab === 'fonts' ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
-            cursor: 'pointer',
-            textAlign: 'left',
-          }}
-        >
-          <span>🔤</span> Fonts
-        </button>
+        {/* Fonts Tab - ADMIN ONLY */}
+        {isAdmin && (
+          <button
+            type="button"
+            data-tab="fonts"
+            id="settings-tab-fonts"
+            className={`settings-tab-btn ${activeTab === 'fonts' ? 'is-active' : ''}`}
+            onClick={() => setActiveTab('fonts')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '7px 10px',
+              borderRadius: '6px',
+              border: 'none',
+              fontSize: '12px',
+              color: activeTab === 'fonts' ? '#fff' : 'var(--text-secondary)',
+              background: activeTab === 'fonts' ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
+              cursor: 'pointer',
+              textAlign: 'left',
+            }}
+          >
+            <span>🔤</span> Fonts
+          </button>
+        )}
 
         <button
           type="button"
@@ -656,21 +684,12 @@ export default function SystemSettings({
           </div>
         )}
 
-        {/* CONSOLIDATED CUSTOMIZATION TAB */}
-        {isCustomizationTab && (
-          !isAdmin ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px', textAlign: 'center', gap: '16px' }}>
-              <PortOSIcon kind="lock" size={44} />
-              <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Customization Restricted</div>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.5, margin: 0 }}>
-                System personalization, themes, visual effects, and clock configurations can only be customized by the verified administrator.
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-                System Customization & Personalization
-              </h3>
+        {/* CONSOLIDATED CUSTOMIZATION TAB - ADMIN ONLY */}
+        {isAdmin && isCustomizationTab && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+              System Customization & Personalization
+            </h3>
 
             {/* Section 7: Advanced Clock Customization */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
@@ -1023,24 +1042,14 @@ export default function SystemSettings({
               </div>
             </div>
           </div>
-          )
         )}
 
-        {/* BOOT TAB */}
-        {activeTab === 'boot' && (
-          !isAdmin ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px', textAlign: 'center', gap: '16px' }}>
-              <PortOSIcon kind="lock" size={44} />
-              <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Boot Customization Restricted</div>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.5, margin: 0 }}>
-                Boot screen animations, custom text, and metal finishes can only be configured by the verified administrator.
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-                Boot Experience & Metal Finishes
-              </h3>
+        {/* BOOT TAB - ADMIN ONLY */}
+        {isAdmin && activeTab === 'boot' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+              Boot Experience & Metal Finishes
+            </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label style={{ fontSize: '12px', fontWeight: 500 }}>Boot Text</label>
@@ -1115,24 +1124,14 @@ export default function SystemSettings({
               </div>
             </div>
           </div>
-          )
         )}
 
-        {/* FONTS TAB */}
-        {activeTab === 'fonts' && (
-          !isAdmin ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px', textAlign: 'center', gap: '16px' }}>
-              <PortOSIcon kind="lock" size={44} />
-              <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Font Management Restricted</div>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.5, margin: 0 }}>
-                Installing and managing custom system fonts can only be performed by the verified administrator.
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
-                Typography & Custom Fonts
-              </h3>
+        {/* FONTS TAB - ADMIN ONLY */}
+        {isAdmin && activeTab === 'fonts' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+              Typography & Custom Fonts
+            </h3>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <label style={{ fontSize: '12px', fontWeight: 500 }}>Upload TTF/WOFF/WOFF2 Font File</label>
@@ -1154,7 +1153,6 @@ export default function SystemSettings({
                 {fontUploadSuccess && <span style={{ fontSize: '11px', color: '#35d0ba' }}>{fontUploadSuccess}</span>}
               </div>
             </div>
-          )
         )}
 
         {/* SECURITY TAB */}

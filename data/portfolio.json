@@ -1,14 +1,14 @@
 {
   "admin": {
     "username": "admin",
-    "passwordHash": "$2a$12$ryoUpt4lQrt0Q/CpL5.Eh.PkfF9BJG8QRQ8IMQna3zKfKwZC3z9ty"
+    "passwordHash": "$2a$12$N0/.Fy8P2S7gfn3TB50YWeVx.9h6DzFAuEuRcaBSCaqGBnQyqsPQ."
   },
   "owner": {
     "name": "Nishant Singh",
-    "title": "",
-    "bio": "",
-    "email": "",
-    "location": "",
+    "title": "Nishant Singh",
+    "bio": "Hi, I am a Student current",
+    "email": "nishantjhajharia155@gmail.com",
+    "location": "Mumbai, INDIA",
     "github": "",
     "linkedin": ""
   },
@@ -24,20 +24,7 @@
       "id": "folder-cert-edu",
       "name": "Certification & Education",
       "kind": "folder",
-      "children": [
-        {
-          "id": "folder-education",
-          "name": "Education",
-          "kind": "folder",
-          "children": []
-        },
-        {
-          "id": "folder-certifications",
-          "name": "Certifications",
-          "kind": "folder",
-          "children": []
-        }
-      ]
+      "children": []
     },
     {
       "id": "folder-owners-data",
@@ -102,9 +89,9 @@
       },
       "effects": {
         "preset": "liquid-glass",
-        "liquidGlass": true,
+        "liquidGlass": false,
         "glassmorphism": true,
-        "ambientGlow": false,
+        "ambientGlow": true,
         "glassOpacity": 0.85,
         "blurAmount": 24,
         "specularBorders": true,

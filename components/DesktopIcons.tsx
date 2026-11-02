@@ -101,8 +101,6 @@ const getDefaultPositions = (side: 'left' | 'right' = 'right'): Record<string, {
       projects: { x: 24, y: 52 },
       'cert-education': { x: 24, y: 160 },
       'owners-data': { x: 24, y: 268 },
-      terminal: { x: 24, y: 376 },
-      settings: { x: 24, y: 484 },
     };
   }
   const rightX = typeof window !== 'undefined' ? Math.max(300, window.innerWidth - 108) : 1330;
@@ -110,8 +108,6 @@ const getDefaultPositions = (side: 'left' | 'right' = 'right'): Record<string, {
     projects: { x: rightX, y: 52 },
     'cert-education': { x: rightX, y: 160 },
     'owners-data': { x: rightX, y: 268 },
-    terminal: { x: rightX, y: 376 },
-    settings: { x: rightX, y: 484 },
   };
 };
 
@@ -171,11 +167,13 @@ export default function DesktopIcons({
         const stored = localStorage.getItem('portos_desktop_icon_order');
         if (stored) {
           const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed.filter((id: string) => id !== 'terminal' && id !== 'settings');
+          }
         }
       } catch {}
     }
-    return ['projects', 'cert-education', 'owners-data', 'terminal', 'settings'];
+    return ['projects', 'cert-education', 'owners-data'];
   });
 
   const [hoveredSlotIndex, setHoveredSlotIndex] = useState<number | null>(null);
@@ -441,22 +439,8 @@ export default function DesktopIcons({
         type: 'user' as const,
         onOpen: onOpenOwnersData,
       },
-      {
-        id: 'terminal',
-        label: 'Terminal',
-        sublabel: 'portsh shell',
-        type: 'app' as const,
-        onOpen: () => onOpenTerminal?.(),
-      },
-      {
-        id: 'settings',
-        label: 'Settings',
-        sublabel: 'Preferences',
-        type: 'app' as const,
-        onOpen: () => onOpenSettings?.(),
-      },
     ],
-    [onOpenProjects, onOpenCertEducation, onOpenOwnersData, onOpenTerminal, onOpenSettings, folderItems]
+    [onOpenProjects, onOpenCertEducation, onOpenOwnersData, folderItems]
   );
 
   const allIcons = useMemo(

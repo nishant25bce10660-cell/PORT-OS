@@ -6,6 +6,7 @@ import { sound } from '@/lib/sound';
 import PortOSIcon from '@/components/icons/PortOSIcon';
 import { getIconKindForApp } from '@/components/icons/iconRegistry';
 import WarmTooltip, { WarmTooltipGroup } from '@/components/WarmTooltip';
+import BorderGlow from '@/components/BorderGlow';
 
 export interface MinimizedWindowInfo {
   id: string;
@@ -408,10 +409,15 @@ export default function Dock({
           id: 'settings',
           name: 'System Settings',
           icon: <PortOSIcon kind="settings" size={38} />,
-          getMenu: (): DockMenuItem[] => [
-            { label: 'Open System Settings', onClick: () => handleClickItem('settings', true) },
-            { label: 'Customization & Effects', onClick: () => handleClickItem('settings', true) },
-          ],
+          getMenu: (): DockMenuItem[] => {
+            const menu: DockMenuItem[] = [
+              { label: 'Open System Settings', onClick: () => handleClickItem('settings', true) },
+            ];
+            if (isAdmin) {
+              menu.push({ label: 'Customization & Effects', onClick: () => handleClickItem('settings', true) });
+            }
+            return menu;
+          },
         },
         {
           id: 'terminal',
@@ -602,7 +608,29 @@ export default function Dock({
                     }}
                     aria-label={item.name}
                   >
-                    <div className="dock-squircle">{item.icon}</div>
+                    <div className="dock-squircle">
+                      <BorderGlow
+                        className="dock-logo-glow"
+                        borderRadius={10}
+                        glowRadius={16}
+                        edgeSensitivity={35}
+                        glowIntensity={1.2}
+                        coneSpread={28}
+                        backgroundColor="transparent"
+                        colors={['#38bdf8', '#818cf8', '#c084fc']}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          border: 'none',
+                          boxShadow: 'none',
+                        }}
+                      >
+                        {item.icon}
+                      </BorderGlow>
+                    </div>
                     {isOpen && <div className="dock-dot" />}
                   </button>
                 </WarmTooltip>
@@ -656,7 +684,27 @@ export default function Dock({
                     aria-label={win.title}
                   >
                     <div className="dock-squircle">
-                      <PortOSIcon kind={getIconKindForApp(win.id)} size={38} />
+                      <BorderGlow
+                        className="dock-logo-glow"
+                        borderRadius={10}
+                        glowRadius={16}
+                        edgeSensitivity={35}
+                        glowIntensity={1.2}
+                        coneSpread={28}
+                        backgroundColor="transparent"
+                        colors={['#38bdf8', '#818cf8', '#c084fc']}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          border: 'none',
+                          boxShadow: 'none',
+                        }}
+                      >
+                        <PortOSIcon kind={getIconKindForApp(win.id)} size={38} />
+                      </BorderGlow>
                     </div>
                   </button>
                 </WarmTooltip>
@@ -712,7 +760,27 @@ export default function Dock({
                 aria-label="Trash"
               >
                 <div className="dock-squircle">
-                  <PortOSIcon kind="trash" size={38} />
+                  <BorderGlow
+                    className="dock-logo-glow"
+                    borderRadius={10}
+                    glowRadius={16}
+                    edgeSensitivity={35}
+                    glowIntensity={1.2}
+                    coneSpread={28}
+                    backgroundColor="transparent"
+                    colors={['#f43f5e', '#fb923c', '#eab308']}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: 'none',
+                      boxShadow: 'none',
+                    }}
+                  >
+                    <PortOSIcon kind="trash" size={38} />
+                  </BorderGlow>
                 </div>
               </button>
             </WarmTooltip>

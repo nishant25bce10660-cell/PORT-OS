@@ -1012,7 +1012,7 @@ function DesktopContent() {
   const handleOpenOwnersData = useCallback(() => {
     openWindow('owner-profile', "Owner's Data", {
       type: 'owner',
-    }, { width: 700, height: 480 });
+    }, { width: 860, height: 560 });
   }, [openWindow]);
 
   const handleOpenWidgetsManager = useCallback(() => {
@@ -1814,6 +1814,7 @@ function DesktopContent() {
           onSettingsClick={handleOpenSettings}
           onSpotlightClick={() => setSpotlightOpen(true)}
           onFinderClick={handleOpenProjects}
+          onTerminalClick={() => handleOpenTerminal()}
           onHelpClick={() => handleOpenTerminal('help')}
           onContextMenu={handleContextMenuMenuBar}
         />
